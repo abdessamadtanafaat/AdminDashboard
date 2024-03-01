@@ -6,13 +6,17 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
 
+import javax.crypto.SecretKey;
 import java.security.Key;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+@Service
 public class JwtService {
 
     //USE IT FROM THE APPLICATION SETTING
@@ -65,9 +69,13 @@ public class JwtService {
 
     }
 
+
     private Key getSignInkey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+        SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+        byte[] keyBytes = secretKey.getEncoded();
+        String encodedKey = Base64.getEncoder().encodeToString(keyBytes);
         return Keys.hmacShaKeyFor(keyBytes);
     }
+
 
 }
