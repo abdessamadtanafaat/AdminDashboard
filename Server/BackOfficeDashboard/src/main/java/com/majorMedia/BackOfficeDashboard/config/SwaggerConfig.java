@@ -1,4 +1,4 @@
-package config;
+package com.majorMedia.BackOfficeDashboard.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Bean;
