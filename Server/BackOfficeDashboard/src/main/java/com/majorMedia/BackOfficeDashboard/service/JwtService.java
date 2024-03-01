@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.security.Key;
-import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +19,7 @@ import java.util.function.Function;
 public class JwtService {
 
     //USE IT FROM THE APPLICATION SETTING
-    private static final String SECRET_KEY = "7mcyaat9WyoF2l0ehGyQAJO15dAjuMQy";
+    private static final String SECRET_KEY = "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970";
     public String extractUsername(String token) {
         return extractClaim(token, Claims:: getSubject);
     }
@@ -41,7 +40,7 @@ public class JwtService {
                 .setClaims(extracClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()+100000000*60*24))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
                 .signWith(getSignInkey(), SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -69,11 +68,9 @@ public class JwtService {
 
     }
 
-
     private Key getSignInkey() {
         SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-        byte[] keyBytes = secretKey.getEncoded();
-        String encodedKey = Base64.getEncoder().encodeToString(keyBytes);
+        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
