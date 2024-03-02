@@ -1,6 +1,20 @@
+import { RouterProvider  , createBrowserRouter } from "react-router-dom";
+import { Login ,HomeLayout , Error } from "./pages";
+const routes = createBrowserRouter([
+  {
+    path : "/",
+    element : <HomeLayout/>,
+    errorElement : <Error/>
+  },
+  {
+    path :"/login",
+    element : <Login/>,
+    errorElement : <Error/>
+  }
 
+])
 function App() {
-  return null;
+  return <RouterProvider router={routes}/>;
 }
 
 export default App;
