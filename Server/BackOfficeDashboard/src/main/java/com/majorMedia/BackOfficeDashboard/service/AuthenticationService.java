@@ -1,10 +1,10 @@
 package com.majorMedia.BackOfficeDashboard.service;
 
-import com.majorMedia.BackOfficeDashboard.controller.AuthenticationRequest;
-import com.majorMedia.BackOfficeDashboard.controller.AuthenticationResponse;
-import com.majorMedia.BackOfficeDashboard.controller.RegisterRequest;
-import com.majorMedia.BackOfficeDashboard.model.Role;
-import com.majorMedia.BackOfficeDashboard.model.User;
+import com.majorMedia.BackOfficeDashboard.model.AuthenticationRequest;
+import com.majorMedia.BackOfficeDashboard.model.AuthenticationResponse;
+import com.majorMedia.BackOfficeDashboard.model.RegisterRequest;
+import com.majorMedia.BackOfficeDashboard.entity.Role;
+import com.majorMedia.BackOfficeDashboard.entity.User;
 import com.majorMedia.BackOfficeDashboard.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;

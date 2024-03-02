@@ -1,5 +1,8 @@
 package com.majorMedia.BackOfficeDashboard.controller;
 
+import com.majorMedia.BackOfficeDashboard.model.AuthenticationRequest;
+import com.majorMedia.BackOfficeDashboard.model.AuthenticationResponse;
+import com.majorMedia.BackOfficeDashboard.model.RegisterRequest;
 import com.majorMedia.BackOfficeDashboard.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

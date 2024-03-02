@@ -1,4 +1,4 @@
-package com.majorMedia.BackOfficeDashboard.controller;
+package com.majorMedia.BackOfficeDashboard.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

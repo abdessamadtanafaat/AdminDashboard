@@ -6,10 +6,14 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
+
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebMvc
@@ -18,19 +22,40 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
-                .build();
-    }
-    private ApiInfo apiInfoMetaData() {
+                .apis(RequestHandlerSelectors.basePackage("com.ntapan"))
+                .build()
+                .securitySchemes(Arrays.asList(apiKey()))
+                .securityContexts(Arrays.asList(securityContext()))
+                .apiInfo(apiInfo());
 
-        return new ApiInfoBuilder().title("NAME OF SERVICE")
-                .description("API Endpoint Decoration")
-                .contact(new Contact("Dashboard Admin", "https://ma.linkedin.com/in/abdessamad-tanafaat-924534222", "abdessamad.tanafaat@edu.uiz.ac.ma"))
-                .license("Apache 2.0")
-                .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
+
+    }
+
+    ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title("Swagger with Spring Boot + Security")
                 .version("1.0.0")
+                .description("Your Description")
+                .contact(new Contact("Contact Name", "Contact_URL","contact@email.com"))
                 .build();
     }
+
+
+    private ApiKey apiKey() {
+        return new ApiKey("JWT", "Authorization", "header");
+    }
+
+    private SecurityContext securityContext() {
+        return SecurityContext.builder().securityReferences(defaultAuth()).build();
+    }
+
+    private List<SecurityReference> defaultAuth() {
+        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        authorizationScopes[0] = authorizationScope;
+        return Arrays.asList(new SecurityReference("JWT", authorizationScopes));
+    }
+
 }
 

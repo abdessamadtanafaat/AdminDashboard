@@ -1,6 +1,6 @@
 package com.majorMedia.BackOfficeDashboard.repository;
 
-import com.majorMedia.BackOfficeDashboard.model.User;
+import com.majorMedia.BackOfficeDashboard.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
