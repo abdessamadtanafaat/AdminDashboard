@@ -1,4 +1,4 @@
-package com.majorMedia.BackOfficeDashboard.model;
+package com.majorMedia.BackOfficeDashboard.entity;
 
 
 import jakarta.persistence.*;
