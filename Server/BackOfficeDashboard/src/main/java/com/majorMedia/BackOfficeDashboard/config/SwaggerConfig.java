@@ -1,61 +1,48 @@
 package com.majorMedia.BackOfficeDashboard.config;
 
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.*;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spi.service.contexts.SecurityContext;
-import springfox.documentation.spring.web.plugins.Docket;
-
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.List;
-
-@Configuration
-@EnableWebMvc
-public class SwaggerConfig {
-    @Bean
-    public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .paths(PathSelectors.any())
-                .apis(RequestHandlerSelectors.basePackage("com.ntapan"))
-                .build()
-                .securitySchemes(Arrays.asList(apiKey()))
-                .securityContexts(Arrays.asList(securityContext()))
-                .apiInfo(apiInfo());
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.annotations.servers.Server;
 
 
-    }
+@OpenAPIDefinition(
+            info = @Info(
+                    contact = @Contact(
+                            name = "Tanafaat Abdessamad",
+                            email = "abdessamad.tanafaat@edu.uiz.ac.ma",
+                            url = "https://ma.linkedin.com/in/abdessamad-tanafaat-924534222"
+                    ),
+            description = "Admin Dashboard For The Application Satisnap",
+            title = "Admin Dashboard For The Application Satisnap",
+            version = "1.0"
+    ),
+        servers =  {
+                    @Server(
+                            description = "LOCAL ENVIRONNEMENT",
+                            url = "http://localhost:8080"
+                    ),
+        },
+        security = {
+                    @SecurityRequirement(
+                            name = "bearerAuth"
+                    )
+        }
+)
+@SecurityScheme(
+        name = "Bearer Token Authentication",
+        description = "Use Bearer token for authentication. Include the token in the 'Authorization' header.",
+        type = SecuritySchemeType.HTTP,
+        scheme = "bearer",
+        bearerFormat = "JWT",
+        in = SecuritySchemeIn.HEADER
+)
 
-    ApiInfo apiInfo() {
-        return new ApiInfoBuilder()
-                .title("Swagger with Spring Boot + Security")
-                .version("1.0.0")
-                .description("Your Description")
-                .contact(new Contact("Contact Name", "Contact_URL","contact@email.com"))
-                .build();
-    }
-
-
-    private ApiKey apiKey() {
-        return new ApiKey("JWT", "Authorization", "header");
-    }
-
-    private SecurityContext securityContext() {
-        return SecurityContext.builder().securityReferences(defaultAuth()).build();
-    }
-
-    private List<SecurityReference> defaultAuth() {
-        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
-        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-        authorizationScopes[0] = authorizationScope;
-        return Arrays.asList(new SecurityReference("JWT", authorizationScopes));
-    }
+public class SwaggerConfig{
 
 }
 
