@@ -1,6 +1,9 @@
 import { FormInput ,SubmitBtn} from "../components"
 import {Form} from 'react-router-dom'
 
+export const action =(state)=>async({request})=>{
+    
+}
 
 const Login = () => {
   return (
