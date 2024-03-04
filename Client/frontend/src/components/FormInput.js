@@ -1,6 +1,6 @@
 
 
-const FormInput = ({type , label , name , placeholder }) => {
+const FormInput = ({type , label , name , placeholder, value, onChange }) => {
   return (
     <div className='form-control '>
       <label className='label'>
@@ -10,6 +10,8 @@ const FormInput = ({type , label , name , placeholder }) => {
         type={type}
         name={name}
         placeholder={placeholder}
+        value={value}
+        onChange={onChange}
         className='input input-bordered '
       />
     </div>
