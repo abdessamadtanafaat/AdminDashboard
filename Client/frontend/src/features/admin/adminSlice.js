@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 const defaultState = {
     admin : {firstname : "ilias",lastname:"rouchdi"} , 
-    theme : 'winter'
+    theme : 'winter', 
+    error : null 
+    
 }
 
 const adminSlice = createSlice({
@@ -9,7 +11,7 @@ const adminSlice = createSlice({
     initialState : defaultState , 
     reducers : {
         loginAdmin: (state , action)=>{
-            alert("Login");
+            
         },
         logoutAdmin : (state , action)=>{
             alert("Logout");
