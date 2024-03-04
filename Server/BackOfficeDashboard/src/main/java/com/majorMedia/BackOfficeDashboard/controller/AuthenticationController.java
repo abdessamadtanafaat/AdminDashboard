@@ -79,17 +79,6 @@ public class AuthenticationController {
         return ResponseEntity.ok(authenticationService.authenticate(request));
 
     }
-/*    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
-        try {
-            AuthenticationResponse authenticationResponse = authenticationService.authenticate(request);
-            return ResponseEntity.ok(authenticationResponse);
-        } catch (Exception e) {
-            // Log the exception to the console
-            e.printStackTrace();
-            // Return an error response
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }*/
     @PostMapping("/refresh-token")
     public void refreshToken(
             HttpServletRequest request,

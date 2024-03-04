@@ -5,17 +5,13 @@ import com.majorMedia.BackOfficeDashboard.model.ForgotPasswordToken;
 import com.majorMedia.BackOfficeDashboard.repository.ForgotPasswordRepository;
 import com.majorMedia.BackOfficeDashboard.service.ForgotPasswordService;
 import com.majorMedia.BackOfficeDashboard.service.UserService;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.mail.MessagingException;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +21,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
-@Controller
 public class ForgotPasswordController {
     @Autowired
     private UserService userService ;
@@ -47,7 +42,6 @@ public class ForgotPasswordController {
         {
             return "This Email is not registered";
         }
-
         ForgotPasswordToken forgotPasswordToken = new ForgotPasswordToken();
         forgotPasswordToken.setExpreTime(forgotPasswordService.expireTimeRange());
         forgotPasswordToken.setToken(forgotPasswordService.generateToken());
@@ -63,10 +57,11 @@ public class ForgotPasswordController {
 
         }catch (UnsupportedEncodingException | MessagingException e){
             model.addAttribute("Error", "Error While sending email");
-            return "password-request";
+            return emailLink;
         }
         //return "redirect:/password-request?success";
-        return forgotPasswordToken.getToken();
+        //return forgotPasswordToken.getToken();
+        return emailLink;
     }
 
     @GetMapping("/reset-password")
@@ -76,24 +71,6 @@ public class ForgotPasswordController {
         ForgotPasswordToken forgotPasswordToken = forgotPasswordRepository.findByToken(token);
         return forgotPasswordService.chekValidity(forgotPasswordToken, model);
     }
-/*    @PostMapping("/reset-password")
-    public String saveResetPassword(
-            HttpServletRequest request,
-            HttpSession session,
-            Model model
-    ){
-        String password = request.getParameter("password");
-        String token = (String)session.getAttribute("token");
-
-        ForgotPasswordToken forgotPasswordToken = forgotPasswordRepository.findByToken(token);
-        User user = forgotPasswordToken.getUser();
-        user.setPassword(passwordEncoder.encode(password));
-        forgotPasswordToken.setUsed(true);
-        userService.save(user);
-        forgotPasswordRepository.save(forgotPasswordToken);
-        model.addAttribute("message", "You have successfuly reset your password");
-        return "reset-password";
-    }*/
 
     @PostMapping("/reset-password")
     public ResponseEntity<String> saveResetPassword(@RequestParam("password") String password,
