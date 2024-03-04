@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +25,6 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
-@SecurityRequirement(name="Bearer Token Authentication")
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
@@ -79,7 +79,17 @@ public class AuthenticationController {
         return ResponseEntity.ok(authenticationService.authenticate(request));
 
     }
-
+/*    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
+        try {
+            AuthenticationResponse authenticationResponse = authenticationService.authenticate(request);
+            return ResponseEntity.ok(authenticationResponse);
+        } catch (Exception e) {
+            // Log the exception to the console
+            e.printStackTrace();
+            // Return an error response
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }*/
     @PostMapping("/refresh-token")
     public void refreshToken(
             HttpServletRequest request,

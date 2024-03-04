@@ -1,6 +1,7 @@
 package com.majorMedia.BackOfficeDashboard.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.majorMedia.BackOfficeDashboard.repository.Token;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -28,6 +29,7 @@ public class User implements UserDetails {
     private String firstname;
     private String lastname;
     private String email;
+    @JsonIgnore
     private String password;
 
     @Enumerated(EnumType.STRING)
