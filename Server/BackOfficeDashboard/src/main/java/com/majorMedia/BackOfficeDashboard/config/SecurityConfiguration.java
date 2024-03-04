@@ -34,7 +34,10 @@ public class SecurityConfiguration {
                                     ,"/configuration/security"
                                     ,"/swagger-ui/**"
                                     ,"/webjars/**"
-                                    ,"/swagger-ui.html").permitAll()
+                                    ,"/swagger-ui.html"
+                                    ,"/api/v1/auth/register"
+                                    ,"api/v1/auth1/password-request"
+                    ).permitAll()
                     .anyRequest().authenticated()
                 )
                 .sessionManagement(sess->sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
