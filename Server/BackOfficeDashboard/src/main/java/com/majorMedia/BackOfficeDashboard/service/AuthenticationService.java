@@ -48,6 +48,10 @@ public class AuthenticationService {
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
+                .id(user.getId())
+                .email(user.getEmail())
+                .firstname(user.getFirstname())
+                .lastname(user.getLastname())
                 .build();
 
     }
@@ -59,7 +63,7 @@ public class AuthenticationService {
                 )
         );
         var user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow();
+                .orElseThrow(()->new RuntimeException("User not found"));
         var jwtToken = jwtService.generateToken(user);
         var refereshToken = jwtService.generateRefreshToken(user);
         revokeAllUserTokens(user);
@@ -68,7 +72,12 @@ public class AuthenticationService {
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refereshToken)
+                .id(user.getId())
+                .email(user.getEmail())
+                .firstname(user.getFirstname())
+                .lastname(user.getLastname())
                 .build();
+        //return new AuthenticationResponse(jwtToken, refereshToken, user);
     }
     private void saveUserToken(User user, String jwtToken){
         var token = Token.builder()
