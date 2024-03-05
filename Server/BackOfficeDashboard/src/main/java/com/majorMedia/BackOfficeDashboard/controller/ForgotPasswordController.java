@@ -51,7 +51,7 @@ public class ForgotPasswordController {
         forgotPasswordRepository.save(forgotPasswordToken);
 
         // hna katreed lih lien bach ydkhel yred compte dyalo
-        String emailLink = "http://localhost:3000/reset-password?token=" + forgotPasswordToken.getToken();
+        String emailLink = "http://localhost:8080/reset-password?token=" + forgotPasswordToken.getToken();
         try {
             forgotPasswordService.sendEmail(user.getUsername(), "Password Reset Link", emailLink);
 
