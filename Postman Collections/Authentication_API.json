@@ -41,7 +41,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\r\n    \"email\": \"tanafaat.wac.49@gmail.com\",\r\n    \"password\": \"adminnew\"\r\n}",
+							"raw": "{\r\n\r\n    \"email\": \"tanafaat.wac.49@gmail.com\",\r\n    \"password\": \"admin\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
