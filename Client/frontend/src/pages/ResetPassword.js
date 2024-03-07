@@ -17,7 +17,7 @@ export const action = (store)=>async({request})=>{
         return null ;
 
     }
-    if(data.password!==data.confiremed_password){
+    if(data.password!==data.confirmed_password){
         toast.error("The two fields are not matching ")
         return null ; 
     }
@@ -52,12 +52,15 @@ export const loader = async({request})=>{
 
     }
     catch(err){
-        
         console.log(err);
-        const errorMessage= err?.response?.data?.message || "Access Denied !"
-        return redirect("/forgotPassword");
+        const errorMessage= err?.response?.data || "Access Denied !"
+    
+        console.log(errorMessage)
+        toast.error(errorMessage)
+        
 
     }
+    return null ;
 
 }
 

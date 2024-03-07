@@ -1,6 +1,7 @@
 package com.majorMedia.BackOfficeDashboard.authentification_module.config;
 
 
+import com.majorMedia.BackOfficeDashboard.authentification_module.repository.AdminRepository;
 import com.majorMedia.BackOfficeDashboard.authentification_module.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -18,12 +19,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 
 public class ApplicationConfig {
-    private final UserRepository repository;
+    private final AdminRepository adminRepository;
 
     @Bean
     public UserDetailsService userDetailsService(){
-        return username -> repository.findByEmail(username)
-                .orElseThrow(()-> new UsernameNotFoundException("User Not found"));
+        return username -> adminRepository.findByEmail(username)
+                .orElseThrow(()-> new UsernameNotFoundException("Not found"));
     }
     @Bean
     public AuthenticationProvider authenticationProvider(){

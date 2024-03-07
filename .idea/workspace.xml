@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="aadbfb00-cf89-43cb-a89a-34e42b60f275" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Server/BackOfficeDashboard/src/main/java/com/majorMedia/BackOfficeDashboard/authentification_module/Security/Manager/CustomAuthenticationManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/BackOfficeDashboard/src/main/java/com/majorMedia/BackOfficeDashboard/authentification_module/Security/SecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/BackOfficeDashboard/src/main/java/com/majorMedia/BackOfficeDashboard/authentification_module/Security/filter/AuthenticationFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/BackOfficeDashboard/src/main/java/com/majorMedia/BackOfficeDashboard/authentification_module/Security/filter/ExceptionHandlerFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/BackOfficeDashboard/src/main/java/com/majorMedia/BackOfficeDashboard/authentification_module/controller/AdminController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/BackOfficeDashboard/src/main/java/com/majorMedia/BackOfficeDashboard/authentification_module/service/AdminService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/BackOfficeDashboard/src/main/java/com/majorMedia/BackOfficeDashboard/authentification_module/service/AdminServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/frontend/src/pages/ResetPassword.js" beforeDir="false" afterPath="$PROJECT_DIR$/Client/frontend/src/pages/ResetPassword.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/BackOfficeDashboard/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/Server/BackOfficeDashboard/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/BackOfficeDashboard/src/main/java/com/majorMedia/BackOfficeDashboard/authentification_module/config/ApplicationConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/BackOfficeDashboard/src/main/java/com/majorMedia/BackOfficeDashboard/authentification_module/config/ApplicationConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/BackOfficeDashboard/src/main/java/com/majorMedia/BackOfficeDashboard/authentification_module/config/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/BackOfficeDashboard/src/main/java/com/majorMedia/BackOfficeDashboard/authentification_module/Security/filter/JwtAuthenticationFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/BackOfficeDashboard/src/main/java/com/majorMedia/BackOfficeDashboard/authentification_module/config/config.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/BackOfficeDashboard/src/main/java/com/majorMedia/BackOfficeDashboard/authentification_module/controller/AuthenticationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/BackOfficeDashboard/src/main/java/com/majorMedia/BackOfficeDashboard/authentification_module/controller/AuthenticationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/BackOfficeDashboard/src/main/java/com/majorMedia/BackOfficeDashboard/authentification_module/controller/ForgotPasswordController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/BackOfficeDashboard/src/main/java/com/majorMedia/BackOfficeDashboard/authentification_module/controller/ForgotPasswordController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/BackOfficeDashboard/src/main/java/com/majorMedia/BackOfficeDashboard/authentification_module/controller/controller.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/BackOfficeDashboard/src/main/java/com/majorMedia/BackOfficeDashboard/authentification_module/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/BackOfficeDashboard/src/main/java/com/majorMedia/BackOfficeDashboard/authentification_module/entity/Admin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/BackOfficeDashboard/src/main/java/com/majorMedia/BackOfficeDashboard/authentification_module/model/ForgotPasswordToken.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/BackOfficeDashboard/src/main/java/com/majorMedia/BackOfficeDashboard/authentification_module/repository/ForgotPasswordRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/BackOfficeDashboard/src/main/java/com/majorMedia/BackOfficeDashboard/authentification_module/repository/Token.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/BackOfficeDashboard/src/main/java/com/majorMedia/BackOfficeDashboard/authentification_module/repository/TokenRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/BackOfficeDashboard/src/main/java/com/majorMedia/BackOfficeDashboard/authentification_module/repository/TokenType.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/BackOfficeDashboard/src/main/java/com/majorMedia/BackOfficeDashboard/authentification_module/Exception/SystemExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/BackOfficeDashboard/src/main/java/com/majorMedia/BackOfficeDashboard/authentification_module/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/BackOfficeDashboard/src/main/java/com/majorMedia/BackOfficeDashboard/authentification_module/repository/AdminRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/BackOfficeDashboard/src/main/java/com/majorMedia/BackOfficeDashboard/authentification_module/repository/repo.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/BackOfficeDashboard/src/main/java/com/majorMedia/BackOfficeDashboard/authentification_module/service/AuthenticationService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/BackOfficeDashboard/src/main/java/com/majorMedia/BackOfficeDashboard/authentification_module/service/ForgotPasswordService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/BackOfficeDashboard/src/main/java/com/majorMedia/BackOfficeDashboard/authentification_module/service/UserServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/BackOfficeDashboard/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Server/BackOfficeDashboard/src/main/resources/application.properties" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 3
+}]]></component>
+  <component name="ProjectId" id="2dNU6wOU7qioJuJadAdABT6rLmo" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "Merging main",
+    "kotlin-language-version-configured": "true",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="aadbfb00-cf89-43cb-a89a-34e42b60f275" name="Changes" comment="" />
+      <created>1709847860616</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1709847860616</updated>
+      <workItem from="1709847864056" duration="11000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

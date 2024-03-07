@@ -1,6 +1,6 @@
+/*
 package com.majorMedia.BackOfficeDashboard.authentification_module.config;
 
-import com.majorMedia.BackOfficeDashboard.authentification_module.repository.TokenRepository;
 import com.majorMedia.BackOfficeDashboard.authentification_module.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -24,7 +24,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailService;
-    private final TokenRepository tokenRepository;
 
     @Override
     protected void doFilterInternal(
@@ -64,3 +63,4 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
     }
 }
+*/
