@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 let token = ''; 
 const isPasswordValid = (password)=>{
     //5 caracters at least for example
+    //
 
     return Boolean(password) //password not empty
 }
