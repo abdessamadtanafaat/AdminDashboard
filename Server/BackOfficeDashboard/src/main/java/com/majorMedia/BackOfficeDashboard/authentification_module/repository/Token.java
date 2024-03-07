@@ -1,6 +1,6 @@
-package com.majorMedia.BackOfficeDashboard.repository;
+package com.majorMedia.BackOfficeDashboard.authentification_module.repository;
 
-import com.majorMedia.BackOfficeDashboard.entity.User;
+import com.majorMedia.BackOfficeDashboard.authentification_module.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

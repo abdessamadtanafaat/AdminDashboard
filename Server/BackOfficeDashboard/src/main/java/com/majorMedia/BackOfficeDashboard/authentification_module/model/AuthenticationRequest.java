@@ -1,4 +1,4 @@
-package com.majorMedia.BackOfficeDashboard.model;
+package com.majorMedia.BackOfficeDashboard.authentification_module.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

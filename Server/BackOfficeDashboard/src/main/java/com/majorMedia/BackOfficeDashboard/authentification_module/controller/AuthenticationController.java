@@ -1,11 +1,11 @@
-package com.majorMedia.BackOfficeDashboard.controller;
+package com.majorMedia.BackOfficeDashboard.authentification_module.controller;
 
-import com.majorMedia.BackOfficeDashboard.Exception.InvalidCredentialsException;
-import com.majorMedia.BackOfficeDashboard.Exception.UserNotFoundException;
-import com.majorMedia.BackOfficeDashboard.model.AuthenticationRequest;
-import com.majorMedia.BackOfficeDashboard.model.AuthenticationResponse;
-import com.majorMedia.BackOfficeDashboard.model.RegisterRequest;
-import com.majorMedia.BackOfficeDashboard.service.AuthenticationService;
+import com.majorMedia.BackOfficeDashboard.authentification_module.Exception.InvalidEmailException;
+import com.majorMedia.BackOfficeDashboard.authentification_module.Exception.InvalidPasswordException;
+import com.majorMedia.BackOfficeDashboard.authentification_module.model.AuthenticationRequest;
+import com.majorMedia.BackOfficeDashboard.authentification_module.model.AuthenticationResponse;
+import com.majorMedia.BackOfficeDashboard.authentification_module.model.RegisterRequest;
+import com.majorMedia.BackOfficeDashboard.authentification_module.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -80,13 +80,13 @@ public class AuthenticationController {
             AuthenticationResponse response = authenticationService.authenticate(request);
         return ResponseEntity.ok(response);
 
-        }catch(UserNotFoundException | InvalidCredentialsException e ) {
+        }catch(InvalidPasswordException | InvalidEmailException e ) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 
         }catch (Exception e) {
-                e.printStackTrace();
+                // e.printStackTrace();
                 return new ResponseEntity<>("Please try again later.", HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+        }
 
 
 }

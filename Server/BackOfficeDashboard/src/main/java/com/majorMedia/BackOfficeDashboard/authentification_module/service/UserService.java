@@ -1,6 +1,6 @@
-package com.majorMedia.BackOfficeDashboard.service;
+package com.majorMedia.BackOfficeDashboard.authentification_module.service;
 
-import com.majorMedia.BackOfficeDashboard.entity.User;
+import com.majorMedia.BackOfficeDashboard.authentification_module.entity.User;
 
 import java.util.Optional;
 

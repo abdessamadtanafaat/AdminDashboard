@@ -1,7 +1,6 @@
-package com.majorMedia.BackOfficeDashboard.model;
+package com.majorMedia.BackOfficeDashboard.authentification_module.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.majorMedia.BackOfficeDashboard.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

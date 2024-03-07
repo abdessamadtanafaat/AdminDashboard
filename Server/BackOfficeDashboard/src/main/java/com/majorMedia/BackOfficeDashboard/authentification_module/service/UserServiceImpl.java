@@ -1,7 +1,7 @@
-package com.majorMedia.BackOfficeDashboard.service;
+package com.majorMedia.BackOfficeDashboard.authentification_module.service;
 
-import com.majorMedia.BackOfficeDashboard.entity.User;
-import com.majorMedia.BackOfficeDashboard.repository.UserRepository;
+import com.majorMedia.BackOfficeDashboard.authentification_module.entity.User;
+import com.majorMedia.BackOfficeDashboard.authentification_module.repository.UserRepository;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

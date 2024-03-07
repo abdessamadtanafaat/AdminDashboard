@@ -1,4 +1,4 @@
-package com.majorMedia.BackOfficeDashboard.repository;
+package com.majorMedia.BackOfficeDashboard.authentification_module.repository;
 
 public enum TokenType {
     BEARER

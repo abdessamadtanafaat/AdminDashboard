@@ -1,15 +1,14 @@
-package com.majorMedia.BackOfficeDashboard.entity;
+package com.majorMedia.BackOfficeDashboard.authentification_module.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.majorMedia.BackOfficeDashboard.repository.Token;
+import com.majorMedia.BackOfficeDashboard.authentification_module.repository.Token;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;

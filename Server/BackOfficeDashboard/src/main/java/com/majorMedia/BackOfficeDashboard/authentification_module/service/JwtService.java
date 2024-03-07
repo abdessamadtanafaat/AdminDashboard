@@ -1,4 +1,4 @@
-package com.majorMedia.BackOfficeDashboard.service;
+package com.majorMedia.BackOfficeDashboard.authentification_module.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

@@ -1,14 +1,13 @@
-package com.majorMedia.BackOfficeDashboard.config;
+package com.majorMedia.BackOfficeDashboard.authentification_module.config;
 
-import com.majorMedia.BackOfficeDashboard.repository.TokenRepository;
-import com.majorMedia.BackOfficeDashboard.service.JwtService;
+import com.majorMedia.BackOfficeDashboard.authentification_module.repository.TokenRepository;
+import com.majorMedia.BackOfficeDashboard.authentification_module.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.CachingUserDetailsService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
