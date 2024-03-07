@@ -2,7 +2,6 @@ package com.majorMedia.BackOfficeDashboard.authentification_module.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.majorMedia.BackOfficeDashboard.authentification_module.repository.Token;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,8 +10,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.List;
 
 @Data
 @Builder
@@ -20,8 +19,8 @@ import java.util.List;
 @AllArgsConstructor
 
 @Entity
-@Table(name = "_user")
-public class User implements UserDetails {
+@Table(name = "admin")
+public class Admin implements UserDetails {
     @Id
     @GeneratedValue
     private Integer id;
@@ -34,8 +33,16 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "user")
-    private List<Token> tokens;
+    private String tokenEmail;
+
+    private String tokenWeb;
+
+    private LocalDateTime expreTimeEmail;
+
+    private LocalDateTime expreTimeWeb;
+
+    private boolean isUsedTokenEmail;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
                 return role.getAuthorities();

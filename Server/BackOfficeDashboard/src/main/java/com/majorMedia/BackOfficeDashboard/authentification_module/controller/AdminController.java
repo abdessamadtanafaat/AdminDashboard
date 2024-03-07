@@ -12,21 +12,19 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/api/v1/auth")
-@RequiredArgsConstructor
-public class AuthenticationController {
-
+@AllArgsConstructor
+public class AdminController
+{
     private final AdminService adminService;
 
     @Operation(
@@ -78,29 +76,17 @@ public class AuthenticationController {
     ) {
         try{
             AuthenticationResponse response = adminService.authenticate(request);
-        return ResponseEntity.ok(response);
+            return ResponseEntity.ok(response);
 
         }catch(InvalidPasswordException | InvalidEmailException e ) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 
         }catch (Exception e) {
-                // e.printStackTrace();
-                return new ResponseEntity<>("Please try again later.", HttpStatus.INTERNAL_SERVER_ERROR);
+            // e.printStackTrace();
+            return new ResponseEntity<>("Please try again later.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-
-}
-    @PostMapping("/refresh-token")
-    public void refreshToken(
-            HttpServletRequest request,
-            HttpServletResponse response
-    ) throws IOException {
-        try {
-            adminService.refreshToken(request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
-        }
 
     }
+
 }
