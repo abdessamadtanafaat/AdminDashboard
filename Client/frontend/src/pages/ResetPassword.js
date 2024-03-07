@@ -12,7 +12,7 @@ const isPasswordValid = (password)=>{
 export const action = (store)=>async({request})=>{
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
-    if(isPasswordValid(data.password)){
+    if(!isPasswordValid(data.password)){
         toast.error("Password cannot be empty")
         return null ;
 
@@ -23,7 +23,7 @@ export const action = (store)=>async({request})=>{
     }
     try{
         const response = await customFetch.post(`/auth/reset-password?password=${data.password}&token=${token}` );
-        toast.success("Your Password Is Set")
+        toast.success("Your Password Is up to date")
         return redirect("/login")
 
 
@@ -44,7 +44,20 @@ export const loader = async({request})=>{
     console.log(params);
     //here we should send a request to the server to check if the token is valid and not yet expired
     token = params?.token ; 
-    return null ;
+    try{
+        const response = await customFetch(`auth/reset-password?token=${token}`)
+        console.log(response.data);
+        return null ; 
+
+
+    }
+    catch(err){
+        
+        console.log(err);
+        const errorMessage= err?.response?.data?.message || "Access Denied !"
+        return redirect("/forgotPassword");
+
+    }
 
 }
 
