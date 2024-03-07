@@ -1,4 +1,4 @@
-import {Form} from 'react-router-dom'
+import {Form ,redirect} from 'react-router-dom'
 import {FormInput, SubmitBtn} from '../components'
 import {store} from '../app/store';
 import { customFetch } from '../utils';
@@ -7,19 +7,20 @@ export const action = (store)=>
 async({request})=>{
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
-    console.log(data);
-    toast.info("Please check the mail that was sent to you !")
     try{
-       const response = await customFetch.get('',data); 
-        
+       const response = await customFetch.get(`/auth/password-request?email=${data.email}`); 
+       console.log(response.data);
+       toast.success("Email sent to you !")
+       return {data : response.data}
         
 
         
     }
     catch(err){
         console.log(err);
-
+        return null ;       
     } 
+     
 
 }
 const ForgotPassword = () => {

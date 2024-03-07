@@ -19,7 +19,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"firstname\": \"admin1\",\r\n    \"lastname\": \"admin1\",\r\n    \"email\": \"tanafaat.wac.49@gmail.com\",\r\n    \"password\": \"admin\"\r\n}",
+							"raw": "{\r\n    \"firstname\": \"admin\",\r\n    \"lastname\": \"admin\",\r\n    \"email\": \"tanafaat.wac.49@gmail.com\",\r\n    \"password\": \"admin\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -41,7 +41,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\r\n    \"email\": \"tanafaat.wac.49@gmail.com\",\r\n    \"password\": \"adminnew\"\r\n}",
+							"raw": "{\r\n\r\n    \"email\": \"tanafaat.wac.49@gmail.com\",\r\n    \"password\": \"admin\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -113,7 +113,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/auth/reset-password?token=230e8775-be2a-404f-b1eb-eb58fe834d77",
+							"raw": "http://localhost:8080/api/v1/auth/reset-password?token=e9fecddd-6021-4f07-a123-4efa5e94b13b",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -128,8 +128,7 @@
 							"query": [
 								{
 									"key": "token",
-									"value": "230e8775-be2a-404f-b1eb-eb58fe834d77",
-									"type": "text"
+									"value": "e9fecddd-6021-4f07-a123-4efa5e94b13b"
 								}
 							]
 						}
@@ -155,7 +154,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/auth/reset-password?password=adminnew&token=230e8775-be2a-404f-b1eb-eb58fe834d77",
+							"raw": "http://localhost:8080/api/v1/auth/reset-password?password=adminnew&token=e9fecddd-6021-4f07-a123-4efa5e94b13b",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -170,13 +169,11 @@
 							"query": [
 								{
 									"key": "password",
-									"value": "adminnew",
-									"type": "text"
+									"value": "adminnew"
 								},
 								{
 									"key": "token",
-									"value": "230e8775-be2a-404f-b1eb-eb58fe834d77",
-									"type": "text"
+									"value": "e9fecddd-6021-4f07-a123-4efa5e94b13b"
 								}
 							]
 						}

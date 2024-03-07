@@ -7,14 +7,18 @@ export const action =(store)=>
           const formData = await request.formData();
           const data = Object.fromEntries(formData);
           try{
-            const response = await customFetch.post('/api/v1/auth/authenticate' ,data);
-            return redirect("/")
-            
+            const response = await customFetch.post('/auth/authenticate' ,data);
+            toast.success("Ok you're signed in !")
+            console.log(response.data)
+            return {data : response.data}
+
           }
           catch(err){
-            console.log(err);
-            toast.success('Item added to cart');
+            const errorMessage = err?.response?.data?.error?.message || "Please Double check your credentials"; 
+            toast.error(errorMessage);
+            return null ;
           }
+          
           
           
 
