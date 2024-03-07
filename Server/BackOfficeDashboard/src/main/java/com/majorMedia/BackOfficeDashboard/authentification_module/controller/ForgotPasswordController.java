@@ -10,13 +10,10 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -45,11 +42,11 @@ public class ForgotPasswordController {
 
     }
     @GetMapping("/reset-password")
-    public String resetPassword (@Param(value="token") String token, Model model, HttpSession session)
+    public ResponseEntity<?> resetPassword (@Param(value="token") String token, Model model, HttpSession session)
     {
         session.setAttribute("token", token);
         ForgotPasswordToken forgotPasswordToken = forgotPasswordRepository.findByToken(token);
-        return forgotPasswordService.chekValidity(forgotPasswordToken, model);
+        return forgotPasswordService.chekValidity(forgotPasswordToken);
     }
 
     @PostMapping("/reset-password")

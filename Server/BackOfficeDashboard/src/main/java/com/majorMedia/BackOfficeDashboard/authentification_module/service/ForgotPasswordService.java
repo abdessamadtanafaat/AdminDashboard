@@ -9,6 +9,9 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -102,21 +105,24 @@ public class ForgotPasswordService {
     {
             return LocalDateTime.now().isAfter(forgotPasswordToken.getExpreTime());
     }
-    public String chekValidity (ForgotPasswordToken forgotPasswordToken, Model model)
+    public ResponseEntity<?> chekValidity (ForgotPasswordToken forgotPasswordToken)
     {
+        try{
             if(forgotPasswordToken == null)
             {
-                model.addAttribute("error", "Invalid Token");
-                return "error-page";
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid Token");
 
             }
             else if(forgotPasswordToken.isUsed())
             {
-                model.addAttribute("error", "the token is already used");
-                return "error-page";
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The token is already used");
             }
             else{
-                return "reset-password";
+                return ResponseEntity.ok("The token is valid");
             }
+
+        }catch(Exception e){
+            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
         }
 }
