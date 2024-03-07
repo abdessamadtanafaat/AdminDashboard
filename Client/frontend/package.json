@@ -12,12 +12,8 @@
     "react-dom": "^18.2.0",
     "react-redux": "^9.1.0",
     "react-router-dom": "^6.22.2",
-<<<<<<< HEAD
     "react-scripts": "5.0.1",
     "react-toastify": "^10.0.4",
-=======
-    "react-scripts": "^5.0.1",
->>>>>>> f3653c2854693f81065c0977c5aa923ef518cf36
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -51,5 +47,6 @@
     "postcss": "^8.4.35",
     "tailwindcss": "^3.4.1",
     "webpack": "^5.90.3"
-  }
+  },
+  "proxy": "http://127.0.0.1:3000"
 }

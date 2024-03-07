@@ -2,7 +2,7 @@ import {useNavigation} from 'react-router-dom'
 
 const SubmitBtn = ({text}) => {
   const navigation = useNavigation();
-  const isSubmitting = navigation.state ==='submit'
+  const isSubmitting = navigation.state ==="submitting"
   return (
     <button type="submit"
     className="capitalize tracking-wide btn btn-accent btn-block"
