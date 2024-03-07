@@ -27,7 +27,7 @@ public class ForgotPasswordService {
     public LocalDateTime expireTimeRange(){
         return LocalDateTime.now().plusMinutes(MINUTES);
     }
-    public void sendEmail(String to, String subject, String emailLink
+/*    public void sendEmail(String to, String subject, String emailLink
     ) throws MessagingException,
              UnsupportedEncodingException{
         MimeMessage message = javaMailSender.createMimeMessage();
@@ -44,7 +44,7 @@ public class ForgotPasswordService {
         helper.setTo(to);
         javaMailSender.send(message);
 
-    }
+    }*/
         public boolean isExpired (ForgotPasswordToken forgotPasswordToken, Model model)
         {
             return LocalDateTime.now().isAfter(forgotPasswordToken.getExpreTime());

@@ -1,5 +1,7 @@
 package com.majorMedia.BackOfficeDashboard.controller;
 
+import com.majorMedia.BackOfficeDashboard.Exception.InvalidCredentialsException;
+import com.majorMedia.BackOfficeDashboard.Exception.UserNotFoundException;
 import com.majorMedia.BackOfficeDashboard.model.AuthenticationRequest;
 import com.majorMedia.BackOfficeDashboard.model.AuthenticationResponse;
 import com.majorMedia.BackOfficeDashboard.model.RegisterRequest;
@@ -8,8 +10,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -73,12 +73,23 @@ public class AuthenticationController {
             }
     )
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(
+    public ResponseEntity<?> authenticate(
             @RequestBody AuthenticationRequest request
     ) {
-        return ResponseEntity.ok(authenticationService.authenticate(request));
+        try{
+            AuthenticationResponse response = authenticationService.authenticate(request);
+        return ResponseEntity.ok(response);
 
-    }
+        }catch(UserNotFoundException | InvalidCredentialsException e ) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+
+        }catch (Exception e) {
+                e.printStackTrace();
+                return new ResponseEntity<>("Please try again later.", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
+
+}
     @PostMapping("/refresh-token")
     public void refreshToken(
             HttpServletRequest request,
@@ -87,9 +98,7 @@ public class AuthenticationController {
         try {
             authenticationService.refreshToken(request, response);
         } catch (Exception e) {
-            // Log the exception
             e.printStackTrace();
-            // Handle the exception response
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
         }
 

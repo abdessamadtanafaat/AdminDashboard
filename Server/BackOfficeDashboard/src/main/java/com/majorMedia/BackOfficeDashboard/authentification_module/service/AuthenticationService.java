@@ -1,6 +1,8 @@
 package com.majorMedia.BackOfficeDashboard.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.majorMedia.BackOfficeDashboard.Exception.InvalidEmailException;
+import com.majorMedia.BackOfficeDashboard.Exception.InvalidPasswordException;
 import com.majorMedia.BackOfficeDashboard.model.AuthenticationRequest;
 import com.majorMedia.BackOfficeDashboard.model.AuthenticationResponse;
 import com.majorMedia.BackOfficeDashboard.model.RegisterRequest;
@@ -15,6 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -56,14 +59,22 @@ public class AuthenticationService {
 
     }
     public AuthenticationResponse authenticate(AuthenticationRequest request){
+
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new InvalidEmailException("Email is not found."));
+
+        try{
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
                         request.getPassword()
                 )
         );
-        var user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(()->new RuntimeException("User not found"));
+
+        }catch (BadCredentialsException e) {
+            throw new InvalidPasswordException("Password is not correct");
+        }
+
         var jwtToken = jwtService.generateToken(user);
         var refereshToken = jwtService.generateRefreshToken(user);
         revokeAllUserTokens(user);
@@ -79,6 +90,8 @@ public class AuthenticationService {
                 .build();
         //return new AuthenticationResponse(jwtToken, refereshToken, user);
     }
+
+
     private void saveUserToken(User user, String jwtToken){
         var token = Token.builder()
                 .user(user)

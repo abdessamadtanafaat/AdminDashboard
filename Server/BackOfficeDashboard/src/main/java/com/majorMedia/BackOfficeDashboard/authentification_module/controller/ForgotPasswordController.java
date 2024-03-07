@@ -50,15 +50,16 @@ public class ForgotPasswordController {
 
         forgotPasswordRepository.save(forgotPasswordToken);
 
-        // hna katreed lih lien bach ydkhel yred compte dyalo
         String emailLink = "http://localhost:8080/reset-password?token=" + forgotPasswordToken.getToken();
-        try {
+/*        try {
             forgotPasswordService.sendEmail(user.getUsername(), "Password Reset Link", emailLink);
 
         }catch (UnsupportedEncodingException | MessagingException e){
             model.addAttribute("Error", "Error While sending email");
             return emailLink;
-        }
+        }*/
+
+
         //return "redirect:/password-request?success";
         //return forgotPasswordToken.getToken();
         return emailLink;
