@@ -1,5 +1,6 @@
 package com.majorMedia.BackOfficeDashboard.authentification_module.config;
 import com.majorMedia.BackOfficeDashboard.authentification_module.repository.AdminRepository;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,8 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-@RequiredArgsConstructor
-
+@AllArgsConstructor
 public class ApplicationConfig {
     private final AdminRepository adminRepository;
 

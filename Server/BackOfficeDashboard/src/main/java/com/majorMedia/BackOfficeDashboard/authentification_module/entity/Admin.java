@@ -44,6 +44,8 @@ public class Admin implements UserDetails {
 
     private boolean isUsedTokenEmail;
 
+    private boolean isActive;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
                 return role.getAuthorities();

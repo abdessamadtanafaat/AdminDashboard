@@ -19,8 +19,6 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final CustomAuthenticationManager authenticationManager ;
 
-
-
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException {
@@ -28,7 +26,6 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
             AuthenticationRequest admin = new ObjectMapper().readValue(request.getInputStream() , AuthenticationRequest.class);
             Authentication authentication = new UsernamePasswordAuthenticationToken(admin.getEmail() ,admin.getPassword());
             return authenticationManager.authenticate(authentication);
-
         }
         catch(IOException ex){
             throw new RuntimeException();
