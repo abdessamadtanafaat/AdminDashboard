@@ -1,8 +1,9 @@
 package com.majorMedia.BackOfficeDashboard.authentification_module.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.majorMedia.BackOfficeDashboard.authentification_module.Exception.InvalidEmailException;
 import com.majorMedia.BackOfficeDashboard.authentification_module.Exception.InvalidPasswordException;
+import com.majorMedia.BackOfficeDashboard.authentification_module.Exception.InvalidTokenException;
+import com.majorMedia.BackOfficeDashboard.authentification_module.Exception.EmailServiceException;
 import com.majorMedia.BackOfficeDashboard.authentification_module.entity.Admin;
 import com.majorMedia.BackOfficeDashboard.authentification_module.entity.Role;
 import com.majorMedia.BackOfficeDashboard.authentification_module.model.AuthenticationRequest;
@@ -11,10 +12,8 @@ import com.majorMedia.BackOfficeDashboard.authentification_module.model.Register
 import com.majorMedia.BackOfficeDashboard.authentification_module.repository.*;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpHeaders;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -24,24 +23,26 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.majorMedia.BackOfficeDashboard.authentification_module.Security.SecurityConstants.TOKEN_EXPIRATION_EMAIL;
+
+//import static com.majorMedia.BackOfficeDashboard.authentification_module.Security.SecurityConstants.TOKEN_EXPIRATION_EMAIL;
+
 @Service
 @AllArgsConstructor
-public class AdminServiceImpl implements AdminService{
+
+public class AdminServiceImpl implements AdminService {
     private final AdminRepository adminRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final JavaMailSender javaMailSender;
 
-    private final int MINUTES = 10;
 
 
     public Admin register(RegisterRequest registerRequest){
@@ -50,18 +51,26 @@ public class AdminServiceImpl implements AdminService{
                 .lastname(request.getLastname())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
+=======
+        Admin admin = Admin.builder()
+                .firstname(requestAdmin.getFirstname())
+                .lastname(requestAdmin.getLastname())
+                .email(requestAdmin.getEmail())
+                .password(passwordEncoder.encode(requestAdmin.getPassword()))
+>>>>>>> 3d7903f860122ff47cc460fb1ce3fac2ff5a55a9
                 .role(Role.ADMIN)
                 .build();
         adminRepository.save(admin);
-        var jwtToken = jwtService.generateToken(admin);
-        var refreshToken = jwtService.generateRefreshToken(admin);
-        return AuthenticationResponse.builder()
+
+
+        String jwtToken = jwtService.generateToken(admin);
+        AuthenticationResponse response = AuthenticationResponse.builder()
                 .accessToken(jwtToken)
-                .refreshToken(refreshToken)
                 .id(admin.getId())
                 .email(admin.getEmail())
                 .firstname(admin.getFirstname())
                 .lastname(admin.getLastname())
+
                 .build();*/
         boolean adminExists = adminRepository.findByEmail(registerRequest.getEmail()).isPresent();
         if(adminExists){
@@ -75,40 +84,43 @@ public class AdminServiceImpl implements AdminService{
                 build();
 
         admin.setPassword(encodedPassword);
-        return adminRepository.save(admin) ;
+        return adminRepository.save(admin) ;}
 
-    }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request){
 
-        Admin admin = adminRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new InvalidEmailException("Email is not found."));
 
-        try{
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            request.getEmail(),
-                            request.getPassword()
-                    )
-            );
-
-        }catch (BadCredentialsException e) {
-            throw new InvalidPasswordException("Password is not correct");
-        }
-
-        var jwtToken = jwtService.generateToken(admin);
-
-        admin.setTokenWeb(jwtToken);
-
-        return AuthenticationResponse.builder()
-                .accessToken(jwtToken)
-                .id(admin.getId())
-                .email(admin.getEmail())
-                .firstname(admin.getFirstname())
-                .lastname(admin.getLastname())
-                .build();
-    }
-
+//    public ResponseEntity<?> authenticate(AuthenticationRequest request){
+//
+//        try{
+//        Admin admin = adminRepository.findByEmail(request.getEmail())
+//                .orElseThrow(() -> new InvalidEmailException("Email is not found."));
+//
+//
+//            authenticationManager.authenticate(
+//                    new UsernamePasswordAuthenticationToken(
+//                            request.getEmail(),
+//                            request.getPassword()
+//                    )
+//            );
+//
+//        String jwtToken = jwtService.generateToken(admin);
+//        admin.setTokenWeb(jwtToken);
+//        admin.setActive(true);
+//
+//            AuthenticationResponse response = AuthenticationResponse.builder()
+//                .accessToken(jwtToken)
+//                .id(admin.getId())
+//                .email(admin.getEmail())
+//                .firstname(admin.getFirstname())
+//                .lastname(admin.getLastname())
+//                .build();
+//
+//            return ResponseEntity.ok(response);
+//        }catch (BadCredentialsException e) {
+//            e.printStackTrace();
+//            throw new InvalidPasswordException("Password is incorrect.");
+//        }
+//    }
 
     public String forgotPassword (String email){
         Admin admin = adminRepository.findByEmail(email)
@@ -125,7 +137,8 @@ public class AdminServiceImpl implements AdminService{
             sendEmail(admin.getUsername(), "Password Reset Link", emailLink);
 
         }catch (UnsupportedEncodingException | MessagingException e){
-            e.printStackTrace();
+            e.printStackTrace(); //indiro logs men be3d blast hadi
+            throw new EmailServiceException("Failed to send password reset email. Please try again later.");
         }
 
         return emailLink;
@@ -153,7 +166,7 @@ public class AdminServiceImpl implements AdminService{
         return UUID.randomUUID().toString();
     }
     public LocalDateTime expireTimeRange(){
-        return LocalDateTime.now().plusMinutes(MINUTES);
+        return LocalDateTime.now().plusMinutes(TOKEN_EXPIRATION_EMAIL);
     }
     public boolean isExpiredTokenEmail (String token)
     {
@@ -168,29 +181,29 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     public ResponseEntity<?> checkValidity(String token) {
-        return null;
-    }
 
-    public ResponseEntity<?> chekValidity (String token)
-    {
-        Admin admin = findByTokenEmail(token);
-        try{
-            if(token == null || token.isEmpty())
-            {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid Token");
-            }
-            else if(admin.isUsedTokenEmail())
-            {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The token is already used");
-            }
-            else{
-                return ResponseEntity.ok("The token is valid");
-            }
+        try {
+        //session.setAttribute("token", token);
+        Optional<Admin> admin = adminRepository.findByTokenEmail(token);
 
-        }catch(Exception e){
-            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        if (token == null || token.isEmpty()) {
+            throw new InvalidTokenException("Invalid Token");
+        } else if (admin.isPresent() && admin.get().isUsedTokenEmail()) {
+            throw new InvalidTokenException("The token is already used");
         }
+        else if (!isExpiredTokenEmail(token))
+        {
+            throw new InvalidTokenException("The token is Expired");
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.OK).body("The token is valid");
+        }
+        } catch (InvalidTokenException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
     }
+
     public static Admin unwarappeAdmin(Optional<Admin> entity, String message){
         if(entity.isPresent())return entity.get();
         else throw new InvalidEmailException(message);
@@ -213,6 +226,36 @@ public class AdminServiceImpl implements AdminService{
         Optional<Admin> entity = adminRepository.findByEmail(email);
         Admin admin = unwarappeAdmin(entity, "Admin Account not found");
         return admin;
+    }
+
+    @Override
+    public ResponseEntity<String> resetPassword(String password, String token) {
+
+        try {
+        validateToken(token);
+
+        Optional<Admin> admin = adminRepository.findByTokenEmail(token);
+        if (admin.isEmpty()) {
+            return ResponseEntity.badRequest().body("Invalid or expired token.");
+        }
+
+        admin.get().setPassword(passwordEncoder.encode(password));
+        adminRepository.save(admin.get());
+
+        admin.get().setUsedTokenEmail(true);
+        adminRepository.save(admin.get());
+
+        return ResponseEntity.ok("Password successfully reset.");
+        } catch (InvalidTokenException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+    }
+    private void validateToken(String token){
+        if (token == null || token.isEmpty()) {
+            throw new InvalidTokenException("The token is necessary.");
+        }
+
     }
 
 }

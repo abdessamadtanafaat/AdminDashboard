@@ -1,8 +1,5 @@
 package com.majorMedia.BackOfficeDashboard.authentification_module.controller;
 
-import com.majorMedia.BackOfficeDashboard.authentification_module.Exception.InvalidEmailException;
-import com.majorMedia.BackOfficeDashboard.authentification_module.Exception.InvalidPasswordException;
-import com.majorMedia.BackOfficeDashboard.authentification_module.entity.Admin;
 import com.majorMedia.BackOfficeDashboard.authentification_module.model.AuthenticationRequest;
 import com.majorMedia.BackOfficeDashboard.authentification_module.model.AuthenticationResponse;
 import com.majorMedia.BackOfficeDashboard.authentification_module.model.RegisterRequest;
@@ -11,16 +8,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.io.IOException;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
@@ -48,11 +40,13 @@ public class AdminController
     )
 
     @PostMapping("/api/v1/auth/register")
+
     public ResponseEntity<HttpStatus> register(
             @RequestBody RegisterRequest registerRequest
     ) {
         adminService.register(registerRequest);
-        return new  ResponseEntity<>(  HttpStatus.CREATED);
+        return new  ResponseEntity<>( HttpStatus.CREATED);
+
     }
 
     @Operation(
@@ -73,23 +67,23 @@ public class AdminController
                     )
             }
     )
-    @PostMapping("/authenticate")
-    public ResponseEntity<?> authenticate(
-            @RequestBody AuthenticationRequest request
-    ) {
-        try{
-            AuthenticationResponse response = adminService.authenticate(request);
-            return ResponseEntity.ok(response);
 
-        }catch(InvalidPasswordException | InvalidEmailException e ) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    @GetMapping("/password-request")
+    public ResponseEntity<?> passwordRequest(@RequestParam("email") String email) {
 
-        }catch (Exception e) {
-            // e.printStackTrace();
-            return new ResponseEntity<>("Please try again later.", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-
+        return ResponseEntity.ok("Token: " + adminService.forgotPassword(email));
     }
+    @GetMapping("/reset-password")
+    public ResponseEntity<?> resetPassword (@Param(value="token") String token)
+    {
+        return adminService.checkValidity(token);
+    }
+    @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestBody String password,
+                                                @RequestBody String token)
+    {
+        return adminService.resetPassword(password,token);
+    }
+
 
 }
