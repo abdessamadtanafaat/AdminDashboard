@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import java.time.LocalDateTime;
 
 public interface AdminService {
-    public Admin register(Admin admin);
+    public Admin register(RegisterRequest registerRequest);
     public AuthenticationResponse authenticate(AuthenticationRequest request);
     public String forgotPassword(String email);
     public String generateToken();

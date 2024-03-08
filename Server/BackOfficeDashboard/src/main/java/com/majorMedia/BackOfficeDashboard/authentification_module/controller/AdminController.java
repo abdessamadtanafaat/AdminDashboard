@@ -48,10 +48,11 @@ public class AdminController
     )
 
     @PostMapping("/api/v1/auth/register")
-    public ResponseEntity<Admin> register(
-            @RequestBody Admin admin
+    public ResponseEntity<HttpStatus> register(
+            @RequestBody RegisterRequest registerRequest
     ) {
-        return ResponseEntity.ok(adminService.register(admin));
+        adminService.register(registerRequest);
+        return new  ResponseEntity<>(  HttpStatus.CREATED);
     }
 
     @Operation(

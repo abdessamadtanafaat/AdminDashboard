@@ -44,7 +44,7 @@ public class AdminServiceImpl implements AdminService{
     private final int MINUTES = 10;
 
 
-    public Admin register(Admin admin){
+    public Admin register(RegisterRequest registerRequest){
         /*var admin = Admin.builder()
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())
@@ -63,14 +63,19 @@ public class AdminServiceImpl implements AdminService{
                 .firstname(admin.getFirstname())
                 .lastname(admin.getLastname())
                 .build();*/
-        boolean adminExists = adminRepository.findByEmail(admin.getEmail()).isPresent();
+        boolean adminExists = adminRepository.findByEmail(registerRequest.getEmail()).isPresent();
         if(adminExists){
-            throw new IllegalStateException("the Email" + admin.getEmail() +" Already Exists");
+            throw new InvalidEmailException( registerRequest.getEmail() +" Already Exists");
         }
 
-        String encodedPassword =passwordEncoder.encode(admin.getPassword()) ;
+        String encodedPassword =passwordEncoder.encode(registerRequest.getPassword()) ;
+        Admin admin = Admin.builder().email(registerRequest.getEmail()).
+                lastname(registerRequest.getLastname())
+                        .firstname(registerRequest.getFirstname()).
+                build();
+
         admin.setPassword(encodedPassword);
-        return adminRepository.save(admin);
+        return adminRepository.save(admin) ;
 
     }
 

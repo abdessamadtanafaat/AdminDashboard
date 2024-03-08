@@ -32,6 +32,7 @@ public class Admin implements UserDetails {
     private String password;
 
     @Enumerated(EnumType.STRING)
+
     private Role role;
 
     private String tokenEmail;

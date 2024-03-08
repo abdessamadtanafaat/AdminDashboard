@@ -4,6 +4,7 @@ import com.majorMedia.BackOfficeDashboard.authentification_module.entity.Admin;
 import com.majorMedia.BackOfficeDashboard.authentification_module.service.AdminService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,11 +15,15 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-@AllArgsConstructor
+
 public class CustomAuthenticationManager implements AuthenticationManager {
 
     private AdminService adminService;
     private PasswordEncoder passwordEncoder;
+    public CustomAuthenticationManager(@Lazy AdminService adminService , @Lazy PasswordEncoder passwordEncoder){
+        this.adminService = adminService ;
+        this.passwordEncoder =passwordEncoder;
+    }
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
