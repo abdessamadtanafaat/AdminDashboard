@@ -2,6 +2,7 @@ package com.majorMedia.BackOfficeDashboard.authentification_module.controller;
 
 import com.majorMedia.BackOfficeDashboard.authentification_module.Exception.InvalidEmailException;
 import com.majorMedia.BackOfficeDashboard.authentification_module.Exception.InvalidPasswordException;
+import com.majorMedia.BackOfficeDashboard.authentification_module.entity.Admin;
 import com.majorMedia.BackOfficeDashboard.authentification_module.model.AuthenticationRequest;
 import com.majorMedia.BackOfficeDashboard.authentification_module.model.AuthenticationResponse;
 import com.majorMedia.BackOfficeDashboard.authentification_module.model.RegisterRequest;
@@ -45,11 +46,12 @@ public class AdminController
                     )
             }
     )
-    @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(
-            @RequestBody RegisterRequest request
+
+    @PostMapping("/api/v1/auth/register")
+    public ResponseEntity<Admin> register(
+            @RequestBody Admin admin
     ) {
-        return ResponseEntity.ok(adminService.register(request));
+        return ResponseEntity.ok(adminService.register(admin));
     }
 
     @Operation(

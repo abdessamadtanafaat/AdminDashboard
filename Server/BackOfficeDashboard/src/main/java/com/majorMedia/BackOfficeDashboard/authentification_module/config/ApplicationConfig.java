@@ -1,8 +1,5 @@
 package com.majorMedia.BackOfficeDashboard.authentification_module.config;
-
-
 import com.majorMedia.BackOfficeDashboard.authentification_module.repository.AdminRepository;
-import com.majorMedia.BackOfficeDashboard.authentification_module.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

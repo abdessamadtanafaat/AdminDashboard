@@ -18,12 +18,12 @@ import org.springframework.stereotype.Component;
 public class CustomAuthenticationManager implements AuthenticationManager {
 
     private AdminService adminService;
-    private PasswordEncoder Passwordencoder;
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         Admin admin = adminService.findByEmail(authentication.getName());
-        if(!Passwordencoder.matches(authentication.getCredentials().toString(),admin.getPassword()){
+        if(!passwordEncoder.matches(authentication.getCredentials().toString(),admin.getPassword())){
             throw new BadCredentialsException("You provided an incorrect password");
 
         }

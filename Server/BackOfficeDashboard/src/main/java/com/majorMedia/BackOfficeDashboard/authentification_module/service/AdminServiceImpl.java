@@ -34,8 +34,8 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
-public class AdminServiceImpl {
-    private AdminRepository adminRepository;
+public class AdminServiceImpl implements AdminService{
+    private final AdminRepository adminRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -44,8 +44,8 @@ public class AdminServiceImpl {
     private final int MINUTES = 10;
 
 
-    public AuthenticationResponse register(RegisterRequest request){
-        var admin = Admin.builder()
+    public Admin register(Admin admin){
+        /*var admin = Admin.builder()
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())
                 .email(request.getEmail())
@@ -62,7 +62,15 @@ public class AdminServiceImpl {
                 .email(admin.getEmail())
                 .firstname(admin.getFirstname())
                 .lastname(admin.getLastname())
-                .build();
+                .build();*/
+        boolean adminExists = adminRepository.findByEmail(admin.getEmail()).isPresent();
+        if(adminExists){
+            throw new IllegalStateException("the Email" + admin.getEmail() +" Already Exists");
+        }
+
+        String encodedPassword =passwordEncoder.encode(admin.getPassword()) ;
+        admin.setPassword(encodedPassword);
+        return adminRepository.save(admin);
 
     }
 
@@ -151,6 +159,11 @@ public class AdminServiceImpl {
     {
         Admin admin = findByTokenWeb(token);
         return LocalDateTime.now().isAfter(admin.getExpreTimeWeb());
+    }
+
+    @Override
+    public ResponseEntity<?> checkValidity(String token) {
+        return null;
     }
 
     public ResponseEntity<?> chekValidity (String token)
