@@ -19,7 +19,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"firstname\": \"admin\",\r\n    \"lastname\": \"admin\",\r\n    \"email\": \"tanafaat.wac.49@gmail.com\",\r\n    \"password\": \"ff\"\r\n}",
+							"raw": "{\r\n    \"firstname\": \"admin\",\r\n    \"lastname\": \"admin\",\r\n    \"email\": \"ilyassrouchdi7@gmail.com\",\r\n    \"password\": \"ff\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
