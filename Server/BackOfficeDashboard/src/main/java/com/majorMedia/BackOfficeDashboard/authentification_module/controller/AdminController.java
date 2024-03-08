@@ -49,40 +49,39 @@ public class AdminController
 
     }
 
-    @Operation(
-            summary = "Login endpoint",
-            description = "Endpoint to authenticate users and generate JWT token.",
-            responses = {
-                    @ApiResponse(
-                            description = "Successful login",
-                            responseCode = "200",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = ResponseEntity.class)
-                            )
-                    ),
-                    @ApiResponse(
-                            description = "Unauthorized / Invalid credentials",
-                            responseCode = "401"
-                    )
-            }
-    )
+//    @Operation(
+//            summary = "Login endpoint",
+//            description = "Endpoint to authenticate users and generate JWT token.",
+//            responses = {
+//                    @ApiResponse(
+//                            description = "Successful login",
+//                            responseCode = "200",
+//                            content = @Content(
+//                                    mediaType = "application/json",
+//                                    schema = @Schema(implementation = ResponseEntity.class)
+//                            )
+//                    ),
+//                    @ApiResponse(
+//                            description = "Unauthorized / Invalid credentials",
+//                            responseCode = "401"
+//                    )
+//            }
+//    )
 
-    @GetMapping("/password-request")
-    public ResponseEntity<?> passwordRequest(@RequestParam("email") String email) {
+    @GetMapping("/api/v1/auth/password-request")
+    public ResponseEntity<String> passwordRequest(@RequestParam("email") String email) {
 
         return ResponseEntity.ok("Token: " + adminService.forgotPassword(email));
     }
-    @GetMapping("/reset-password")
-    public ResponseEntity<?> resetPassword (@Param(value="token") String token)
+    @GetMapping("/api/v1/auth/is-token-valid")
+    public ResponseEntity<String> isTokenValid (@Param(value="token") String token)
     {
-        return adminService.checkValidity(token);
+        return new ResponseEntity<>(adminService.checkValidity(token) , HttpStatus.ACCEPTED);
     }
-    @PostMapping("/reset-password")
-    public ResponseEntity<String> resetPassword(@RequestBody String password,
-                                                @RequestBody String token)
+    @PostMapping("/api/v1/auth/reset-password")
+    public ResponseEntity<String> resetPassword(@Param("password") String password, @Param("token") String token)
     {
-        return adminService.resetPassword(password,token);
+        return new ResponseEntity<>(adminService.resetPassword(password,token) , HttpStatus.ACCEPTED);
     }
 
 

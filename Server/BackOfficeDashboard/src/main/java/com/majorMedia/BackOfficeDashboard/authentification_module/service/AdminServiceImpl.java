@@ -46,32 +46,7 @@ public class AdminServiceImpl implements AdminService {
 
 
     public Admin register(RegisterRequest registerRequest){
-        /*var admin = Admin.builder()
-                .firstname(request.getFirstname())
-                .lastname(request.getLastname())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-=======
-        Admin admin = Admin.builder()
-                .firstname(requestAdmin.getFirstname())
-                .lastname(requestAdmin.getLastname())
-                .email(requestAdmin.getEmail())
-                .password(passwordEncoder.encode(requestAdmin.getPassword()))
->>>>>>> 3d7903f860122ff47cc460fb1ce3fac2ff5a55a9
-                .role(Role.ADMIN)
-                .build();
-        adminRepository.save(admin);
 
-
-        String jwtToken = jwtService.generateToken(admin);
-        AuthenticationResponse response = AuthenticationResponse.builder()
-                .accessToken(jwtToken)
-                .id(admin.getId())
-                .email(admin.getEmail())
-                .firstname(admin.getFirstname())
-                .lastname(admin.getLastname())
-
-                .build();*/
         boolean adminExists = adminRepository.findByEmail(registerRequest.getEmail()).isPresent();
         if(adminExists){
             throw new InvalidEmailException( registerRequest.getEmail() +" Already Exists");
@@ -180,27 +155,19 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public ResponseEntity<?> checkValidity(String token) {
+    public String checkValidity(String token) {
 
-        try {
-        //session.setAttribute("token", token);
-        Optional<Admin> admin = adminRepository.findByTokenEmail(token);
+        Optional<Admin> entity = adminRepository.findByTokenEmail(token);
+        Admin admin = unwarappeAdmin(entity,"No Admin with that token");
 
-        if (token == null || token.isEmpty()) {
-            throw new InvalidTokenException("Invalid Token");
-        } else if (admin.isPresent() && admin.get().isUsedTokenEmail()) {
+        if (isExpiredTokenEmail(token)){
+                throw new InvalidTokenException("The token have Expired");
+        }
+        if ( admin.isUsedTokenEmail()) {
             throw new InvalidTokenException("The token is already used");
         }
-        else if (!isExpiredTokenEmail(token))
-        {
-            throw new InvalidTokenException("The token is Expired");
-        }
-        else {
-            return ResponseEntity.status(HttpStatus.OK).body("The token is valid");
-        }
-        } catch (InvalidTokenException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+
+        return "The token is valid";
 
     }
 
@@ -229,33 +196,16 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public ResponseEntity<String> resetPassword(String password, String token) {
+    public String resetPassword(String password, String token) {
 
-        try {
-        validateToken(token);
-
-        Optional<Admin> admin = adminRepository.findByTokenEmail(token);
-        if (admin.isEmpty()) {
-            return ResponseEntity.badRequest().body("Invalid or expired token.");
-        }
-
-        admin.get().setPassword(passwordEncoder.encode(password));
-        adminRepository.save(admin.get());
-
-        admin.get().setUsedTokenEmail(true);
-        adminRepository.save(admin.get());
-
-        return ResponseEntity.ok("Password successfully reset.");
-        } catch (InvalidTokenException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-
+        Optional<Admin> entity = adminRepository.findByTokenEmail(token);
+        Admin admin = unwarappeAdmin(entity,"Token unvalid");
+        admin.setPassword(passwordEncoder.encode(password));
+        adminRepository.save(admin);
+        admin.setUsedTokenEmail(true);
+        adminRepository.save(admin);
+        return "Password successfully reset";
     }
-    private void validateToken(String token){
-        if (token == null || token.isEmpty()) {
-            throw new InvalidTokenException("The token is necessary.");
-        }
 
-    }
 
 }

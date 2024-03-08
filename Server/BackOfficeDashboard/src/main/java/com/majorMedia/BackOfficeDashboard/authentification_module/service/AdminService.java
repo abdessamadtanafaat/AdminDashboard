@@ -11,14 +11,13 @@ import java.time.LocalDateTime;
 public interface AdminService {
 
     public Admin register(RegisterRequest registerRequest);
-//    public AuthenticationResponse authenticate(AuthenticationRequest request);
     public String forgotPassword(String email);
     public String generateToken();
     public LocalDateTime expireTimeRange();
     public boolean isExpiredTokenEmail(String token);
     boolean isExpiredTokenWeb(String token);
-    public ResponseEntity<?> checkValidity(String token);
+    public String checkValidity(String token);
     public Admin findByEmail(String name);
 
-    public ResponseEntity<String> resetPassword(String password, String token);
+    public String resetPassword(String password, String token);
 }
