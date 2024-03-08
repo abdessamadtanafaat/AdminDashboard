@@ -19,7 +19,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"firstname\": \"admin\",\r\n    \"lastname\": \"admin\",\r\n    \"email\": \"tanafaat.wac.49@gmail.com\",\r\n    \"password\": \"admin\"\r\n}",
+							"raw": "{\r\n    \"firstname\": \"admin\",\r\n    \"lastname\": \"admin\",\r\n    \"email\": \"tanafaat.wac.49@gmail.com\",\r\n    \"password\": \"ff\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -41,7 +41,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\r\n    \"email\": \"tanafaat.wac.49@gmail.com\",\r\n    \"password\": \"admin\"\r\n}",
+							"raw": "{\r\n\r\n   \"email\": \"ilyassrouchdi7@gmail.com\",\r\n    \"password\": \"ff\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -59,17 +59,14 @@
 						"disableBodyPruning": true
 					},
 					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0YW5hZmFhdC53YWMuNDlAZ21haWwuY29tIiwiaWF0IjoxNzA5ODY5NDE4LCJleHAiOjE3MDk5NTU4MTh9.U2-fcia2WIpR6VFuyyEqi-fc48H4thTsGOtcY1YA3Bg"
 							}
 						},
+						"method": "GET",
+						"header": [],
 						"url": {
 							"raw": "http://localhost:8080/api/v1/auth/password-request?email=tanafaat.wac.49@gmail.com",
 							"protocol": "http",
@@ -86,8 +83,7 @@
 							"query": [
 								{
 									"key": "email",
-									"value": "tanafaat.wac.49@gmail.com",
-									"type": "text"
+									"value": "tanafaat.wac.49@gmail.com"
 								}
 							]
 						}
@@ -95,12 +91,16 @@
 					"response": []
 				},
 				{
-					"name": "ResetPassword",
+					"name": "is Token valid",
 					"id": "715c8587-3904-4eab-9417-5ca57570e18b",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {}
+						},
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -113,7 +113,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/auth/reset-password?token=e9fecddd-6021-4f07-a123-4efa5e94b13b",
+							"raw": "http://localhost:8080/api/v1/auth/reset-password?token=e2dc0131-c009-44c5-bd95-91041cfacd77",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -128,7 +128,7 @@
 							"query": [
 								{
 									"key": "token",
-									"value": "e9fecddd-6021-4f07-a123-4efa5e94b13b"
+									"value": "e2dc0131-c009-44c5-bd95-91041cfacd77"
 								}
 							]
 						}
@@ -154,7 +154,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/auth/reset-password?password=adminnew&token=e9fecddd-6021-4f07-a123-4efa5e94b13b",
+							"raw": "http://localhost:8080/api/v1/auth/reset-password?password=barca&token=6224ac9d-532b-498d-9661-8308a2eb9da3",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -169,11 +169,11 @@
 							"query": [
 								{
 									"key": "password",
-									"value": "adminnew"
+									"value": "barca"
 								},
 								{
 									"key": "token",
-									"value": "e9fecddd-6021-4f07-a123-4efa5e94b13b"
+									"value": "6224ac9d-532b-498d-9661-8308a2eb9da3"
 								}
 							]
 						}
