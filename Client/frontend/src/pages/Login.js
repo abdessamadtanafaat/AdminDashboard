@@ -8,13 +8,15 @@ export const action =(store)=>
           const data = Object.fromEntries(formData);
           try{
             const response = await customFetch.post('/auth/authenticate' ,data);
-            toast.success("Ok you're signed in !")
+            toast.success("Welcome !! You access to Dashboard")
             console.log(response.data)
-            return {data : response.data}
+            redirect("/");
+            return redirect("/")
 
           }
           catch(err){
-            const errorMessage = err?.response?.data?.error?.message || "Please Double check your credentials"; 
+            const errorMessage = err?.response?.data || "Please Double check your credentials"; 
+            console.log(err?.response?.data)
             toast.error(errorMessage);
             return null ;
           }

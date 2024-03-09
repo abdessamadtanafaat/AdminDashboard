@@ -10,7 +10,7 @@ async({request})=>{
     try{
        const response = await customFetch.get(`/auth/password-request?email=${data.email}`); 
        console.log(response.data);
-       toast.success("Email sent to you !")
+       toast.success("Please check your mail to reset your password!")
        return {data : response.data}
         
 
@@ -18,6 +18,9 @@ async({request})=>{
     }
     catch(err){
         console.log(err);
+        const errorMessage = err?.response?.data || "Error Occured !!!";
+        
+        toast.error(errorMessage);
         return null ;       
     } 
      

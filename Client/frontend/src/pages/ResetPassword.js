@@ -22,51 +22,43 @@ export const action = (store)=>async({request})=>{
         return null ; 
     }
     try{
-        const response = await customFetch.post(`/auth/reset-password?password=${data.password}&token=${token}` );
+        const body = {"password" : data.password , "token" : token } 
+        const response = await customFetch.post('/auth/reset-password' ,body );
+        console.log(response.data);
         toast.success("Your Password Is up to date")
         return redirect("/login")
 
 
     }
     catch(err){
-        const errorMessage = err?.response?.data?.message || "Cannot reset the password"
-        toast.error(errorMessage)
-        return null ; 
+        const errorMessage = err?.response?.data || "Cannot reset the password"
+        return toast.error(errorMessage) ; 
     }
-    
-
-
 }
 export const loader = async({request})=>{
     const params = Object.fromEntries([
         ...new URL(request.url).searchParams.entries(),
     ]);
     console.log(params);
-    //here we should send a request to the server to check if the token is valid and not yet expired
     token = params?.token ; 
+    console.log(token);
     try{
-        const response = await customFetch(`auth/reset-password?token=${token}`)
+        const response = await customFetch(`/auth/is-token-valid?token=${token}`)
         console.log(response.data);
         return null ; 
 
 
     }
     catch(err){
-        console.log(err);
         const errorMessage= err?.response?.data || "Access Denied !"
-    
-        console.log(errorMessage)
         toast.error(errorMessage)
-        
-
+        console.log(errorMessage);
+        return redirect("/forgotPassword") ;
     }
-    return null ;
 
 }
 
-const ResetPassword = () => {
-  
-    
+const ResetPassword = () => {    
   return (
     <section className='h-screen grid place-items-center'>
        <Form method="POST" className='card w-96 p-8 bg-base-100 shadow-lg flex bg--400 flex-col gap-y-4'>
