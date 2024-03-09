@@ -92,10 +92,9 @@ public class AdminController
         return new ResponseEntity<>(adminService.checkValidity(token) , HttpStatus.ACCEPTED);
     }
     @PostMapping("/api/v1/auth/reset-password")
-    public ResponseEntity<String> resetPassword(@Param("password") String password, @Param("token") String token)
+    public ResponseEntity<String> resetPassword(@RequestBody String password, @RequestBody String token)
     {
         return new ResponseEntity<>(adminService.resetPassword(password,token) , HttpStatus.ACCEPTED);
     }
-
 
 }
