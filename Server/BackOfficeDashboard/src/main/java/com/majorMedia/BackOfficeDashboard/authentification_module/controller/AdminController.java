@@ -62,9 +62,6 @@ public class AdminController
         return new  ResponseEntity<>( HttpStatus.CREATED);
     }
 
-
-
-
 //    @Operation(
 //            summary = "Login endpoint",
 //            description = "Endpoint to authenticate users and generate JWT token.",

@@ -15,11 +15,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.Optional;
 import java.util.UUID;
 
 import static com.majorMedia.BackOfficeDashboard.authentification_module.Security.SecurityConstants.TOKEN_EXPIRATION_EMAIL;
+import static com.majorMedia.BackOfficeDashboard.authentification_module.Security.SecurityConstants.TOKEN_LENGTH;
 
 @Service
 @AllArgsConstructor
@@ -28,6 +31,8 @@ public class AdminServiceImpl implements AdminService {
     private final AdminRepository adminRepository;
     private final PasswordEncoder passwordEncoder;
     private final JavaMailSender javaMailSender;
+    private final SecureRandom secureRandom = new SecureRandom();
+
 
     public Admin register(RegisterRequest registerRequest){
 
@@ -65,8 +70,7 @@ public class AdminServiceImpl implements AdminService {
 
         return emailLink;
     }
-
-    private void sendEmail(String to, String emailLink) throws MessagingException, UnsupportedEncodingException {
+    public void sendEmail(String to, String emailLink) throws MessagingException, UnsupportedEncodingException {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
@@ -83,10 +87,16 @@ public class AdminServiceImpl implements AdminService {
 
         javaMailSender.send(message);
     }
-
-    public String generateToken(){
+/*    public String generateToken(){
         return UUID.randomUUID().toString();
+    }*/
+    public String generateToken() {
+        byte[] tokenBytes = new byte[TOKEN_LENGTH];
+        secureRandom.nextBytes(tokenBytes);
+        return Base64.getUrlEncoder().withoutPadding().encodeToString(tokenBytes);
     }
+
+
     public LocalDateTime expireTimeRange(){
         return LocalDateTime.now().plusMinutes(TOKEN_EXPIRATION_EMAIL);
     }
@@ -130,6 +140,7 @@ public class AdminServiceImpl implements AdminService {
 
     public String resetPassword(String password, String token) {
 
+        checkValidity(token);
         Optional<Admin> entity = adminRepository.findByTokenEmail(token);
         Admin admin = unwarappeAdmin(entity,"Invalid Token");
         admin.setPassword(passwordEncoder.encode(password));
