@@ -19,7 +19,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"firstname\": \"admin\",\r\n    \"lastname\": \"admin\",\r\n    \"email\": \"ilyassrouchdi7@gmail.com\",\r\n    \"password\": \"ff\"\r\n}",
+							"raw": "{\r\n    \"firstname\": \"admin\",\r\n    \"lastname\": \"admin\",\r\n    \"email\": \"tanafaat.wac.49@gmail.com\",\r\n    \"password\": \"ff\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -60,10 +60,7 @@
 					},
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": {
-								"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0YW5hZmFhdC53YWMuNDlAZ21haWwuY29tIiwiaWF0IjoxNzA5ODY5NDE4LCJleHAiOjE3MDk5NTU4MTh9.U2-fcia2WIpR6VFuyyEqi-fc48H4thTsGOtcY1YA3Bg"
-							}
+							"type": "noauth"
 						},
 						"method": "GET",
 						"header": [],
@@ -146,7 +143,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"password\":\"adminnew\",\r\n    \"token\":\"471f35aa-2e82-4f56-a59e-9bf3d9da312e\"\r\n}",
+							"raw": "{\r\n    \"password\":\"barca\",\r\n    \"token\":\"471f35aa-2e82-4f56-a59e-9bf3d9da312e\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -154,7 +151,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/auth/reset-password?password=barca&token=6224ac9d-532b-498d-9661-8308a2eb9da3",
+							"raw": "http://localhost:8080/api/v1/auth/reset-password",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -169,11 +166,13 @@
 							"query": [
 								{
 									"key": "password",
-									"value": "barca"
+									"value": "barca1",
+									"disabled": true
 								},
 								{
 									"key": "token",
-									"value": "6224ac9d-532b-498d-9661-8308a2eb9da3"
+									"value": "ZAMQi_phWo8vvEi3E0-jPKEtJ7_UkbgcJRkrc_yQbnGJWSRW2OxWsLirELBnbmN-d-cZvGU2R1NZpQpPAtFsvQ",
+									"disabled": true
 								}
 							]
 						}
@@ -187,8 +186,15 @@
 						"disableBodyPruning": true
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0YW5hZmFhdC53YWMuNDlAZ21haWwuY29tIiwiZXhwIjoxNzEwMDg3NTM1fQ.DhPQW35qzP8b4G3gJbaEYLGp0uyBfwW8WASVVyMp0tmrqbSzy725RrrTZ4WhXmnHSl0s58VJngm8lFL0PivRDg"
+							}
+						},
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": "http://localhost:8080/api/v1/demo-controller"
 					},
 					"response": []
 				}
