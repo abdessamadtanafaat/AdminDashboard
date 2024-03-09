@@ -1,24 +1,11 @@
-package com.majorMedia.BackOfficeDashboard.authentification_module.service;
+package com.majorMedia.BackOfficeDashboard.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.majorMedia.BackOfficeDashboard.authentification_module.Security.SecurityConstants;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
-
-import org.springframework.security.core.userdetails.UserDetails;
+import com.majorMedia.BackOfficeDashboard.Security.SecurityConstants;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.SecretKey;
-import java.security.Key;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Function;
 
 
 @Service

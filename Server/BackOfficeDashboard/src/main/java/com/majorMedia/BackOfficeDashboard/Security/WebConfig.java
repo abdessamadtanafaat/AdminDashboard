@@ -1,4 +1,4 @@
-package com.majorMedia.BackOfficeDashboard.authentification_module.Security;
+package com.majorMedia.BackOfficeDashboard.Security;
 
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterRegistration;

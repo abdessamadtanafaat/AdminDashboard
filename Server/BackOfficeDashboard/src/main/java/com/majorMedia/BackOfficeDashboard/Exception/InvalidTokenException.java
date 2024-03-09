@@ -1,4 +1,4 @@
-package com.majorMedia.BackOfficeDashboard.authentification_module.Exception;
+package com.majorMedia.BackOfficeDashboard.Exception;
 
 public class InvalidTokenException extends RuntimeException{
     public InvalidTokenException(String message){super(message);}

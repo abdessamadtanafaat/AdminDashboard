@@ -1,4 +1,4 @@
-package com.majorMedia.BackOfficeDashboard.authentification_module.entity;
+package com.majorMedia.BackOfficeDashboard.entity;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

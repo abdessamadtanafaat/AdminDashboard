@@ -1,4 +1,4 @@
-package com.majorMedia.BackOfficeDashboard.authentification_module.Exception;
+package com.majorMedia.BackOfficeDashboard.Exception;
 
 import org.springframework.security.authentication.BadCredentialsException;
 

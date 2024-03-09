@@ -1,31 +1,18 @@
-package com.majorMedia.BackOfficeDashboard.authentification_module.controller;
+package com.majorMedia.BackOfficeDashboard.controller;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.majorMedia.BackOfficeDashboard.authentification_module.Security.Manager.CustomAuthenticationManager;
-import com.majorMedia.BackOfficeDashboard.authentification_module.Security.SecurityConstants;
-import com.majorMedia.BackOfficeDashboard.authentification_module.model.AuthenticationRequest;
-import com.majorMedia.BackOfficeDashboard.authentification_module.model.AuthenticationResponse;
-import com.majorMedia.BackOfficeDashboard.authentification_module.model.RegisterRequest;
-import com.majorMedia.BackOfficeDashboard.authentification_module.service.AdminService;
+import com.majorMedia.BackOfficeDashboard.model.RegisterRequest;
+import com.majorMedia.BackOfficeDashboard.service.AdminService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
+import java.util.Map;
 
 @RestController
 @AllArgsConstructor
@@ -91,10 +78,15 @@ public class AdminController
     {
         return new ResponseEntity<>(adminService.checkValidity(token) , HttpStatus.ACCEPTED);
     }
-    @PostMapping("/api/v1/auth/reset-password")
-    public ResponseEntity<String> resetPassword(@RequestBody String password, @RequestBody String token)
+/*    @PostMapping("/api/v1/auth/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestBody String password, String token)
     {
         return new ResponseEntity<>(adminService.resetPassword(password,token) , HttpStatus.ACCEPTED);
+    }*/
+    @PostMapping("/api/v1/auth/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestBody Map<String, String> requestBody) {
+        String password = requestBody.get("password");
+        String token = requestBody.get("token");
+        return new ResponseEntity<>(adminService.resetPassword(password, token), HttpStatus.ACCEPTED);
     }
-
 }

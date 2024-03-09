@@ -1,11 +1,10 @@
-package com.majorMedia.BackOfficeDashboard.authentification_module.Security.filter;
+package com.majorMedia.BackOfficeDashboard.Security.filter;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.majorMedia.BackOfficeDashboard.authentification_module.Security.Manager.CustomAuthenticationManager;
-import com.majorMedia.BackOfficeDashboard.authentification_module.Security.SecurityConstants;
-import com.majorMedia.BackOfficeDashboard.authentification_module.model.AuthenticationRequest;
+import com.majorMedia.BackOfficeDashboard.Security.SecurityConstants;
+import com.majorMedia.BackOfficeDashboard.model.AuthenticationRequest;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +21,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-    private final CustomAuthenticationManager authenticationManager ;
+    private final com.majorMedia.BackOfficeDashboard.Security.Manager.CustomAuthenticationManager authenticationManager ;
 
 
     @Override

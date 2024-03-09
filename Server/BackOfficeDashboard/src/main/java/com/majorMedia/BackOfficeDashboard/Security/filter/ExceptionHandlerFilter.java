@@ -1,4 +1,4 @@
-package com.majorMedia.BackOfficeDashboard.authentification_module.Security.filter;
+package com.majorMedia.BackOfficeDashboard.Security.filter;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import jakarta.persistence.EntityNotFoundException;

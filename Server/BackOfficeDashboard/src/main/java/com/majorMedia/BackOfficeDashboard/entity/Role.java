@@ -1,4 +1,4 @@
-package com.majorMedia.BackOfficeDashboard.authentification_module.entity;
+package com.majorMedia.BackOfficeDashboard.entity;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

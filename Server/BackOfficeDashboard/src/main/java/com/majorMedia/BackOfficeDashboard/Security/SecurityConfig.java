@@ -1,10 +1,10 @@
-package com.majorMedia.BackOfficeDashboard.authentification_module.Security;
+package com.majorMedia.BackOfficeDashboard.Security;
 
 
-import com.majorMedia.BackOfficeDashboard.authentification_module.Security.Manager.CustomAuthenticationManager;
-import com.majorMedia.BackOfficeDashboard.authentification_module.Security.filter.AuthenticationFilter;
-import com.majorMedia.BackOfficeDashboard.authentification_module.Security.filter.ExceptionHandlerFilter;
-import com.majorMedia.BackOfficeDashboard.authentification_module.Security.filter.JwtAuthorizationFilter;
+import com.majorMedia.BackOfficeDashboard.Security.Manager.CustomAuthenticationManager;
+import com.majorMedia.BackOfficeDashboard.Security.filter.AuthenticationFilter;
+import com.majorMedia.BackOfficeDashboard.Security.filter.ExceptionHandlerFilter;
+import com.majorMedia.BackOfficeDashboard.Security.filter.JwtAuthorizationFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

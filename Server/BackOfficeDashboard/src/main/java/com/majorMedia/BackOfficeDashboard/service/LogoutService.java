@@ -1,4 +1,4 @@
-package com.majorMedia.BackOfficeDashboard.authentification_module.service;
+package com.majorMedia.BackOfficeDashboard.service;
 
 public class LogoutService {
 }

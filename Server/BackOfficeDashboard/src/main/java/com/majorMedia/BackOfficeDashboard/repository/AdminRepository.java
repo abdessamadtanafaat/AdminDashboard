@@ -1,6 +1,6 @@
-package com.majorMedia.BackOfficeDashboard.authentification_module.repository;
+package com.majorMedia.BackOfficeDashboard.repository;
 
-import com.majorMedia.BackOfficeDashboard.authentification_module.entity.Admin;
+import com.majorMedia.BackOfficeDashboard.entity.Admin;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

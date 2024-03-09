@@ -1,11 +1,11 @@
-package com.majorMedia.BackOfficeDashboard.authentification_module.service;
+package com.majorMedia.BackOfficeDashboard.service;
 
-import com.majorMedia.BackOfficeDashboard.authentification_module.Exception.InvalidEmailException;
-import com.majorMedia.BackOfficeDashboard.authentification_module.Exception.InvalidTokenException;
-import com.majorMedia.BackOfficeDashboard.authentification_module.Exception.EmailServiceException;
-import com.majorMedia.BackOfficeDashboard.authentification_module.entity.Admin;
-import com.majorMedia.BackOfficeDashboard.authentification_module.model.RegisterRequest;
-import com.majorMedia.BackOfficeDashboard.authentification_module.repository.*;
+import com.majorMedia.BackOfficeDashboard.Exception.InvalidEmailException;
+import com.majorMedia.BackOfficeDashboard.Exception.InvalidTokenException;
+import com.majorMedia.BackOfficeDashboard.Exception.EmailServiceException;
+import com.majorMedia.BackOfficeDashboard.entity.Admin;
+import com.majorMedia.BackOfficeDashboard.model.RegisterRequest;
+import com.majorMedia.BackOfficeDashboard.repository.*;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;
@@ -21,8 +21,8 @@ import java.util.Base64;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.majorMedia.BackOfficeDashboard.authentification_module.Security.SecurityConstants.TOKEN_EXPIRATION_EMAIL;
-import static com.majorMedia.BackOfficeDashboard.authentification_module.Security.SecurityConstants.TOKEN_LENGTH;
+import static com.majorMedia.BackOfficeDashboard.Security.SecurityConstants.TOKEN_EXPIRATION_EMAIL;
+import static com.majorMedia.BackOfficeDashboard.Security.SecurityConstants.TOKEN_LENGTH;
 
 @Service
 @AllArgsConstructor

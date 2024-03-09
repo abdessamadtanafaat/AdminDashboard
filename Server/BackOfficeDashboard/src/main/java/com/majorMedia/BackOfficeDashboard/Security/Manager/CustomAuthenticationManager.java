@@ -1,7 +1,7 @@
-package com.majorMedia.BackOfficeDashboard.authentification_module.Security.Manager;
+package com.majorMedia.BackOfficeDashboard.Security.Manager;
 
-import com.majorMedia.BackOfficeDashboard.authentification_module.entity.Admin;
-import com.majorMedia.BackOfficeDashboard.authentification_module.service.AdminService;
+import com.majorMedia.BackOfficeDashboard.entity.Admin;
+import com.majorMedia.BackOfficeDashboard.service.AdminService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
