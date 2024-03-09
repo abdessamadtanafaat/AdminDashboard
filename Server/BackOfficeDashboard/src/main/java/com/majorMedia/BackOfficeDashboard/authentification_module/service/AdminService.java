@@ -15,9 +15,7 @@ public interface AdminService {
     public String generateToken();
     public LocalDateTime expireTimeRange();
     public boolean isExpiredTokenEmail(String token);
-    boolean isExpiredTokenWeb(String token);
     public String checkValidity(String token);
     public Admin findByEmail(String name);
-
     public String resetPassword(String password, String token);
 }

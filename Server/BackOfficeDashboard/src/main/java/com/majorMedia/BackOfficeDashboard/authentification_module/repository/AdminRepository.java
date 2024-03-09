@@ -11,6 +11,6 @@ import java.util.Optional;
 public interface AdminRepository extends CrudRepository<Admin, Integer> {
     Optional<Admin> findByEmail(String email);
     Optional<Admin> findByTokenEmail(String token);
-    Optional<Admin> findByTokenWeb(String token);
+    //Optional<Admin> findByTokenWeb(String token);
 
 }

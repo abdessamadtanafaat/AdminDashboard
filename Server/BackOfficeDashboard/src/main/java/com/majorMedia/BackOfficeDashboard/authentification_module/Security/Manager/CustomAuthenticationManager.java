@@ -15,15 +15,11 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-
+@AllArgsConstructor
 public class CustomAuthenticationManager implements AuthenticationManager {
 
     private AdminService adminService;
     private PasswordEncoder passwordEncoder;
-    public CustomAuthenticationManager(@Lazy AdminService adminService , @Lazy PasswordEncoder passwordEncoder){
-        this.adminService = adminService ;
-        this.passwordEncoder =passwordEncoder;
-    }
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -32,6 +28,7 @@ public class CustomAuthenticationManager implements AuthenticationManager {
             throw new BadCredentialsException("You provided an incorrect password");
 
         }
+
         return new UsernamePasswordAuthenticationToken(authentication.getName(), admin.getPassword());
 
     }

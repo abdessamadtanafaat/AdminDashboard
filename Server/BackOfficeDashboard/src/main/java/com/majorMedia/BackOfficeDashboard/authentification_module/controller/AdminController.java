@@ -1,5 +1,9 @@
 package com.majorMedia.BackOfficeDashboard.authentification_module.controller;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.majorMedia.BackOfficeDashboard.authentification_module.Security.Manager.CustomAuthenticationManager;
+import com.majorMedia.BackOfficeDashboard.authentification_module.Security.SecurityConstants;
 import com.majorMedia.BackOfficeDashboard.authentification_module.model.AuthenticationRequest;
 import com.majorMedia.BackOfficeDashboard.authentification_module.model.AuthenticationResponse;
 import com.majorMedia.BackOfficeDashboard.authentification_module.model.RegisterRequest;
@@ -8,17 +12,27 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
 
 @RestController
 @AllArgsConstructor
 public class AdminController
 {
     private final AdminService adminService;
+
 
     @Operation(
             summary = "User Registration",
@@ -46,8 +60,10 @@ public class AdminController
     ) {
         adminService.register(registerRequest);
         return new  ResponseEntity<>( HttpStatus.CREATED);
-
     }
+
+
+
 
 //    @Operation(
 //            summary = "Login endpoint",

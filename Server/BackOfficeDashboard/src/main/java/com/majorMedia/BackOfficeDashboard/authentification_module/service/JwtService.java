@@ -1,5 +1,8 @@
 package com.majorMedia.BackOfficeDashboard.authentification_module.service;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.majorMedia.BackOfficeDashboard.authentification_module.Security.SecurityConstants;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -17,6 +20,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+
+@Service
+public class JwtService {
+
+    public String generateToken(String userEmail) {
+        return JWT.create()
+                .withSubject(userEmail)
+                .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.TOKEN_EXPIRATION))
+                .sign(Algorithm.HMAC512(SecurityConstants.SECRET_KEY));
+    }
+
+
+/*
 @Service
 public class JwtService {
 
@@ -24,8 +40,7 @@ public class JwtService {
     private String SECRET_KEY;
     @Value("${jwt.expiration}")
     private long jwtExpiration;
-    @Value("${jwt.refresh-token}")
-    private long refreshExpiration;
+
     public String extractUsername(String token) {
         return extractClaim(token, Claims:: getSubject);
     }
@@ -37,18 +52,11 @@ public class JwtService {
         return generateToken(new HashMap<>(), userDetails);
     }
 
-
     public String generateToken(
             Map<String, Object> extracClaims,
             UserDetails userDetails
             ){
         return buildToken(extracClaims, userDetails, jwtExpiration);
-    }
-
-    public String generateRefreshToken(
-            UserDetails userDetails
-    ) {
-        return buildToken(new HashMap<>(), userDetails, refreshExpiration);
     }
 
     private String buildToken(
@@ -90,11 +98,13 @@ public class JwtService {
                 .getBody();
 
     }
-
     private Key getSignInkey() {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }
+
+*/
+
 
 
 }

@@ -23,29 +23,21 @@ import org.springframework.security.web.SecurityFilterChain;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
-
+@AllArgsConstructor
 public class SecurityConfig {
 
-
-    private final CustomAuthenticationManager customAuthenticationManager;
-
-    public SecurityConfig(@Lazy CustomAuthenticationManager authenticationManager ) {
-        this.customAuthenticationManager=authenticationManager;
-
-    }
-
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, CustomAuthenticationManager customAuthenticationManager) throws Exception{
         AuthenticationFilter authenticationFilter = new AuthenticationFilter(customAuthenticationManager);
 
         authenticationFilter.setFilterProcessesUrl(SecurityConstants.AUTHENTICATE_PATH);
         http.csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
-
                 .authorizeHttpRequests(auth->
                         auth
+
                                 .requestMatchers(
-                                        "/api/v1/auth/**"
+                                        "api/v1/auth/**"
                                         ,"/v3/api-docs"
                                         ,"/v2/api-docs"
                                         ,"/v3/api-docs/**"
@@ -56,8 +48,8 @@ public class SecurityConfig {
                                         ,"/swagger-ui/**"
                                         ,"/webjars/**"
                                         ,"/swagger-ui.html"
-                                ).permitAll()
-
+                                )
+                                .permitAll()
                                 .anyRequest().authenticated()
                 )
                 .addFilterBefore( new ExceptionHandlerFilter(),AuthenticationFilter.class )
@@ -67,12 +59,9 @@ public class SecurityConfig {
 
                  return http.build();
 
-/*                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();*/
     }
     @Bean
-    public PasswordEncoder passwordEncoder() {     return new BCryptPasswordEncoder();}
+    public PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder();}
 
 
 }
