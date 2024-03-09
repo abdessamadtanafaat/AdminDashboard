@@ -40,6 +40,7 @@ public class AdminServiceImpl implements AdminService {
                 lastname(registerRequest.getLastname())
                         .firstname(registerRequest.getFirstname()).
                 build();
+        
         admin.setPassword(encodedPassword);
         return adminRepository.save(admin)
                 ;}
