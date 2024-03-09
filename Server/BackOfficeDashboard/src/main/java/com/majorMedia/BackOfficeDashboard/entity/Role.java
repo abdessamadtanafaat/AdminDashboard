@@ -7,7 +7,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 public enum Role {
-    USER,
+    SUPERADMIN,
     ADMIN/*(
 *//*            Set.of(
                     ADMIN_CREATE,

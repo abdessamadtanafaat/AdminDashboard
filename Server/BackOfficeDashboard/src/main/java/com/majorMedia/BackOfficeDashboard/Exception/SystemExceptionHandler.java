@@ -1,9 +1,5 @@
 package com.majorMedia.BackOfficeDashboard.Exception;
 
-import com.majorMedia.BackOfficeDashboard.Exception.EmailServiceException;
-import com.majorMedia.BackOfficeDashboard.Exception.InvalidEmailException;
-import com.majorMedia.BackOfficeDashboard.Exception.InvalidPasswordException;
-import com.majorMedia.BackOfficeDashboard.Exception.InvalidTokenException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

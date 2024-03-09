@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 
 public class AuthenticationResponse {
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String jwt;
     private Admin admin ;
 
