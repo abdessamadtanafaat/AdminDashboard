@@ -24,6 +24,7 @@ public class CustomAuthenticationManager implements AuthenticationManager {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         Admin admin = adminService.findByEmail(authentication.getName());
+
         if(!passwordEncoder.matches(authentication.getCredentials().toString(),admin.getPassword())){
             throw new BadCredentialsException("You provided an incorrect password");
         }

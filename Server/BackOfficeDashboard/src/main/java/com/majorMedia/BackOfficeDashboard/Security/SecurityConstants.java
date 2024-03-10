@@ -7,6 +7,6 @@ public class SecurityConstants {
     public static final int TOKEN_EXPIRATION_EMAIL = 5 ; //Minutes
     public static final String BEARER = "Bearer ";
     public static final String AUTHENTICATE_PATH = "/api/v1/auth/authenticate";
-
+    public static final String RESET_PASSWORD_URL = "http://localhost:3000/reset-password?token=";
 
 }

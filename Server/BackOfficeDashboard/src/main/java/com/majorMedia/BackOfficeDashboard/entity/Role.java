@@ -41,9 +41,10 @@ public enum Role {
 
 @AllArgsConstructor
 @Entity
+
 public class Role {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -68,4 +69,12 @@ public class Role {
         this.name = name;
     }
 
+
+    public String getName() {
+        return name;
+    }
+
+    public Collection<Privilege> getPrivileges() {
+        return privileges;
+    }
 }

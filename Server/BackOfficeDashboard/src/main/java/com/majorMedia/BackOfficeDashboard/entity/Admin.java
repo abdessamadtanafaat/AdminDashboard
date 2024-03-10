@@ -1,6 +1,7 @@
 package com.majorMedia.BackOfficeDashboard.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.core.util.Json;
 import jakarta.persistence.*;
@@ -12,18 +13,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
 
 @Entity
 @Table(name = "admin")
 public class Admin {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String firstname;
     private String lastname;
@@ -57,6 +58,10 @@ public class Admin {
 
     private boolean isActive;
 
+    public Admin() {
+        this.roles = new ArrayList<>();
+    }
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "admin_role",
@@ -65,7 +70,9 @@ public class Admin {
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id"))
 
+    @JsonIgnore
     private Collection<Role> roles;
+
 
 /*    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

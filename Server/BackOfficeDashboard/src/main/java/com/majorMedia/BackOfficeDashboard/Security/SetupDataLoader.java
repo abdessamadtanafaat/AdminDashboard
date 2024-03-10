@@ -46,9 +46,11 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     Privilege writePrivilege = createPrivilegeIfNotFound("WRITE_PRIVILEGE");
 
     List<Privilege> superAdminPrivilegs = Arrays.asList(readPrivilege, writePrivilege);
-    Role role = createRoleIfNotFound("ROLE_SUPER_ADMIN", superAdminPrivilegs);
+    List<Privilege> AdminPrivilegs = Arrays.asList(readPrivilege);
+    Role role = createRoleIfNotFound("SUPER_ADMIN", superAdminPrivilegs);
+    Role role2 = createRoleIfNotFound("ADMIN", AdminPrivilegs);
 
-    Role adminRole = roleRepository.findByName("ROLE_SUPER_ADMIN");
+    Role adminRole = roleRepository.findByName("SUPER_ADMIN");
 
     Admin admin1 = Admin.builder()
             .email("tanafaat.rca.16@gmail.com")

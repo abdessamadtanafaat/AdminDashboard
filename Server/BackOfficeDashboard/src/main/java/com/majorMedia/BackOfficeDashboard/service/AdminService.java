@@ -11,7 +11,7 @@ import java.util.Set;
 
 public interface AdminService {
 
-    public Admin register(RegisterRequest registerRequest);
+    //public Admin register(RegisterRequest registerRequest);
     public String forgotPassword(String email);
     public String generateToken();
     public LocalDateTime expireTimeRange();
@@ -20,5 +20,5 @@ public interface AdminService {
     public String checkValidity(String token);
     public Admin findByEmail(String name);
     public String resetPassword(String password, String token);
-    public Admin createAdmin(RegisterRequest registerRequest, Set<Role> roles);
+    public Admin createAdmin(RegisterRequest request);
 }

@@ -1,17 +1,14 @@
 package com.majorMedia.BackOfficeDashboard.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Collection;
 
 @Entity
 public class Privilege {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 
@@ -24,4 +21,7 @@ public class Privilege {
     }
 
 
+    public String getName() {
+        return name;
+    }
 }

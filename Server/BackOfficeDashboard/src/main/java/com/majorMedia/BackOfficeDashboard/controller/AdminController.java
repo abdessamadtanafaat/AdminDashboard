@@ -1,5 +1,6 @@
 package com.majorMedia.BackOfficeDashboard.controller;
 
+import com.majorMedia.BackOfficeDashboard.entity.Admin;
 import com.majorMedia.BackOfficeDashboard.model.RegisterRequest;
 import com.majorMedia.BackOfficeDashboard.model.ResetPasswordRequest;
 import com.majorMedia.BackOfficeDashboard.service.AdminService;
@@ -41,14 +42,14 @@ public class AdminController
             }
     )
 
-    @PostMapping("/api/v1/auth/register")
+/*    @PostMapping("/api/v1/auth/register")
 
     public ResponseEntity<HttpStatus> register(
             @RequestBody RegisterRequest registerRequest
     ) {
         adminService.register(registerRequest);
         return new  ResponseEntity<>(HttpStatus.CREATED);
-    }
+    }*/
     @GetMapping("/api/v1/auth/password-request")
     public ResponseEntity<String> passwordRequest(@RequestParam("email") String email) {
 
@@ -62,6 +63,11 @@ public class AdminController
     @PostMapping("/api/v1/auth/reset-password")
     public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequest request){
         return new ResponseEntity<>(adminService.resetPassword(request.getPassword(), request.getToken()), HttpStatus.ACCEPTED);
+    }
+    @PostMapping("/api/v1/admins")
+    public ResponseEntity<Admin> createAdmin(@RequestBody RegisterRequest admin) {
+        Admin createdAdmin = adminService.createAdmin(admin);
+        return new ResponseEntity<>(createdAdmin, HttpStatus.CREATED);
     }
 
 

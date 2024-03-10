@@ -11,5 +11,5 @@ public interface AdminRepository extends CrudRepository<Admin, Integer> {
     Optional<Admin> findByEmail(String email);
     Optional<Admin> findByTokenEmail(String token);
 
-    Admin save(Admin admin);
+    //Admin save(Admin admin);
 }
