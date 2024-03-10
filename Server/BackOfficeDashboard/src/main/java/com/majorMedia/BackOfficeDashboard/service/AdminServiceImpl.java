@@ -2,11 +2,11 @@ package com.majorMedia.BackOfficeDashboard.service;
 
 import com.majorMedia.BackOfficeDashboard.Exception.*;
 import com.majorMedia.BackOfficeDashboard.entity.Admin;
-import com.majorMedia.BackOfficeDashboard.entity.Privilege;
 import com.majorMedia.BackOfficeDashboard.entity.Role;
 import com.majorMedia.BackOfficeDashboard.model.RegisterRequest;
 import com.majorMedia.BackOfficeDashboard.model.RoleRequest;
-import com.majorMedia.BackOfficeDashboard.repository.*;
+import com.majorMedia.BackOfficeDashboard.repository.AdminRepository;
+import com.majorMedia.BackOfficeDashboard.repository.RoleRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.transaction.Transactional;
@@ -19,7 +19,9 @@ import org.springframework.stereotype.Service;
 import java.io.UnsupportedEncodingException;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Collection;
 
 import static com.majorMedia.BackOfficeDashboard.Security.SecurityConstants.*;
 
@@ -113,9 +115,6 @@ public class AdminServiceImpl implements AdminService {
         Admin admin = adminRepository.findByTokenEmail(token)
                 .orElseThrow(InvalidTokenException::new);
 
-        //if(entity.isEmpty()) throw new InvalidTokenException();
-        //Admin admin = unwarappeAdmin(entity, "No Admin with that token");
-
         if (isExpiredTokenEmail(token)) {
             throw new InvalidTokenException();
         }
@@ -126,17 +125,21 @@ public class AdminServiceImpl implements AdminService {
 
     }
 
-    public static Admin unwarappeAdmin(Optional<Admin> entity, String message) {
+/*    public static Admin unwarappeAdmin(Optional<Admin> entity, String message) {
         if (entity.isPresent()) return entity.get();
         else throw new NotFoundEmailException(message);
     }
 
-/*    public Admin findByTokenEmail(String token) {
+    public Admin findByTokenEmail(String token) {
         Optional<Admin> entity = adminRepository.findByTokenEmail(token);
 
         return unwarappeAdmin(entity, "Access Denied");
-    }*/
+    }
 
+        public Admin findByEmail(String email) {
+        Optional<Admin> entity = adminRepository.findByEmail(email);
+        return unwarappeAdmin(entity, "Admin Account not found");
+    }*/
 
     public String resetPassword(String password, String token) {
 
@@ -181,10 +184,8 @@ public class AdminServiceImpl implements AdminService {
     return adminRepository.save(admin);
 
     }
-    public Admin findByEmail(String email) {
-        Optional<Admin> entity = adminRepository.findByEmail(email);
-        return unwarappeAdmin(entity, "Admin Account not found");
-    }
+
+
 
 
 

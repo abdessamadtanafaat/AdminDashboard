@@ -5,6 +5,7 @@ import com.majorMedia.BackOfficeDashboard.Security.Manager.CustomAuthenticationM
 import com.majorMedia.BackOfficeDashboard.Security.filter.AuthenticationFilter;
 import com.majorMedia.BackOfficeDashboard.Security.filter.ExceptionHandlerFilter;
 import com.majorMedia.BackOfficeDashboard.Security.filter.JwtAuthorizationFilter;
+import com.majorMedia.BackOfficeDashboard.repository.AdminRepository;
 import com.majorMedia.BackOfficeDashboard.service.AdminService;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -27,18 +28,19 @@ import java.util.Arrays;
 @Configuration
 public class SecurityConfig {
     private final CustomAuthenticationManager customAuthenticationManager;
-    private final AdminService  adminService;
+    //private final AdminService  adminService;
+    private final AdminRepository adminRepository;
 
     private static  final Long MAX_AGE = 3600L;
     private static final  int CORS_FILTER_ORDER =-102;
-    public SecurityConfig(@Lazy CustomAuthenticationManager authenticationManager , @Lazy AdminService adminService) {
+    public SecurityConfig(@Lazy CustomAuthenticationManager authenticationManager , @Lazy AdminRepository adminRepository) {
         this.customAuthenticationManager=authenticationManager;
-        this.adminService = adminService ;
+        this.adminRepository = adminRepository ;
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        AuthenticationFilter authenticationFilter = new AuthenticationFilter(customAuthenticationManager , adminService);
+        AuthenticationFilter authenticationFilter = new AuthenticationFilter(customAuthenticationManager , adminRepository);
 
         authenticationFilter.setFilterProcessesUrl(SecurityConstants.AUTHENTICATE_PATH);
         http.csrf(AbstractHttpConfigurer::disable)

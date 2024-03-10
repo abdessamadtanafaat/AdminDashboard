@@ -8,6 +8,7 @@ import com.majorMedia.BackOfficeDashboard.Security.SecurityConstants;
 import com.majorMedia.BackOfficeDashboard.entity.Role;
 import com.majorMedia.BackOfficeDashboard.model.AuthenticationRequest;
 import com.majorMedia.BackOfficeDashboard.model.AuthenticationResponse;
+import com.majorMedia.BackOfficeDashboard.repository.AdminRepository;
 import com.majorMedia.BackOfficeDashboard.service.AdminService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -22,12 +23,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import java.io.IOException;
 import java.util.Date;
 import  com.majorMedia.BackOfficeDashboard.Security.Manager.CustomAuthenticationManager;
-@AllArgsConstructor
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final CustomAuthenticationManager authenticationManager ;
-    private final AdminService adminService;
+    //private final AdminService adminService;
+    private final AdminRepository adminRepository;
 
+    public AuthenticationFilter(CustomAuthenticationManager customAuthenticationManager, AdminRepository adminRepository) {
+        this.adminRepository = adminRepository ;
+        this.authenticationManager = customAuthenticationManager;
+    }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
@@ -62,7 +67,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 //        response.addHeader("Authorization", SecurityConstants.BEARER + token);
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
-        AuthenticationResponse authenticationResponse = new AuthenticationResponse(token , adminService.findByEmail(authResult.getName()));
+        AuthenticationResponse authenticationResponse = new AuthenticationResponse(token , adminRepository.findByEmail(authResult.getName()).get());
         String jsonResponse =objectMapper.writeValueAsString(authenticationResponse);
         response.setContentType("application/json");
         response.getWriter().write(jsonResponse);

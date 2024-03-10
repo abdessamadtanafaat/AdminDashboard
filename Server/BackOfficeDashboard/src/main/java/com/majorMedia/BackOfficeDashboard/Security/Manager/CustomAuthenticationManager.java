@@ -1,5 +1,7 @@
 package com.majorMedia.BackOfficeDashboard.Security.Manager;
 
+import com.majorMedia.BackOfficeDashboard.Exception.InvalidTokenException;
+import com.majorMedia.BackOfficeDashboard.Exception.NotFoundEmailException;
 import com.majorMedia.BackOfficeDashboard.entity.Admin;
 import com.majorMedia.BackOfficeDashboard.repository.AdminRepository;
 import com.majorMedia.BackOfficeDashboard.service.AdminService;
@@ -23,7 +25,8 @@ public class CustomAuthenticationManager implements AuthenticationManager {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        Admin admin = adminService.findByEmail(authentication.getName());
+        Admin admin = adminRepository.findByEmail(authentication.getName())
+                .orElseThrow(() -> new NotFoundEmailException(authentication.getName()))        ;
 
         if(!passwordEncoder.matches(authentication.getCredentials().toString(),admin.getPassword())){
             throw new BadCredentialsException("You provided an incorrect password");
