@@ -1,11 +1,13 @@
 package com.majorMedia.BackOfficeDashboard.service;
 
 import com.majorMedia.BackOfficeDashboard.entity.Admin;
+import com.majorMedia.BackOfficeDashboard.entity.Role;
 import com.majorMedia.BackOfficeDashboard.model.RegisterRequest;
 import jakarta.mail.MessagingException;
 
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 public interface AdminService {
 
@@ -18,4 +20,5 @@ public interface AdminService {
     public String checkValidity(String token);
     public Admin findByEmail(String name);
     public String resetPassword(String password, String token);
+    public Admin createAdmin(RegisterRequest registerRequest, Set<Role> roles);
 }

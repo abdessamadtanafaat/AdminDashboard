@@ -12,6 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 @Data
 @Builder
@@ -26,16 +27,17 @@ public class Admin {
     private Integer id;
     private String firstname;
     private String lastname;
+
     @NotBlank(message = "Email is required")
     @Email(message = "Invalid email format")
+
     private String email;
+
     @Column(name = "password")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotBlank(message = "Password is required")
-    private String password;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    private String password;
 
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
     private String tokenEmail;
@@ -54,6 +56,16 @@ public class Admin {
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
 
     private boolean isActive;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "admin_role",
+            joinColumns = @JoinColumn(
+                    name = "admin_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"))
+
+    private Collection<Role> roles;
 
 /*    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

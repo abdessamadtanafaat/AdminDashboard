@@ -1,33 +1,71 @@
 package com.majorMedia.BackOfficeDashboard.entity;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Setter;
 
-import java.util.List;
+import java.util.Collection;
 
-@RequiredArgsConstructor
+/*@RequiredArgsConstructor
 public enum Role {
-    SUPERADMIN,
-    ADMIN/*(
-*//*            Set.of(
+    SUPER_ADMIN,
+    ADMIN
+(
+
+            Set.of(
                     ADMIN_CREATE,
                     ADMIN_DELETE,
                     ADMIN_READ,
                     ADMIN_UPDATE
-            )*//*)*/;
+            )
+)
+;
 
-/*    @Getter
-    private final Set<Permission> permissions;*/
+    @Getter
+    private final Set<Permission> permissions;
+
 
 
     public List<SimpleGrantedAuthority> getAuthorities() {
-/*        var authorities = getPermissions()
+        var authorities = getPermissions()
                 .stream()
                 .map(permission -> new SimpleGrantedAuthority(permission.getPermission()))
                 .collect(Collectors.toList());
         authorities.add(new SimpleGrantedAuthority("ROLE_"+this.name()));
-        return authorities;*/
+        return authorities;
+
         return List.of(new SimpleGrantedAuthority("ROLE_" + this.name()));
 
     }
+}*/
+
+@AllArgsConstructor
+@Entity
+public class Role {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    private String name;
+    @ManyToMany(mappedBy = "roles")
+    private Collection<Admin> admins;
+
+    @Setter
+    @ManyToMany
+    @JoinTable(
+            name = "roles_privileges",
+            joinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "privilege_id", referencedColumnName = "id"))
+
+            private Collection<Privilege> privileges;
+
+
+    public Role() {}
+
+    public Role(String name) {
+        this.name = name;
+    }
+
 }

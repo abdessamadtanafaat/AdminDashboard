@@ -4,6 +4,7 @@ import com.majorMedia.BackOfficeDashboard.Exception.InvalidEmailException;
 import com.majorMedia.BackOfficeDashboard.Exception.InvalidTokenException;
 import com.majorMedia.BackOfficeDashboard.Exception.EmailServiceException;
 import com.majorMedia.BackOfficeDashboard.entity.Admin;
+import com.majorMedia.BackOfficeDashboard.entity.Role;
 import com.majorMedia.BackOfficeDashboard.model.RegisterRequest;
 import com.majorMedia.BackOfficeDashboard.repository.*;
 import jakarta.mail.MessagingException;
@@ -19,6 +20,7 @@ import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import static com.majorMedia.BackOfficeDashboard.Security.SecurityConstants.TOKEN_EXPIRATION_EMAIL;
@@ -149,6 +151,21 @@ public class AdminServiceImpl implements AdminService {
         adminRepository.save(admin);
         return "Password successfully reset";
     }
+
+    public Admin createAdmin(RegisterRequest registerRequest, Set<Role> roles) {
+        boolean adminExists = adminRepository.findByEmail(registerRequest.getEmail()).isPresent();
+        if(adminExists){
+            throw new InvalidEmailException( registerRequest.getEmail() +" Already Exists");
+        }
+        String encodedPassword =passwordEncoder.encode(registerRequest.getPassword()) ;
+        Admin admin = Admin.builder().email(registerRequest.getEmail()).
+                lastname(registerRequest.getLastname())
+                .firstname(registerRequest.getFirstname()).
+                build();
+        admin.setRoles(roles);
+        admin.setPassword(encodedPassword);
+        return adminRepository.save(admin)
+                ;}
 
 
 }

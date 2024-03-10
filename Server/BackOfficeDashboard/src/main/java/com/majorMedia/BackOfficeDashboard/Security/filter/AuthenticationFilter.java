@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.majorMedia.BackOfficeDashboard.Security.SecurityConstants;
+import com.majorMedia.BackOfficeDashboard.entity.Role;
 import com.majorMedia.BackOfficeDashboard.model.AuthenticationRequest;
 import com.majorMedia.BackOfficeDashboard.model.AuthenticationResponse;
 import com.majorMedia.BackOfficeDashboard.service.AdminService;

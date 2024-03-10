@@ -47,7 +47,7 @@ public class AdminController
             @RequestBody RegisterRequest registerRequest
     ) {
         adminService.register(registerRequest);
-        return new  ResponseEntity<>( HttpStatus.CREATED);
+        return new  ResponseEntity<>(HttpStatus.CREATED);
     }
     @GetMapping("/api/v1/auth/password-request")
     public ResponseEntity<String> passwordRequest(@RequestParam("email") String email) {
@@ -63,4 +63,6 @@ public class AdminController
     public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequest request){
         return new ResponseEntity<>(adminService.resetPassword(request.getPassword(), request.getToken()), HttpStatus.ACCEPTED);
     }
+
+
 }
