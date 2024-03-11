@@ -76,8 +76,8 @@ public class AdminController
 
     @PostMapping("/api/v1/create-admin")
     public ResponseEntity<Admin> createAdmin(@RequestBody RegisterRequest admin, Authentication authentication) {
-        if (!adminService.hasSuperAdminRole(authentication))
-            throw new AccessDeniedException(admin.getEmail());
+        adminService.hasSuperAdminRole(authentication);
+            //throw new AccessDeniedException(admin.getEmail());
 
             Admin createdAdmin = adminService.createAdmin(admin);
             return new ResponseEntity<>(createdAdmin, HttpStatus.CREATED);

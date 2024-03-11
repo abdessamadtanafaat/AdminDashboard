@@ -191,14 +191,18 @@ public class AdminServiceImpl implements AdminService {
         }
     }
     @Override
-    public boolean hasSuperAdminRole(Authentication authentication) {
+    public void hasSuperAdminRole(Authentication authentication) {
         String username = authentication.getName();
 
         Admin admin = adminRepository.findByEmail(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        return admin.getRoles().stream()
+        boolean hasSuperAdminRole = admin.getRoles().stream()
                 .anyMatch(role -> role.getName().equals("SUPER_ADMIN"));
+
+        if (!hasSuperAdminRole) {
+            throw new AccessDeniedException(admin.getEmail());
+        }
     }
 
 
