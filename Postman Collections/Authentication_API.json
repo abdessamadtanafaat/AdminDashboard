@@ -225,6 +225,36 @@
 						"url": "http://localhost:8080/api/v1/admins"
 					},
 					"response": []
+				},
+				{
+					"name": "LogOut",
+					"id": "b0922718-42d6-4fb4-a5e2-257b21007f46",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/logout?=tanafaat.rca.16@gmail.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"logout"
+							],
+							"query": [
+								{
+									"key": null,
+									"value": "tanafaat.rca.16@gmail.com",
+									"type": "text"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"id": "26809204-c2d1-49a0-8be7-c3322ab5ce63"
