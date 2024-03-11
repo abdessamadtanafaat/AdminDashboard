@@ -14,6 +14,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 
 @Component
 @AllArgsConstructor
@@ -32,8 +34,8 @@ public class CustomAuthenticationManager implements AuthenticationManager {
             throw new BadCredentialsException("You provided an incorrect password");
         }
         admin.setActive(true);
+        admin.setLasLogin(LocalDateTime.now());
         adminRepository.save(admin);
         return new UsernamePasswordAuthenticationToken(authentication.getName(), admin.getPassword());
-
     }
 }

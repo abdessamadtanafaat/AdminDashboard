@@ -1,8 +1,10 @@
 package com.majorMedia.BackOfficeDashboard.controller;
 
+import com.majorMedia.BackOfficeDashboard.Exception.AccessDeniedException;
 import com.majorMedia.BackOfficeDashboard.entity.Admin;
 import com.majorMedia.BackOfficeDashboard.model.RegisterRequest;
 import com.majorMedia.BackOfficeDashboard.model.ResetPasswordRequest;
+import com.majorMedia.BackOfficeDashboard.repository.AdminRepository;
 import com.majorMedia.BackOfficeDashboard.service.AdminService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -12,6 +14,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -21,6 +24,7 @@ import java.util.Map;
 public class AdminController
 {
     private final AdminService adminService;
+    private final AdminRepository adminRepository;
 
 
     @Operation(
@@ -64,10 +68,25 @@ public class AdminController
     public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequest request){
         return new ResponseEntity<>(adminService.resetPassword(request.getPassword(), request.getToken()), HttpStatus.ACCEPTED);
     }
-    @PostMapping("/api/v1/admins")
+/*    @PostMapping("/api/v1/create-admin")
     public ResponseEntity<Admin> createAdmin(@RequestBody RegisterRequest admin) {
         Admin createdAdmin = adminService.createAdmin(admin);
         return new ResponseEntity<>(createdAdmin, HttpStatus.CREATED);
+    }*/
+
+    @PostMapping("/api/v1/create-admin")
+    public ResponseEntity<Admin> createAdmin(@RequestBody RegisterRequest admin, Authentication authentication) {
+        if (!adminService.hasSuperAdminRole(authentication))
+            throw new AccessDeniedException(admin.getEmail());
+
+            Admin createdAdmin = adminService.createAdmin(admin);
+            return new ResponseEntity<>(createdAdmin, HttpStatus.CREATED);
+    }
+
+    @PostMapping("api/v1/auth/logout")
+    public ResponseEntity<String> logout(@RequestParam("email") String email){
+        adminService.logout(email);
+        return new ResponseEntity<>("Logged out successfully", HttpStatus.OK);
     }
 
 

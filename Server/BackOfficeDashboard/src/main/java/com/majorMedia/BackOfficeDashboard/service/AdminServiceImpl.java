@@ -13,15 +13,14 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Collection;
+import java.util.*;
 
 import static com.majorMedia.BackOfficeDashboard.Security.SecurityConstants.*;
 
@@ -33,9 +32,7 @@ public class AdminServiceImpl implements AdminService {
     private final PasswordEncoder passwordEncoder;
     private final JavaMailSender javaMailSender;
     private final RoleRepository roleRepository;
-
     private final SecureRandom secureRandom = new SecureRandom();
-
 
 /*    public Admin register(RegisterRequest registerRequest) {
 
@@ -140,7 +137,6 @@ public class AdminServiceImpl implements AdminService {
         Optional<Admin> entity = adminRepository.findByEmail(email);
         return unwarappeAdmin(entity, "Admin Account not found");
     }*/
-
     public String resetPassword(String password, String token) {
 
         checkValidity(token);
@@ -183,6 +179,26 @@ public class AdminServiceImpl implements AdminService {
 
     return adminRepository.save(admin);
 
+    }
+    @Override
+    public void logout(String email){
+        Optional<Admin> admin = Optional.ofNullable(adminRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundEmailException(email)));
+        if (admin.isPresent()){
+           admin.get().setActive(false);
+           admin.get().setLastLogout(LocalDateTime.now());
+           adminRepository.save(admin.get());
+        }
+    }
+    @Override
+    public boolean hasSuperAdminRole(Authentication authentication) {
+        String username = authentication.getName();
+
+        Admin admin = adminRepository.findByEmail(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        return admin.getRoles().stream()
+                .anyMatch(role -> role.getName().equals("SUPER_ADMIN"));
     }
 
 

@@ -4,6 +4,7 @@ import com.majorMedia.BackOfficeDashboard.entity.Admin;
 import com.majorMedia.BackOfficeDashboard.entity.Role;
 import com.majorMedia.BackOfficeDashboard.model.RegisterRequest;
 import jakarta.mail.MessagingException;
+import org.springframework.security.core.Authentication;
 
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
@@ -21,4 +22,6 @@ public interface AdminService {
     //public Admin findByEmail(String name);
     public String resetPassword(String password, String token);
     public Admin createAdmin(RegisterRequest request);
+    public void logout(String email);
+    public boolean hasSuperAdminRole(Authentication authentication);
 }

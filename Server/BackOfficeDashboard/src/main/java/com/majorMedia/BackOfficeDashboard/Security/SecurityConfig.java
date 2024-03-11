@@ -62,6 +62,8 @@ public class SecurityConfig {
                                         ,"/swagger-ui.html"
                                 )
                                 .permitAll()
+/*                                .requestMatchers(
+                                        "/api/v1/create-admin").hasRole("SUPER_ADMIN")*/
                                 .anyRequest().authenticated()
                 )
                 .addFilterBefore( new ExceptionHandlerFilter(),AuthenticationFilter.class )

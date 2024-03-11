@@ -15,6 +15,8 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @Builder
@@ -45,18 +47,23 @@ public class Admin {
 
     @Column(name = "expired_time_email")
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
-
     private LocalDateTime expiredTimeEmail;
 
     @Column(name = "is_used_token_email")
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
-
     private boolean isUsedTokenEmail;
+
+    @Column(name = "last_login")
+    @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
+    private LocalDateTime lasLogin;
 
     @Column(name = "is_active")
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
-
     private boolean isActive;
+
+    @Column(name = "last_logout")
+    @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
+    private LocalDateTime lastLogout;
 
     public Admin() {
         this.roles = new ArrayList<>();
@@ -70,9 +77,8 @@ public class Admin {
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id"))
 
-    @JsonIgnore
+    //@JsonIgnore
     private Collection<Role> roles;
-
 
 /*    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

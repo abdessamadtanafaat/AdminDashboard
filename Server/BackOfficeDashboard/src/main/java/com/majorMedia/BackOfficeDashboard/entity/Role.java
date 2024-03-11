@@ -52,7 +52,7 @@ public class Role {
     private Collection<Admin> admins;
 
     @Setter
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "roles_privileges",
             joinColumns = @JoinColumn(
