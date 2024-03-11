@@ -19,7 +19,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"firstname\": \"admin\",\r\n    \"lastname\": \"admin\",\r\n    \"email\": \"tanafaat.wac.49@gmail.com\",\r\n    \"password\": \"ff\"\r\n}",
+							"raw": "{\r\n    \"firstname\": \"admin\",\r\n    \"lastname\": \"admin\",\r\n    \"email\": \"tanafaat.rca.16@gmail.com\",\r\n    \"password\": \"ff\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -65,7 +65,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/auth/password-request?email=tanafaat.wac.49@gmail.com",
+							"raw": "http://localhost:8080/api/v1/auth/password-request?email=ilias.rouchdi21@gmail.com",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -80,7 +80,7 @@
 							"query": [
 								{
 									"key": "email",
-									"value": "tanafaat.wac.49@gmail.com"
+									"value": "ilias.rouchdi21@gmail.com"
 								}
 							]
 						}
@@ -143,7 +143,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"password\":\"barca\",\r\n    \"token\":\"471f35aa-2e82-4f56-a59e-9bf3d9da312e\"\r\n}",
+							"raw": "{\r\n    \"password\":\"barca\",\r\n    \"token\":\"AJpuqrscDLFD8BxF6KOyQTFLzTUVQu8qeZ4XEXy4rcR8vmZFAw54fILr3EXmaEFK3f4p7P2RpzOYBr9qkR7Egw\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -189,12 +189,70 @@
 						"auth": {
 							"type": "bearer",
 							"bearer": {
-								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0YW5hZmFhdC53YWMuNDlAZ21haWwuY29tIiwiZXhwIjoxNzEwMDg3NTM1fQ.DhPQW35qzP8b4G3gJbaEYLGp0uyBfwW8WASVVyMp0tmrqbSzy725RrrTZ4WhXmnHSl0s58VJngm8lFL0PivRDg"
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwiZXhwIjoxNzEwMTkyNDU2fQ.-Kmb8zHBwMLyPdSE446RffcffWi3w7QmhivWXid2HFFzg8zxkcRiJBB_XlgddS2xBMKp_pkPiLOp7skIR4qEQA"
 							}
 						},
 						"method": "GET",
 						"header": [],
 						"url": "http://localhost:8080/api/v1/demo-controller"
+					},
+					"response": []
+				},
+				{
+					"name": "SuperAdmin Create Admin",
+					"id": "808aa70b-8298-4201-bb8f-ced0ed792be9",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsInByaXZpbGVnZXMiOlsiUkVBRF9QUklWSUxFR0UiXSwiZmlyc3RuYW1lIjoiSm9obiIsInJvbGVzIjpbIkFETUlOIl0sImlkIjozLCJleHAiOjE3MTAyNTQ4MzgsImVtYWlsIjoiam9obi5kb2VAZXhhbXBsZS5jb20iLCJsYXN0bmFtZSI6IkRvZSJ9.UNPmuG_uxsl7NLyNLKUkVnc3MbmyGKJ6iEjuTMUFKwsVJFvTOcF0pCzr_PGjSgqgSwLHFS5mRH8d3MSoYqlIlA"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstname\": \"John1\",\r\n  \"lastname\": \"Doe1\",\r\n  \"email\": \"john.doe11@example.com\",\r\n  \"password\": \"password12311\",\r\n  \"roles\": [\r\n    {\r\n      \"name\": \"ADMIN\"\r\n    }\r\n\r\n  ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/v1/create-admin"
+					},
+					"response": []
+				},
+				{
+					"name": "LogOut",
+					"id": "b0922718-42d6-4fb4-a5e2-257b21007f46",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/logout?=tanafaat.rca.16@gmail.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"logout"
+							],
+							"query": [
+								{
+									"key": null,
+									"value": "tanafaat.rca.16@gmail.com",
+									"type": "text"
+								}
+							]
+						}
 					},
 					"response": []
 				}
