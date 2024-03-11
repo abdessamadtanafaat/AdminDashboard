@@ -181,14 +181,14 @@ public class AdminServiceImpl implements AdminService {
 
     }
     @Override
-    public void logout(String email){
+    public String logout(String email) {
         Optional<Admin> admin = Optional.ofNullable(adminRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundEmailException(email)));
-        if (admin.isPresent()){
-           admin.get().setActive(false);
-           admin.get().setLastLogout(LocalDateTime.now());
-           adminRepository.save(admin.get());
-        }
+
+            admin.get().setActive(false);
+            admin.get().setLastLogout(LocalDateTime.now());
+            adminRepository.save(admin.get());
+            return "Logged out successfully";
     }
     @Override
     public void hasSuperAdminRole(Authentication authentication) {

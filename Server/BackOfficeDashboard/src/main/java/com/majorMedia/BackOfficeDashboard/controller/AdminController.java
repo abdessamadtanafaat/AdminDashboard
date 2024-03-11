@@ -26,7 +26,7 @@ public class AdminController
     private final AdminService adminService;
     private final AdminRepository adminRepository;
 
-
+/*
     @Operation(
             summary = "User Registration",
             description = "Endpoint to register new users.",
@@ -46,7 +46,7 @@ public class AdminController
             }
     )
 
-/*    @PostMapping("/api/v1/auth/register")
+    @PostMapping("/api/v1/auth/register")
 
     public ResponseEntity<HttpStatus> register(
             @RequestBody RegisterRequest registerRequest
@@ -68,25 +68,16 @@ public class AdminController
     public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequest request){
         return new ResponseEntity<>(adminService.resetPassword(request.getPassword(), request.getToken()), HttpStatus.ACCEPTED);
     }
-/*    @PostMapping("/api/v1/create-admin")
-    public ResponseEntity<Admin> createAdmin(@RequestBody RegisterRequest admin) {
-        Admin createdAdmin = adminService.createAdmin(admin);
-        return new ResponseEntity<>(createdAdmin, HttpStatus.CREATED);
-    }*/
-
     @PostMapping("/api/v1/create-admin")
     public ResponseEntity<Admin> createAdmin(@RequestBody RegisterRequest admin, Authentication authentication) {
         adminService.hasSuperAdminRole(authentication);
-            //throw new AccessDeniedException(admin.getEmail());
-
             Admin createdAdmin = adminService.createAdmin(admin);
             return new ResponseEntity<>(createdAdmin, HttpStatus.CREATED);
     }
 
     @PostMapping("api/v1/auth/logout")
     public ResponseEntity<String> logout(@RequestParam("email") String email){
-        adminService.logout(email);
-        return new ResponseEntity<>("Logged out successfully", HttpStatus.OK);
+        return new ResponseEntity<>(adminService.logout(email), HttpStatus.OK);
     }
 
 

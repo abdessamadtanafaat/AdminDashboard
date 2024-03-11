@@ -22,6 +22,6 @@ public interface AdminService {
     //public Admin findByEmail(String name);
     public String resetPassword(String password, String token);
     public Admin createAdmin(RegisterRequest request);
-    public void logout(String email);
+    public String logout(String email);
     public void hasSuperAdminRole(Authentication authentication);
 }
