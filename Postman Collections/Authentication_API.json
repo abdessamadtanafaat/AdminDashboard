@@ -208,21 +208,21 @@
 						"auth": {
 							"type": "bearer",
 							"bearer": {
-								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwiZXhwIjoxNzEwMTc5OTI3fQ.QDw65Qxj_lFXmDQQw-pcvQ8VQ5XLrL6dunNWxqbTOMLnFijkI0BWxRRbuH8xyQN-ibVX459SjGYUlrqUPnCobg"
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsInByaXZpbGVnZXMiOlsiUkVBRF9QUklWSUxFR0UiXSwiZmlyc3RuYW1lIjoiSm9obiIsInJvbGVzIjpbIkFETUlOIl0sImlkIjozLCJleHAiOjE3MTAyNTQ4MzgsImVtYWlsIjoiam9obi5kb2VAZXhhbXBsZS5jb20iLCJsYXN0bmFtZSI6IkRvZSJ9.UNPmuG_uxsl7NLyNLKUkVnc3MbmyGKJ6iEjuTMUFKwsVJFvTOcF0pCzr_PGjSgqgSwLHFS5mRH8d3MSoYqlIlA"
 							}
 						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"firstname\": \"John\",\r\n  \"lastname\": \"Doe\",\r\n  \"email\": \"john.doe@example.com\",\r\n  \"password\": \"password123\",\r\n  \"roles\": [\r\n    {\r\n      \"name\": \"ADMIN\"\r\n    }\r\n\r\n  ]\r\n}\r\n",
+							"raw": "{\r\n  \"firstname\": \"John1\",\r\n  \"lastname\": \"Doe1\",\r\n  \"email\": \"john.doe11@example.com\",\r\n  \"password\": \"password12311\",\r\n  \"roles\": [\r\n    {\r\n      \"name\": \"ADMIN\"\r\n    }\r\n\r\n  ]\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "http://localhost:8080/api/v1/admins"
+						"url": "http://localhost:8080/api/v1/create-admin"
 					},
 					"response": []
 				},
