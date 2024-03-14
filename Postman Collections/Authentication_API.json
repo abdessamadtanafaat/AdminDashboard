@@ -9,28 +9,6 @@
 			"name": "AuthApis",
 			"item": [
 				{
-					"name": "Register",
-					"id": "89ac6ffe-9ae1-40ba-a889-93a00e99ada3",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"firstname\": \"admin\",\r\n    \"lastname\": \"admin\",\r\n    \"email\": \"tanafaat.rca.16@gmail.com\",\r\n    \"password\": \"ff\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "http://localhost:8080/api/v1/auth/register"
-					},
-					"response": []
-				},
-				{
 					"name": "Login",
 					"id": "a4e91e35-7808-4a61-9afb-6c38a9e5cd0d",
 					"protocolProfileBehavior": {
@@ -233,26 +211,46 @@
 						"disableBodyPruning": true
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0YW5hZmFhdC5yY2EuMTZAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJSRUFEX1BSSVZJTEVHRSIsIldSSVRFX1BSSVZJTEVHRSJdLCJmaXJzdG5hbWUiOiJUYW5hZmFhdCIsInJvbGVzIjpbIlNVUEVSX0FETUlOIl0sImlkIjoxLCJleHAiOjE3MTA1NDE1NjgsImVtYWlsIjoidGFuYWZhYXQucmNhLjE2QGdtYWlsLmNvbSIsImxhc3RuYW1lIjoiQWJkZXNzYW1hZCJ9.QLkCEFgz4TAjwLSVm7z876j6TobgZZd1Aix3mINUPzWMO8idvUGTuGMYDZiPcVdFGn58cqB1vcMJ2OFF67E_pA"
+							}
+						},
 						"method": "POST",
 						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/logout?=tanafaat.rca.16@gmail.com",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"logout"
-							],
-							"query": [
-								{
-									"key": null,
-									"value": "tanafaat.rca.16@gmail.com",
-									"type": "text"
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"tanafaat.rca.16@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
-						}
+							}
+						},
+						"url": "http://localhost:8080/logout"
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"id": "89ac6ffe-9ae1-40ba-a889-93a00e99ada3",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\": \"admin\",\r\n    \"lastname\": \"admin\",\r\n    \"email\": \"tanafaat.rca.16@gmail.com\",\r\n    \"password\": \"ff\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/v1/auth/register"
 					},
 					"response": []
 				}
