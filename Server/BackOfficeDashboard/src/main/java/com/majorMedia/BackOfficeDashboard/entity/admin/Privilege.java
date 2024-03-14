@@ -1,7 +1,6 @@
-package com.majorMedia.BackOfficeDashboard.entity;
+package com.majorMedia.BackOfficeDashboard.entity.AdminUser;
 
 import jakarta.persistence.*;
-import lombok.*;
 
 import java.util.Collection;
 
