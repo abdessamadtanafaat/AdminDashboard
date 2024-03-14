@@ -1,5 +1,4 @@
-package com.majorMedia.BackOfficeDashboard.entity.admin;
-
+package com.majorMedia.BackOfficeDashboard.entity.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -8,34 +7,39 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
+
 
 @Data
 @Builder
+@NoArgsConstructor
 @AllArgsConstructor
+@Entity(name = "user")
 
-@Entity
-@Table(name = "admin")
-public class Admin {
+
+public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private String firstname;
-    private String lastname;
+    private int id;
+
+    @Column(unique = true, nullable = false)
+    @NotBlank(message = "Username is required")
+    private String username;
+
+    @Column(nullable = false)
+    @NotBlank(message = "Full name is required")
+    private String fullName;
 
     @NotBlank(message = "Email is required")
     @NotBlank(message = "Email is required")
     @Email(message = "Invalid email format")
-
     private String email;
 
     @Column(name = "password")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotBlank(message = "Password is required")
-
     private String password;
 
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
@@ -60,19 +64,4 @@ public class Admin {
     @Column(name = "last_logout")
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
     private LocalDateTime lastLogout;
-
-    public Admin() {
-        this.roles = new ArrayList<>();
-    }
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "admin_role",
-            joinColumns = @JoinColumn(
-                    name = "admin_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(
-                    name = "role_id", referencedColumnName = "id"))
-
-    //@JsonIgnore
-    private Collection<Role> roles;
 }

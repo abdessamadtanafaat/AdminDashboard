@@ -1,4 +1,4 @@
-package com.majorMedia.BackOfficeDashboard.entity.AdminUser;
+package com.majorMedia.BackOfficeDashboard.entity.admin;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

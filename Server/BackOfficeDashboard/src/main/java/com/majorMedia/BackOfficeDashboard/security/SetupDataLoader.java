@@ -1,14 +1,13 @@
-package com.majorMedia.BackOfficeDashboard.Security;
+package com.majorMedia.BackOfficeDashboard.security;
 
-import com.majorMedia.BackOfficeDashboard.entity.Admin;
-import com.majorMedia.BackOfficeDashboard.entity.Privilege;
-import com.majorMedia.BackOfficeDashboard.entity.Role;
+import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
+import com.majorMedia.BackOfficeDashboard.entity.admin.Privilege;
+import com.majorMedia.BackOfficeDashboard.entity.admin.Role;
 import com.majorMedia.BackOfficeDashboard.repository.AdminRepository;
 import com.majorMedia.BackOfficeDashboard.repository.RoleRepository;
 
 import com.majorMedia.BackOfficeDashboard.repository.PrivilegeRepository;
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -18,6 +17,7 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class SetupDataLoader implements ApplicationListener<ContextRefreshedEvent> {
@@ -47,32 +47,36 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 
     List<Privilege> superAdminPrivilegs = Arrays.asList(readPrivilege, writePrivilege);
     List<Privilege> AdminPrivilegs = Arrays.asList(readPrivilege);
-    Role role = createRoleIfNotFound("SUPER_ADMIN", superAdminPrivilegs);
-    Role role2 = createRoleIfNotFound("ADMIN", AdminPrivilegs);
+    Role superAdminRole = createRoleIfNotFound("SUPER_ADMIN", superAdminPrivilegs);
+    Role AdminRole = createRoleIfNotFound("ADMIN", AdminPrivilegs);
 
-    Role adminRole = roleRepository.findByName("SUPER_ADMIN");
+    Optional<Admin> existingsSuperAdmin1 = adminRepository.findByEmail("tanafaat.rca.16@gmail.com");
+    Optional<Admin> existingsSuperAdmin2 = adminRepository.findByEmail("ilias.rouchdi21@gmail.com");
 
+    if (!existingsSuperAdmin1.isPresent()){
+    Role SuperAdminRole = roleRepository.findByName("SUPER_ADMIN");
     Admin admin1 = Admin.builder()
             .email("tanafaat.rca.16@gmail.com")
             .lastname("Abdessamad")
             .firstname("Tanafaat")
             .password(passwordEncoder.encode("ff"))
-            .roles(Arrays.asList((adminRole)))
-            //.enabled(true);
+            .roles(Arrays.asList((SuperAdminRole)))
             .build();
-            alreadySetup =true;
             adminRepository.save(admin1);
 
+    }
+        Role SuperAdminRole = roleRepository.findByName("SUPER_ADMIN");
+        if(!existingsSuperAdmin2.isPresent()){
         Admin admin2 = Admin.builder()
                 .email("ilias.rouchdi21@gmail.com")
                 .lastname("ilias")
                 .firstname("Rochdi")
                 .password(passwordEncoder.encode("ff"))
-                .roles(Arrays.asList((adminRole)))
-                //.enabled(true);
+                .roles(Arrays.asList((SuperAdminRole)))
                 .build();
-        alreadySetup =true;
         adminRepository.save(admin2);
+        }
+        alreadySetup =true;
 }
 
     @Transactional

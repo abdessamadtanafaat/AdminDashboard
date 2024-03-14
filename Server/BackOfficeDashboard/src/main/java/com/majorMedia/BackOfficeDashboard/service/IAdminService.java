@@ -1,16 +1,14 @@
 package com.majorMedia.BackOfficeDashboard.service;
 
-import com.majorMedia.BackOfficeDashboard.entity.Admin;
-import com.majorMedia.BackOfficeDashboard.entity.Role;
-import com.majorMedia.BackOfficeDashboard.model.RegisterRequest;
+import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
+import com.majorMedia.BackOfficeDashboard.model.requests.RegisterRequest;
 import jakarta.mail.MessagingException;
 import org.springframework.security.core.Authentication;
 
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
-import java.util.Set;
 
-public interface AdminService {
+public interface IAdminService {
 
     //public Admin register(RegisterRequest registerRequest);
     public String forgotPassword(String email);

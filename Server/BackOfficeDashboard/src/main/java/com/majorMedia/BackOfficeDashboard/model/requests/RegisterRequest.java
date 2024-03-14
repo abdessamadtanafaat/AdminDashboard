@@ -1,6 +1,6 @@
-package com.majorMedia.BackOfficeDashboard.model;
+package com.majorMedia.BackOfficeDashboard.model.requests;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.majorMedia.BackOfficeDashboard.model.requests.RoleRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

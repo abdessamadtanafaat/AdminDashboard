@@ -1,0 +1,261 @@
+{
+	"info": {
+		"_postman_id": "f59642cc-ead8-4011-beb1-25c9bc777178",
+		"name": "DashboardAdministration",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "AuthApis",
+			"item": [
+				{
+					"name": "Login",
+					"id": "a4e91e35-7808-4a61-9afb-6c38a9e5cd0d",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n   \"email\": \"ilyassrouchdi7@gmail.com\",\r\n    \"password\": \"ff\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/v1/auth/authenticate"
+					},
+					"response": []
+				},
+				{
+					"name": "ForgotPassword",
+					"id": "951686d5-ad55-46ce-bb62-bac6d5a61ef9",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/auth/password-request?email=ilias.rouchdi21@gmail.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"password-request"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "ilias.rouchdi21@gmail.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "is Token valid",
+					"id": "715c8587-3904-4eab-9417-5ca57570e18b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/auth/reset-password?token=e2dc0131-c009-44c5-bd95-91041cfacd77",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"reset-password"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "e2dc0131-c009-44c5-bd95-91041cfacd77"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ResetPassword",
+					"id": "9cb27986-fc79-48a8-b48e-cfd64ad24406",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\":\"barca\",\r\n    \"token\":\"AJpuqrscDLFD8BxF6KOyQTFLzTUVQu8qeZ4XEXy4rcR8vmZFAw54fILr3EXmaEFK3f4p7P2RpzOYBr9qkR7Egw\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/auth/reset-password",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"reset-password"
+							],
+							"query": [
+								{
+									"key": "password",
+									"value": "barca1",
+									"disabled": true
+								},
+								{
+									"key": "token",
+									"value": "ZAMQi_phWo8vvEi3E0-jPKEtJ7_UkbgcJRkrc_yQbnGJWSRW2OxWsLirELBnbmN-d-cZvGU2R1NZpQpPAtFsvQ",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TestAuthentication",
+					"id": "c74b1ded-fb05-45ae-ae00-9063e4bcbd20",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwiZXhwIjoxNzEwMTkyNDU2fQ.-Kmb8zHBwMLyPdSE446RffcffWi3w7QmhivWXid2HFFzg8zxkcRiJBB_XlgddS2xBMKp_pkPiLOp7skIR4qEQA"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/v1/demo-controller"
+					},
+					"response": []
+				},
+				{
+					"name": "SuperAdmin Create Admin",
+					"id": "808aa70b-8298-4201-bb8f-ced0ed792be9",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsInByaXZpbGVnZXMiOlsiUkVBRF9QUklWSUxFR0UiXSwiZmlyc3RuYW1lIjoiSm9obiIsInJvbGVzIjpbIkFETUlOIl0sImlkIjozLCJleHAiOjE3MTAyNTQ4MzgsImVtYWlsIjoiam9obi5kb2VAZXhhbXBsZS5jb20iLCJsYXN0bmFtZSI6IkRvZSJ9.UNPmuG_uxsl7NLyNLKUkVnc3MbmyGKJ6iEjuTMUFKwsVJFvTOcF0pCzr_PGjSgqgSwLHFS5mRH8d3MSoYqlIlA"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstname\": \"John1\",\r\n  \"lastname\": \"Doe1\",\r\n  \"email\": \"john.doe11@example.com\",\r\n  \"password\": \"password12311\",\r\n  \"roles\": [\r\n    {\r\n      \"name\": \"ADMIN\"\r\n    }\r\n\r\n  ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/v1/create-admin"
+					},
+					"response": []
+				},
+				{
+					"name": "LogOut",
+					"id": "b0922718-42d6-4fb4-a5e2-257b21007f46",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0YW5hZmFhdC5yY2EuMTZAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJSRUFEX1BSSVZJTEVHRSIsIldSSVRFX1BSSVZJTEVHRSJdLCJmaXJzdG5hbWUiOiJUYW5hZmFhdCIsInJvbGVzIjpbIlNVUEVSX0FETUlOIl0sImlkIjoxLCJleHAiOjE3MTA1NDE1NjgsImVtYWlsIjoidGFuYWZhYXQucmNhLjE2QGdtYWlsLmNvbSIsImxhc3RuYW1lIjoiQWJkZXNzYW1hZCJ9.QLkCEFgz4TAjwLSVm7z876j6TobgZZd1Aix3mINUPzWMO8idvUGTuGMYDZiPcVdFGn58cqB1vcMJ2OFF67E_pA"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"tanafaat.rca.16@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/logout"
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"id": "89ac6ffe-9ae1-40ba-a889-93a00e99ada3",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\": \"admin\",\r\n    \"lastname\": \"admin\",\r\n    \"email\": \"tanafaat.rca.16@gmail.com\",\r\n    \"password\": \"ff\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/v1/auth/register"
+					},
+					"response": []
+				}
+			],
+			"id": "26809204-c2d1-49a0-8be7-c3322ab5ce63"
+		}
+	]
+}

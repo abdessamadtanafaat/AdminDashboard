@@ -1,4 +1,4 @@
-package com.majorMedia.BackOfficeDashboard.Exception;
+package com.majorMedia.BackOfficeDashboard.exception;
 
 public class AccessDeniedException extends RuntimeException{
     public AccessDeniedException (String email){

@@ -1,4 +1,4 @@
-package com.majorMedia.BackOfficeDashboard.Exception;
+package com.majorMedia.BackOfficeDashboard.exception;
 
 public class AdminNotFoundException extends RuntimeException{
     public AdminNotFoundException(){

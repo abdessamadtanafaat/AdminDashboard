@@ -1,10 +1,9 @@
-package com.majorMedia.BackOfficeDashboard.Security.Manager;
+package com.majorMedia.BackOfficeDashboard.security.manager;
 
-import com.majorMedia.BackOfficeDashboard.Exception.InvalidTokenException;
-import com.majorMedia.BackOfficeDashboard.Exception.NotFoundEmailException;
-import com.majorMedia.BackOfficeDashboard.entity.Admin;
+import com.majorMedia.BackOfficeDashboard.exception.NotFoundEmailException;
+import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
 import com.majorMedia.BackOfficeDashboard.repository.AdminRepository;
-import com.majorMedia.BackOfficeDashboard.service.AdminService;
+import com.majorMedia.BackOfficeDashboard.service.IAdminService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -21,7 +20,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class CustomAuthenticationManager implements AuthenticationManager {
 
-    private AdminService adminService;
     private PasswordEncoder passwordEncoder;
     private AdminRepository adminRepository;
 

@@ -1,12 +1,11 @@
-package com.majorMedia.BackOfficeDashboard.Security;
+package com.majorMedia.BackOfficeDashboard.security;
 
 
-import com.majorMedia.BackOfficeDashboard.Security.Manager.CustomAuthenticationManager;
-import com.majorMedia.BackOfficeDashboard.Security.filter.AuthenticationFilter;
-import com.majorMedia.BackOfficeDashboard.Security.filter.ExceptionHandlerFilter;
-import com.majorMedia.BackOfficeDashboard.Security.filter.JwtAuthorizationFilter;
+import com.majorMedia.BackOfficeDashboard.security.manager.CustomAuthenticationManager;
+import com.majorMedia.BackOfficeDashboard.security.filter.AuthenticationFilter;
+import com.majorMedia.BackOfficeDashboard.security.filter.ExceptionHandlerFilter;
+import com.majorMedia.BackOfficeDashboard.security.filter.JwtAuthorizationFilter;
 import com.majorMedia.BackOfficeDashboard.repository.AdminRepository;
-import com.majorMedia.BackOfficeDashboard.service.AdminService;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,7 +27,6 @@ import java.util.Arrays;
 @Configuration
 public class SecurityConfig {
     private final CustomAuthenticationManager customAuthenticationManager;
-    //private final AdminService  adminService;
     private final AdminRepository adminRepository;
 
     private static  final Long MAX_AGE = 3600L;
@@ -49,7 +47,11 @@ public class SecurityConfig {
                         auth
 
                                 .requestMatchers(
-                                        "/api/v1/auth/**"
+                                        "/password-request"
+                                        ,"/is-token-valid"
+                                        ,"/reset-password"
+                                        ,"/logout"
+                                        ,"/create-admin"
                                         ,"/v3/api-docs"
                                         ,"/v2/api-docs"
                                         ,"/v3/api-docs/**"

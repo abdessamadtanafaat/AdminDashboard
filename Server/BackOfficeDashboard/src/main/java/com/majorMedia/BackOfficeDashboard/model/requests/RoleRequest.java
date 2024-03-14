@@ -1,4 +1,4 @@
-package com.majorMedia.BackOfficeDashboard.model;
+package com.majorMedia.BackOfficeDashboard.model.requests;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

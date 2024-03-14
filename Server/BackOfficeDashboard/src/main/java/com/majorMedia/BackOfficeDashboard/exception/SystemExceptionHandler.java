@@ -1,4 +1,4 @@
-package com.majorMedia.BackOfficeDashboard.Exception;
+package com.majorMedia.BackOfficeDashboard.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

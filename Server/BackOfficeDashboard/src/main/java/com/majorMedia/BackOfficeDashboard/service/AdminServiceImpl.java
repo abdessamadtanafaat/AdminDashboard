@@ -1,10 +1,10 @@
 package com.majorMedia.BackOfficeDashboard.service;
 
-import com.majorMedia.BackOfficeDashboard.Exception.*;
-import com.majorMedia.BackOfficeDashboard.entity.Admin;
-import com.majorMedia.BackOfficeDashboard.entity.Role;
-import com.majorMedia.BackOfficeDashboard.model.RegisterRequest;
-import com.majorMedia.BackOfficeDashboard.model.RoleRequest;
+import com.majorMedia.BackOfficeDashboard.exception.*;
+import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
+import com.majorMedia.BackOfficeDashboard.entity.admin.Role;
+import com.majorMedia.BackOfficeDashboard.model.requests.RegisterRequest;
+import com.majorMedia.BackOfficeDashboard.model.requests.RoleRequest;
 import com.majorMedia.BackOfficeDashboard.repository.AdminRepository;
 import com.majorMedia.BackOfficeDashboard.repository.RoleRepository;
 import jakarta.mail.MessagingException;
@@ -22,12 +22,12 @@ import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static com.majorMedia.BackOfficeDashboard.Security.SecurityConstants.*;
+import static com.majorMedia.BackOfficeDashboard.security.SecurityConstants.*;
 
 @Service
 @AllArgsConstructor
 
-public class AdminServiceImpl implements AdminService {
+public class AdminServiceImpl implements IAdminService {
     private final AdminRepository adminRepository;
     private final PasswordEncoder passwordEncoder;
     private final JavaMailSender javaMailSender;
@@ -180,8 +180,9 @@ public class AdminServiceImpl implements AdminService {
     return adminRepository.save(admin);
 
     }
-    @Override
+
     public String logout(String email) {
+        try{
         Optional<Admin> admin = Optional.ofNullable(adminRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundEmailException(email)));
 
@@ -189,6 +190,11 @@ public class AdminServiceImpl implements AdminService {
             admin.get().setLastLogout(LocalDateTime.now());
             adminRepository.save(admin.get());
             return "Logged out successfully";
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
     @Override
     public void hasSuperAdminRole(Authentication authentication) {

@@ -64,11 +64,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 }
 */
-package com.majorMedia.BackOfficeDashboard.Security.filter;
+package com.majorMedia.BackOfficeDashboard.security.filter;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.majorMedia.BackOfficeDashboard.Security.SecurityConstants;
+import com.majorMedia.BackOfficeDashboard.security.SecurityConstants;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
