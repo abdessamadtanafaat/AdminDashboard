@@ -59,7 +59,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
             .email("tanafaat.rca.16@gmail.com")
             .lastname("Abdessamad")
             .firstname("Tanafaat")
-            .password(passwordEncoder.encode("ff"))
+            .password(passwordEncoder.encode("raja2015"))
             .roles(Arrays.asList((SuperAdminRole)))
             .build();
             adminRepository.save(admin1);

@@ -19,8 +19,8 @@ public class LoyaltyProgramme {
     private String mbPriceCondition;
     private double couponValue;
     @ManyToOne
-    @JoinColumn(name = "compagne_id", nullable = false)
-    private Campaign compagne;
+    @JoinColumn(name = "compaign_id", nullable = false)
+    private Campaign campaign;
     @ManyToOne
     @JoinColumn(name = "loyalty_programme_type_id", nullable = false)
     private LoyaltyProgrammeType loyaltyProgrammeType;
