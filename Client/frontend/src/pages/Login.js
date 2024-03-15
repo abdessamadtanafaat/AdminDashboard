@@ -8,9 +8,9 @@ export const action =(store)=>
           const data = Object.fromEntries(formData);
           try{
             const response = await customFetch.post('/auth/authenticate' ,data);
+            //store user in localstorage
             toast.success("Welcome !! You access to Dashboard")
             console.log(response.data)
-            redirect("/");
             return redirect("/")
 
           }
@@ -20,11 +20,6 @@ export const action =(store)=>
             toast.error(errorMessage);
             return null ;
           }
-          
-          
-          
-
-    
 }
 
 const Login = () => {

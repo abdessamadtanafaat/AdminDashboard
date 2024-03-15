@@ -1,10 +1,19 @@
+import { Sidebar } from "../components"
+import { Outlet } from "react-router-dom"
+import { SidebarProvider } from "../components/context"
 
 const HomeLayout = () => {
   return (
-    <div>
-      all The options will be here
+    <div className="flex">
+      <SidebarProvider>
+         <Sidebar/>
+      </SidebarProvider>
+    <section className='align-element py-20'>
+        <Outlet />
+    </section>
 
     </div>
+    
   )
 }
 
