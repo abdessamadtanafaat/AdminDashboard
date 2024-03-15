@@ -1,6 +1,6 @@
 package com.majorMedia.BackOfficeDashboard.entity.business;
 
-import com.majorMedia.BackOfficeDashboard.entity.user.UserEntity;
+import com.majorMedia.BackOfficeDashboard.entity.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +14,8 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "Business")
+@Entity
+@Table(name="business")
 public class Business {
 
     @Id
@@ -39,5 +40,5 @@ public class Business {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private UserEntity user;
+    private User user;
 }

@@ -21,9 +21,11 @@ public class AdminController {
     private final IAdminService IAdminService;
 
     @PostMapping("/create-admin")
-    public ResponseEntity<Admin> createAdmin(@RequestBody RegisterRequest admin, Authentication authentication) {
+    public ResponseEntity<Admin> createAdmin(@RequestBody RegisterRequest admin, Authentication authentication)
+        {
         IAdminService.hasSuperAdminRole(authentication);
         Admin createdAdmin = IAdminService.createAdmin(admin);
         return new ResponseEntity<>(createdAdmin, HttpStatus.CREATED);
     }
+
 }

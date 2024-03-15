@@ -1,3 +1,4 @@
+/*
 package com.majorMedia.BackOfficeDashboard.entity.admin;
 
 import lombok.Getter;
@@ -13,3 +14,4 @@ public enum Permission {
     @Getter
     private final String permission;
 }
+*/

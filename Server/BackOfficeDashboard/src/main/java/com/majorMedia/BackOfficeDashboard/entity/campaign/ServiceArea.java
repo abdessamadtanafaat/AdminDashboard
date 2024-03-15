@@ -1,6 +1,6 @@
 package com.majorMedia.BackOfficeDashboard.entity.campaign;
 
-import com.majorMedia.BackOfficeDashboard.entity.user.UserEntity;
+import com.majorMedia.BackOfficeDashboard.entity.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 @Data
@@ -20,6 +20,6 @@ public class ServiceArea {
     private ServiceCategory serviceCategory;
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private UserEntity user;
+    private User user;
 
 }
