@@ -20,6 +20,6 @@ public interface IAdminService {
     //public Admin findByEmail(String name);
     public String resetPassword(String password, String token);
     public Admin createAdmin(RegisterRequest request);
-    public String logout(String email);
+    //public String logout(String email);
     public void hasSuperAdminRole(Authentication authentication);
 }

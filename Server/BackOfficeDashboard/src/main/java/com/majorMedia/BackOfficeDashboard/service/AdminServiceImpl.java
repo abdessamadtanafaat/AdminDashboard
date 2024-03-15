@@ -181,21 +181,21 @@ public class AdminServiceImpl implements IAdminService {
 
     }
 
-    public String logout(String email) {
+/*    public String logout(String email) {
         try{
-        Optional<Admin> admin = Optional.ofNullable(adminRepository.findByEmail(email)
-                .orElseThrow(() -> new NotFoundEmailException(email)));
+         Admin admin = adminRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundEmailException(email));
 
-            admin.get().setActive(false);
-            admin.get().setLastLogout(LocalDateTime.now());
-            adminRepository.save(admin.get());
+            admin.setActive(false);
+            admin.setLastLogout(LocalDateTime.now());
+            adminRepository.save(admin);
             return "Logged out successfully";
 
         }catch (Exception e) {
             e.printStackTrace();
         }
         return null;
-    }
+    }*/
     @Override
     public void hasSuperAdminRole(Authentication authentication) {
         String username = authentication.getName();

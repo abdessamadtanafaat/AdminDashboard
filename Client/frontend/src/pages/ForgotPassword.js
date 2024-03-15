@@ -7,6 +7,12 @@ export const action = (store)=>
 async({request})=>{
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
+
+    if (!formData.get("email")) {
+      toast.error("Email cannot be empty");
+      return null ;
+    }
+    
     try{
        const response = await customFetch.get(`/auth/password-request?email=${data.email}`); 
        console.log(response.data);

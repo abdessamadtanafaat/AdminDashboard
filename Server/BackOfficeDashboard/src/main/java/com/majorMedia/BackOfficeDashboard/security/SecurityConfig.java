@@ -1,17 +1,21 @@
 package com.majorMedia.BackOfficeDashboard.security;
 
 
+import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
+import com.majorMedia.BackOfficeDashboard.exception.NotFoundEmailException;
 import com.majorMedia.BackOfficeDashboard.security.manager.CustomAuthenticationManager;
 import com.majorMedia.BackOfficeDashboard.security.filter.AuthenticationFilter;
 import com.majorMedia.BackOfficeDashboard.security.filter.ExceptionHandlerFilter;
 import com.majorMedia.BackOfficeDashboard.security.filter.JwtAuthorizationFilter;
 import com.majorMedia.BackOfficeDashboard.repository.AdminRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -22,6 +26,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
 @Configuration
@@ -47,11 +52,7 @@ public class SecurityConfig {
                         auth
 
                                 .requestMatchers(
-                                        "/password-request"
-                                        ,"/is-token-valid"
-                                        ,"/reset-password"
-                                        ,"/logout"
-                                        ,"/create-admin"
+                                        "auth/**"
                                         ,"/v3/api-docs"
                                         ,"/v2/api-docs"
                                         ,"/v3/api-docs/**"
@@ -64,8 +65,6 @@ public class SecurityConfig {
                                         ,"/swagger-ui.html"
                                 )
                                 .permitAll()
-/*                                .requestMatchers(
-                                        "/api/v1/create-admin").hasRole("SUPER_ADMIN")*/
                                 .anyRequest().authenticated()
                 )
                 .addFilterBefore( new ExceptionHandlerFilter(),AuthenticationFilter.class )
@@ -73,7 +72,8 @@ public class SecurityConfig {
                 .addFilterAfter(new JwtAuthorizationFilter(), AuthenticationFilter.class)
                 .sessionManagement(sess->sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-                 return http.build();
+                    return http.build();
+
 
     }
     @Bean

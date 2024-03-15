@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 
 @Component
@@ -36,4 +37,21 @@ public class CustomAuthenticationManager implements AuthenticationManager {
         adminRepository.save(admin);
         return new UsernamePasswordAuthenticationToken(authentication.getName(), admin.getPassword());
     }
+
+    public String logout(String email) {
+        try{
+            Optional<Admin> adminOptional = adminRepository.findByEmail(email);
+            Admin admin = adminOptional.orElseThrow(() -> new NotFoundEmailException(email));
+
+            admin.setActive(false);
+            admin.setLastLogout(LocalDateTime.now());
+            adminRepository.save(admin);
+            return "Logged out successfully";
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

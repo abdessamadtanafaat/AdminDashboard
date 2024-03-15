@@ -6,8 +6,19 @@ export const action =(store)=>
     async({request})=>{
           const formData = await request.formData();
           const data = Object.fromEntries(formData);
+
+          if (!formData.get("email")) {
+            toast.error("Email cannot be empty");
+            return null ;
+          }
+        
+          if (!formData.get("password")) {
+            toast.error("Password cannot be empty");
+            return null ;
+          }
+
           try{
-            const response = await customFetch.post('/auth/authenticate' ,data);
+            const response = await customFetch.post('/authenticate' ,data);
             toast.success("Welcome !! You access to Dashboard")
             console.log(response.data)
             redirect("/");
