@@ -122,27 +122,9 @@ public class AdminServiceImpl implements IAdminService {
 
     }
 
-/*    public static Admin unwarappeAdmin(Optional<Admin> entity, String message) {
-        if (entity.isPresent()) return entity.get();
-        else throw new NotFoundEmailException(message);
-    }
-
-    public Admin findByTokenEmail(String token) {
-        Optional<Admin> entity = adminRepository.findByTokenEmail(token);
-
-        return unwarappeAdmin(entity, "Access Denied");
-    }
-
-        public Admin findByEmail(String email) {
-        Optional<Admin> entity = adminRepository.findByEmail(email);
-        return unwarappeAdmin(entity, "Admin Account not found");
-    }*/
     public String resetPassword(String password, String token) {
 
         checkValidity(token);
-
-/*        Optional<Admin> entity = adminRepository.findByTokenEmail(token);
-        Admin admin = unwarappeAdmin(entity, "Invalid Token");*/
 
         Admin admin = adminRepository.findByTokenEmail(token)
                 .orElseThrow(InvalidTokenException::new);
@@ -181,21 +163,6 @@ public class AdminServiceImpl implements IAdminService {
 
     }
 
-/*    public String logout(String email) {
-        try{
-         Admin admin = adminRepository.findByEmail(email)
-                .orElseThrow(() -> new NotFoundEmailException(email));
-
-            admin.setActive(false);
-            admin.setLastLogout(LocalDateTime.now());
-            adminRepository.save(admin);
-            return "Logged out successfully";
-
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }*/
     @Override
     public void hasSuperAdminRole(Authentication authentication) {
         String username = authentication.getName();
