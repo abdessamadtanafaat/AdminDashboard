@@ -2,6 +2,7 @@ import { FormInput ,SubmitBtn} from "../components"
 import {Form ,redirect , Link} from 'react-router-dom'
 import {customFetch} from '../utils'
 import {toast} from 'react-toastify'
+import {loginAdmin} from '../features/admin/adminSlice'
 export const action =(store)=>
     async({request})=>{
           const formData = await request.formData();
@@ -9,6 +10,7 @@ export const action =(store)=>
           try{
             const response = await customFetch.post('/auth/authenticate' ,data);
             //store user in localstorage
+            store.dispatch(loginAdmin(response.data))
             toast.success("Welcome !! You access to Dashboard")
             console.log(response.data)
             return redirect("/")
@@ -17,15 +19,15 @@ export const action =(store)=>
           catch(err){
             const errorMessage = err?.response?.data || "Please Double check your credentials"; 
             console.log(err?.response?.data)
-            toast.error(errorMessage);
-            return null ;
+            
+            return toast.error(errorMessage); ;
           }
 }
 
 const Login = () => {
   return (
-    <section className='h-screen grid place-items-center'>
-        <Form method="POST" className='card w-96 p-8 bg-base-100 shadow-lg flex bg--400 flex-col gap-y-4'>
+    <section className='h-screen grid place-items-center bg-base-300'>
+        <Form method="POST" className='card w-96 p-8 bg-base-100 shadow-lg flex  flex-col gap-y-4'>
             <h4 className='text-center text-3xl font-bold'>Login</h4>
             <FormInput type="text" label="Email" name="email" placeholder="email@email.com"/>
             <FormInput type="password" label="Password" name="password" placeholder="secret"/>

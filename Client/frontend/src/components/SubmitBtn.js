@@ -5,11 +5,11 @@ const SubmitBtn = ({text}) => {
   const isSubmitting = navigation.state ==="submitting"
   return (
     <button type="submit"
-    className="capitalize tracking-wide btn btn-accent btn-block"
+    className="capitalize tracking-wide btn  btn-accent btn-block"
     disabled={isSubmitting}>
         {isSubmitting ? (
             <>
-            <span className='loading loading-spinner'></span>
+            <span className='loading loading-spinner bg-primary'></span>
             Sending...
             </>
         ) : (
