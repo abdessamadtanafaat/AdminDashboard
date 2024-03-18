@@ -1,12 +1,13 @@
 import {BsSunFill ,  BsMoonFill } from "react-icons/bs";
 
-import {ChevronFirst, ChevronLast} from 
+import {ChevronFirst, ChevronLast , LogOut} from 
 'lucide-react'
 import SidebarItem from './SidebarItem';
 import { LayoutDashboard, Home, StickyNote, Layers, Flag, Calendar, LifeBuoy, Settings, MoreVertical } from "lucide-react";
 import { useGlobalContext } from './context';
 import {  useDispatch, useSelector } from "react-redux";
-import {toggleTheme ,selectTheme} from '../features/admin/adminSlice'
+import {useNavigate} from 'react-router-dom'
+import {toggleTheme ,selectTheme , logoutAdmin} from '../features/admin/adminSlice'
 import logo from '../assets/logo.png'
 const items = [
   { icon: <Home size={20} />, text: "Home", alert: true },
@@ -19,15 +20,21 @@ const items = [
 
 
 const Sidebar = () => {
+  const navigate = useNavigate();
+
   const {expanded ,setExpanded}= useGlobalContext();
-  const theme  = useSelector(selectTheme);
   const dispatch = useDispatch();
   const handleTheme = ()=>{
     dispatch(toggleTheme())
   }
+  const handleLogout = ()=>{
+    navigate("/login")
+    dispatch(logoutAdmin())
+    
+  }
   return(
-    <aside className="h-screen "  >
-      <nav className="h-full flex flex-col bg-base-200 border-r shadow-sm">
+    <aside className="h-screen"  >
+      <nav className="h-full flex flex-col bg-base-300 border-r shadow-sm">
         <div className={`p-4 pb-2 flex justify-between items-center mb-4`}
         >
           <img src={logo} className={`h-16
@@ -56,19 +63,27 @@ const Sidebar = () => {
                   <img alt="profile image" src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
                 </div>
               </div>
-              <ul tabindex="0" class=" mt-5 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
-                <li><a class="justify-between">
+              <ul tabindex="0" className=" mt-5 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-200 rounded-box w-52">
+                <li><a class="btn btn-active  bg-base-200 border-none hover:bg-base-100  justify-center">
                     Profile</a>
                 </li>
-                <li><a>Settings</a></li>
-                <li><a>Logout</a></li>
-                
-                <label className="flex cursor-pointer gap-2 mx-auto mt-5">
+                <li><button onClick={handleLogout} className="h-5 flex justify-evenly btn btn-active  bg-base-200 border-none hover:bg-base-100 hover:text-error">
+                  LogOut 
+                  <LogOut/>
+                </button></li>
+                <li>
+                <label className="flex btn btn-active  bg-base-200 border-none hover:bg-base-100 cursor-pointer gap-2 mx-auto  w-full justify-center h-full">
                     <BsSunFill className='swap-on h-4 w-4' />
                     <input type="checkbox" onChange={handleTheme}  className="toggle theme-controller"/>
                     <BsMoonFill className='swap-off h-4 w-4' />
 
                 </label>
+
+
+                </li>
+
+                
+                
                 
               </ul>
             </div>  

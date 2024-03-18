@@ -3,12 +3,15 @@ import {Form ,redirect , Link} from 'react-router-dom'
 import {customFetch} from '../utils'
 import {toast} from 'react-toastify'
 import {loginAdmin} from '../features/admin/adminSlice'
+import { useDispatch } from "react-redux"
 export const action =(store)=>
     async({request})=>{
+
           const formData = await request.formData();
           const data = Object.fromEntries(formData);
           try{
-            const response = await customFetch.post('/auth/authenticate' ,data);
+            
+            const response = await customFetch.post('/authenticate' ,data);
             //store user in localstorage
             store.dispatch(loginAdmin(response.data))
             toast.success("Welcome !! You access to Dashboard")
