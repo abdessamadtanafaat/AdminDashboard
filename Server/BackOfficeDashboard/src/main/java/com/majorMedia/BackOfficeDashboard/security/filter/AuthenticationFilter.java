@@ -14,6 +14,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -25,15 +26,22 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import  com.majorMedia.BackOfficeDashboard.security.manager.CustomAuthenticationManager;
+import org.springframework.stereotype.Component;
+
+
+@AllArgsConstructor
+
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final CustomAuthenticationManager authenticationManager ;
     private final AdminRepository adminRepository;
 
+/*
     public AuthenticationFilter(CustomAuthenticationManager customAuthenticationManager, AdminRepository adminRepository) {
         this.adminRepository = adminRepository ;
         this.authenticationManager = customAuthenticationManager;
     }
+*/
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
@@ -56,7 +64,6 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         response.getWriter().write(failed.getMessage());
         response.getWriter().flush();
     }
-
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
     try {
@@ -74,7 +81,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
     }
 }
-    private String generateToken(Admin admin) {
+    public String generateToken(Admin admin) {
     List<String> roles = admin.getRoles().stream()
             .map(Role::getName)
             .collect(Collectors.toList());
@@ -93,7 +100,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
             .withClaim("roles", roles)
             .withClaim("privileges", privileges)
             .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.TOKEN_EXPIRATION))
-            .sign(Algorithm.HMAC512(SecurityConstants.SECRET_KEY));
+            .sign(Algorithm.HMAC512(SecurityConstants.SECRET_KEY.getEncoded()));
 }
 
     private void sendAuthenticationResponse(HttpServletResponse response, String token, Admin admin) throws IOException {

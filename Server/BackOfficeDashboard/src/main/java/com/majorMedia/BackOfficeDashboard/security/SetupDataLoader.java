@@ -47,14 +47,14 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 
     List<Privilege> superAdminPrivilegs = Arrays.asList(readPrivilege, writePrivilege);
     List<Privilege> AdminPrivilegs = Arrays.asList(readPrivilege);
-    Role superAdminRole = createRoleIfNotFound("SUPER_ADMIN", superAdminPrivilegs);
-    Role AdminRole = createRoleIfNotFound("ADMIN", AdminPrivilegs);
+    Role superAdminRole = createRoleIfNotFound("ROLE_SUPER_ADMIN", superAdminPrivilegs);
+    Role AdminRole = createRoleIfNotFound("ROLE_ADMIN", AdminPrivilegs);
 
     Optional<Admin> existingsSuperAdmin1 = adminRepository.findByEmail("tanafaat.rca.16@gmail.com");
     Optional<Admin> existingsSuperAdmin2 = adminRepository.findByEmail("ilias.rouchdi21@gmail.com");
 
     if (!existingsSuperAdmin1.isPresent()){
-    Role SuperAdminRole = roleRepository.findByName("SUPER_ADMIN");
+    Role SuperAdminRole = roleRepository.findByName("ROLE_SUPER_ADMIN");
     Admin admin1 = Admin.builder()
             .email("tanafaat.rca.16@gmail.com")
             .lastname("Abdessamad")
@@ -65,7 +65,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
             adminRepository.save(admin1);
 
     }
-        Role SuperAdminRole = roleRepository.findByName("SUPER_ADMIN");
+        Role SuperAdminRole = roleRepository.findByName("ROLE_SUPER_ADMIN");
         if(!existingsSuperAdmin2.isPresent()){
         Admin admin2 = Admin.builder()
                 .email("ilias.rouchdi21@gmail.com")

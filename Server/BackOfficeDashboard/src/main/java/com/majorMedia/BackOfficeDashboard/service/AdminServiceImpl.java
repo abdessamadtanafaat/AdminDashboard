@@ -5,12 +5,18 @@ import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Role;
 import com.majorMedia.BackOfficeDashboard.model.requests.RegisterRequest;
 import com.majorMedia.BackOfficeDashboard.model.requests.RoleRequest;
+import com.majorMedia.BackOfficeDashboard.model.requests.UpdateAccountRequest;
 import com.majorMedia.BackOfficeDashboard.repository.AdminRepository;
 import com.majorMedia.BackOfficeDashboard.repository.RoleRepository;
+import com.majorMedia.BackOfficeDashboard.security.SecurityConstants;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.hibernate.annotations.NotFoundAction;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
@@ -18,6 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
+import java.security.Key;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -164,22 +171,80 @@ public class AdminServiceImpl implements IAdminService {
     }
 
     @Override
-    public void hasSuperAdminRole(Authentication authentication) {
-        String username = authentication.getName();
+    public String changePassword(String password, String jwtToken) {
 
-        Admin admin = adminRepository.findByEmail(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        if(!isValidJwt(jwtToken)){
+            throw new InvalidTokenException();
+        }
 
-        boolean hasSuperAdminRole = admin.getRoles().stream()
-                .anyMatch(role -> role.getName().equals("SUPER_ADMIN"));
+        String email = extractEmailFromToken(jwtToken);
 
-        if (!hasSuperAdminRole) {
-            throw new AccessDeniedException(admin.getEmail());
+        Admin admin = adminRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundEmailException(email));
+
+        admin.setPassword(passwordEncoder.encode(password));
+        admin.setActive(false);
+        adminRepository.save(admin);
+        return "Password changed successfully";
+    }
+
+   //private static final Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+
+    @Override
+    public String updateAccountSettings(UpdateAccountRequest request){
+
+
+        if(!isValidJwt(request.getJwtToken())){
+            throw new InvalidTokenException();
+        }
+        String email = extractEmailFromToken(request.getJwtToken());
+
+        Admin admin = adminRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundEmailException(email));
+
+        admin.setFirstname(request.getFirstname());
+        admin.setLastname(request.getLastname());
+        admin.setEmail(request.getEmail());
+
+        adminRepository.save(admin);
+
+        return "Account settings updated successfully";
+    }
+
+    public String extractEmailFromToken(String jwtToken) {
+        try {
+            // Parse the JWT token
+            Jws<Claims> claims = Jwts.parserBuilder()
+                    .setSigningKey(SECRET_KEY)
+                    .build()
+                    .parseClaimsJws(jwtToken);
+
+            // Extract email claim from the token
+            return claims.getBody().get("email", String.class);
+        } catch (MalformedJwtException | SignatureException e) {
+            e.printStackTrace();
+            return null; // Or handle the exception as needed
         }
     }
 
+    private boolean isValidJwt(String jwtToken) {
+        try{
 
 
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(SECRET_KEY)
+                .build()
+                .parseClaimsJws(jwtToken)
+                .getBody();
 
+        long currentTimeMillis = System.currentTimeMillis();
+        return  !claims.getExpiration().before(new Date(currentTimeMillis));
+
+            } catch (ExpiredJwtException | MalformedJwtException | SignatureException | IllegalArgumentException e ){
+
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 }

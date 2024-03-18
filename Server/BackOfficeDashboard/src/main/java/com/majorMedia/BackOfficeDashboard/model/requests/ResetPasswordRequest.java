@@ -10,5 +10,5 @@ import lombok.Data;
 @Builder
 public class ResetPasswordRequest {
     private String password;
-    private String token;
+    private String jwtToken;
 }

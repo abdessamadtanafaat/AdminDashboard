@@ -14,8 +14,9 @@ public class SystemExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<String> handleInvalidCredentialsException (Exception e){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
-    @ExceptionHandler({InvalidTokenException.class, AlreadyExistEmailException.class})
-        public ResponseEntity<String> handleInvalidTokenException(InvalidTokenException e){
+    @ExceptionHandler({InvalidTokenException.class,
+                        AlreadyExistEmailException.class})
+        public ResponseEntity<String> handleInvalidTokenException(Exception e){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
     @ExceptionHandler({InvalidRoleException.class})
