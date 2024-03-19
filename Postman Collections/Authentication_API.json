@@ -311,7 +311,7 @@
 					"response": []
 				},
 				{
-					"name": "http://localhost:8080/admin/1/avatar",
+					"name": "Change Avatar",
 					"id": "72ab5acb-1190-4cd4-a0c2-24e3dd4a864c",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
