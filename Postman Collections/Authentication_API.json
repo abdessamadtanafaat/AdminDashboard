@@ -309,6 +309,35 @@
 						"url": "http://localhost:8080/auth/change-password"
 					},
 					"response": []
+				},
+				{
+					"name": "Change Avatar",
+					"id": "72ab5acb-1190-4cd4-a0c2-24e3dd4a864c",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhaG1lZC5iZXNicmFoaW1AZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJSRUFEX1BSSVZJTEVHRSJdLCJmaXJzdG5hbWUiOiJhaG1lZCIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaWQiOjQsImV4cCI6MTcxMDg5NDY0NCwiZW1haWwiOiJhaG1lZC5iZXNicmFoaW1AZ21haWwuY29tIiwibGFzdG5hbWUiOiJCRU5CUkFISU0ifQ.ghHtyw2EqzvauawYtlSibGJRoms8Sf46ZTbTBiXg6GarmnAHMcFwohqMt2DVQjWYhvXqDl_0hdpjVh8ZFLxt5A"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/PFA_PROJET/Photos learn/authentication process.PNG"
+								}
+							]
+						},
+						"url": "http://localhost:8080/admin/1/avatar"
+					},
+					"response": []
 				}
 			],
 			"id": "edf2e029-4d0b-4d93-aa9c-a3e81b337e0f"
