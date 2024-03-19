@@ -97,11 +97,11 @@ public class AuthController
     }
     @PostMapping("/reset-password")
     public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequest request){
-        return new ResponseEntity<>(IAdminService.resetPassword(request.getPassword(), request.getToken()), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(IAdminService.resetPassword(request.getPassword(), request.getJwtToken()), HttpStatus.ACCEPTED);
     }
     @PutMapping("/change-password")
     public ResponseEntity<String> changePassword(@RequestBody ResetPasswordRequest request){
-        return new ResponseEntity<>(IAdminService.changePassword(request.getPassword(), request.getToken()), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(IAdminService.changePassword(request.getPassword(), request.getJwtToken()), HttpStatus.ACCEPTED);
     }
     @PutMapping("/change-account-settings")
     public ResponseEntity<String> changeAcccountSettings(@RequestBody UpdateAccountRequest request){

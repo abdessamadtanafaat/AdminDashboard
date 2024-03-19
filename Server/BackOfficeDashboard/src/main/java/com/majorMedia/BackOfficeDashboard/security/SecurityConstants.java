@@ -36,4 +36,6 @@ public class SecurityConstants {
     public static  final Long MAX_AGE = 3600L;
     public static final  int CORS_FILTER_ORDER =-102;
 
+    public static final String AVATAR_DIRECTORY = System.getProperty("user.dir") + "/avatars/";
+
 }

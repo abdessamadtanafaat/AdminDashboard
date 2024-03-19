@@ -75,4 +75,7 @@ public class Admin {
 
     //@JsonIgnore
     private Collection<Role> roles;
+
+    private String avatarUrl;
+
 }

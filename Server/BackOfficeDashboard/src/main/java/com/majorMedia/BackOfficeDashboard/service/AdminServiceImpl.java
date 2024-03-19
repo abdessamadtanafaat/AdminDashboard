@@ -16,14 +16,22 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.apache.commons.io.FilenameUtils;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FilenameFilter;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.Key;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
@@ -209,6 +217,33 @@ public class AdminServiceImpl implements IAdminService {
         adminRepository.save(admin);
 
         return "Account settings updated successfully";
+    }
+
+    @Override
+    public String saveAdminAvatar(Integer adminId, MultipartFile file) throws IOException {
+        Admin admin = adminRepository.findById(adminId)
+                .orElseThrow(()->new RuntimeException("Admin not found"));
+
+        makeDirectoryIfNotExist(SecurityConstants.AVATAR_DIRECTORY);
+
+        String fileName = adminId + "-avatar" + FilenameUtils.getExtension(file.getOriginalFilename());
+        Path filePath = Paths.get(AVATAR_DIRECTORY, fileName);
+
+        Files.write(filePath, file.getBytes());
+
+        String avatarUrl = "/admin/avatars" + fileName;
+        admin.setAvatarUrl(avatarUrl);
+        adminRepository.save(admin);
+
+        return avatarUrl;
+
+    }
+
+    private void makeDirectoryIfNotExist(String directoryPath) {
+        File directory = new File(directoryPath);
+        if(!directory.exists()){
+            directory.mkdir();
+        }
     }
 
     public String extractEmailFromToken(String jwtToken) {
