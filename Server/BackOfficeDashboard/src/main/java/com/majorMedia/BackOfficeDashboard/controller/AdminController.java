@@ -2,11 +2,13 @@ package com.majorMedia.BackOfficeDashboard.controller;
 
 import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
 import com.majorMedia.BackOfficeDashboard.model.requests.RegisterRequest;
+import com.majorMedia.BackOfficeDashboard.model.responses.AdminResponse;
 import com.majorMedia.BackOfficeDashboard.service.IAdminService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -18,6 +20,7 @@ import java.io.IOException;
 
 @RestController
 @AllArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 @RequestMapping("/admin")
 public class AdminController {
 
@@ -25,24 +28,39 @@ public class AdminController {
 
     @PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
     @PostMapping("/create-admin")
-    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<Admin> createAdmin(@RequestBody RegisterRequest admin, Authentication authentication)
         {
         Admin createdAdmin = IAdminService.createAdmin(admin);
         return new ResponseEntity<>(createdAdmin, HttpStatus.CREATED);
     }
 
-    @PostMapping("/{adminId}/avatar")
+    @PreAuthorize("hasRole('ROLE_SUPER_ADMIN') or hasRole('ADMIN')")
+    @PatchMapping("/{adminId}/avatar")
     public ResponseEntity<String> uploadAvatar(@PathVariable("adminId") Integer adminId,
                                                @RequestParam("avatar")MultipartFile file) {
+                                               //throws IOException
         try{
-            String imageUrl = IAdminService.saveAdminAvatar(adminId, file);
-            return ResponseEntity.ok("imageUrl");
+            String imageUrl = IAdminService.uploadAdminAvatar(adminId, file);
+            return new ResponseEntity<> (imageUrl,HttpStatus.CREATED);
 
         }catch (IOException e){
             e.printStackTrace();
             return ResponseEntity.badRequest().body("Failed to upload avatar");
         }
+    }
+
+    @GetMapping("/{adminId}")
+    public ResponseEntity<AdminResponse> getAdminDetails(@PathVariable Integer adminId){
+        AdminResponse adminResponse = IAdminService.getAdminDetails(adminId);
+        return ResponseEntity.ok(adminResponse);
+    }
+
+    @GetMapping("/image/{adminId}")
+    public ResponseEntity<byte[]> getImage(@PathVariable Integer adminId) {
+        byte[] imageData = IAdminService.getImageData(adminId);
+        return ResponseEntity.status(HttpStatus.OK)
+                .contentType(MediaType.valueOf("image/png"))
+                .body(imageData);
     }
 
 

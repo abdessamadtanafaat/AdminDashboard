@@ -78,4 +78,9 @@ public class Admin {
 
     private String avatarUrl;
 
+    @Lob
+    @Column(name = "imagedata", length = 1000)
+    private byte[] imageByte;
+
+
 }

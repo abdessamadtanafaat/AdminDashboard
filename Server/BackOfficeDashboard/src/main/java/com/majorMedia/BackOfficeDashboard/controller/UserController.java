@@ -17,14 +17,14 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/users")
+@RequestMapping("/user")
 @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_SUPER_ADMIN')")
 @SecurityRequirement(name = "bearerAuth")
 
 public class UserController {
 
 
-    private final UserServiceImpl userService;
+    private final IUserService userService;
 
     @GetMapping()
     public ResponseEntity<List<UserResponse>>  getAllUsers(

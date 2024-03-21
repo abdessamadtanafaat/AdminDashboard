@@ -1,6 +1,7 @@
 package com.majorMedia.BackOfficeDashboard.service;
 
 import com.majorMedia.BackOfficeDashboard.entity.user.User;
+import com.majorMedia.BackOfficeDashboard.exception.EntityNotFoundException;
 import com.majorMedia.BackOfficeDashboard.model.responses.UserResponse;
 import com.majorMedia.BackOfficeDashboard.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -20,7 +21,6 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements IUserService {
 
     private UserRepository userRepository;
-
     public List<UserResponse> getAllUsers(String sortBy ,String searchKey) {
         List<UserResponse> userResponses = new ArrayList<>();
 
@@ -34,17 +34,16 @@ public class UserServiceImpl implements IUserService {
         }
 
             if(users.isEmpty()){
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Users found");
+                throw new EntityNotFoundException(User.class);
             }
 
-        //List<UserResponse> userResponses;
         if (searchKey != null && !searchKey.isEmpty()) {
             userResponses = users.stream()
                     .filter(user -> user.getFullName().contains(searchKey) || user.getEmail().contains(searchKey))
                     .map(this::mapToUserResponse)
                     .collect(Collectors.toList());
             if (userResponses.isEmpty()) {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found with key: " + searchKey);
+                throw new EntityNotFoundException(searchKey,User.class);
             }
         } else {
             userResponses = users.stream()
@@ -52,10 +51,6 @@ public class UserServiceImpl implements IUserService {
                     .collect(Collectors.toList());
         }
 
-
-/*            for (User user : users) {
-                userResponses.add(mapToUserResponse(user));
-            }*/
 
         return userResponses;
     }

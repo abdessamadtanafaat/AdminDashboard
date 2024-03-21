@@ -10,8 +10,14 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class SystemExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({InvalidPasswordException.class,
-                        NotFoundEmailException.class})
+                        NotFoundEmailException.class,
+                        })
     public ResponseEntity<String> handleInvalidCredentialsException (Exception e){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+    @ExceptionHandler({
+            EntityNotFoundException.class})
+    public ResponseEntity<String> handleEntityNotFoundException (Exception e){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
     @ExceptionHandler({InvalidTokenException.class,
