@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {toast} from 'react-toastify'
 const themes = {
-    winter: "winter" , 
-    dim :"dim"
+    nord: "nord" , 
+    dracula :"dracula"
 }
 const getThemeFromLocalStorage = ()=>{
-    const theme = localStorage.getItem('theme') || themes.winter;
+    const theme = localStorage.getItem('theme') || themes.nord;
     document.documentElement.setAttribute('data-theme', theme);
     return theme
 }
@@ -40,14 +40,14 @@ const adminSlice = createSlice({
             toast.success('Logged out successfully');
         },
         toggleTheme : (state)=>{
-            const { dim, winter } = themes;
-            state.theme = state.theme === dim ? winter : dim;
+            const { dracula, nord } = themes;
+            state.theme = state.theme === dracula ? nord : dracula;
             document.documentElement.setAttribute('data-theme', state.theme);
             localStorage.setItem('theme', state.theme);
         }
     }
 })
-export const selectTheme =(state)=>state.theme
-export const selectAdmin =(state)=>state.admin
+export const selectTheme =(state)=>state.adminState.theme
+export const selectAdmin =(state)=>state.adminState.admin
 export const {loginAdmin , logoutAdmin ,toggleTheme} =adminSlice.actions;
 export default adminSlice.reducer;

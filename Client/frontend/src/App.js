@@ -1,5 +1,6 @@
 import { RouterProvider  , createBrowserRouter } from "react-router-dom";
 import { Login ,HomeLayout , Error , ForgotPassword , ResetPassword , Landing } from "./pages";
+import {Profile} from './components'
 import {action as loginAction} from './pages/Login'
 import {action as forgotPasswordAction} from './pages/ForgotPassword'
 import {action as resetPasswordAction} from './pages/ResetPassword'
@@ -14,9 +15,13 @@ const routes = createBrowserRouter([
     loader : homeLayoutLoader(store),
     children:[
       {
-        index :true ,
+          index :true ,
         element : <Landing/>
 
+      },
+      {
+        path:"/profile",
+        element:<Profile/>
       }
 
     ]

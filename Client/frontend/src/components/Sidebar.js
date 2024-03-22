@@ -3,12 +3,14 @@ import {BsSunFill ,  BsMoonFill } from "react-icons/bs";
 import {ChevronFirst, ChevronLast , LogOut} from 
 'lucide-react'
 import SidebarItem from './SidebarItem';
-import { LayoutDashboard, Home, StickyNote, Layers, Flag, Calendar, LifeBuoy, Settings, MoreVertical } from "lucide-react";
+import { LayoutDashboard, Home, StickyNote, Layers, Calendar, LifeBuoy } from "lucide-react";
 import { useGlobalContext } from './context';
 import {  useDispatch, useSelector } from "react-redux";
-import {useNavigate} from 'react-router-dom'
-import {toggleTheme ,selectTheme , logoutAdmin} from '../features/admin/adminSlice'
+import {useNavigate ,Link} from 'react-router-dom'
+import {toggleTheme  , logoutAdmin, selectAdmin, selectTheme} from '../features/admin/adminSlice'
 import logo from '../assets/logo.png'
+import default_avatar from '../assets/default_avatar.webp'
+
 const items = [
   { icon: <Home size={20} />, text: "Home", alert: true },
   { icon: <LayoutDashboard size={20} />, text: "Dashboard", active: true },
@@ -21,9 +23,12 @@ const items = [
 
 const Sidebar = () => {
   const navigate = useNavigate();
-
   const {expanded ,setExpanded}= useGlobalContext();
   const dispatch = useDispatch();
+ 
+
+  const {firstname , lastname ,email , avatarUrl} = useSelector(selectAdmin)
+
   const handleTheme = ()=>{
     dispatch(toggleTheme())
   }
@@ -32,6 +37,7 @@ const Sidebar = () => {
     dispatch(logoutAdmin())
     
   }
+  
   return(
     <aside className="h-screen"  >
       <nav className="h-full flex flex-col bg-base-300 border-r shadow-sm">
@@ -41,14 +47,12 @@ const Sidebar = () => {
           overflow-hidden transition-all  ${expanded ? "w-auto" : "w-0"}`} />
           <button
               onClick={() => setExpanded((curr) => !curr)}
-            className={`p-1.5 rounded-lg bg-gray-50 hover:bg-orange-100`}>
+            className={`p-1.5 rounded-lg bg-base-content text-base-200 hover:bg-accent`}>
               {expanded ? <ChevronFirst /> : <ChevronLast />}
           </button>
-          
-
         </div>
         
-        <ul className="flex-1 px-3">
+        <ul className="flex-1 px-3 ">
             {items.map((item , index)=>{
               const {icon , text  } = item;
               
@@ -57,45 +61,40 @@ const Sidebar = () => {
 
           </ul>
           <div className="border-t flex p-3">
-            <div class="dropdown dropdown-end     dropdown-right dropdown-top dropdown-hover">
-              <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
-                <div class="w-13 rounded-full">
-                  <img alt="profile image" src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+            <div className="dropdown  dropdown-end dropdown-right dropdown-top dropdown-hover ">
+              <div tabindex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                <div className="w-13 rounded-full">
+                  <img alt="profile image" src={avatarUrl ? `${avatarUrl}`: default_avatar} />
                 </div>
               </div>
-              <ul tabindex="0" className=" mt-5 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-200 rounded-box w-52">
-                <li><a class="btn btn-active  bg-base-200 border-none hover:bg-base-100  justify-center">
-                    Profile</a>
+              <ul tabindex={0} className="mt-5 z-[1] p-0 shadow menu menu-sm dropdown-content bg-base-200 rounded-box mr-[5rem] w-52">
+                <li><Link to="/profile" class="btn btn-active  bg-base-200 border-none shadow-none hover:bg-base-100 rounded-md   justify-center">
+                    Profile</Link>
                 </li>
-                <li><button onClick={handleLogout} className="h-5 flex justify-evenly btn btn-active  bg-base-200 border-none hover:bg-base-100 hover:text-error">
+                <li><button onClick={handleLogout} className="h-5 flex justify-center btn btn-active rounded-md bg-base-200 border-none shadow-none hover:bg-base-100 hover:text-error">
                   LogOut 
                   <LogOut/>
-                </button></li>
+                </button>
+                </li>
                 <li>
-                <label className="flex btn btn-active  bg-base-200 border-none hover:bg-base-100 cursor-pointer gap-2 mx-auto  w-full justify-center h-full">
+                <label className="flex btn btn-active  bg-base-200 border-none hover:bg-base-100 cursor-pointer gap-2  shadow-none mx-auto  w-full justify-center h-full rounded-md ">
                     <BsSunFill className='swap-on h-4 w-4' />
                     <input type="checkbox" onChange={handleTheme}  className="toggle theme-controller"/>
                     <BsMoonFill className='swap-off h-4 w-4' />
 
                 </label>
-
-
-                </li>
-
-                
-                
-                
+                </li>         
               </ul>
             </div>  
           
             <div
               className={`
                 flex justify-between items-center
-                overflow-hidden transition-all ${expanded ? "w-52 ml-3" : "w-0"}
+                overflow-hidden transition-all -mt-2 ${expanded ? "w-52 ml-3" : "w-0"}
               `}>
                 <div className="leading-4">
-                  <h4 className="font-semibold text-base-content">John Doe</h4>
-                    <span className="text-xs text-base-content">johndoe@gmail.com</span>
+                  <h4 className="font-semibold text-base-content capitalize">{`${firstname} ${lastname}`}</h4>
+                    <span className="text-xs text-base-content ">{email}</span>
                 </div>
             
             </div>

@@ -2,7 +2,7 @@ import {createContext, useContext , useState} from 'react'
 const SidebarContext = createContext();
 
 const SidebarProvider =({children})=>{
-    const [expanded ,setExpanded]=useState(true);
+    const [expanded ,setExpanded]=useState(false);
 
 
     return (
