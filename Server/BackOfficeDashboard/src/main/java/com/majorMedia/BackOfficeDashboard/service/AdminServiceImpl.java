@@ -180,10 +180,12 @@ public class AdminServiceImpl implements IAdminService {
 
         Files.write(filePath, file.getBytes());
 
-        String avatarUrl = "/avatars/" + fileName;
+        String avatarUrl = AVATAR_URL + fileName;
 
         byte[] imageData = file.getBytes();
+
         byte[] compressedImageData = ImageUtils.compressImage(imageData);
+
         admin.setImageByte(compressedImageData);
 
         admin.setAvatarUrl(avatarUrl);
@@ -191,6 +193,16 @@ public class AdminServiceImpl implements IAdminService {
 
         return "Image updated Successfully";
 
+    }
+    @Override
+    public byte[] getImageData(Integer adminId) {
+
+        Admin admin = adminRepository.findById(adminId)
+                .orElseThrow(() -> new EntityNotFoundException(adminId,Admin.class));
+
+        byte[] imageData = ImageUtils.decompressImage(admin.getImageByte());
+
+        return imageData;
     }
     @Override
     public AdminResponse getAdminDetails(Integer adminId){
@@ -209,16 +221,7 @@ public class AdminServiceImpl implements IAdminService {
 
         return adminResponse;
     }
-    @Override
-    public byte[] getImageData(Integer adminId) {
 
-            Admin admin = adminRepository.findById(adminId)
-                    .orElseThrow(() -> new EntityNotFoundException(adminId,Admin.class));
-
-            byte[] imageData = ImageUtils.decompressImage(admin.getImageByte());
-
-            return imageData;
-        }
 
 
 }

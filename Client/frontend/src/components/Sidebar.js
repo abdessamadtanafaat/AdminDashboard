@@ -29,6 +29,7 @@ const Sidebar = () => {
 
   const {firstname , lastname ,email , avatarUrl} = useSelector(selectAdmin)
 
+
   const handleTheme = ()=>{
     dispatch(toggleTheme())
   }

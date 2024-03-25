@@ -15,6 +15,7 @@ public class SecurityConstants {
     public static final String RESET_PASSWORD_URL = "http://localhost:3000/reset-password?token=";
     public static final String[] WHITE_LIST = {
             "auth/reset-password"
+            ,"/avatars/**"
             ,"auth/is-token-valid"
             ,"auth/login"
             ,"auth/password-request"
@@ -32,5 +33,6 @@ public class SecurityConstants {
     public static  final Long MAX_AGE = 3600L;
     public static final  int CORS_FILTER_ORDER =-102;
     public static final String AVATAR_DIRECTORY = "src/main/resources/static/avatars/";
+    public static final String AVATAR_URL = "http://localhost:8080/avatars/";
 
 }

@@ -10,6 +10,7 @@ import com.majorMedia.BackOfficeDashboard.entity.admin.Role;
 import com.majorMedia.BackOfficeDashboard.model.requests.AuthenticationRequest;
 import com.majorMedia.BackOfficeDashboard.model.responses.AuthenticationResponse;
 import com.majorMedia.BackOfficeDashboard.repository.AdminRepository;
+import com.majorMedia.BackOfficeDashboard.util.ImageUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -104,6 +105,8 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 }
 
     private void sendAuthenticationResponse(HttpServletResponse response, String token, Admin admin) throws IOException {
+
+
         AuthenticationResponse authenticationResponse = new AuthenticationResponse(token, admin);
         String jsonResponse = new ObjectMapper().writeValueAsString(authenticationResponse);
         response.setContentType("application/json");

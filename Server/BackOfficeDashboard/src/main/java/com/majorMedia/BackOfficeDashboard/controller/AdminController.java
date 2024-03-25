@@ -49,19 +49,27 @@ public class AdminController {
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_SUPER_ADMIN') or hasRole('ADMIN')")
     @GetMapping("/{adminId}")
     public ResponseEntity<AdminResponse> getAdminDetails(@PathVariable Integer adminId){
         AdminResponse adminResponse = IAdminService.getAdminDetails(adminId);
         return ResponseEntity.ok(adminResponse);
     }
 
+/*    @PreAuthorize("hasRole('ROLE_SUPER_ADMIN') or hasRole('ADMIN')")
     @GetMapping("/image/{adminId}")
     public ResponseEntity<byte[]> getImage(@PathVariable Integer adminId) {
         byte[] imageData = IAdminService.getImageData(adminId);
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.valueOf("image/png"))
                 .body(imageData);
-    }
+    }*/
 
+    @PreAuthorize("hasRole('ROLE_SUPER_ADMIN') or hasRole('ADMIN')")
+    @GetMapping(value = "/image/{adminId}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<byte[]> getAdminAvatar(@PathVariable Integer adminId) {
+        byte[] imageData = IAdminService.getImageData(adminId);
+        return ResponseEntity.ok().body(imageData);
+    }
 
 }

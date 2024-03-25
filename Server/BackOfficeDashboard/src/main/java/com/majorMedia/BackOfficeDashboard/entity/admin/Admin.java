@@ -2,6 +2,7 @@ package com.majorMedia.BackOfficeDashboard.entity.admin;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.majorMedia.BackOfficeDashboard.util.ImageUtils;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -81,6 +82,9 @@ public class Admin {
     @Lob
     @Column(name = "imagedata", length = 1000)
     private byte[] imageByte;
+
+
+
 
 
 }
