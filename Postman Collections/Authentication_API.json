@@ -19,7 +19,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\r\n   \"email\": \"tanafaat.rca.16@gmail.com\",\r\n    \"password\": \"raja2015\"\r\n}",
+							"raw": "{\r\n\r\n   \"email\": \"ilias.rouchdi21@gmail.com\",\r\n    \"password\": \"ff\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -168,7 +168,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"tanafaat.rca.16@gmail.com\"\r\n}",
+							"raw": "{\r\n    \"email\": \"ilias.rouchdi21@gmail.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
