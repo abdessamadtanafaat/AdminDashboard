@@ -2,6 +2,7 @@ package com.majorMedia.BackOfficeDashboard.security;
 
 
 import com.majorMedia.BackOfficeDashboard.repository.AdminRepository;
+import com.majorMedia.BackOfficeDashboard.security.BlacklistToken.BlacklistRepository;
 import com.majorMedia.BackOfficeDashboard.security.filter.AuthenticationFilter;
 import com.majorMedia.BackOfficeDashboard.security.filter.ExceptionHandlerFilter;
 import com.majorMedia.BackOfficeDashboard.security.filter.JwtAuthorizationFilter;
@@ -33,13 +34,17 @@ import java.util.Arrays;
 public class SecurityConfig {
     private final CustomAuthenticationManager customAuthenticationManager;
     private final AdminRepository adminRepository;
+    private final BlacklistRepository blacklistRepository;
 
-/*    private static  final Long MAX_AGE = 3600L;
+
+    /*    private static  final Long MAX_AGE = 3600L;
     private static final  int CORS_FILTER_ORDER =-102;*/
     public SecurityConfig(@Lazy CustomAuthenticationManager authenticationManager,
-                          @Lazy AdminRepository adminRepository) {
+                          @Lazy AdminRepository adminRepository,
+                          BlacklistRepository blacklistRepository) {
         this.customAuthenticationManager=authenticationManager;
         this.adminRepository = adminRepository ;
+        this.blacklistRepository = blacklistRepository;
     }
 
     @Bean
@@ -57,7 +62,7 @@ public class SecurityConfig {
                 )
                 .addFilterBefore( new ExceptionHandlerFilter(),AuthenticationFilter.class )
                 .addFilter(authenticationFilter)
-                .addFilterAfter(new JwtAuthorizationFilter(), AuthenticationFilter.class)
+                .addFilterAfter(new JwtAuthorizationFilter(blacklistRepository), AuthenticationFilter.class)
                 .sessionManagement(sess->sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
                     return http.build();

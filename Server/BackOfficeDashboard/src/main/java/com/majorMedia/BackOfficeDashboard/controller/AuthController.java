@@ -75,7 +75,7 @@ public class AuthController
     }
     @PostMapping("/logout")
     public ResponseEntity<String> logout(@RequestBody AuthenticationRequest authentication){
-        return new ResponseEntity<>(authenticationManager.logout(authentication.getEmail()), HttpStatus.OK);
+        return new ResponseEntity<>(authenticationManager.logout(authentication.getEmail(), authentication.getJwtToken()), HttpStatus.OK);
     }
 
 

@@ -2,12 +2,15 @@ package com.majorMedia.BackOfficeDashboard.security.filter;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.majorMedia.BackOfficeDashboard.security.BlacklistToken.BlacklistRepository;
 import com.majorMedia.BackOfficeDashboard.security.SecurityConstants;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,6 +23,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
+
+    private final BlacklistRepository blacklistRepository;
+
+    public JwtAuthorizationFilter(BlacklistRepository blacklistRepository) {
+        this.blacklistRepository = blacklistRepository;
+    }
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
@@ -40,7 +49,12 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 }
             }
 
-            String token = header.replace("Bearer ", "");
+        String token = header.replace("Bearer ", "");
+        if (blacklistRepository.existsByToken(token)) {
+            throw new JWTVerificationException("Token blacklisted");
+        }
+
+            //String token = header.replace("Bearer ", "");
             DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC512(SecurityConstants.SECRET_KEY.getEncoded()))
                     .build()
                     .verify(token);

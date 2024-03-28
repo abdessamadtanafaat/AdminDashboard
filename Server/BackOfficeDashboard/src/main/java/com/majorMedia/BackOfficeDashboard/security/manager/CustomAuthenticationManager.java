@@ -3,6 +3,8 @@ package com.majorMedia.BackOfficeDashboard.security.manager;
 import com.majorMedia.BackOfficeDashboard.exception.NotFoundEmailException;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
 import com.majorMedia.BackOfficeDashboard.repository.AdminRepository;
+import com.majorMedia.BackOfficeDashboard.security.BlacklistToken.BlacklistRepository;
+import com.majorMedia.BackOfficeDashboard.security.BlacklistToken.BlacklistToken;
 import com.majorMedia.BackOfficeDashboard.service.IAdminService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,6 +25,9 @@ public class CustomAuthenticationManager implements AuthenticationManager {
 
     private PasswordEncoder passwordEncoder;
     private AdminRepository adminRepository;
+    private final BlacklistRepository blacklistRepository;
+
+    public static final int MAX_TOKEN_LENGTH = 4000; // Maximum length for JWT token
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -38,15 +43,24 @@ public class CustomAuthenticationManager implements AuthenticationManager {
         return new UsernamePasswordAuthenticationToken(authentication.getName(), admin.getPassword());
     }
 
-    public String logout(String email) {
+    public String logout(String email, String jwtToken) {
         try{
+
+
             Optional<Admin> adminOptional = adminRepository.findByEmail(email);
             Admin admin = adminOptional.orElseThrow(() -> new NotFoundEmailException(email));
 
-            admin.setActive(false);
-            admin.setLastLogout(LocalDateTime.now());
-            adminRepository.save(admin);
-            return "Logged out successfully";
+            if (!blacklistRepository.existsByToken(jwtToken)) {
+                BlacklistToken blacklistToken = new BlacklistToken();
+                blacklistToken.setToken(jwtToken);
+                blacklistRepository.save(blacklistToken);
+
+
+                admin.setActive(false);
+                admin.setLastLogout(LocalDateTime.now());
+                adminRepository.save(admin);
+            }
+                return "Logged out successfully";
 
         }catch (Exception e) {
             e.printStackTrace();

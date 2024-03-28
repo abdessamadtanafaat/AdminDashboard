@@ -37,13 +37,6 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final CustomAuthenticationManager authenticationManager ;
     private final AdminRepository adminRepository;
 
-/*
-    public AuthenticationFilter(CustomAuthenticationManager customAuthenticationManager, AdminRepository adminRepository) {
-        this.adminRepository = adminRepository ;
-        this.authenticationManager = customAuthenticationManager;
-    }
-*/
-
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException {
