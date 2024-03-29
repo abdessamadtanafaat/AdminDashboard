@@ -372,7 +372,7 @@
 						"auth": {
 							"type": "bearer",
 							"bearer": {
-								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0YW5hZmFhdC5yY2EuMTZAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJSRUFEX1BSSVZJTEVHRSIsIldSSVRFX1BSSVZJTEVHRSJdLCJmaXJzdG5hbWUiOiJ0YW5hZmFhdCIsInJvbGVzIjpbIlJPTEVfU1VQRVJfQURNSU4iXSwiaWQiOjEsImV4cCI6MTcxMTA2NDQ4OCwiZW1haWwiOiJ0YW5hZmFhdC5yY2EuMTZAZ21haWwuY29tIiwibGFzdG5hbWUiOiJBQkRFU1NBTUFEIn0.dHiOZvfHA3YoVrix2tokRgcXbuesL3At0j2bNHMy_1KHFlNbaGN6RGkbt0SuSmD0oItdhVpL-5b26_JKAbjPog"
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0YW5hZmFhdC5yY2EuMTZAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJSRUFEX1BSSVZJTEVHRSIsIldSSVRFX1BSSVZJTEVHRSJdLCJmaXJzdG5hbWUiOiJ0YW5hZmFhdCIsInJvbGVzIjpbIlJPTEVfU1VQRVJfQURNSU4iXSwiaWQiOjEsImV4cCI6MTcxMTc1NDQyMCwiZW1haWwiOiJ0YW5hZmFhdC5yY2EuMTZAZ21haWwuY29tIiwibGFzdG5hbWUiOiJBQkRFU1NBTUFEIn0.GBdnP0fB1E5xKkl7rPnI5SB5Jht0eZnKR7kEF_QiIu3o376ozJTReJy3kqOiatWV2T3epJy8xSm-WSCsK124AQ"
 							}
 						},
 						"method": "GET",
@@ -387,7 +387,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/user?sortBy=date",
+							"raw": "http://localhost:8080/user",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -398,13 +398,22 @@
 							],
 							"query": [
 								{
+									"key": "filterByProfile",
+									"value": "Proprietaire",
+									"type": "text",
+									"disabled": true
+								},
+								{
 									"key": "searchKey",
-									"value": "daqwadxv",
+									"value": "tanafaat",
+									"type": "text",
 									"disabled": true
 								},
 								{
 									"key": "sortBy",
-									"value": "date"
+									"value": "status",
+									"type": "text",
+									"disabled": true
 								}
 							]
 						}
