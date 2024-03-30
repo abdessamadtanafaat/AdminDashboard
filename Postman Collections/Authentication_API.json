@@ -208,34 +208,6 @@
 			"name": "AdminApis",
 			"item": [
 				{
-					"name": "SuperAdmin Create Admin",
-					"id": "808aa70b-8298-4201-bb8f-ced0ed792be9",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": {
-								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0YW5hZmFhdC5yY2EuMTZAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJSRUFEX1BSSVZJTEVHRSIsIldSSVRFX1BSSVZJTEVHRSJdLCJmaXJzdG5hbWUiOiJUYW5hZmFhdCIsInJvbGVzIjpbIlNVUEVSX0FETUlOIl0sImlkIjoxLCJleHAiOjE3MTA1OTQ0NjAsImVtYWlsIjoidGFuYWZhYXQucmNhLjE2QGdtYWlsLmNvbSIsImxhc3RuYW1lIjoiQWJkZXNzYW1hZCJ9.Hk5JYatjzsvS4dur3-WGMxqwoVoLWNOxKEyqc67mmEpGk_T6btp2gz8kjxBVCK5LbuGVwgfowk9G7Q__nf8M_g"
-							}
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"firstname\": \"Fatima\",\r\n  \"lastname\": \"El Khattabi\",\r\n  \"email\": \"fatima.elkhattabi@gmail.com\",\r\n  \"password\": \"admin\",\r\n  \"roles\": [\r\n    {\r\n      \"name\": \"ADMIN\"\r\n    }\r\n  ]\r\n}\r\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "http://localhost:8080/admin/create-admin"
-					},
-					"response": []
-				},
-				{
 					"name": "Change account settings",
 					"id": "cfcaeedd-a56b-46b5-8fbb-e51741218d44",
 					"protocolProfileBehavior": {
@@ -361,6 +333,40 @@
 						"url": "http://localhost:8080/admin/image/1"
 					},
 					"response": []
+				}
+			],
+			"id": "edf2e029-4d0b-4d93-aa9c-a3e81b337e0f"
+		},
+		{
+			"name": "SuperAdminApis",
+			"item": [
+				{
+					"name": "SuperAdmin Create Admin",
+					"id": "808aa70b-8298-4201-bb8f-ced0ed792be9",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0YW5hZmFhdC5yY2EuMTZAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJSRUFEX1BSSVZJTEVHRSIsIldSSVRFX1BSSVZJTEVHRSJdLCJmaXJzdG5hbWUiOiJ0YW5hZmFhdCIsInJvbGVzIjpbIlJPTEVfU1VQRVJfQURNSU4iXSwiaWQiOjEsImV4cCI6MTcxMTg0MjU0MiwiZW1haWwiOiJ0YW5hZmFhdC5yY2EuMTZAZ21haWwuY29tIiwibGFzdG5hbWUiOiJBQkRFU1NBTUFEIn0.BkW1M2K3CQCQja5CVB-2DeLJNM3cjDkrCTIU2Te0dTQeOHToginC58xYr1freYDyBaRB43Mg7Z6UlJtR0SVpNw"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstname\": \"Fatima\",\r\n  \"lastname\": \"El Khattabi\",\r\n  \"email\": \"fatima.elkhattabi@gmail.com\",\r\n  \"password\": \"admin\",\r\n  \"roles\": [\r\n    {\r\n      \"name\": \"ADMIN\"\r\n    }\r\n  ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/super-admin/create-admin"
+					},
+					"response": []
 				},
 				{
 					"name": "GetAllUsers",
@@ -372,7 +378,7 @@
 						"auth": {
 							"type": "bearer",
 							"bearer": {
-								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0YW5hZmFhdC5yY2EuMTZAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJSRUFEX1BSSVZJTEVHRSIsIldSSVRFX1BSSVZJTEVHRSJdLCJmaXJzdG5hbWUiOiJ0YW5hZmFhdCIsInJvbGVzIjpbIlJPTEVfU1VQRVJfQURNSU4iXSwiaWQiOjEsImV4cCI6MTcxMTc1NjU2NiwiZW1haWwiOiJ0YW5hZmFhdC5yY2EuMTZAZ21haWwuY29tIiwibGFzdG5hbWUiOiJBQkRFU1NBTUFEIn0.St7BN-u9ditsglWGDiagXgn53MBlxIVomIoN9xO8aEqQ5u5kU5wQ0ZiQyPJjW0GHF8jJO20G0j6MIw_fUtUKWg"
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0YW5hZmFhdC5yY2EuMTZAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJSRUFEX1BSSVZJTEVHRSIsIldSSVRFX1BSSVZJTEVHRSJdLCJmaXJzdG5hbWUiOiJ0YW5hZmFhdCIsInJvbGVzIjpbIlJPTEVfU1VQRVJfQURNSU4iXSwiaWQiOjEsImV4cCI6MTcxMTg0MjU0MiwiZW1haWwiOiJ0YW5hZmFhdC5yY2EuMTZAZ21haWwuY29tIiwibGFzdG5hbWUiOiJBQkRFU1NBTUFEIn0.BkW1M2K3CQCQja5CVB-2DeLJNM3cjDkrCTIU2Te0dTQeOHToginC58xYr1freYDyBaRB43Mg7Z6UlJtR0SVpNw"
 							}
 						},
 						"method": "GET",
@@ -387,14 +393,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/user",
+							"raw": "http://localhost:8080/super-admin/users",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"user"
+								"super-admin",
+								"users"
 							],
 							"query": [
 								{
@@ -419,9 +426,28 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "getAdminDetails",
+					"id": "f2cee099-9b16-4397-8b3c-1b661a67f9e2",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0YW5hZmFhdC5yY2EuMTZAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJSRUFEX1BSSVZJTEVHRSIsIldSSVRFX1BSSVZJTEVHRSJdLCJmaXJzdG5hbWUiOiJ0YW5hZmFhdCIsInJvbGVzIjpbIlJPTEVfU1VQRVJfQURNSU4iXSwiaWQiOjEsImV4cCI6MTcxMTg0MjU0MiwiZW1haWwiOiJ0YW5hZmFhdC5yY2EuMTZAZ21haWwuY29tIiwibGFzdG5hbWUiOiJBQkRFU1NBTUFEIn0.BkW1M2K3CQCQja5CVB-2DeLJNM3cjDkrCTIU2Te0dTQeOHToginC58xYr1freYDyBaRB43Mg7Z6UlJtR0SVpNw"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/super-admin/1"
+					},
+					"response": []
 				}
 			],
-			"id": "edf2e029-4d0b-4d93-aa9c-a3e81b337e0f"
+			"id": "d99d9dc1-12c8-44d6-bab4-6155cd8ca06e"
 		}
 	]
 }
