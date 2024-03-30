@@ -34,8 +34,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain)
             throws ServletException, IOException {
-
-        String header = request.getHeader("Authorization");
+            String header = request.getHeader("Authorization");
             if (header == null || !header.startsWith(SecurityConstants.BEARER)) {
                 //throw new RuntimeException("Unauthorized");
                 if (Arrays.stream(SecurityConstants.WHITE_LIST)
@@ -49,10 +48,10 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 }
             }
 
-        String token = header.replace("Bearer ", "");
-        if (blacklistRepository.existsByToken(token)) {
-            throw new JWTVerificationException("Token blacklisted");
-        }
+            String token = header.replace("Bearer ", "");
+            if (blacklistRepository.existsByToken(token)) {
+                throw new JWTVerificationException("Token blacklisted");
+            }
 
             //String token = header.replace("Bearer ", "");
             DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC512(SecurityConstants.SECRET_KEY.getEncoded()))

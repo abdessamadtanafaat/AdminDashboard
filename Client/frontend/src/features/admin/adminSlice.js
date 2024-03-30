@@ -48,6 +48,6 @@ const adminSlice = createSlice({
     }
 })
 export const selectTheme =(state)=>state.adminState.theme
-export const selectAdmin =(state)=>state.adminState.admin
+export const selectAdmin =(state)=>state.adminState.admin || {}
 export const {loginAdmin , logoutAdmin ,toggleTheme} =adminSlice.actions;
 export default adminSlice.reducer;

@@ -4,7 +4,7 @@ const FormInput = ({type , label , name , placeholder, value, onChange , disable
   return (
     <div className='form-control '>
       <label className='label'>
-        <span className='label-text capitalize text-base font-semibold'>{label}</span>
+        <span className='label-text capitalize font-semibold'>{label}</span>
       </label>
       <input
         type={type}
@@ -12,7 +12,8 @@ const FormInput = ({type , label , name , placeholder, value, onChange , disable
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className='input input-bordered input-secondary ' disabled={disabled}
+        className='input input-bordered input-accent'
+        disabled={disabled}
       />
     </div>
   )

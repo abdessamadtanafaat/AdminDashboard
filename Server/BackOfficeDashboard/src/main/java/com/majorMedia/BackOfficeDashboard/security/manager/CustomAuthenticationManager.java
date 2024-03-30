@@ -10,6 +10,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -39,6 +40,7 @@ public class CustomAuthenticationManager implements AuthenticationManager {
     }
 
     public String logout(String email, String jwtToken) {
+
         try{
             Optional<Admin> adminOptional = adminRepository.findByEmail(email);
             Admin admin = adminOptional.orElseThrow(() -> new NotFoundEmailException(email));

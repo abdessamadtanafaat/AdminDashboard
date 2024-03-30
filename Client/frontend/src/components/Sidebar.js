@@ -8,9 +8,10 @@ import { useGlobalContext } from './context';
 import {  useDispatch, useSelector } from "react-redux";
 import {useNavigate ,Link} from 'react-router-dom'
 import {toggleTheme  , logoutAdmin, selectAdmin, selectTheme} from '../features/admin/adminSlice'
-import {customFetch} from '../utils'
 import logo from '../assets/logo.png'
 import default_avatar from '../assets/default_avatar.webp'
+import { customFetch } from "../utils";
+import { toast } from "react-toastify";
 
 const items = [
   { icon: <Home size={20} />, text: "Home", alert: true },
@@ -27,31 +28,30 @@ const Sidebar = () => {
   const {expanded ,setExpanded}= useGlobalContext();
   const dispatch = useDispatch();
  
-
-  const {firstname , lastname ,email , avatarUrl , token} = useSelector(selectAdmin)
+  const admin = useSelector(selectAdmin)
+  const {firstname , lastname ,email , avatarUrl , token} = admin
 
 
   const handleTheme = ()=>{
     dispatch(toggleTheme())
   }
   const handleLogout = async()=>{
-
-    try{
-      const response = await customFetch.post('/auth/logout', {email , headers : {Authorization : `Bearer ${token}`}});
-      console.log(response.data)
-
-    }
-    catch(err){
-      console.log(err)
-
-    }
-    navigate("/login")
-    dispatch(logoutAdmin())
-    
+    try {
+      const response = await customFetch.post("/auth/logout", {data : email} ,{
+          headers: { Authorization: `Bearer ${token}` } 
+      });
+      navigate("/login")
+      dispatch(logoutAdmin())
+      
+    } catch (err) {
+      const errorMessage = err?.response?.data;
+      console.log(errorMessage);
+      toast.error(errorMessage);
+    } 
   }
   
   return(
-    <aside className="h-screen"  >
+    <aside className="h-screen fixed z-30"  >
       <nav className="h-full flex flex-col bg-base-300 border-r shadow-sm">
         <div className={`p-4 pb-2 flex justify-between items-center mb-4`}
         >
@@ -74,16 +74,16 @@ const Sidebar = () => {
           </ul>
           <div className="border-t flex p-3">
             <div className="dropdown  dropdown-end dropdown-right dropdown-top dropdown-hover ">
-              <div tabindex={0} role="button" className="btn btn-ghost btn-circle avatar">
+              <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                 <div className="w-13 rounded-full">
                   <img alt="profile image" src={avatarUrl ? `${avatarUrl}`: default_avatar} />
                 </div>
               </div>
-              <ul tabindex={0} className="mt-5 z-[1] p-0 shadow menu menu-sm dropdown-content bg-base-200 rounded-box mr-[5rem] w-52">
-                <li><Link to="/profile" class="btn btn-active  bg-base-200 border-none shadow-none hover:bg-base-100 rounded-md   justify-center">
+              <ul tabIndex={0} className="mt-5 z-[1] p-0 shadow menu menu-sm dropdown-content bg-base-200 rounded-box mr-[5rem] w-52">
+                <li><Link to="/profile" className="btn btn-active  bg-base-200 border-none shadow-none hover:bg-base-100 rounded-md   justify-center">
                     Profile</Link>
                 </li>
-                <li><button onClick={handleLogout} className="h-5 flex justify-center btn btn-active rounded-md bg-base-200 border-none shadow-none hover:bg-base-100 hover:text-error">
+                <li><button onClick={async()=>await handleLogout()} className="h-5 flex justify-center btn btn-active rounded-md bg-base-200 border-none shadow-none hover:bg-base-100 hover:text-error">
                   LogOut 
                   <LogOut/>
                 </button>

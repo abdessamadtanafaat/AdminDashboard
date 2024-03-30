@@ -9,10 +9,12 @@ import com.majorMedia.BackOfficeDashboard.service.adminService.IAdminService;
 import com.majorMedia.BackOfficeDashboard.service.authService.IAuthService;
 import com.majorMedia.BackOfficeDashboard.util.EmailUtils;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -48,9 +50,7 @@ public class AuthController
         return new ResponseEntity<>(authService.resetPassword(request), HttpStatus.ACCEPTED);
     }
     @PostMapping("/logout")
-    public ResponseEntity<String> logout(@RequestBody AuthenticationRequest authentication){
-        return new ResponseEntity<>(authenticationManager.logout(authentication.getEmail(), authentication.getJwtToken()), HttpStatus.OK);
+    public ResponseEntity<String> logout(@RequestBody AuthenticationRequest authenticationRequest , HttpServletRequest request){
+        return new ResponseEntity<>(authenticationManager.logout(authenticationRequest.getEmail(), request.getHeader("Authorization").substring(7)), HttpStatus.OK);
     }
-
-
 }
