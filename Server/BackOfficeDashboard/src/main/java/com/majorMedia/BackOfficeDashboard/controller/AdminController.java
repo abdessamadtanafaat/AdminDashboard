@@ -1,75 +1,63 @@
 package com.majorMedia.BackOfficeDashboard.controller;
 
-import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
-import com.majorMedia.BackOfficeDashboard.model.requests.RegisterRequest;
-import com.majorMedia.BackOfficeDashboard.model.responses.AdminResponse;
-import com.majorMedia.BackOfficeDashboard.service.IAdminService;
+import com.majorMedia.BackOfficeDashboard.model.requests.ResetPasswordRequest;
+import com.majorMedia.BackOfficeDashboard.model.requests.UpdateAccountRequest;
+import com.majorMedia.BackOfficeDashboard.model.responses.UserResponse;
+import com.majorMedia.BackOfficeDashboard.service.adminService.IAdminService;
+import com.majorMedia.BackOfficeDashboard.service.superAdminService.ISuperAdminService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 
 @RestController
 @AllArgsConstructor
 @SecurityRequirement(name = "bearerAuth")
+@PreAuthorize("hasRole('ROLE_SUPER_ADMIN') or hasRole('ADMIN')")
 @RequestMapping("/admin")
 public class AdminController {
 
-    private final IAdminService IAdminService;
+    private final IAdminService adminService;
 
-    @PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
-    @PostMapping("/create-admin")
-    public ResponseEntity<Admin> createAdmin(@RequestBody RegisterRequest admin, Authentication authentication)
-        {
-        Admin createdAdmin = IAdminService.createAdmin(admin);
-        return new ResponseEntity<>(createdAdmin, HttpStatus.CREATED);
-    }
-
-    @PreAuthorize("hasRole('ROLE_SUPER_ADMIN') or hasRole('ADMIN')")
     @PatchMapping("/{adminId}/avatar")
     public ResponseEntity<String> uploadAvatar(@PathVariable("adminId") Integer adminId,
-                                               @RequestParam("avatar")MultipartFile file) {
-                                               //throws IOException
-        try{
-            String imageUrl = IAdminService.uploadAdminAvatar(adminId, file);
+                                               @RequestParam("avatar")MultipartFile file) throws IOException {
+
+            String imageUrl = adminService.uploadAdminAvatar(adminId, file);
             return new ResponseEntity<> (imageUrl,HttpStatus.CREATED);
 
-        }catch (IOException e){
-            e.printStackTrace();
-            return ResponseEntity.badRequest().body("Failed to upload avatar");
-        }
     }
-
-    @PreAuthorize("hasRole('ROLE_SUPER_ADMIN') or hasRole('ADMIN')")
-    @GetMapping("/{adminId}")
-    public ResponseEntity<AdminResponse> getAdminDetails(@PathVariable Integer adminId){
-        AdminResponse adminResponse = IAdminService.getAdminDetails(adminId);
-        return ResponseEntity.ok(adminResponse);
-    }
-
-/*    @PreAuthorize("hasRole('ROLE_SUPER_ADMIN') or hasRole('ADMIN')")
-    @GetMapping("/image/{adminId}")
-    public ResponseEntity<byte[]> getImage(@PathVariable Integer adminId) {
-        byte[] imageData = IAdminService.getImageData(adminId);
-        return ResponseEntity.status(HttpStatus.OK)
-                .contentType(MediaType.valueOf("image/png"))
-                .body(imageData);
-    }*/
-
-    @PreAuthorize("hasRole('ROLE_SUPER_ADMIN') or hasRole('ADMIN')")
     @GetMapping(value = "/image/{adminId}", produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<byte[]> getAdminAvatar(@PathVariable Integer adminId) {
-        byte[] imageData = IAdminService.getImageData(adminId);
+        byte[] imageData = adminService.getImageData(adminId);
         return ResponseEntity.ok().body(imageData);
     }
 
+    @PatchMapping("/change-password")
+    public ResponseEntity<String> changePassword(@RequestBody ResetPasswordRequest request){
+        return new ResponseEntity<>(adminService.changePassword(request), HttpStatus.ACCEPTED);
+    }
+    @PatchMapping("/change-account-settings")
+    public ResponseEntity<String> changeAccountSettings(@RequestBody UpdateAccountRequest request){
+        return new ResponseEntity<>(adminService.updateAccountSettings(request),HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping(value = "/owners")
+    public ResponseEntity<List<UserResponse>> getAllUsers(
+            @RequestParam(required = false) String sortBy,
+            @RequestParam(required = false) String searchKey,
+            @RequestParam(required = false) String filterByProfile,
+            @RequestParam(required = false) String filterByStatus)
+    {
+        List<UserResponse> userResponses = adminService.getAllOwners(sortBy,searchKey,filterByProfile,filterByStatus);
+        return ResponseEntity.ok(userResponses);
+    }
 }

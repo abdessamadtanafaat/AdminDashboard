@@ -21,7 +21,11 @@ public class ExceptionHandlerFilter  extends OncePerRequestFilter {
         } catch (EntityNotFoundException e) {
             handleException(response, HttpServletResponse.SC_NOT_FOUND,"Email doesn't exist");
         } catch (JWTVerificationException e) {
-            handleException(response, HttpServletResponse.SC_FORBIDDEN, "Access Denied: JWT NOT VALID");
+            if ("Token blacklisted".equals(e.getMessage())) {
+                handleException(response, HttpServletResponse.SC_FORBIDDEN, "Access Denied: Token blacklisted");
+            } else {
+                handleException(response, HttpServletResponse.SC_FORBIDDEN, "Access Denied: JWT NOT VALID");
+            }
         } catch (AccessDeniedException e) {
                 handleException(response, HttpServletResponse.SC_FORBIDDEN, "Forbidden: Insufficient permissions");
         } catch (RuntimeException e) {

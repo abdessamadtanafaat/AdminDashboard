@@ -5,7 +5,6 @@ import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
 import com.majorMedia.BackOfficeDashboard.repository.AdminRepository;
 import com.majorMedia.BackOfficeDashboard.security.BlacklistToken.BlacklistRepository;
 import com.majorMedia.BackOfficeDashboard.security.BlacklistToken.BlacklistToken;
-import com.majorMedia.BackOfficeDashboard.service.IAdminService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -38,7 +37,7 @@ public class CustomAuthenticationManager implements AuthenticationManager {
             throw new BadCredentialsException("You provided an incorrect password");
         }
         admin.setActive(true);
-        admin.setLasLogin(LocalDateTime.now());
+        admin.setLastLogin(LocalDateTime.now());
         adminRepository.save(admin);
         return new UsernamePasswordAuthenticationToken(authentication.getName(), admin.getPassword());
     }

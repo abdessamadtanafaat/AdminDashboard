@@ -1,5 +1,6 @@
 package com.majorMedia.BackOfficeDashboard.model.responses;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,6 +15,5 @@ public class AdminResponse {
     private String firstname;
     private String lastname;
     private String email;
-
-    private byte[] imageData;
+    private String avatarUrl;
 }

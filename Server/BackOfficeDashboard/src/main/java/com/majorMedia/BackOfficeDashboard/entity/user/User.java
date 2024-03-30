@@ -33,6 +33,14 @@ public class User {
     @NotBlank(message = "Full name is required")
     private String fullName;
 
+    @Column(nullable = false)
+    @NotBlank(message = "first name is required")
+    private String firstName;
+
+    @Column(nullable = false)
+    @NotBlank(message = "last name is required")
+    private String lastName;
+
     @NotBlank(message = "Email is required")
     @NotBlank(message = "Email is required")
     @Email(message = "Invalid email format")
@@ -59,7 +67,7 @@ public class User {
 
     @Column(name = "last_login")
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
-    private LocalDateTime lasLogin;
+    private LocalDateTime lastLogin;
 
     @Column(name = "is_active")
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
@@ -68,4 +76,8 @@ public class User {
     @Column(name = "last_logout")
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
     private LocalDateTime lastLogout;
+
+    @Column(name = "status")
+    @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
+    private String status;
 }

@@ -1,4 +1,4 @@
-package com.majorMedia.BackOfficeDashboard.swagger;
+package com.majorMedia.BackOfficeDashboard.config;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;

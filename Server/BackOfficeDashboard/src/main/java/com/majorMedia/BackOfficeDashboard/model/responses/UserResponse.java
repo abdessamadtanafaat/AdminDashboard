@@ -14,10 +14,14 @@ import java.time.LocalDateTime;
 @Builder
 
 public class UserResponse {
-    private String fullname;
+    //private String fullname;
+    private String firstname;
+    private String lastname;
     private String email;
     private String status;
-    private String phone;
-    private LocalDate createdAt;
+    //private String phone;
+    private LocalDate lastLogout;
+    private String profil;
+    //private String avatarUrl;
 
 }

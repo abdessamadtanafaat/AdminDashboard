@@ -1,6 +1,7 @@
 package com.majorMedia.BackOfficeDashboard.entity.admin;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.majorMedia.BackOfficeDashboard.util.ImageUtils;
 import jakarta.persistence.*;
@@ -52,7 +53,7 @@ public class Admin {
 
     @Column(name = "last_login")
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
-    private LocalDateTime lasLogin;
+    private LocalDateTime lastLogin;
 
     @Column(name = "is_active")
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
@@ -81,7 +82,13 @@ public class Admin {
 
     @Lob
     @Column(name = "imagedata", length = 1000)
+    @JsonIgnore
     private byte[] imageByte;
+
+    @Column(name = "status")
+    @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
+    private String status;
+
 
 
 
