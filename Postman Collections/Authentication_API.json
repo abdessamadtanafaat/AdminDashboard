@@ -341,8 +341,43 @@
 						"disableBodyPruning": true
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0YW5hZmFhdC5yY2EuMTZAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJSRUFEX1BSSVZJTEVHRSIsIldSSVRFX1BSSVZJTEVHRSJdLCJmaXJzdG5hbWUiOiJ0YW5hZmFhdCIsInJvbGVzIjpbIlJPTEVfU1VQRVJfQURNSU4iXSwiaWQiOjEsImV4cCI6MTcxMTg0NDAxMiwiZW1haWwiOiJ0YW5hZmFhdC5yY2EuMTZAZ21haWwuY29tIiwibGFzdG5hbWUiOiJBQkRFU1NBTUFEIn0.mPdl5YIcxUWpjcsUaMHIs7fG1qdtICwfOWlPJ_MFznGE8dBHerPraRubiuxW1_B2zc6nuWwKBQJh6ROAy8fTPg"
+							}
+						},
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/admin/owners",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"owners"
+							],
+							"query": [
+								{
+									"key": "filterByProfile",
+									"value": "proprietaire",
+									"disabled": true
+								},
+								{
+									"key": "searchKey",
+									"value": "tanafaat",
+									"disabled": true
+								},
+								{
+									"key": "filterByStatus",
+									"value": "bloqué",
+									"disabled": true
+								}
+							]
+						}
 					},
 					"response": []
 				}
