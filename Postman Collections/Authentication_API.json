@@ -232,14 +232,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/auth/change-account-settings",
+							"raw": "http://localhost:8080/admin/change-account-settings",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"auth",
+								"admin",
 								"change-account-settings"
 							],
 							"query": [
@@ -278,7 +278,7 @@
 								}
 							}
 						},
-						"url": "http://localhost:8080/auth/change-password"
+						"url": "http://localhost:8080/admin/change-password"
 					},
 					"response": []
 				},
