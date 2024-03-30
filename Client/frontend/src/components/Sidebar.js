@@ -8,6 +8,7 @@ import { useGlobalContext } from './context';
 import {  useDispatch, useSelector } from "react-redux";
 import {useNavigate ,Link} from 'react-router-dom'
 import {toggleTheme  , logoutAdmin, selectAdmin, selectTheme} from '../features/admin/adminSlice'
+import {customFetch} from '../utils'
 import logo from '../assets/logo.png'
 import default_avatar from '../assets/default_avatar.webp'
 
@@ -27,13 +28,23 @@ const Sidebar = () => {
   const dispatch = useDispatch();
  
 
-  const {firstname , lastname ,email , avatarUrl} = useSelector(selectAdmin)
+  const {firstname , lastname ,email , avatarUrl , token} = useSelector(selectAdmin)
 
 
   const handleTheme = ()=>{
     dispatch(toggleTheme())
   }
-  const handleLogout = ()=>{
+  const handleLogout = async()=>{
+
+    try{
+      const response = await customFetch.post('/auth/logout', {email , headers : {Authorization : `Bearer ${token}`}});
+      console.log(response.data)
+
+    }
+    catch(err){
+      console.log(err)
+
+    }
     navigate("/login")
     dispatch(logoutAdmin())
     
