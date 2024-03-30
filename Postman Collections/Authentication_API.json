@@ -333,6 +333,18 @@
 						"url": "http://localhost:8080/admin/image/1"
 					},
 					"response": []
+				},
+				{
+					"name": "GetOwners",
+					"id": "b995c190-e745-453a-bf59-36396e9effcd",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
 				}
 			],
 			"id": "edf2e029-4d0b-4d93-aa9c-a3e81b337e0f"
