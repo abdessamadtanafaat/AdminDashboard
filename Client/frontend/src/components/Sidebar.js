@@ -37,7 +37,7 @@ const Sidebar = () => {
   }
   const handleLogout = async()=>{
     try {
-      const response = await customFetch.post("/auth/logout", {data : email} ,{
+      const response = await customFetch.post("/auth/logout", {email : email} ,{
           headers: { Authorization: `Bearer ${token}` } 
       });
       navigate("/login")

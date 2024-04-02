@@ -5,7 +5,7 @@ import {Form } from 'react-router-dom'
 import {PiPencilSimpleDuotone} from 'react-icons/pi'
 import avatar_default from '../assets/default_avatar.webp'
 import { FormInput, SubmitBtn } from '../components'
-const YourComponent = () => {
+const Profile = () => {
   const admin = useSelector(selectAdmin);
   const [selectedImage, setSelectedImage] = useState(admin.avatarUrl);
   const [firstname , setFirstname]= useState(admin.firstname)
@@ -61,4 +61,4 @@ const YourComponent = () => {
   );
 };
 
-export default YourComponent;
+export default Profile;
