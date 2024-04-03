@@ -11,7 +11,7 @@ const getThemeFromLocalStorage = ()=>{
 }
 
 const getAdminFromLocalStorage=()=>{
-
+    
     return JSON.parse(localStorage.getItem("admin")) || null 
 }
 
@@ -33,7 +33,7 @@ const adminSlice = createSlice({
             localStorage.setItem("admin" , JSON.stringify(admin))
             
         },
-        logoutAdmin : (state , action)=>{
+        logoutAdmin : (state )=>{
             state.admin = null 
             localStorage.removeItem("admin")
             
@@ -44,10 +44,19 @@ const adminSlice = createSlice({
             state.theme = state.theme === dracula ? nord : dracula;
             document.documentElement.setAttribute('data-theme', state.theme);
             localStorage.setItem('theme', state.theme);
+        },
+        updateProfile : (state, action)=>{
+            const updatedAdmin = state.admin;
+            const {avatarUrl , firstname , lastname } = action.payload;
+            updatedAdmin.avatarUrl = avatarUrl ;
+            updatedAdmin.firstname = firstname ;
+            updatedAdmin.lastname = lastname ;
+            state.admin = updatedAdmin ; 
+            localStorage.setItem("admin",JSON.stringify(state.admin))
         }
     }
 })
 export const selectTheme =(state)=>state.adminState.theme
 export const selectAdmin =(state)=>state.adminState.admin || {}
-export const {loginAdmin , logoutAdmin ,toggleTheme} =adminSlice.actions;
+export const {loginAdmin , logoutAdmin ,toggleTheme , updateProfile} =adminSlice.actions;
 export default adminSlice.reducer;

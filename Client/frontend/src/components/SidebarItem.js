@@ -1,6 +1,6 @@
 import { useGlobalContext } from "./context";
 
-const SidebarItem = ({icon , text ,alert ,active }) => {
+const SidebarItem = ({icon , text ,alert ,active , children }) => {
   const {expanded} = useGlobalContext();
   return (
     <li className={`

@@ -13,5 +13,5 @@ public class UpdateAccountRequest {
     private String email;
     private String firstname;
     private String lastname;
-    private String jwtToken;
+    private String avatarUrl;
 }

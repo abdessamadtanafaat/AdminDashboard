@@ -34,7 +34,7 @@ const Login = () => {
             <h4 className='text-center text-3xl font-bold'>Login</h4>
             <FormInput type="text" label="Email" name="email" placeholder="email@email.com"/>
             <FormInput type="password" label="Password" name="password" placeholder="secret"/>
-            <p className='text-center font-bold'>
+             <p className='text-center font-bold'>
               Forgot Password ?{' '}
                <Link
                  to='/forgotPassword'

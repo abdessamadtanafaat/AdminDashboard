@@ -41,18 +41,13 @@ public class AdminServiceImpl implements IAdminService {
     @Override
     public String updateAccountSettings(UpdateAccountRequest request) {
 
-
-        if (!JwtUtils.isValidJwt(request.getJwtToken())) {
-            throw new InvalidTokenException();
-        }
-        String email = JwtUtils.extractEmailFromToken(request.getJwtToken());
-
-        Admin admin = adminRepository.findByEmail(email)
-                .orElseThrow(() -> new NotFoundEmailException(email));
+        Admin admin = adminRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new NotFoundEmailException(request.getEmail()));
 
         admin.setFirstname(request.getFirstname());
         admin.setLastname(request.getLastname());
         admin.setEmail(request.getEmail());
+        admin.setAvatarUrl(request.getAvatarUrl());
 
         adminRepository.save(admin);
 

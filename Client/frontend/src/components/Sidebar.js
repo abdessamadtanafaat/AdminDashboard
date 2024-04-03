@@ -17,9 +17,7 @@ const items = [
   { icon: <Home size={20} />, text: "Home", alert: true },
   { icon: <LayoutDashboard size={20} />, text: "Dashboard", active: true },
   { icon: <StickyNote size={20} />, text: "Projects", alert: true },
-  { icon: <Calendar size={20} />, text: "Calendar" },
-  { icon: <Layers size={20} />, text: "Tasks" },
-  { icon: <LifeBuoy size={20} />, text: "Help" }
+  { icon: <LifeBuoy size={20} />, text: "Help", children : [] }
 ]
 
 

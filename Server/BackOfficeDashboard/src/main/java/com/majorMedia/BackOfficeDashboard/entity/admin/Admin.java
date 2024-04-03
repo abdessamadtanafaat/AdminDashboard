@@ -78,6 +78,7 @@ public class Admin {
     //@JsonIgnore
     private Collection<Role> roles;
 
+    @Column(length = 100000)
     private String avatarUrl;
 
     @Lob
@@ -88,10 +89,6 @@ public class Admin {
     @Column(name = "status")
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
     private String status;
-
-
-
-
 
 
 }
