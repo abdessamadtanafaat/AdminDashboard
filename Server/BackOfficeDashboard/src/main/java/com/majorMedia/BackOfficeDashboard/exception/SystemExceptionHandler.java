@@ -38,6 +38,12 @@ public class SystemExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
     }
 
+    @ExceptionHandler(SuperAdminRoleAssignmentException.class)
+    public ResponseEntity<String> handleRoleAssignment(SuperAdminRoleAssignmentException e){
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+
+    }
+
 
 /*
     @ExceptionHandler(Exception.class)

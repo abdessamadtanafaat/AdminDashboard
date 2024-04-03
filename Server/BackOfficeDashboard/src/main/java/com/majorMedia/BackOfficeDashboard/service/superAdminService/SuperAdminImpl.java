@@ -1,16 +1,19 @@
 package com.majorMedia.BackOfficeDashboard.service.superAdminService;
 
 import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
+import com.majorMedia.BackOfficeDashboard.entity.admin.Privilege;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Role;
 import com.majorMedia.BackOfficeDashboard.entity.user.User;
 import com.majorMedia.BackOfficeDashboard.exception.AlreadyExistEmailException;
 import com.majorMedia.BackOfficeDashboard.exception.EntityNotFoundException;
 import com.majorMedia.BackOfficeDashboard.exception.InvalidRoleException;
+import com.majorMedia.BackOfficeDashboard.exception.SuperAdminRoleAssignmentException;
 import com.majorMedia.BackOfficeDashboard.model.requests.RegisterRequest;
 import com.majorMedia.BackOfficeDashboard.model.requests.RoleRequest;
 import com.majorMedia.BackOfficeDashboard.model.responses.AdminResponse;
 import com.majorMedia.BackOfficeDashboard.model.responses.UserResponse;
 import com.majorMedia.BackOfficeDashboard.repository.AdminRepository;
+import com.majorMedia.BackOfficeDashboard.repository.PrivilegeRepository;
 import com.majorMedia.BackOfficeDashboard.repository.RoleRepository;
 import com.majorMedia.BackOfficeDashboard.util.ServiceUtils;
 import jakarta.transaction.Transactional;
@@ -32,8 +35,12 @@ public class SuperAdminImpl implements ISuperAdminService {
     private AdminRepository adminRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
+    private final PrivilegeRepository privilegeRepository;
     private final ServiceUtils adminService;
 
+
+    @Override
+    @Transactional
     public List<UserResponse> getAllUsers(String sortBy ,String searchKey, String filterByProfile, String filterByStatus) {
         List<UserResponse> userResponses = new ArrayList<>();
 
@@ -95,7 +102,8 @@ public class SuperAdminImpl implements ISuperAdminService {
         return userResponses;
     }
     @Override
-    public AdminResponse getAdminDetails(Integer adminId){
+    @Transactional
+    public AdminResponse getAdminDetails(Long adminId){
         Admin admin = adminRepository.findById(adminId)
                 .orElseThrow(()-> new EntityNotFoundException(adminId, Admin.class));
 
@@ -109,6 +117,7 @@ public class SuperAdminImpl implements ISuperAdminService {
 
         return adminResponse;
     }
+    @Override
     @Transactional
     public Admin createAdmin(RegisterRequest registerRequest) {
         boolean adminExists = adminRepository.findByEmail(registerRequest.getEmail()).isPresent();
@@ -123,22 +132,64 @@ public class SuperAdminImpl implements ISuperAdminService {
 
         admin.setPassword(encodedPassword);
 
-        Collection<Role> roles = new ArrayList<>();
-        for (RoleRequest roleRequest : registerRequest.getRoles()) {
-            Role role = roleRepository.findByName(roleRequest.getName());
-            if (role == null) {
-                throw new InvalidRoleException(roleRequest.getName());
-            }
-            roles.add(role);
-        }
-        admin.setRoles(roles);
 
         return adminRepository.save(admin);
 
     }
 
+    @Override
+    @Transactional
+    public Role addRole(String name, String description){
+        Role role = new Role(name,description);
+        return  roleRepository.save(role);
+    }
+
+    @Override
+    @Transactional
+    public Privilege addPrivilege(String name, String description){
+        Privilege privilege = new Privilege(name,description);
+        return privilegeRepository.save(privilege);
+    }
+
+    @Override
+    @Transactional
+    public Admin assignRoleToAdmin(Long adminId, Long roleId){
+
+        Admin admin = adminRepository.findById(adminId)
+                .orElseThrow(()-> new EntityNotFoundException(adminId, Admin.class));
+
+        Role role = roleRepository.findById(roleId)
+                .orElseThrow(()->new EntityNotFoundException(roleId, Role.class));
 
 
+        if (adminService.isAdminSuperAdmin(admin)){
+            throw new SuperAdminRoleAssignmentException();
+        }
+        admin.getRoles().add(role);
+        adminRepository.save(admin);
+
+        return admin;
+    }
+
+
+    @Override
+    @Transactional
+    public String assignPrivilegesToRole(Long roleId, Collection<Long> privilegeIds){
+
+        Role role = roleRepository.findById(roleId)
+                .orElseThrow(()->new EntityNotFoundException(roleId, Role.class));
+
+        List<Privilege> privileges = privilegeIds.stream()
+                        .map(privilegeId-> privilegeRepository.findById(privilegeId)
+                                .orElseThrow(()-> new EntityNotFoundException(privilegeId, Privilege.class)))
+                                        .collect(Collectors.toList());
+
+        role.setPrivileges(privileges);
+        roleRepository.save(role);
+
+        return "Privilege Assigned Successfully";
+
+    }
 
 
 

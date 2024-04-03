@@ -54,7 +54,7 @@ public class AdminServiceImpl implements IAdminService {
         return "Account settings updated successfully";
     }
     @Override
-    public String uploadAdminAvatar(Integer adminId, MultipartFile file) throws IOException {
+    public String uploadAdminAvatar(Long adminId, MultipartFile file) throws IOException {
         Admin admin = adminRepository.findById(adminId)
                 .orElseThrow(() -> new EntityNotFoundException(adminId, Admin.class));
 
@@ -100,7 +100,7 @@ public class AdminServiceImpl implements IAdminService {
         return "Password changed successfully";
     }
     @Override
-    public byte[] getImageData(Integer adminId) {
+    public byte[] getImageData(Long adminId) {
 
         Admin admin = adminRepository.findById(adminId)
                 .orElseThrow(() -> new EntityNotFoundException(adminId,Admin.class));

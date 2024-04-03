@@ -24,7 +24,7 @@ import java.util.Collection;
 public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String firstname;
     private String lastname;
 
@@ -75,7 +75,7 @@ public class Admin {
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id"))
 
-    //@JsonIgnore
+    @JsonIgnore
     private Collection<Role> roles;
 
     @Column(length = 100000)

@@ -2,6 +2,7 @@ package com.majorMedia.BackOfficeDashboard.entity.admin;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Collection;
@@ -41,17 +42,20 @@ public enum Role {
 
 @AllArgsConstructor
 @Entity
-
+@Setter
+@Getter
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
+
+    private String description;
+
     @ManyToMany(mappedBy = "roles")
     private Collection<Admin> admins;
 
-    @Setter
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "roles_privileges",
@@ -60,21 +64,13 @@ public class Role {
             inverseJoinColumns = @JoinColumn(
                     name = "privilege_id", referencedColumnName = "id"))
 
-            private Collection<Privilege> privileges;
-
+    private Collection<Privilege> privileges;
 
     public Role() {}
 
-    public Role(String name) {
+    public Role(String name,String description) {
         this.name = name;
+        this.description = description;
     }
 
-
-    public String getName() {
-        return name;
-    }
-
-    public Collection<Privilege> getPrivileges() {
-        return privileges;
-    }
 }
