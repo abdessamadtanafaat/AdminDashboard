@@ -6,6 +6,7 @@ import com.majorMedia.BackOfficeDashboard.repository.AdminRepository;
 
 import com.majorMedia.BackOfficeDashboard.security.BlacklistToken.BlacklistRepository;
 import com.majorMedia.BackOfficeDashboard.security.BlacklistToken.BlacklistToken;
+import com.majorMedia.BackOfficeDashboard.util.ServiceUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -26,9 +27,8 @@ public class CustomAuthenticationManager implements AuthenticationManager {
 
     private PasswordEncoder passwordEncoder;
     private AdminRepository adminRepository;
-    private final BlacklistRepository blacklistRepository;
-
-    public static final int MAX_TOKEN_LENGTH = 4000;
+    private BlacklistRepository blacklistRepository;
+    private ServiceUtils serviceUtils;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -49,14 +49,15 @@ public class CustomAuthenticationManager implements AuthenticationManager {
         try{
             Optional<Admin> adminOptional = adminRepository.findByEmail(email);
             Admin admin = adminOptional.orElseThrow(() -> new NotFoundEmailException(email));
-            BlacklistToken blacklistToken = new BlacklistToken();
-            blacklistToken.setToken(jwtToken);
-            blacklistRepository.save(blacklistToken);
-            admin.setActive(false);
-            admin.setLastLogout(LocalDateTime.now());
-            adminRepository.save(admin);
-            return "Logged out successfully";
 
+            if(!blacklistRepository.existsByToken(jwtToken)) {
+                serviceUtils.addToBlacklist(jwtToken);
+
+                admin.setActive(false);
+                admin.setLastLogout(LocalDateTime.now());
+                adminRepository.save(admin);
+                return "Logged out successfully";
+            }
         }catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,12 +1,16 @@
 package com.majorMedia.BackOfficeDashboard.util;
 
+import com.majorMedia.BackOfficeDashboard.security.BlacklistToken.BlacklistRepository;
+import com.majorMedia.BackOfficeDashboard.security.BlacklistToken.BlacklistToken;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.SignatureException;
+import lombok.AllArgsConstructor;
 
 import java.util.Date;
 
 import static com.majorMedia.BackOfficeDashboard.security.SecurityConstants.SECRET_KEY;
 
+@AllArgsConstructor
 public class JwtUtils {
     public static String extractEmailFromToken(String jwtToken) {
         try {

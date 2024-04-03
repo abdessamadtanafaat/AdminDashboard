@@ -42,13 +42,13 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         if (alreadySetup)
             return;
 
-    Privilege readPrivilege = createPrivilegeIfNotFound("READ_PRIVILEGE");
-    Privilege writePrivilege = createPrivilegeIfNotFound("WRITE_PRIVILEGE");
+    Privilege readPrivilege = createPrivilegeIfNotFound("READ_PRIVILEGE","Description Privilige1");
+    Privilege writePrivilege = createPrivilegeIfNotFound("WRITE_PRIVILEGE","Description Privilige2");
 
     List<Privilege> superAdminPrivilegs = Arrays.asList(readPrivilege, writePrivilege);
     List<Privilege> AdminPrivilegs = Arrays.asList(readPrivilege);
-    Role superAdminRole = createRoleIfNotFound("ROLE_SUPER_ADMIN", superAdminPrivilegs);
-    Role AdminRole = createRoleIfNotFound("ROLE_ADMIN", AdminPrivilegs);
+    Role superAdminRole = createRoleIfNotFound("ROLE_SUPER_ADMIN","Description SUPER ADMIN ROLE", superAdminPrivilegs);
+    Role AdminRole = createRoleIfNotFound("ROLE_ADMIN","Descripton ADMIN ROLE", AdminPrivilegs);
 
     Optional<Admin> existingsSuperAdmin1 = adminRepository.findByEmail("tanafaat.rca.16@gmail.com");
     Optional<Admin> existingsSuperAdmin2 = adminRepository.findByEmail("ilias.rouchdi21@gmail.com");
@@ -80,21 +80,21 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 }
 
     @Transactional
-    Privilege createPrivilegeIfNotFound(String name) {
+    Privilege createPrivilegeIfNotFound(String name, String description) {
 
     Privilege privilege = privilegeRepository.findByName(name);
     if(privilege == null){
-        privilege = new Privilege(name);
+        privilege = new Privilege(name, description);
         privilegeRepository.save(privilege);
 
     }
     return privilege;
     }
     @Transactional
-    Role createRoleIfNotFound(String name, Collection<Privilege> privileges){
+    Role createRoleIfNotFound(String name,String descrption, Collection<Privilege> privileges){
         Role role = roleRepository.findByName(name);
         if (role == null) {
-            role = new Role(name);
+            role = new Role(name,descrption);
             role.setPrivileges(privileges);
             roleRepository.save(role);
         }

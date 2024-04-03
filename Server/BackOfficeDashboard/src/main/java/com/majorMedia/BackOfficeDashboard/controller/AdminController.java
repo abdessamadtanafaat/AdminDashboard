@@ -28,7 +28,7 @@ public class AdminController {
     private final IAdminService adminService;
 
     @PatchMapping("/{adminId}/avatar")
-    public ResponseEntity<String> uploadAvatar(@PathVariable("adminId") Integer adminId,
+    public ResponseEntity<String> uploadAvatar(@PathVariable("adminId") Long adminId,
                                                @RequestParam("avatar")MultipartFile file) throws IOException {
 
             String imageUrl = adminService.uploadAdminAvatar(adminId, file);
@@ -36,7 +36,7 @@ public class AdminController {
 
     }
     @GetMapping(value = "/image/{adminId}", produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<byte[]> getAdminAvatar(@PathVariable Integer adminId) {
+    public ResponseEntity<byte[]> getAdminAvatar(@PathVariable Long adminId) {
         byte[] imageData = adminService.getImageData(adminId);
         return ResponseEntity.ok().body(imageData);
     }

@@ -1,10 +1,13 @@
 package com.majorMedia.BackOfficeDashboard.util;
 
 import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
+import com.majorMedia.BackOfficeDashboard.entity.admin.Role;
 import com.majorMedia.BackOfficeDashboard.entity.user.User;
 import com.majorMedia.BackOfficeDashboard.model.responses.UserResponse;
 import com.majorMedia.BackOfficeDashboard.repository.AdminRepository;
 import com.majorMedia.BackOfficeDashboard.repository.UserRepository;
+import com.majorMedia.BackOfficeDashboard.security.BlacklistToken.BlacklistRepository;
+import com.majorMedia.BackOfficeDashboard.security.BlacklistToken.BlacklistToken;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,9 @@ public class ServiceUtils {
 
     private UserRepository userRepository;
     private AdminRepository adminRepository;
+    private BlacklistRepository blacklistRepository;
+    private static final Long SUPER_ADMIN_ROLE_ID = 1L;
+
     public List<User> fetchUsers(String sortBy) {
         return userRepository.findAll(sortByCondition(sortBy));
     }
@@ -54,4 +60,17 @@ public class ServiceUtils {
 
         return userResponse;
     }
+    public void addToBlacklist(String jwtToken) {
+        BlacklistToken blacklistToken = new BlacklistToken();
+        blacklistToken.setToken(jwtToken);
+        blacklistRepository.save(blacklistToken);
+    }
+
+    public boolean isAdminSuperAdmin(Admin admin) {
+        for(Role role : admin.getRoles()){
+            if(role.getId().equals(SUPER_ADMIN_ROLE_ID)) { return true; }
+        }
+        return false;
+    }
+
 }
