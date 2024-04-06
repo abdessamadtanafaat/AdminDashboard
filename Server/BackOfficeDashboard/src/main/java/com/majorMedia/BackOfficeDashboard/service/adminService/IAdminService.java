@@ -17,8 +17,8 @@ import java.util.List;
 
 public interface IAdminService {
 
-    public String updateAccountSettings(UpdateAccountRequest request);
-    public String uploadAdminAvatar(Long adminId, MultipartFile file) throws IOException;
+    public String updateAccountSettings(MultipartFile file , String firstname , String lastname , String email) throws IOException;
+    public Admin uploadAdminAvatar(Long adminId, MultipartFile file) throws IOException;
     public byte[] getImageData(Long adminId);
     public String changePassword(ResetPasswordRequest resetPasswordRequest);
     public List<UserResponse> getAllOwners(String sortBy , String searchKey, String filterByProfile, String filterByStatus);

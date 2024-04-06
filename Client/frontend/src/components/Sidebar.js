@@ -27,7 +27,7 @@ const Sidebar = () => {
   const dispatch = useDispatch();
  
   const admin = useSelector(selectAdmin)
-  const {firstname , lastname ,email , avatarUrl , token} = admin
+  const {firstname , lastname ,email , avatarUrl , token , imageByte} = admin
 
 
   const handleTheme = ()=>{

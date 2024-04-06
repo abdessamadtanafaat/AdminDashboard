@@ -81,5 +81,4 @@ public class SuperAdminController {
         );
         return ResponseEntity.ok(string);
     }
-
 }
