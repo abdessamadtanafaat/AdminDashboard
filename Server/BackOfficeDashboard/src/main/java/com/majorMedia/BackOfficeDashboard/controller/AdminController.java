@@ -1,5 +1,6 @@
 package com.majorMedia.BackOfficeDashboard.controller;
 
+import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
 import com.majorMedia.BackOfficeDashboard.model.requests.ResetPasswordRequest;
 import com.majorMedia.BackOfficeDashboard.model.requests.UpdateAccountRequest;
 import com.majorMedia.BackOfficeDashboard.model.responses.UserResponse;
@@ -28,11 +29,9 @@ public class AdminController {
     private final IAdminService adminService;
 
     @PatchMapping("/{adminId}/avatar")
-    public ResponseEntity<String> uploadAvatar(@PathVariable("adminId") Long adminId,
-                                               @RequestParam("avatar")MultipartFile file) throws IOException {
-
-            String imageUrl = adminService.uploadAdminAvatar(adminId, file);
-            return new ResponseEntity<> (imageUrl,HttpStatus.CREATED);
+    public ResponseEntity<Admin> uploadAvatar(@PathVariable("adminId") Long adminId,
+                                              @RequestParam("avatar")MultipartFile file) throws IOException {
+            return new ResponseEntity<> (adminService.uploadAdminAvatar(adminId, file),HttpStatus.CREATED);
 
     }
     @GetMapping(value = "/image/{adminId}", produces = MediaType.IMAGE_JPEG_VALUE)
@@ -46,8 +45,12 @@ public class AdminController {
         return new ResponseEntity<>(adminService.changePassword(request), HttpStatus.ACCEPTED);
     }
     @PatchMapping("/change-account-settings")
-    public ResponseEntity<String> changeAccountSettings(@RequestBody UpdateAccountRequest request){
-        return new ResponseEntity<>(adminService.updateAccountSettings(request),HttpStatus.ACCEPTED);
+    public ResponseEntity<String> changeAccountSettings(
+            @RequestParam(value = "file" ,required = false) MultipartFile file,
+            @RequestParam("firstname") String firstname ,
+            @RequestParam("lastname") String lastname ,
+            @RequestParam("email") String email ) throws IOException {
+        return new ResponseEntity<>(adminService.updateAccountSettings(file , firstname , lastname , email),HttpStatus.ACCEPTED);
     }
 
     @GetMapping(value = "/owners")

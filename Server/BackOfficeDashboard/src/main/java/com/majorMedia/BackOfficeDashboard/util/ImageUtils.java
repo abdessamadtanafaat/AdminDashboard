@@ -1,8 +1,12 @@
 package com.majorMedia.BackOfficeDashboard.util;
 
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
@@ -50,4 +54,5 @@ public class ImageUtils {
             directory.mkdir();
         }
     }
+
 }

@@ -10,6 +10,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import org.hibernate.annotations.Type;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -88,8 +89,7 @@ public class Admin {
     private String avatarUrl;
 
     @Lob
-    @Column(name = "imagedata", length = 1000)
-    @JsonIgnore
+    @Column(name = "imagedata", length = 100000)
     private byte[] imageByte;
 
 

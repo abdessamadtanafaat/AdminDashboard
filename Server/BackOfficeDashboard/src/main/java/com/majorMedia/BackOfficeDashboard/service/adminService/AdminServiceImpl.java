@@ -26,6 +26,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,47 +43,57 @@ public class AdminServiceImpl implements IAdminService {
     private final UserRepository userRepository;
     private ServiceUtils adminService;
     @Override
-    public String updateAccountSettings(UpdateAccountRequest request) {
+    public String updateAccountSettings(MultipartFile file , String firstname , String lastname , String email) throws IOException {
 
-        Admin admin = adminRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new NotFoundEmailException(request.getEmail()));
+        Admin admin = adminRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundEmailException(email));
 
-        admin.setFirstname(request.getFirstname());
-        admin.setLastname(request.getLastname());
-        admin.setEmail(request.getEmail());
-        admin.setAvatarUrl(request.getAvatarUrl());
+        admin.setFirstname(firstname);
+        admin.setLastname(lastname);
 
-        adminRepository.save(admin);
+//        String encodedImage = request.getEncodedImage();
+//
+//        byte[] imageData = encodedImage.getBytes();
+//        byte[] compressedImageData = ImageUtils.compressImage(imageData);
+//        admin.setImageByte(compressedImageData);
+//        admin.setAvatarUrl(request.getAvatarUrl());
+        adminRepository.save(uploadAdminAvatar(admin.getId() , file));
 
-        return "Account settings updated successfully";
+        return admin.getAvatarUrl();
     }
     @Override
-    public String uploadAdminAvatar(Long adminId, MultipartFile file) throws IOException {
+    public Admin uploadAdminAvatar(Long adminId, MultipartFile file) throws IOException {
+
         Admin admin = adminRepository.findById(adminId)
                 .orElseThrow(() -> new EntityNotFoundException(adminId, Admin.class));
 
-        ImageUtils.makeDirectoryIfNotExist(SecurityConstants.AVATAR_DIRECTORY);
+        if(file ==null){
+            admin.setAvatarUrl(null);
+            admin.setImageByte(null);
 
-        String fileName = admin.getFirstname() +
-                "_" + admin.getLastname() +
-                "_avatar." +
-                FilenameUtils.getExtension(file.getOriginalFilename());
-        Path filePath = Paths.get(AVATAR_DIRECTORY, fileName);
+        }
+        else{
+            ImageUtils.makeDirectoryIfNotExist(SecurityConstants.AVATAR_DIRECTORY);
 
-        Files.write(filePath, file.getBytes());
+            String fileName = admin.getFirstname() +
+                    "_" + admin.getLastname() +
+                    "_avatar." +
+                    FilenameUtils.getExtension(file.getOriginalFilename());
+            Path filePath = Paths.get(AVATAR_DIRECTORY, fileName);
 
-        String avatarUrl = AVATAR_URL + fileName;
+            Files.write(filePath, file.getBytes());
 
-        byte[] imageData = file.getBytes();
+            String avatarUrl = AVATAR_URL + fileName;
 
-        byte[] compressedImageData = ImageUtils.compressImage(imageData);
+            byte[] imageData = file.getBytes();
 
-        admin.setImageByte(compressedImageData);
+            byte[] compressedImageData = ImageUtils.compressImage(imageData);
 
-        admin.setAvatarUrl(avatarUrl);
-        adminRepository.save(admin);
+            admin.setImageByte(compressedImageData);
 
-        return "Image updated Successfully";
+            admin.setAvatarUrl(avatarUrl);
+        }
+        return admin;
 
     }
     @Override
