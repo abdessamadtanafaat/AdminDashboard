@@ -8,11 +8,13 @@ import com.majorMedia.BackOfficeDashboard.model.requests.UpdateAccountRequest;
 import com.majorMedia.BackOfficeDashboard.model.responses.UserResponse;
 import com.majorMedia.BackOfficeDashboard.repository.AdminRepository;
 import com.majorMedia.BackOfficeDashboard.repository.RoleRepository;
+import com.majorMedia.BackOfficeDashboard.repository.UserRepository;
 import com.majorMedia.BackOfficeDashboard.security.SecurityConstants;
 import com.majorMedia.BackOfficeDashboard.util.EmailUtils;
 import com.majorMedia.BackOfficeDashboard.util.ImageUtils;
 import com.majorMedia.BackOfficeDashboard.util.JwtUtils;
 import com.majorMedia.BackOfficeDashboard.util.ServiceUtils;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,6 +39,7 @@ public class AdminServiceImpl implements IAdminService {
 
     private final AdminRepository adminRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
     private ServiceUtils adminService;
     @Override
     public String updateAccountSettings(UpdateAccountRequest request) {
@@ -110,7 +113,7 @@ public class AdminServiceImpl implements IAdminService {
         return imageData;
     }
     @Override
-    public List<UserResponse> getAllOwners(String sortBy , String searchKey, String filterByProfile, String filterByStatus) {
+    public List<UserResponse> getAllOwners(String sortBy , String searchKey) {
         List<UserResponse> userResponses = new ArrayList<>();
 
         List<User> users = adminService.fetchUsers(sortBy);
@@ -129,25 +132,16 @@ public class AdminServiceImpl implements IAdminService {
             throw new EntityNotFoundException(User.class);
         }
 
-        // Apply filtering by profile if requested
+/*        // Apply filtering by profile if requested
         if (filterByProfile != null && !filterByProfile.isEmpty()) {
             userResponses = userResponses.stream()
-                    .filter(userResponse -> userResponse.getProfil().equalsIgnoreCase(filterByProfile))
+                    .filter(userResponse -> userResponse.getRole().equalsIgnoreCase(filterByProfile))
                     .collect(Collectors.toList());
             if (userResponses.isEmpty()) {
                 throw new EntityNotFoundException(User.class);
             }
         }
-
-        // Apply filtering by status if requested
-        if (filterByStatus != null && !filterByStatus.isEmpty()) {
-            userResponses = userResponses.stream()
-                    .filter(userResponse -> userResponse.getStatus().equalsIgnoreCase(filterByStatus))
-                    .collect(Collectors.toList());
-            if (userResponses.isEmpty()) {
-                throw new EntityNotFoundException(User.class);
-            }
-        }
+        */
 
         // Apply filtering by profile if requested
         if (searchKey != null && !searchKey.isEmpty()) {
@@ -159,14 +153,30 @@ public class AdminServiceImpl implements IAdminService {
             }
         }
 
-        if (userResponses.isEmpty()) {
-            throw new EntityNotFoundException(User.class);
-        }
-
         return userResponses;
     }
 
+    @Override
+    @Transactional
+    public String deactivateAccount(Long userId) {
+        User owner  = userRepository.findById(userId)
+                .orElseThrow(()->new EntityNotFoundException(userId, Admin.class));
 
+        owner.set_deactivated(true);
+        userRepository.save(owner);
+        return "Account deactivated Successfully";
+    }
+
+    @Override
+    @Transactional
+    public String activateAccount(Long ownerId) {
+        User owner  = userRepository.findById(ownerId)
+                .orElseThrow(()->new EntityNotFoundException(ownerId, Admin.class));
+
+        owner.set_deactivated(true);
+        userRepository.save(owner);
+        return "Account deactivated Successfully";
+    }
 
 
 }

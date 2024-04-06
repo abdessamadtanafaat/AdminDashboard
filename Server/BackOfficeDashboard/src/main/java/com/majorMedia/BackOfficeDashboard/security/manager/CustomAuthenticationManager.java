@@ -1,5 +1,6 @@
 package com.majorMedia.BackOfficeDashboard.security.manager;
 
+import com.majorMedia.BackOfficeDashboard.exception.AccountDeactivatedException;
 import com.majorMedia.BackOfficeDashboard.exception.NotFoundEmailException;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
 import com.majorMedia.BackOfficeDashboard.repository.AdminRepository;
@@ -35,6 +36,9 @@ public class CustomAuthenticationManager implements AuthenticationManager {
         Admin admin = adminRepository.findByEmail(authentication.getName())
                 .orElseThrow(() -> new NotFoundEmailException(authentication.getName()))        ;
 
+        if (admin.is_deactivated()){
+            throw new AccountDeactivatedException();
+        }
         if(!passwordEncoder.matches(authentication.getCredentials().toString(),admin.getPassword())){
             throw new BadCredentialsException("You provided an incorrect password");
         }

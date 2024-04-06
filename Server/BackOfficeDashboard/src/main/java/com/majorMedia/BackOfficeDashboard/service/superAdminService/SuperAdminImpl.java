@@ -6,25 +6,21 @@ import com.majorMedia.BackOfficeDashboard.entity.admin.Role;
 import com.majorMedia.BackOfficeDashboard.entity.user.User;
 import com.majorMedia.BackOfficeDashboard.exception.AlreadyExistEmailException;
 import com.majorMedia.BackOfficeDashboard.exception.EntityNotFoundException;
-import com.majorMedia.BackOfficeDashboard.exception.InvalidRoleException;
 import com.majorMedia.BackOfficeDashboard.exception.SuperAdminRoleAssignmentException;
-import com.majorMedia.BackOfficeDashboard.model.requests.RegisterRequest;
-import com.majorMedia.BackOfficeDashboard.model.requests.RoleRequest;
+import com.majorMedia.BackOfficeDashboard.model.requests.CreateAdminRequest;
 import com.majorMedia.BackOfficeDashboard.model.responses.AdminResponse;
 import com.majorMedia.BackOfficeDashboard.model.responses.UserResponse;
 import com.majorMedia.BackOfficeDashboard.repository.AdminRepository;
 import com.majorMedia.BackOfficeDashboard.repository.PrivilegeRepository;
 import com.majorMedia.BackOfficeDashboard.repository.RoleRepository;
+import com.majorMedia.BackOfficeDashboard.security.SecurityConstants;
 import com.majorMedia.BackOfficeDashboard.util.ServiceUtils;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,23 +37,28 @@ public class SuperAdminImpl implements ISuperAdminService {
 
     @Override
     @Transactional
-    public List<UserResponse> getAllUsers(String sortBy ,String searchKey, String filterByProfile, String filterByStatus) {
+    public List<UserResponse> getAllUsers(String sortBy ,String searchKey) {
         List<UserResponse> userResponses = new ArrayList<>();
 
-        List<User> users = adminService.fetchUsers(sortBy);
         List<Admin> admins = adminService.fetchAdmins(sortBy);
 
-
-        // Map and combine users and admins
-        List<UserResponse> userResponsesFromUsers = users.stream()
-                .map(user -> adminService.mapToUserResponse(user, "Proprietaire"))
-                .collect(Collectors.toList());
-
         List<UserResponse> userResponsesFromAdmins = admins.stream()
-                .map(admin -> adminService.mapToUserResponse(admin, "Admin"))
+                .map(admin -> {
+                    String role = "";
+                    for (Role adminRole : admin.getRoles()) {
+                        if (adminRole.getName().equals("ROLE_SUPER_ADMIN")) {
+                            role = "Super Admin";
+                            break;
+                        } else if (adminRole.getName().equals("ROLE_ADMIN")) {
+                            role = "Admin";
+                            break;
+                        }
+                    }
+                    return adminService.mapToUserResponse(admin, role);
+                })
                 .collect(Collectors.toList());
 
-        userResponses.addAll(userResponsesFromUsers);
+
         userResponses.addAll(userResponsesFromAdmins);
         userResponses.sort(Comparator.comparing(UserResponse::getLastLogout).reversed());
 
@@ -65,27 +66,17 @@ public class SuperAdminImpl implements ISuperAdminService {
             throw new EntityNotFoundException(User.class);
         }
 
-        // Apply filtering by profile if requested
+/*        // Apply filtering by profile if requested
         if (filterByProfile != null && !filterByProfile.isEmpty()) {
             userResponses = userResponses.stream()
-                    .filter(userResponse -> userResponse.getProfil().equalsIgnoreCase(filterByProfile))
+                    .filter(userResponse -> userResponse.getRole().equalsIgnoreCase(filterByProfile))
                     .collect(Collectors.toList());
             if (userResponses.isEmpty()) {
                 throw new EntityNotFoundException(User.class);
             }
-        }
+        }*/
 
-        // Apply filtering by status if requested
-        if (filterByStatus != null && !filterByStatus.isEmpty()) {
-            userResponses = userResponses.stream()
-                    .filter(userResponse -> userResponse.getStatus().equalsIgnoreCase(filterByStatus))
-                    .collect(Collectors.toList());
-            if (userResponses.isEmpty()) {
-                throw new EntityNotFoundException(User.class);
-            }
-        }
-
-        // Apply filtering by profile if requested
+        // Apply filtering by searchKey if requested
         if (searchKey != null && !searchKey.isEmpty()) {
             userResponses = userResponses.stream()
                     .filter(userResponse -> userResponse.getFirstname().contains(searchKey) || userResponse.getLastname().contains(searchKey)|| userResponse.getEmail().contains(searchKey))
@@ -93,10 +84,6 @@ public class SuperAdminImpl implements ISuperAdminService {
             if (userResponses.isEmpty()) {
                 throw new EntityNotFoundException(searchKey, User.class);
             }
-        }
-
-        if (userResponses.isEmpty() && admins.isEmpty()) {
-            throw new EntityNotFoundException(User.class);
         }
 
         return userResponses;
@@ -119,19 +106,21 @@ public class SuperAdminImpl implements ISuperAdminService {
     }
     @Override
     @Transactional
-    public Admin createAdmin(RegisterRequest registerRequest) {
-        boolean adminExists = adminRepository.findByEmail(registerRequest.getEmail()).isPresent();
+    public Admin createAdmin(CreateAdminRequest createAdminRequest) {
+        boolean adminExists = adminRepository.findByEmail(createAdminRequest.getEmail()).isPresent();
         if (adminExists) {
-            throw new AlreadyExistEmailException(registerRequest.getEmail());
+            throw new AlreadyExistEmailException(createAdminRequest.getEmail());
         }
-        String encodedPassword = passwordEncoder.encode(registerRequest.getPassword());
-        Admin admin = Admin.builder().email(registerRequest.getEmail()).
-                lastname(registerRequest.getLastname())
-                .firstname(registerRequest.getFirstname()).
-                build();
 
-        admin.setPassword(encodedPassword);
+        String encodedPassword = passwordEncoder.encode(SecurityConstants.DEFAULT_PASSWORD);
+        Admin admin = Admin.builder()
+                .email(createAdminRequest.getEmail())
+                .lastname(createAdminRequest.getLastname())
+                .firstname(createAdminRequest.getFirstname())
+                .password(encodedPassword)
+                .build();
 
+        //admin.setPassword(encodedPassword);
 
         return adminRepository.save(admin);
 
@@ -191,7 +180,27 @@ public class SuperAdminImpl implements ISuperAdminService {
 
     }
 
+    @Override
+    @Transactional
+    public String deactivateAccount(Long adminId){
+        Admin admin  = adminRepository.findById(adminId)
+                .orElseThrow(()->new EntityNotFoundException(adminId, Admin.class));
 
+        admin.set_deactivated(true);
+        adminRepository.save(admin);
+        return "Account deactivated Successfully";
+        }
 
+    @Override
+    @Transactional
+    public String activateAccount(Long adminId) {
+        Admin admin  = adminRepository.findById(adminId)
+                .orElseThrow(()->new EntityNotFoundException(adminId, Admin.class));
+
+        admin.set_deactivated(false);
+        adminRepository.save(admin);
+        return "Account activated Successfully";
+    }
 }
+
 

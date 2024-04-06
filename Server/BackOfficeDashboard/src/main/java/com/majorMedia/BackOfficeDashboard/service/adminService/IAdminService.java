@@ -21,7 +21,7 @@ public interface IAdminService {
     public String uploadAdminAvatar(Long adminId, MultipartFile file) throws IOException;
     public byte[] getImageData(Long adminId);
     public String changePassword(ResetPasswordRequest resetPasswordRequest);
-    public List<UserResponse> getAllOwners(String sortBy , String searchKey, String filterByProfile, String filterByStatus);
-
-
-    }
+    public List<UserResponse> getAllOwners(String sortBy , String searchKey);
+    public String deactivateAccount(Long adminId);
+    public String activateAccount(Long ownerId);
+}

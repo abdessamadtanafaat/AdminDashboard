@@ -37,26 +37,26 @@ public class ServiceUtils {
         }
         return null;
     }
-    public UserResponse mapToUserResponse (User user, String profile){
+    public UserResponse mapToUserResponse (User user, String role){
         UserResponse userResponse = new UserResponse();
         userResponse.setFirstname(user.getFirstName());
         userResponse.setLastname(user.getLastName());
         userResponse.setEmail(user.getEmail());
-        userResponse.setStatus(user.getStatus());
+        userResponse.setIs_deactivated(String.valueOf(user.is_deactivated()));
         LocalDate lastLogout = user.getLastLogout().toLocalDate();
         userResponse.setLastLogout(lastLogout);
-        userResponse.setProfil(profile);
+        userResponse.setRole(role);
         return userResponse;
     }
-    public UserResponse mapToUserResponse (Admin admin, String profile){
+    public UserResponse mapToUserResponse (Admin admin, String role){
         UserResponse userResponse = new UserResponse();
         userResponse.setFirstname(admin.getFirstname());
         userResponse.setLastname(admin.getLastname());
         userResponse.setEmail(admin.getEmail());
-        userResponse.setStatus(admin.getStatus());
+        userResponse.setIs_deactivated(String.valueOf(admin.is_deactivated()));
         LocalDate lastLogout = admin.getLastLogout().toLocalDate();
         userResponse.setLastLogout(lastLogout);
-        userResponse.setProfil(profile);
+        userResponse.setRole(role);
 
         return userResponse;
     }
