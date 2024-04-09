@@ -29,10 +29,11 @@ public class SecurityConstants {
             ,"/swagger-resources/**"
             ,"/configuration/ui"
             ,"/configuration/security",
-            "/avatars/**"
+            "/avatars/**",
+            "/admin/image/**"
     };
     public static  final Long MAX_AGE = 3600L;
     public static final  int CORS_FILTER_ORDER =-102;
     public static final String AVATAR_DIRECTORY = "src/main/resources/static/avatars/";
-    public static final String AVATAR_URL = "http://localhost:8080/avatars/";
+    public static final String AVATAR_URL = "http://localhost:8080/admin/image/";
 }

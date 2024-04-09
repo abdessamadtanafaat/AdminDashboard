@@ -1,6 +1,6 @@
 import { RouterProvider  , createBrowserRouter } from "react-router-dom";
 import { Login ,HomeLayout , Error , ForgotPassword , ResetPassword , Landing } from "./pages";
-import {Profile} from './components'
+import {Profile , Tables} from './components'
 import {action as loginAction} from './pages/Login'
 import {action as forgotPasswordAction} from './pages/ForgotPassword'
 import {action as resetPasswordAction} from './pages/ResetPassword'
@@ -22,6 +22,10 @@ const routes = createBrowserRouter([
       {
         path:"/profile",
         element:<Profile/>
+      },
+      {
+        path:"/tables",
+        element: <Tables/>
       }
 
     ]

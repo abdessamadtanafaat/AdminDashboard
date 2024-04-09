@@ -72,15 +72,14 @@ public class AdminServiceImpl implements IAdminService {
         else{
             ImageUtils.makeDirectoryIfNotExist(SecurityConstants.AVATAR_DIRECTORY);
 
-            String fileName = admin.getFirstname() +
-                    "_" + admin.getLastname() +
-                    "_avatar." +
-                    FilenameUtils.getExtension(file.getOriginalFilename());
-            Path filePath = Paths.get(AVATAR_DIRECTORY, fileName);
+//            String fileName = admin.getFirstname() + admin.getLastname() +
+//                    "Avatar." +
+//                    FilenameUtils.getExtension(file.getOriginalFilename());
+//            Path filePath = Paths.get(AVATAR_DIRECTORY, fileName);
+//
+//            Files.write(filePath, file.getBytes());
 
-            Files.write(filePath, file.getBytes());
-
-            String avatarUrl = AVATAR_URL + fileName;
+            String avatarUrl = AVATAR_URL + admin.getId();
 
             byte[] imageData = file.getBytes();
 

@@ -3,7 +3,7 @@ import {BsSunFill ,  BsMoonFill } from "react-icons/bs";
 import {ChevronFirst, ChevronLast , LogOut} from 
 'lucide-react'
 import SidebarItem from './SidebarItem';
-import { LayoutDashboard, Home, StickyNote, Layers, Calendar, LifeBuoy } from "lucide-react";
+import { LayoutDashboard, Home, StickyNote, Layers, Calendar, LifeBuoy ,Table } from "lucide-react";
 import { useGlobalContext } from './context';
 import {  useDispatch, useSelector } from "react-redux";
 import {useNavigate ,Link} from 'react-router-dom'
@@ -12,11 +12,12 @@ import logo from '../assets/logo.png'
 import default_avatar from '../assets/default_avatar.webp'
 import { customFetch } from "../utils";
 import { toast } from "react-toastify";
+import NewSidebarItem from "./NewSidebarItem";
 
 const items = [
-  { icon: <Home size={20} />, text: "Home", alert: true },
-  { icon: <LayoutDashboard size={20} />, text: "Dashboard", active: true },
-  { icon: <StickyNote size={20} />, text: "Projects", alert: true },
+  { icon: <Home size={20} />, text: "Home", alert: true , link: "/" ,children:[]},
+  { icon: <Table size={20} />, text: "Tables", active: true  , link:"tables" , children:[{text:"Buissess Owners",link:"login"},{text:"Business",link:"forgotPassword"}]},
+  { icon: <StickyNote size={20} />, text: "Projects", alert: true , link:"login",children:[] },
   { icon: <LifeBuoy size={20} />, text: "Help", children : [] }
 ]
 
@@ -57,19 +58,21 @@ const Sidebar = () => {
           overflow-hidden transition-all  ${expanded ? "w-auto" : "w-0"}`} />
           <button
               onClick={() => setExpanded((curr) => !curr)}
-            className={`p-1.5 rounded-lg bg-base-content text-base-200 hover:bg-accent`}>
+            className={`ml-2 p-1.5 rounded-lg bg-base-content text-base-200 hover:bg-accent ${expanded || "m-auto"}`}>
               {expanded ? <ChevronFirst /> : <ChevronLast />}
           </button>
         </div>
         
-        <ul className="flex-1 px-3 ">
+        <ul className="flex-1 px-3 menu">
             {items.map((item , index)=>{
-              const {icon , text  } = item;
-              
-              return(<SidebarItem key={index} icon={icon} text={text}   />)
+              const {icon , text ,link ,children } = item;
+              const haveChildren = children && children.length > 0 
+              return haveChildren ? <NewSidebarItem key={index} icon={icon} text={text} children={children} link={link}  /> : <SidebarItem key={index} icon={icon} text={text} link={link} />
             })}
+        </ul>
 
-          </ul>
+
+          
           <div className="border-t flex p-3">
             <div className="dropdown  dropdown-end dropdown-right dropdown-top dropdown-hover ">
               <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
