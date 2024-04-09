@@ -56,11 +56,24 @@ public class AdminController {
     @GetMapping(value = "/owners")
     public ResponseEntity<List<UserResponse>> getAllUsers(
             @RequestParam(required = false) String sortBy,
-            @RequestParam(required = false) String searchKey,
-            @RequestParam(required = false) String filterByProfile,
-            @RequestParam(required = false) String filterByStatus)
+            @RequestParam(required = false) String searchKey
+    )
     {
-        List<UserResponse> userResponses = adminService.getAllOwners(sortBy,searchKey,filterByProfile,filterByStatus);
+        List<UserResponse> userResponses = adminService.getAllOwners(sortBy,searchKey);
         return ResponseEntity.ok(userResponses);
     }
+    @PatchMapping("/deactivateAccount/{ownerId}")
+    public ResponseEntity<String> deactivateAccount(@PathVariable Long ownerId)
+    {
+        String string = adminService.deactivateAccount(ownerId);
+        return ResponseEntity.ok(string);
+    }
+
+    @PatchMapping("/activateAccount/{ownerId}")
+    public ResponseEntity<String> activateAccount(@PathVariable Long ownerId)
+    {
+        String string = adminService.activateAccount(ownerId);
+        return ResponseEntity.ok(string);
+    }
+
 }

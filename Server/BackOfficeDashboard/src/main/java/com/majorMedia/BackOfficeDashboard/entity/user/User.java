@@ -77,7 +77,8 @@ public class User {
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
     private LocalDateTime lastLogout;
 
-    @Column(name = "status")
+    @Column(name = "is_deactivated")
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
-    private String status;
+    private boolean is_deactivated ;
+
 }

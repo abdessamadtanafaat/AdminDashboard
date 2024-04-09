@@ -37,11 +37,14 @@ public class SystemExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<String> handleEmailServiceException(EmailServiceException e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
     }
-
     @ExceptionHandler(SuperAdminRoleAssignmentException.class)
     public ResponseEntity<String> handleRoleAssignment(SuperAdminRoleAssignmentException e){
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
 
+    @ExceptionHandler(AccountDeactivatedException.class)
+    public ResponseEntity<String> AccountDeactivated(AccountDeactivatedException e){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
 

@@ -21,26 +21,25 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @SecurityRequirement(name = "bearerAuth")
-@PreAuthorize("hasRole('ROLE_SUPER_ADMIN') or hasRole('ADMIN') ")
+@PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
 @RequestMapping("/super-admin")
 
 public class SuperAdminController {
 
     private final ISuperAdminService superAdminService;
 
-    @GetMapping(value = "/users")
+    @GetMapping(value = "/admins")
     public ResponseEntity<List<UserResponse>> getAllUsers(
             @RequestParam(required = false) String sortBy,
-            @RequestParam(required = false) String searchKey,
-            @RequestParam(required = false) String filterByProfile,
-            @RequestParam(required = false) String filterByStatus)
+            @RequestParam(required = false) String searchKey
+            )
     {
-        List<UserResponse> userResponses = superAdminService.getAllUsers(sortBy,searchKey,filterByProfile,filterByStatus);
+        List<UserResponse> userResponses = superAdminService.getAllUsers(sortBy,searchKey);
         return ResponseEntity.ok(userResponses);
     }
 
     @PostMapping("/create-admin")
-    public ResponseEntity<Admin> createAdmin(@RequestBody RegisterRequest admin, Authentication authentication)
+    public ResponseEntity<Admin> createAdmin(@RequestBody CreateAdminRequest admin)
     {
         Admin createdAdmin = superAdminService.createAdmin(admin);
         return new ResponseEntity<>(createdAdmin, HttpStatus.CREATED);
@@ -81,4 +80,19 @@ public class SuperAdminController {
         );
         return ResponseEntity.ok(string);
     }
+
+    @PatchMapping("/deactivateAccount/{adminId}")
+    public ResponseEntity<String> deactivateAccount(@PathVariable Long adminId)
+    {
+        String string = superAdminService.deactivateAccount(adminId);
+        return ResponseEntity.ok(string);
+    }
+    @PatchMapping("/activateAccount/{adminId}")
+    public ResponseEntity<String> activateAccount(@PathVariable Long adminId)
+    {
+        String string = superAdminService.activateAccount(adminId);
+        return ResponseEntity.ok(string);
+    }
+
+
 }

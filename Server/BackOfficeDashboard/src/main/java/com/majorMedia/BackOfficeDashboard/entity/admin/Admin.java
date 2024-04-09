@@ -60,6 +60,12 @@ public class Admin {
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
     private boolean isActive;
 
+    @Column(name = "is_deactivated")
+    @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
+    private boolean is_deactivated ;
+
+
+
     @Column(name = "last_logout")
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
     private LocalDateTime lastLogout;
@@ -86,9 +92,6 @@ public class Admin {
     @Column(name = "imagedata", length = 100000)
     private byte[] imageByte;
 
-    @Column(name = "status")
-    @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
-    private String status;
 
 
 }
