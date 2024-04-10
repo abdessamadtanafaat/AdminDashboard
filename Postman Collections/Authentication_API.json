@@ -335,7 +335,7 @@
 					"response": []
 				},
 				{
-					"name": "GetOwners",
+					"name": "GetAllOwners",
 					"id": "b995c190-e745-453a-bf59-36396e9effcd",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
