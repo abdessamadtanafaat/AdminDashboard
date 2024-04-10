@@ -406,7 +406,7 @@
 					"response": []
 				},
 				{
-					"name": "GetAdmins",
+					"name": "GetAllAdmins",
 					"id": "379c6d47-b8b5-44f6-8853-2dcc0efc2eca",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
