@@ -494,14 +494,104 @@
 					"response": []
 				},
 				{
-					"name": "New Request",
+					"name": "Create Role",
 					"id": "37c040ef-792d-4a68-8983-70c473665804",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
 					"request": {
-						"method": "GET",
-						"header": []
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJXUklURV9QUklWSUxFR0UiXSwiZmlyc3RuYW1lIjoiaWxpYXMiLCJyb2xlcyI6WyJST0xFX1NVUEVSX0FETUlOIl0sImlkIjoyLCJleHAiOjE3MTI4MjgwOTksImVtYWlsIjoiaWxpYXMucm91Y2hkaTIxQGdtYWlsLmNvbSIsImxhc3RuYW1lIjoicm9jaGRpIn0.m1tBdiPZQfxCsXyKl0r5I88kEaXRhL1Wg3J5L7wzBPGffizuLQ1uekFJwgSBeVYHbiwdUc4RfXWiEPap00dXig"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/super-admin/create-role?nameRole=role1&descriptionRole=description1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"super-admin",
+								"create-role"
+							],
+							"query": [
+								{
+									"key": "nameRole",
+									"value": "role1",
+									"type": "text"
+								},
+								{
+									"key": "descriptionRole",
+									"value": "description1",
+									"type": "text"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Role Copy",
+					"id": "c580b9b4-6f75-4988-a396-372c16340647",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJXUklURV9QUklWSUxFR0UiXSwiZmlyc3RuYW1lIjoiaWxpYXMiLCJyb2xlcyI6WyJST0xFX1NVUEVSX0FETUlOIl0sImlkIjoyLCJleHAiOjE3MTI4MjgwOTksImVtYWlsIjoiaWxpYXMucm91Y2hkaTIxQGdtYWlsLmNvbSIsImxhc3RuYW1lIjoicm9jaGRpIn0.m1tBdiPZQfxCsXyKl0r5I88kEaXRhL1Wg3J5L7wzBPGffizuLQ1uekFJwgSBeVYHbiwdUc4RfXWiEPap00dXig"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/super-admin/create-role?nameRole=role1&descriptionRole=description1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"super-admin",
+								"create-role"
+							],
+							"query": [
+								{
+									"key": "nameRole",
+									"value": "role1",
+									"type": "text"
+								},
+								{
+									"key": "descriptionRole",
+									"value": "description1",
+									"type": "text"
+								}
+							]
+						}
 					},
 					"response": []
 				}
