@@ -492,6 +492,18 @@
 						"url": "http://localhost:8080/super-admin/1"
 					},
 					"response": []
+				},
+				{
+					"name": "New Request",
+					"id": "37c040ef-792d-4a68-8983-70c473665804",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
 				}
 			],
 			"id": "d99d9dc1-12c8-44d6-bab4-6155cd8ca06e"
