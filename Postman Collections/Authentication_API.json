@@ -641,6 +641,55 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Assgin role to admin Copy",
+					"id": "c8a189fc-c446-4a49-82fc-00fde89f54b7",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJXUklURV9QUklWSUxFR0UiXSwiZmlyc3RuYW1lIjoiaWxpYXMiLCJyb2xlcyI6WyJST0xFX1NVUEVSX0FETUlOIl0sImlkIjoyLCJleHAiOjE3MTI4MjgwOTksImVtYWlsIjoiaWxpYXMucm91Y2hkaTIxQGdtYWlsLmNvbSIsImxhc3RuYW1lIjoicm9jaGRpIn0.m1tBdiPZQfxCsXyKl0r5I88kEaXRhL1Wg3J5L7wzBPGffizuLQ1uekFJwgSBeVYHbiwdUc4RfXWiEPap00dXig"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/super-admin/assign-role?adminId=4&roleId=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"super-admin",
+								"assign-role"
+							],
+							"query": [
+								{
+									"key": "adminId",
+									"value": "4"
+								},
+								{
+									"key": "roleId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"id": "d99d9dc1-12c8-44d6-bab4-6155cd8ca06e"
