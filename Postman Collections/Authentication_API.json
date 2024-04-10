@@ -667,7 +667,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/super-admin/assign-role?adminId=4&roleId=1",
+							"raw": "http://localhost:8080/super-admin/assign-privilege-to-role?roleId=1&privilegeIds=1,2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -675,16 +675,16 @@
 							"port": "8080",
 							"path": [
 								"super-admin",
-								"assign-role"
+								"assign-privilege-to-role"
 							],
 							"query": [
 								{
-									"key": "adminId",
-									"value": "4"
-								},
-								{
 									"key": "roleId",
 									"value": "1"
+								},
+								{
+									"key": "privilegeIds",
+									"value": "1,2"
 								}
 							]
 						}
