@@ -704,7 +704,7 @@
 								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJXUklURV9QUklWSUxFR0UiXSwiZmlyc3RuYW1lIjoiaWxpYXMiLCJyb2xlcyI6WyJST0xFX1NVUEVSX0FETUlOIl0sImlkIjoyLCJleHAiOjE3MTI4MjgwOTksImVtYWlsIjoiaWxpYXMucm91Y2hkaTIxQGdtYWlsLmNvbSIsImxhc3RuYW1lIjoicm9jaGRpIn0.m1tBdiPZQfxCsXyKl0r5I88kEaXRhL1Wg3J5L7wzBPGffizuLQ1uekFJwgSBeVYHbiwdUc4RfXWiEPap00dXig"
 							}
 						},
-						"method": "POST",
+						"method": "PATCH",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -716,7 +716,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/super-admin/assign-privilege-to-role?roleId=1&privilegeIds=1,2",
+							"raw": "http://localhost:8080/super-admin/activateAccount?adminId=3",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -724,16 +724,59 @@
 							"port": "8080",
 							"path": [
 								"super-admin",
-								"assign-privilege-to-role"
+								"activateAccount"
 							],
 							"query": [
 								{
-									"key": "roleId",
-									"value": "1"
-								},
+									"key": "adminId",
+									"value": "3",
+									"type": "text"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "activate Account Copy",
+					"id": "77ff6196-47b6-4a25-8ca4-22b97f00f1ea",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJXUklURV9QUklWSUxFR0UiXSwiZmlyc3RuYW1lIjoiaWxpYXMiLCJyb2xlcyI6WyJST0xFX1NVUEVSX0FETUlOIl0sImlkIjoyLCJleHAiOjE3MTI4MjgwOTksImVtYWlsIjoiaWxpYXMucm91Y2hkaTIxQGdtYWlsLmNvbSIsImxhc3RuYW1lIjoicm9jaGRpIn0.m1tBdiPZQfxCsXyKl0r5I88kEaXRhL1Wg3J5L7wzBPGffizuLQ1uekFJwgSBeVYHbiwdUc4RfXWiEPap00dXig"
+							}
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/super-admin/activateAccount?adminId=3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"super-admin",
+								"activateAccount"
+							],
+							"query": [
 								{
-									"key": "privilegeIds",
-									"value": "1,2"
+									"key": "adminId",
+									"value": "3",
+									"type": "text"
 								}
 							]
 						}
