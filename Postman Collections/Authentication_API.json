@@ -569,7 +569,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/super-admin/create-role?nameRole=role1&descriptionRole=description1",
+							"raw": "http://localhost:8080/super-admin/create-privilege?namePrivilege=privielege1&descriptionPrivilege=description1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -577,18 +577,16 @@
 							"port": "8080",
 							"path": [
 								"super-admin",
-								"create-role"
+								"create-privilege"
 							],
 							"query": [
 								{
-									"key": "nameRole",
-									"value": "role1",
-									"type": "text"
+									"key": "namePrivilege",
+									"value": "privielege1"
 								},
 								{
-									"key": "descriptionRole",
-									"value": "description1",
-									"type": "text"
+									"key": "descriptionPrivilege",
+									"value": "description1"
 								}
 							]
 						}
