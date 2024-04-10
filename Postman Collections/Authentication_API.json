@@ -545,7 +545,7 @@
 					"response": []
 				},
 				{
-					"name": "Create Role Copy",
+					"name": "Create Privilege",
 					"id": "774cc59e-e051-4d08-b426-b3c691e6508b",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
