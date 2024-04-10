@@ -362,18 +362,8 @@
 							],
 							"query": [
 								{
-									"key": "filterByProfile",
-									"value": "proprietaire",
-									"disabled": true
-								},
-								{
 									"key": "searchKey",
 									"value": "tanafaat",
-									"disabled": true
-								},
-								{
-									"key": "filterByStatus",
-									"value": "bloqué",
 									"disabled": true
 								}
 							]
@@ -416,7 +406,7 @@
 					"response": []
 				},
 				{
-					"name": "GetAllUsers",
+					"name": "GetAdmins",
 					"id": "379c6d47-b8b5-44f6-8853-2dcc0efc2eca",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
