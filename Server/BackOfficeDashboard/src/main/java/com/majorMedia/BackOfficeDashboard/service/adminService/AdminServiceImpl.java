@@ -4,7 +4,6 @@ import com.majorMedia.BackOfficeDashboard.entity.user.User;
 import com.majorMedia.BackOfficeDashboard.exception.*;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
 import com.majorMedia.BackOfficeDashboard.model.requests.ResetPasswordRequest;
-import com.majorMedia.BackOfficeDashboard.model.requests.UpdateAccountRequest;
 import com.majorMedia.BackOfficeDashboard.model.responses.UserResponse;
 import com.majorMedia.BackOfficeDashboard.repository.AdminRepository;
 import com.majorMedia.BackOfficeDashboard.repository.RoleRepository;
@@ -14,6 +13,7 @@ import com.majorMedia.BackOfficeDashboard.util.EmailUtils;
 import com.majorMedia.BackOfficeDashboard.util.ImageUtils;
 import com.majorMedia.BackOfficeDashboard.util.JwtUtils;
 import com.majorMedia.BackOfficeDashboard.util.ServiceUtils;
+import io.micrometer.common.util.StringUtils;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.apache.commons.io.FilenameUtils;
@@ -43,8 +43,14 @@ public class AdminServiceImpl implements IAdminService {
     private final UserRepository userRepository;
     private ServiceUtils adminService;
     @Override
-    public String updateAccountSettings(MultipartFile file , String firstname , String lastname , String email) throws IOException {
+    public String updateAccountSettings(MultipartFile file,
+                                        String firstname,
+                                        String lastname,
+                                        String email) throws IOException {
 
+        if (StringUtils.isEmpty(lastname) || StringUtils.isEmpty(firstname)) {
+            throw new IllegalArgumentException("firstname and lastname must not be null or empty");
+        }
         Admin admin = adminRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundEmailException(email));
 
@@ -131,7 +137,7 @@ public class AdminServiceImpl implements IAdminService {
 
         // Map and combine users and admins
         List<UserResponse> userResponsesFromUsers = users.stream()
-                .map(user -> adminService.mapToUserResponse(user, "Proprietaire"))
+                .map(user -> adminService.mapToUserResponse(user, "Owner"))
                 .collect(Collectors.toList());
 
 
@@ -168,24 +174,31 @@ public class AdminServiceImpl implements IAdminService {
 
     @Override
     @Transactional
-    public String deactivateAccount(Long userId) {
-        User owner  = userRepository.findById(userId)
-                .orElseThrow(()->new EntityNotFoundException(userId, Admin.class));
+    public String deactivateAccount(Long ownerId) {
+        if (ownerId == null) {
+            throw new IllegalArgumentException("Owner are required");
+        }
+
+        User owner  = userRepository.findById(ownerId)
+                .orElseThrow(()->new EntityNotFoundException(ownerId, User.class));
 
         owner.set_deactivated(true);
         userRepository.save(owner);
-        return "Account deactivated Successfully";
+        return "Account : "+owner.getLastName() +" deactivated Successfully";
     }
 
     @Override
     @Transactional
     public String activateAccount(Long ownerId) {
+        if (ownerId == null) {
+            throw new IllegalArgumentException("Owner are required");
+        }
         User owner  = userRepository.findById(ownerId)
-                .orElseThrow(()->new EntityNotFoundException(ownerId, Admin.class));
+                .orElseThrow(()->new EntityNotFoundException(ownerId, User.class));
 
         owner.set_deactivated(true);
         userRepository.save(owner);
-        return "Account deactivated Successfully";
+        return "Account : "+owner.getLastName() +" activated Successfully";
     }
 
 

@@ -3,14 +3,13 @@ package com.majorMedia.BackOfficeDashboard.security.filter;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.majorMedia.BackOfficeDashboard.security.SecurityConstants;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
-import com.majorMedia.BackOfficeDashboard.entity.admin.Privilege;
-import com.majorMedia.BackOfficeDashboard.entity.admin.Role;
-import com.majorMedia.BackOfficeDashboard.model.requests.AuthenticationRequest;
+import com.majorMedia.BackOfficeDashboard.entity.admin.*;
+import com.majorMedia.BackOfficeDashboard.model.requests.AuthRequest;
 import com.majorMedia.BackOfficeDashboard.model.responses.AuthenticationResponse;
 import com.majorMedia.BackOfficeDashboard.repository.AdminRepository;
-import com.majorMedia.BackOfficeDashboard.util.ImageUtils;
+import com.majorMedia.BackOfficeDashboard.security.SecurityConstants;
+import com.majorMedia.BackOfficeDashboard.security.manager.CustomAuthenticationManager;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,9 +25,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import  com.majorMedia.BackOfficeDashboard.security.manager.CustomAuthenticationManager;
-import org.springframework.stereotype.Component;
-
 
 @AllArgsConstructor
 
@@ -41,7 +37,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException {
         try{
-            AuthenticationRequest admin = new ObjectMapper().readValue(request.getInputStream() , AuthenticationRequest.class);
+            AuthRequest admin = new ObjectMapper().readValue(request.getInputStream() , AuthRequest.class);
             Authentication authentication = new UsernamePasswordAuthenticationToken(admin.getEmail() ,admin.getPassword());
             return authenticationManager.authenticate(authentication);
         }

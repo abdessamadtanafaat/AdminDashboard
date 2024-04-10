@@ -1,7 +1,6 @@
 package com.majorMedia.BackOfficeDashboard.security.filter;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.majorMedia.BackOfficeDashboard.exception.AlreadyExistEmailException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

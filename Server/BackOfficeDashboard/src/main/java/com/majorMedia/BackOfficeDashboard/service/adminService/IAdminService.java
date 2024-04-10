@@ -3,8 +3,6 @@ package com.majorMedia.BackOfficeDashboard.service.adminService;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
 import com.majorMedia.BackOfficeDashboard.model.requests.RegisterRequest;
 import com.majorMedia.BackOfficeDashboard.model.requests.ResetPasswordRequest;
-import com.majorMedia.BackOfficeDashboard.model.requests.UpdateAccountRequest;
-import com.majorMedia.BackOfficeDashboard.model.responses.AdminResponse;
 import com.majorMedia.BackOfficeDashboard.model.responses.UserResponse;
 import jakarta.mail.MessagingException;
 import org.springframework.security.core.Authentication;
@@ -22,6 +20,6 @@ public interface IAdminService {
     public byte[] getImageData(Long adminId);
     public String changePassword(ResetPasswordRequest resetPasswordRequest);
     public List<UserResponse> getAllOwners(String sortBy , String searchKey);
-    public String deactivateAccount(Long adminId);
+    public String deactivateAccount(Long ownerId);
     public String activateAccount(Long ownerId);
 }

@@ -39,24 +39,36 @@ public class ServiceUtils {
     }
     public UserResponse mapToUserResponse (User user, String role){
         UserResponse userResponse = new UserResponse();
+        userResponse.setId(user.getId());
         userResponse.setFirstname(user.getFirstName());
         userResponse.setLastname(user.getLastName());
         userResponse.setEmail(user.getEmail());
-        userResponse.setIs_deactivated(String.valueOf(user.is_deactivated()));
+        userResponse.setActive(user.isActive());
+        userResponse.set_deactivated(user.is_deactivated());
+        LocalDate lastLogIn = user.getLastLogin().toLocalDate();
+        userResponse.setLastLogin(lastLogIn.atStartOfDay());
         LocalDate lastLogout = user.getLastLogout().toLocalDate();
-        userResponse.setLastLogout(lastLogout);
+        userResponse.setLastLogout(lastLogout.atStartOfDay());
         userResponse.setRole(role);
+        userResponse.setAvatarUrl(user.getAvatarUrl());
+        userResponse.setImageByte(user.getImageByte());
         return userResponse;
     }
     public UserResponse mapToUserResponse (Admin admin, String role){
         UserResponse userResponse = new UserResponse();
+        userResponse.setId(admin.getId());
         userResponse.setFirstname(admin.getFirstname());
         userResponse.setLastname(admin.getLastname());
         userResponse.setEmail(admin.getEmail());
-        userResponse.setIs_deactivated(String.valueOf(admin.is_deactivated()));
+        userResponse.setActive(admin.isActive());
+        userResponse.set_deactivated(admin.is_deactivated());
+        LocalDate lastLogIn = admin.getLastLogin().toLocalDate();
+        userResponse.setLastLogin(lastLogIn.atStartOfDay());
         LocalDate lastLogout = admin.getLastLogout().toLocalDate();
-        userResponse.setLastLogout(lastLogout);
+        userResponse.setLastLogout(lastLogout.atStartOfDay());
         userResponse.setRole(role);
+        userResponse.setAvatarUrl(admin.getAvatarUrl());
+        userResponse.setImageByte(admin.getImageByte());
 
         return userResponse;
     }

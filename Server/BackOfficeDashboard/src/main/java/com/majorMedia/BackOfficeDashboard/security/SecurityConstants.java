@@ -21,7 +21,6 @@ public class SecurityConstants {
     public static final String DEFAULT_PASSWORD =  "admin";
     public static final String[] WHITE_LIST = {
             "auth/reset-password"
-            ,"/avatars/**"
             ,"auth/is-token-valid"
             ,"auth/login"
             ,"auth/password-request"
@@ -35,9 +34,10 @@ public class SecurityConstants {
             ,"/swagger-resources/**"
             ,"/configuration/ui"
             ,"/configuration/security"
-            ,"/configuration/security",
-            "/avatars/**",
-            "/admin/image/**"
+            ,"/configuration/security"
+            ,"/avatars/**"
+            ,"/avatars/**"
+            ,"/admin/image/**"
     };
     public static  final Long MAX_AGE = 3600L;
     public static final  int CORS_FILTER_ORDER =-102;

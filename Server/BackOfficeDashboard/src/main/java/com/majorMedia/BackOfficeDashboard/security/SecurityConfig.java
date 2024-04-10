@@ -1,12 +1,12 @@
 package com.majorMedia.BackOfficeDashboard.security;
 
-
 import com.majorMedia.BackOfficeDashboard.repository.AdminRepository;
 import com.majorMedia.BackOfficeDashboard.security.BlacklistToken.BlacklistRepository;
 import com.majorMedia.BackOfficeDashboard.security.filter.AuthenticationFilter;
 import com.majorMedia.BackOfficeDashboard.security.filter.ExceptionHandlerFilter;
 import com.majorMedia.BackOfficeDashboard.security.filter.JwtAuthorizationFilter;
 import com.majorMedia.BackOfficeDashboard.security.manager.CustomAuthenticationManager;
+import com.majorMedia.BackOfficeDashboard.util.ServiceUtils;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,7 +41,10 @@ public class SecurityConfig {
     private static final  int CORS_FILTER_ORDER =-102;*/
     public SecurityConfig(@Lazy CustomAuthenticationManager authenticationManager,
                           @Lazy AdminRepository adminRepository,
-                          BlacklistRepository blacklistRepository) {
+                          BlacklistRepository blacklistRepository,
+                          ServiceUtils adminService
+
+    ) {
         this.customAuthenticationManager=authenticationManager;
         this.adminRepository = adminRepository ;
         this.blacklistRepository = blacklistRepository;
@@ -49,7 +52,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        AuthenticationFilter authenticationFilter = new AuthenticationFilter(customAuthenticationManager , adminRepository);
+        AuthenticationFilter authenticationFilter = new AuthenticationFilter(customAuthenticationManager , adminRepository );
 
         authenticationFilter.setFilterProcessesUrl(SecurityConstants.AUTHENTICATE_PATH);
         http.csrf(AbstractHttpConfigurer::disable)
@@ -58,7 +61,8 @@ public class SecurityConfig {
                         auth
                                 .requestMatchers(SecurityConstants.WHITE_LIST)
                                 .permitAll()
-                                .anyRequest().authenticated()
+                                .anyRequest()
+                                .authenticated()
                 )
                 .addFilterBefore( new ExceptionHandlerFilter(),AuthenticationFilter.class )
                 .addFilter(authenticationFilter)

@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(unique = true, nullable = false)
     @NotBlank(message = "Username is required")
@@ -80,5 +80,12 @@ public class User {
     @Column(name = "is_deactivated")
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
     private boolean is_deactivated ;
+
+    @Column(name = "image_data")
+    @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
+    private byte[] imageByte;
+
+    @Column(length = 100000)
+    private String avatarUrl;
 
 }

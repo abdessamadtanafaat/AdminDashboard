@@ -9,6 +9,7 @@ import lombok.Data;
 @AllArgsConstructor
 @Builder
 public class ResetPasswordRequest {
+
     private String password;
     private String token;
 }

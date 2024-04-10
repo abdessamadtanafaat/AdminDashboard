@@ -1,10 +1,19 @@
 package com.majorMedia.BackOfficeDashboard.exception;
 
+import com.majorMedia.BackOfficeDashboard.model.responses.ErrorResponse;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @ControllerAdvice
 public class SystemExceptionHandler extends ResponseEntityExceptionHandler {
@@ -37,8 +46,8 @@ public class SystemExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<String> handleEmailServiceException(EmailServiceException e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
     }
-    @ExceptionHandler(SuperAdminRoleAssignmentException.class)
-    public ResponseEntity<String> handleRoleAssignment(SuperAdminRoleAssignmentException e){
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleRoleAssignment(RuntimeException e){
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
@@ -46,12 +55,23 @@ public class SystemExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<String> AccountDeactivated(AccountDeactivatedException e){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
-
-
-/*
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handliGenericException (Exception e){
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An internal server error occurred");
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> IllegalArgumentException(IllegalArgumentException e){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
-*/
+
+
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+                                                                  HttpHeaders headers,
+                                                                  HttpStatusCode status,
+                                                                  WebRequest request) {
+
+        List<String> details = new ArrayList<>();
+        for (ObjectError error : ex.getBindingResult().getAllErrors()) {
+            details.add(error.getDefaultMessage());
+        }
+        ErrorResponse error = new ErrorResponse("Validation Failed",HttpStatus.BAD_REQUEST, details);
+        return new ResponseEntity(error, HttpStatus.BAD_REQUEST);
+    }
 }

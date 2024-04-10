@@ -2,11 +2,11 @@ package com.majorMedia.BackOfficeDashboard.controller;
 
 import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
 import com.majorMedia.BackOfficeDashboard.model.requests.ResetPasswordRequest;
-import com.majorMedia.BackOfficeDashboard.model.requests.UpdateAccountRequest;
 import com.majorMedia.BackOfficeDashboard.model.responses.UserResponse;
 import com.majorMedia.BackOfficeDashboard.service.adminService.IAdminService;
 import com.majorMedia.BackOfficeDashboard.service.superAdminService.ISuperAdminService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -47,8 +47,8 @@ public class AdminController {
     @PatchMapping("/change-account-settings")
     public ResponseEntity<String> changeAccountSettings(
             @RequestParam(value = "file" ,required = false) MultipartFile file,
-            @RequestParam("firstname") String firstname ,
-            @RequestParam("lastname") String lastname ,
+            @RequestParam(value = "firstname") @Valid  String firstname ,
+            @RequestParam(value = "lastname") @Valid  String lastname ,
             @RequestParam("email") String email ) throws IOException {
         return new ResponseEntity<>(adminService.updateAccountSettings(file , firstname , lastname , email),HttpStatus.ACCEPTED);
     }
