@@ -643,7 +643,7 @@
 					"response": []
 				},
 				{
-					"name": "Assgin role to admin Copy",
+					"name": "Assign Privilege to role",
 					"id": "c8a189fc-c446-4a49-82fc-00fde89f54b7",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
