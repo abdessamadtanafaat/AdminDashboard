@@ -484,12 +484,30 @@
 						"auth": {
 							"type": "bearer",
 							"bearer": {
-								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0YW5hZmFhdC5yY2EuMTZAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJSRUFEX1BSSVZJTEVHRSIsIldSSVRFX1BSSVZJTEVHRSJdLCJmaXJzdG5hbWUiOiJ0YW5hZmFhdCIsInJvbGVzIjpbIlJPTEVfU1VQRVJfQURNSU4iXSwiaWQiOjEsImV4cCI6MTcxMTg0MjU0MiwiZW1haWwiOiJ0YW5hZmFhdC5yY2EuMTZAZ21haWwuY29tIiwibGFzdG5hbWUiOiJBQkRFU1NBTUFEIn0.BkW1M2K3CQCQja5CVB-2DeLJNM3cjDkrCTIU2Te0dTQeOHToginC58xYr1freYDyBaRB43Mg7Z6UlJtR0SVpNw"
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJSRUFEX1BSSVZJTEVHRSIsIldSSVRFX1BSSVZJTEVHRSJdLCJmaXJzdG5hbWUiOiJpbGlhcyIsInJvbGVzIjpbIlJPTEVfU1VQRVJfQURNSU4iXSwiaWQiOjIsImV4cCI6MTcxMjgzMTE0MCwiZW1haWwiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwibGFzdG5hbWUiOiJyb2NoZGkifQ.AeecCSRI58wHZHMXL_fY8_jsUw6yiNiJhw2XRCVBVPA9mH4Ti4k_SWHq8Z8R3GgwoKOVbnQZtRG7Ur2A6OJWjg"
 							}
 						},
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8080/super-admin/1"
+						"url": {
+							"raw": "http://localhost:8080/super-admin/1?adminId=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"super-admin",
+								"1"
+							],
+							"query": [
+								{
+									"key": "adminId",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						}
 					},
 					"response": []
 				},
