@@ -429,7 +429,7 @@
 					"response": []
 				},
 				{
-					"name": "deactivate Account Copy",
+					"name": "deactivate Account",
 					"id": "a15f5da7-d731-4c94-b251-bd84b7c11657",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -453,7 +453,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/super-admin/deactivateAccount?adminId=3",
+							"raw": "http://localhost:8080/super-admin/deactivateAccount?ownerId =3",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -465,7 +465,7 @@
 							],
 							"query": [
 								{
-									"key": "adminId",
+									"key": "ownerId ",
 									"value": "3"
 								}
 							]
@@ -496,7 +496,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"firstname\": \"Fatima\",\r\n  \"lastname\": \"El Khattabi\",\r\n  \"email\": \"fatima.elkhattabi@gmail.com\",\r\n  \"password\": \"admin\",\r\n  \"roles\": [\r\n    {\r\n      \"name\": \"ADMIN\"\r\n    }\r\n  ]\r\n}\r\n",
+							"raw": "{\r\n  \"firstname\": \"string\",\r\n  \"lastname\": \"string\",\r\n  \"username\": \"stringoooo\",\r\n  \"email\": \"stringuuu\",\r\n  \"password\": \"string\",\r\n  \"changePasswordFirstLogin\": true\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -886,6 +886,110 @@
 								{
 									"key": "adminId",
 									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all roles",
+					"id": "7929805d-c745-4558-a955-e250717d1f01",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/super-admin/roles"
+					},
+					"response": []
+				},
+				{
+					"name": "Get all privileges",
+					"id": "91c898f4-7c8b-46ec-b9cb-b4632552f5cc",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbjEiLCJmaXJzdG5hbWUiOiJUYW5hZmFhdCIsInJvbGVzIjoiUk9MRV9BRE1JTiIsImV4cCI6MTcxMjg1NjAxMiwiZW1haWwiOiJ0YW5hZmFhdC5yY2EuMTZAZ21haWwuY29tIiwibGFzdG5hbWUiOiJBYmRlc3NhbWFkIn0.9P5bJ0BxUHf5QaSn4w6AHy2Ut6DjtL0rfLAINCThRqSd5YlD1j-uDiFbXgEa4FOMNB6ENCSNbU7eXfqRhe_THA"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/super-admin/privileges"
+					},
+					"response": []
+				},
+				{
+					"name": "revoke role",
+					"id": "7d8b15a9-8a7c-4a42-8260-09a4ba0eefce",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbjEiLCJmaXJzdG5hbWUiOiJUYW5hZmFhdCIsInJvbGVzIjoiUk9MRV9BRE1JTiIsImV4cCI6MTcxMjg1NjAxMiwiZW1haWwiOiJ0YW5hZmFhdC5yY2EuMTZAZ21haWwuY29tIiwibGFzdG5hbWUiOiJBYmRlc3NhbWFkIn0.9P5bJ0BxUHf5QaSn4w6AHy2Ut6DjtL0rfLAINCThRqSd5YlD1j-uDiFbXgEa4FOMNB6ENCSNbU7eXfqRhe_THA"
+							}
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "adminId",
+								"value": "",
+								"type": "text"
+							},
+							{
+								"key": "roleId",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:8080/super-admin/revoke-role"
+					},
+					"response": []
+				},
+				{
+					"name": "revoke privilege",
+					"id": "4b51c96e-94ea-4a3a-b24c-6fae7ace9989",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbjEiLCJmaXJzdG5hbWUiOiJUYW5hZmFhdCIsInJvbGVzIjoiUk9MRV9BRE1JTiIsImV4cCI6MTcxMjg1NjAxMiwiZW1haWwiOiJ0YW5hZmFhdC5yY2EuMTZAZ21haWwuY29tIiwibGFzdG5hbWUiOiJBYmRlc3NhbWFkIn0.9P5bJ0BxUHf5QaSn4w6AHy2Ut6DjtL0rfLAINCThRqSd5YlD1j-uDiFbXgEa4FOMNB6ENCSNbU7eXfqRhe_THA"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/super-admin/privileges?roleId&privilegeIds",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"super-admin",
+								"privileges"
+							],
+							"query": [
+								{
+									"key": "roleId",
+									"value": null,
+									"type": "text"
+								},
+								{
+									"key": "privilegeIds",
+									"value": null,
+									"type": "text"
 								}
 							]
 						}
