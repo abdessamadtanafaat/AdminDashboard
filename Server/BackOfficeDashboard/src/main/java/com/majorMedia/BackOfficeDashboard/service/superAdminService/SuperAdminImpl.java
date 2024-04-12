@@ -37,7 +37,7 @@ public class SuperAdminImpl implements ISuperAdminService {
 
     @Override
     @Transactional
-    public List<UserResponse> getAllUsers(String sortBy ,String searchKey) {
+    public List<UserResponse> getAllAdmins(String sortBy ,String searchKey) {
         List<UserResponse> userResponses = new ArrayList<>();
 
         List<Admin> admins = adminService.fetchAdmins(sortBy);

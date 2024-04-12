@@ -23,18 +23,16 @@ import java.util.List;
 @SecurityRequirement(name = "bearerAuth")
 @PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
 @RequestMapping("/super-admin")
-
 public class SuperAdminController {
-
     private final ISuperAdminService superAdminService;
 
     @GetMapping(value = "/admins")
-    public ResponseEntity<List<UserResponse>> getAllUsers(
+    public ResponseEntity<List<UserResponse>> getAllAdmins(
             @RequestParam(required = false) String sortBy,
             @RequestParam(required = false) String searchKey
             )
     {
-        List<UserResponse> userResponses = superAdminService.getAllUsers(sortBy,searchKey);
+        List<UserResponse> userResponses = superAdminService.getAllAdmins(sortBy,searchKey);
         return ResponseEntity.ok(userResponses);
     }
 
