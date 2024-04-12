@@ -81,7 +81,7 @@ public class User {
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
     private boolean is_deactivated ;
 
-    @Column(name = "image_data")
+    @Column(name = "imagedata")
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
     private byte[] imageByte;
 

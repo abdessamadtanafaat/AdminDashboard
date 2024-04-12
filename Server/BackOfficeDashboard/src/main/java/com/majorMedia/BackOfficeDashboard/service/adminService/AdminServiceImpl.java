@@ -1,11 +1,14 @@
 package com.majorMedia.BackOfficeDashboard.service.adminService;
 
+import com.majorMedia.BackOfficeDashboard.entity.business.Business;
 import com.majorMedia.BackOfficeDashboard.entity.user.User;
 import com.majorMedia.BackOfficeDashboard.exception.*;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
 import com.majorMedia.BackOfficeDashboard.model.requests.ResetPasswordRequest;
+import com.majorMedia.BackOfficeDashboard.model.responses.BusinessResponse;
 import com.majorMedia.BackOfficeDashboard.model.responses.UserResponse;
 import com.majorMedia.BackOfficeDashboard.repository.AdminRepository;
+import com.majorMedia.BackOfficeDashboard.repository.BusinessRepository;
 import com.majorMedia.BackOfficeDashboard.repository.RoleRepository;
 import com.majorMedia.BackOfficeDashboard.repository.UserRepository;
 import com.majorMedia.BackOfficeDashboard.security.SecurityConstants;
@@ -148,17 +151,6 @@ public class AdminServiceImpl implements IAdminService {
             throw new EntityNotFoundException(User.class);
         }
 
-/*        // Apply filtering by profile if requested
-        if (filterByProfile != null && !filterByProfile.isEmpty()) {
-            userResponses = userResponses.stream()
-                    .filter(userResponse -> userResponse.getRole().equalsIgnoreCase(filterByProfile))
-                    .collect(Collectors.toList());
-            if (userResponses.isEmpty()) {
-                throw new EntityNotFoundException(User.class);
-            }
-        }
-        */
-
         // Apply filtering by profile if requested
         if (searchKey != null && !searchKey.isEmpty()) {
             userResponses = userResponses.stream()
@@ -199,6 +191,39 @@ public class AdminServiceImpl implements IAdminService {
         owner.set_deactivated(true);
         userRepository.save(owner);
         return "Account : "+owner.getLastName() +" activated Successfully";
+    }
+
+    @Override
+    public List<BusinessResponse> getAllBusiness(String sortBy, String searchKey) {
+
+        List<BusinessResponse> businessResponses = new ArrayList<>();
+
+        List<Business> businesses = adminService.fetchBusiness(sortBy);
+
+        // Map and combine users and admins
+        List<BusinessResponse> businessResponseFromBusiness = businesses.stream()
+                .map(business -> adminService.mapToBusinessResponse(business))
+                .collect(Collectors.toList());
+
+
+        businessResponses.addAll(businessResponseFromBusiness);
+        businessResponses.sort(Comparator.comparing(BusinessResponse::getCreatedDate).reversed());
+
+        if(businessResponses.isEmpty()){
+            throw new EntityNotFoundException(Business.class);
+        }
+
+        // Apply filtering by profile if requested
+        if (searchKey != null && !searchKey.isEmpty()) {
+            businessResponses = businessResponses.stream()
+                    .filter(businessResponse -> businessResponse.getBusinessName().contains(searchKey) || businessResponse.getUser().getFullName().contains(searchKey)|| businessResponse.getEmail().contains(searchKey))
+                    .collect(Collectors.toList());
+            if (businessResponses.isEmpty()) {
+                throw new EntityNotFoundException(searchKey, Business.class);
+            }
+        }
+
+        return businessResponses;
     }
 
 

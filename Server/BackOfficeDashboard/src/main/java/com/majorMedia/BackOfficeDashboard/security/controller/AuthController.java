@@ -1,5 +1,6 @@
 package com.majorMedia.BackOfficeDashboard.security.controller;
 
+import com.majorMedia.BackOfficeDashboard.aspect.LogActivity;
 import com.majorMedia.BackOfficeDashboard.model.requests.AuthRequest;
 import com.majorMedia.BackOfficeDashboard.model.requests.RegisterRequest;
 import com.majorMedia.BackOfficeDashboard.model.requests.ResetPasswordRequest;
@@ -17,13 +18,14 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/auth")
-@SecurityRequirement(name = "bearerAuth")
+//@SecurityRequirement(name = "bearerAuth")
 
 public class AuthController
 {
     private final EmailUtils emailUtils;
     private final CustomAuthenticationManager authenticationManager;
 
+    @LogActivity
     @PostMapping("/register")
     public ResponseEntity<String> register(
             @Valid
@@ -33,19 +35,23 @@ public class AuthController
         return ResponseEntity.status(HttpStatus.CREATED).body(responseMessage);
     }
 
+    @LogActivity
     @GetMapping("/password-request")
     public ResponseEntity<String> passwordRequest(@RequestParam("email") String email) {
 
         return ResponseEntity.ok("Token: " + authenticationManager.forgotPassword(email));
     }
+    @LogActivity
     @GetMapping("/is-token-valid")
     public ResponseEntity<String> isTokenValid (@Param(value="token") String token) {
         return new ResponseEntity<>(emailUtils.checkValidity(token) , HttpStatus.ACCEPTED);
     }
+    @LogActivity
     @PostMapping("/reset-password")
     public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequest request){
         return new ResponseEntity<>(authenticationManager.resetPassword(request), HttpStatus.ACCEPTED);
     }
+    @LogActivity
     @PostMapping("/logout")
     public ResponseEntity<String> logout(@RequestBody AuthRequest authRequest, HttpServletRequest request){
         return new ResponseEntity<>(authenticationManager.logout(authRequest.getEmail(), request.getHeader("Authorization").substring(7)), HttpStatus.OK);
