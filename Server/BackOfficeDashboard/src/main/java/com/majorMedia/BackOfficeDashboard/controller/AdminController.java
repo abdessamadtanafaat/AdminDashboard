@@ -1,7 +1,9 @@
 package com.majorMedia.BackOfficeDashboard.controller;
 
+import com.majorMedia.BackOfficeDashboard.aspect.LogActivity;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
 import com.majorMedia.BackOfficeDashboard.model.requests.ResetPasswordRequest;
+import com.majorMedia.BackOfficeDashboard.model.responses.BusinessResponse;
 import com.majorMedia.BackOfficeDashboard.model.responses.UserResponse;
 import com.majorMedia.BackOfficeDashboard.service.adminService.IAdminService;
 import com.majorMedia.BackOfficeDashboard.service.superAdminService.ISuperAdminService;
@@ -28,22 +30,26 @@ public class AdminController {
 
     private final IAdminService adminService;
 
+    @LogActivity
     @PatchMapping("/{adminId}/avatar")
     public ResponseEntity<Admin> uploadAvatar(@PathVariable("adminId") Long adminId,
                                               @RequestParam("avatar")MultipartFile file) throws IOException {
             return new ResponseEntity<> (adminService.uploadAdminAvatar(adminId, file),HttpStatus.CREATED);
 
     }
+    @LogActivity
     @GetMapping(value = "/image/{adminId}", produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<byte[]> getAdminAvatar(@PathVariable Long adminId) {
         byte[] imageData = adminService.getImageData(adminId);
         return ResponseEntity.ok().body(imageData);
     }
 
+    @LogActivity
     @PatchMapping("/change-password")
     public ResponseEntity<String> changePassword(@RequestBody ResetPasswordRequest request){
         return new ResponseEntity<>(adminService.changePassword(request), HttpStatus.ACCEPTED);
     }
+    @LogActivity
     @PatchMapping("/change-account-settings")
     public ResponseEntity<String> changeAccountSettings(
             @RequestParam(value = "file" ,required = false) MultipartFile file,
@@ -52,7 +58,7 @@ public class AdminController {
             @RequestParam("email") String email ) throws IOException {
         return new ResponseEntity<>(adminService.updateAccountSettings(file , firstname , lastname , email),HttpStatus.ACCEPTED);
     }
-
+    @LogActivity
     @GetMapping(value = "/owners")
     public ResponseEntity<List<UserResponse>> getAllUsers(
             @RequestParam(required = false) String sortBy,
@@ -62,13 +68,24 @@ public class AdminController {
         List<UserResponse> userResponses = adminService.getAllOwners(sortBy,searchKey);
         return ResponseEntity.ok(userResponses);
     }
+    @LogActivity
+    @GetMapping(value = "/business")
+    public ResponseEntity<List<BusinessResponse>> getAllBusiness(
+            @RequestParam(required = false) String sortBy,
+            @RequestParam(required = false) String searchKey
+    )
+    {
+        List<BusinessResponse> businessResponses = adminService.getAllBusiness(sortBy,searchKey);
+        return ResponseEntity.ok(businessResponses);
+    }
+    @LogActivity
     @PatchMapping("/deactivateAccount/{ownerId}")
     public ResponseEntity<String> deactivateAccount(@PathVariable Long ownerId)
     {
         String string = adminService.deactivateAccount(ownerId);
         return ResponseEntity.ok(string);
     }
-
+    @LogActivity
     @PatchMapping("/activateAccount/{ownerId}")
     public ResponseEntity<String> activateAccount(@PathVariable Long ownerId)
     {

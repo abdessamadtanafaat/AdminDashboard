@@ -28,8 +28,7 @@ public class Admin {
     private Long id;
     private String firstname;
     private String lastname;
-
-    @NotBlank(message = "Email is required")
+    private String username;
     @NotBlank(message = "Email is required")
     @Email(message = "Invalid email format")
 
@@ -53,7 +52,7 @@ public class Admin {
     private boolean isUsedTokenEmail;
 
     @Column(name = "last_login")
-    @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
+    //@JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
     private LocalDateTime lastLogin;
 
     @Column(name = "is_active")
@@ -64,10 +63,8 @@ public class Admin {
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
     private boolean is_deactivated ;
 
-
-
     @Column(name = "last_logout")
-    @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
+    //@JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
     private LocalDateTime lastLogout;
 
     public Admin() {
@@ -92,6 +89,8 @@ public class Admin {
     @Column(name = "imagedata", length = 100000)
     private byte[] imageByte;
 
+    @Column(name = "change_Password_First_Login")
+    private boolean changePasswordFirstLogin;
 
 
 }

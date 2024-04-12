@@ -55,6 +55,12 @@ public class CustomAuthenticationManager implements AuthenticationManager, Icust
         if(!passwordEncoder.matches(authentication.getCredentials().toString(),admin.getPassword())){
             throw new BadCredentialsException("You provided an incorrect password");
         }
+
+        if (admin.isChangePasswordFirstLogin()) {
+            throw new RuntimeException("You need to change your password to continue");
+            // redirect him to the page to change password
+        }
+
         admin.setActive(true);
         admin.setLastLogin(LocalDateTime.now());
         adminRepository.save(admin);

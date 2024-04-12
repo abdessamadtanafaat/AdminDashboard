@@ -38,6 +38,8 @@ public class SecurityConstants {
             ,"/avatars/**"
             ,"/avatars/**"
             ,"/admin/image/**"
+            //,"/super-admin/**" // a supprimer apres
+            //,"/admin/**" // a supprimer apres
     };
     public static  final Long MAX_AGE = 3600L;
     public static final  int CORS_FILTER_ORDER =-102;

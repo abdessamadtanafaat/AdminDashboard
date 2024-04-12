@@ -21,4 +21,8 @@ public class CreateAdminRequest {
 
     @Email(message = "Email should be valid")
     private String email;
+
+    @NotBlank(message = "Password is required")
+    private String password;
+    private boolean changePasswordFirstLogin;
 }

@@ -4,6 +4,7 @@ import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Privilege;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Role;
 import com.majorMedia.BackOfficeDashboard.model.requests.CreateAdminRequest;
+import com.majorMedia.BackOfficeDashboard.model.responses.PermissionsResponse;
 import com.majorMedia.BackOfficeDashboard.model.responses.UserResponse;
 
 import java.util.Collection;
@@ -19,6 +20,12 @@ public interface ISuperAdminService {
         public String assignPrivilegesToRole(Long roleId, Collection<Long> privilegeIds);
         public String deactivateAccount(Long adminId);
         public String activateAccount(Long adminId);
+        public List<PermissionsResponse> getAllRoles();
+        public List<PermissionsResponse> getAllPrivileges();
+
+        public String revokeRoleFromAdmin(Long adminId, Long roleId);
+
+        public String revokePrivilegesFromRole(Long roleId, Collection<Long> privilegeIds);
 }
 
 
