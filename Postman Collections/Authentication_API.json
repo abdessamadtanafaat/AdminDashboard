@@ -370,6 +370,108 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get all owners",
+					"id": "5cb0f256-1f2e-4489-b34a-e96cbf951251",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "activate Account",
+					"id": "07b49054-6ac1-4d5e-a71d-a149071f574b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJXUklURV9QUklWSUxFR0UiXSwiZmlyc3RuYW1lIjoiaWxpYXMiLCJyb2xlcyI6WyJST0xFX1NVUEVSX0FETUlOIl0sImlkIjoyLCJleHAiOjE3MTI4MjgwOTksImVtYWlsIjoiaWxpYXMucm91Y2hkaTIxQGdtYWlsLmNvbSIsImxhc3RuYW1lIjoicm9jaGRpIn0.m1tBdiPZQfxCsXyKl0r5I88kEaXRhL1Wg3J5L7wzBPGffizuLQ1uekFJwgSBeVYHbiwdUc4RfXWiEPap00dXig"
+							}
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/super-admin/activateAccount?ownerId=3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"super-admin",
+								"activateAccount"
+							],
+							"query": [
+								{
+									"key": "ownerId",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deactivate Account Copy",
+					"id": "a15f5da7-d731-4c94-b251-bd84b7c11657",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJXUklURV9QUklWSUxFR0UiXSwiZmlyc3RuYW1lIjoiaWxpYXMiLCJyb2xlcyI6WyJST0xFX1NVUEVSX0FETUlOIl0sImlkIjoyLCJleHAiOjE3MTI4MjgwOTksImVtYWlsIjoiaWxpYXMucm91Y2hkaTIxQGdtYWlsLmNvbSIsImxhc3RuYW1lIjoicm9jaGRpIn0.m1tBdiPZQfxCsXyKl0r5I88kEaXRhL1Wg3J5L7wzBPGffizuLQ1uekFJwgSBeVYHbiwdUc4RfXWiEPap00dXig"
+							}
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/super-admin/deactivateAccount?adminId=3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"super-admin",
+								"deactivateAccount"
+							],
+							"query": [
+								{
+									"key": "adminId",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"id": "edf2e029-4d0b-4d93-aa9c-a3e81b337e0f"
