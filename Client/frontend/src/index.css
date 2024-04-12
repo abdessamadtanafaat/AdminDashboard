@@ -4,6 +4,9 @@
 
 @layer components {
     .align-element {
-      @apply mx-auto max-w-6xl ;
+      @apply grid place-content-center mx-auto max-w-6xl w-8/12  ;
+    }
+    .transition-duration{
+      @apply duration-2000
     }
 }

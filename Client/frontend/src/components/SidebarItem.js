@@ -10,12 +10,12 @@ const SidebarItem = ({icon , text ,alert ,active , link ,children }) => {
             relative flex justify-center items-center w-full py-2 px-3 my-1
             font-medium rounded-md cursor-pointer hover:bg-base-100 text-base-content
             transition-colors group
-            ${active? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800": "hover:bg-base-content text-base-content hover:text-base-100 "
+            ${active? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800": "hover:bg-base-content hover:text-base-100 "
         }`}>
           {icon}
           <span
             className={`overflow-hidden transition-all ${
-            expanded ? "w-52 ml-3" : "w-0"}`}>
+            expanded ? "w-52 ml-3" : "hidden"}`}>
             {text}
           </span>
           {alert && (
@@ -32,7 +32,7 @@ const SidebarItem = ({icon , text ,alert ,active , link ,children }) => {
               bg-base-content text-base-200 text-sm
               invisible opacity-20 
               -translate-x-3 transition-all
-            group-hover:visible group-hover:opacity-100 group-hover:translate-x-0
+              group-hover:visible group-hover:opacity-100 group-hover:translate-x-0
           `}>
             {text}
           </div>
@@ -41,5 +41,4 @@ const SidebarItem = ({icon , text ,alert ,active , link ,children }) => {
     </li>
   )
 }
-
 export default SidebarItem

@@ -19,12 +19,12 @@ const HomeLayout = () => {
   const navigation = useNavigation();
   const isPageLoading = navigation.state==='loading'
   return (
-    <div className="flex">
+    <div className="flex duration-2000">
       <SidebarProvider>
          <Sidebar/>
       </SidebarProvider>
       {isPageLoading ? (<Loading/>) :( 
-    <section className='align-element py-20'>
+    <section className='align-element py-4'>
         <Outlet />
     </section>)}
     </div>
