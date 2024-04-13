@@ -61,41 +61,39 @@ public class SuperAdminController {
     }
     @LogActivity
     @PostMapping("/create-role")
-    public ResponseEntity<String> createRole(
+    public ResponseEntity<Role> createRole(
     @RequestParam(value = "nameRole")String nameRole,
     @RequestParam(value = "descriptionRole")String descriptionRole)
     {
-        String roleMessage = superAdminService.addRole(nameRole, descriptionRole);
-        return ResponseEntity.status(HttpStatus.CREATED).body(roleMessage);
+        Role role = superAdminService.addRole(nameRole, descriptionRole);
+        return ResponseEntity.status(HttpStatus.CREATED).body(role);
     }
     @LogActivity
     @PostMapping("/assign-role")
-    public ResponseEntity<String> assignRole(@RequestParam(value = "adminId")Long adminId,
+    public ResponseEntity<Admin> assignRole(@RequestParam(value = "adminId")Long adminId,
                                             @RequestParam(value = "roleId")Long roleId)
     {
-        String roleMessage = superAdminService.assignRoleToAdmin(adminId,roleId);
-        return ResponseEntity.status(HttpStatus.OK).body(roleMessage);
+        Admin admin = superAdminService.assignRoleToAdmin(adminId,roleId);
+        return ResponseEntity.status(HttpStatus.OK).body(admin);
     }
     @LogActivity
     @PostMapping("/create-privilege")
-    public ResponseEntity<String> createPrivilege(
+    public ResponseEntity<Privilege> createPrivilege(
             @RequestParam(value = "namePrivilege")String namePrivilege,
             @RequestParam(value = "descriptionPrivilege")String descriptionPrivilege
     )
     {
-        String privilegeMessage = superAdminService.addPrivilege(namePrivilege, descriptionPrivilege);
-        return ResponseEntity.status(HttpStatus.CREATED).body(privilegeMessage);
+        return ResponseEntity.status(HttpStatus.CREATED).body(superAdminService.addPrivilege(namePrivilege, descriptionPrivilege));
     }
 
     @LogActivity
     @PostMapping("/assign-privilege-to-role")
-    public ResponseEntity<String> assignPrivilegeToRole(
+    public ResponseEntity<Role> assignPrivilegeToRole(
             @RequestParam(value = "roleId")Long roleId,
             @RequestParam(value = "privilegeIds")Collection<Long> privilegeIds)
             {
 
-                String privilegeMessage = superAdminService.assignPrivilegesToRole(roleId, privilegeIds);
-                return ResponseEntity.status(HttpStatus.OK).body(privilegeMessage);
+                return ResponseEntity.status(HttpStatus.OK).body(superAdminService.assignPrivilegesToRole(roleId, privilegeIds));
             }
 
     @LogActivity

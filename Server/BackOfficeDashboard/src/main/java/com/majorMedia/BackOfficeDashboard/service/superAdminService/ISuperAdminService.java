@@ -15,10 +15,10 @@ public interface ISuperAdminService {
         public List<UserResponse> getAllAdmins(String sortBy ,String searchKey);
         public Admin createAdmin(CreateAdminRequest createAdminRequest);
         public UserResponse getAdminDetails(Long adminId);
-        public String addRole(String name, String description);
-        public String assignRoleToAdmin(Long adminId, Long roleId);
-        public String addPrivilege(String name, String description);
-        public String assignPrivilegesToRole(Long roleId, Collection<Long> privilegeIds);
+        public Role addRole(String name, String description);
+        public Admin assignRoleToAdmin(Long adminId, Long roleId);
+        public Privilege addPrivilege(String name, String description);
+        public Role assignPrivilegesToRole(Long roleId, Collection<Long> privilegeIds);
         public String deactivateAccount(Long adminId);
         public String activateAccount(Long adminId);
         public List<PermissionsResponse> getAllRoles();

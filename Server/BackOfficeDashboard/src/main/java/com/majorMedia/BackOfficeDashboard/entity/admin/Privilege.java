@@ -1,5 +1,6 @@
 package com.majorMedia.BackOfficeDashboard.entity.admin;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,7 +17,8 @@ public class Privilege {
     private String name;
     private String description;
 
-   @ManyToMany(mappedBy = "privileges")
+    @ManyToMany(mappedBy = "privileges")
+    @JsonIgnore
     private Collection<Role> roles;
 
     public Privilege() {}

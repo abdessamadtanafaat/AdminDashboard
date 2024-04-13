@@ -140,31 +140,30 @@ public class SuperAdminImpl implements ISuperAdminService {
 
     @Override
     @Transactional
-    public String addRole(String nameRole, String descriptionRole){
+    public Role addRole(String nameRole, String descriptionRole){
         if (StringUtils.isEmpty(nameRole) || StringUtils.isEmpty(descriptionRole)) {
             throw new IllegalArgumentException("Name and description are required");
         }
 
         Role role = new Role(nameRole,descriptionRole);
-        roleRepository.save(role);
-        return  "Role Created Successfully";
+        return roleRepository.save(role);
     }
 
     @Override
     @Transactional
-    public String addPrivilege(String namePrivilege, String descriptionPrivilege){
+    public Privilege addPrivilege(String namePrivilege, String descriptionPrivilege){
         if (StringUtils.isEmpty(namePrivilege) || StringUtils.isEmpty(descriptionPrivilege)) {
             throw new IllegalArgumentException("Name and description are required");
         }
         Privilege privilege = new Privilege(namePrivilege,descriptionPrivilege);
-         privilegeRepository.save(privilege);
-            return  "Privilege Created Successfully";
+        return  privilegeRepository.save(privilege);
+
 
     }
 
     @Override
     @Transactional
-        public String assignRoleToAdmin(Long adminId, Long roleId){
+        public Admin assignRoleToAdmin(Long adminId, Long roleId){
 
         if (adminId == null || roleId == null) {
             throw new IllegalArgumentException("Admin and role are required");
@@ -184,15 +183,15 @@ public class SuperAdminImpl implements ISuperAdminService {
         }
 
         admin.getRoles().add(role);
-        adminRepository.save(admin);
+        return adminRepository.save(admin);
 
-        return "Role Assigned To " +admin.getLastname() +" Successfully" ;
+
     }
 
 
     @Override
     @Transactional
-    public String assignPrivilegesToRole(Long roleId, Collection<Long> privilegeIds){
+    public Role assignPrivilegesToRole(Long roleId, Collection<Long> privilegeIds){
 
         if (privilegeIds.isEmpty() || roleId == null) {
             throw new IllegalArgumentException("Privilege and role are required");
@@ -206,9 +205,9 @@ public class SuperAdminImpl implements ISuperAdminService {
                                         .collect(Collectors.toList());
 
         role.setPrivileges(privileges);
-        roleRepository.save(role);
+        return  roleRepository.save(role);
 
-        return "Privileges Assigned To "+ role.getName()+" Successfully ";
+
 
     }
 
