@@ -3,6 +3,10 @@ package com.majorMedia.BackOfficeDashboard.entity.admin;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.majorMedia.BackOfficeDashboard.util.ImageUtils;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -53,6 +57,8 @@ public class Admin {
 
     @Column(name = "last_login")
     //@JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime lastLogin;
 
     @Column(name = "is_active")
@@ -65,7 +71,6 @@ public class Admin {
 
     @Column(name = "last_logout")
     //@JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
-
     private LocalDateTime lastLogout;
 
     public Admin() {
@@ -88,6 +93,7 @@ public class Admin {
 
     @Lob
     @Column(name = "imagedata", length = 100000)
+    @JsonIgnore
     private byte[] imageByte;
 
     @Column(name = "change_Password_First_Login")

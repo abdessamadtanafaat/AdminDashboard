@@ -6,7 +6,9 @@ import {action as forgotPasswordAction} from './pages/ForgotPassword'
 import {action as resetPasswordAction} from './pages/ResetPassword'
 import {loader as resetPasswordLoader} from './pages/ResetPassword'
 import {loader as homeLayoutLoader} from './pages/HomeLayout'
+import {loader as adminManagerLoader} from './components/AdminManager'
 import {store} from './app/store'
+
 const routes = createBrowserRouter([
   {
     path : "/",
@@ -29,7 +31,8 @@ const routes = createBrowserRouter([
       },
       {
         path:"/admin-manager",
-        element :<AdminManager/>
+        element :<AdminManager/>,
+        loader :adminManagerLoader(store)
       }
 
     ]

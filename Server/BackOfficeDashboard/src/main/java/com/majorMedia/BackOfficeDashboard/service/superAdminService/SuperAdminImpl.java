@@ -37,7 +37,10 @@ public class SuperAdminImpl implements ISuperAdminService {
     private final PrivilegeRepository privilegeRepository;
     private final ServiceUtils adminService;
 
-
+    @Override
+    public List<Admin> getAllAdmins() {
+        return adminRepository.findAll();
+    }
     @Override
     @Transactional
     public List<UserResponse> getAllAdmins(String sortBy ,String searchKey) {
@@ -110,12 +113,12 @@ public class SuperAdminImpl implements ISuperAdminService {
             throw new AlreadyExistEmailException(createAdminRequest.getEmail());
         }
 
-        String password;
-        if (createAdminRequest.getUsername() != null && !createAdminRequest.getUsername().isEmpty()) {
-            password = createAdminRequest.getUsername();
-        } else {
-            password = passwordEncoder.encode(SecurityConstants.DEFAULT_PASSWORD);
-        }
+//        String password;
+//        if (createAdminRequest.getUsername() != null && !createAdminRequest.getUsername().isEmpty()) {
+//            password = createAdminRequest.getUsername();
+//        } else {
+//            password = passwordEncoder.encode(SecurityConstants.DEFAULT_PASSWORD);
+//        }
 
         String username;
         if (createAdminRequest.getUsername() != null && !createAdminRequest.getUsername().isEmpty()) {

@@ -22,6 +22,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import static com.majorMedia.BackOfficeDashboard.security.SecurityConstants.RESET_PASSWORD_URL;
@@ -62,7 +63,8 @@ public class CustomAuthenticationManager implements AuthenticationManager, Icust
         }
 
         admin.setActive(true);
-        admin.setLastLogin(LocalDateTime.now());
+
+        //admin.setLastLogin(LocalDateTime.now());
         adminRepository.save(admin);
         return new UsernamePasswordAuthenticationToken(authentication.getName(), admin.getPassword());
     }
@@ -78,7 +80,7 @@ public class CustomAuthenticationManager implements AuthenticationManager, Icust
                 serviceUtils.addToBlacklist(jwtToken);
 
                 admin.setActive(false);
-                admin.setLastLogout(LocalDateTime.now());
+                //admin.setLastLogout(LocalDateTime.now());
                 adminRepository.save(admin);
                 return "Logged out successfully";
             }

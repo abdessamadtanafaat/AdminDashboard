@@ -35,13 +35,14 @@ public class SuperAdminController {
 
     @LogActivity
     @GetMapping(value = "/admins")
-    public ResponseEntity<List<UserResponse>> getAllUsers(
+    public ResponseEntity<List<Admin>> getAllUsers(
             @RequestParam(required = false) String sortBy,
-            @RequestParam(required = false) String searchKey
+            @RequestParam(required = false) String searchKey,
+            @RequestParam(required=false ,name="page" , defaultValue="1") int page
             )
     {
-        List<UserResponse> userResponses = superAdminService.getAllAdmins(sortBy,searchKey);
-        return ResponseEntity.ok(userResponses);
+//        List<UserResponse> userResponses = superAdminService.getAllAdmins(sortBy,searchKey);
+        return ResponseEntity.ok(superAdminService.getAllAdmins());
     }
 
     @LogActivity
