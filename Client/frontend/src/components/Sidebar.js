@@ -1,6 +1,6 @@
 import {BsSunFill ,  BsMoonFill } from "react-icons/bs";
 
-import {ChevronFirst, ChevronLast , LogOut} from 
+import {ChevronFirst, ChevronLast , LogOut , Users} from 
 'lucide-react'
 import SidebarItem from './SidebarItem';
 import { LayoutDashboard, Home, StickyNote, Layers, Calendar, LifeBuoy ,Table } from "lucide-react";
@@ -15,10 +15,10 @@ import { toast } from "react-toastify";
 import NewSidebarItem from "./NewSidebarItem";
 
 const items = [
-  { icon: <Home size={20} />, text: "Home", alert: true , link: "/" ,children:[]},
-  { icon: <Table size={20} />, text: "Tables", active: true  , link:"tables" , children:[{text:"Buissess Owners",link:"login"},{text:"Business",link:"forgotPassword"}]},
-  { icon: <StickyNote size={20} />, text: "Projects", alert: true , link:"login",children:[] },
-  { icon: <LifeBuoy size={20} />, text: "Help", children : [] }
+  { icon: <Home  />, text: "Home", alert: true , link: "/" ,children:[]},
+  { icon: <Table  />, text: "Tables", active: true  , link:"tables" , children:[{text:"Buissess Owners",link:"/business-owner"},{text:"Business",link:"forgotPassword"}]},
+  { icon: <Users />, text: "Admin Settings", alert: true , link:"/admin-manager",children:[] },
+  { icon: <LifeBuoy  />, text: "Help", children : [] }
 ]
 
 
@@ -50,12 +50,12 @@ const Sidebar = () => {
   }
   
   return(
-    <aside className="h-screen fixed z-30"  >
-      <nav className="h-full flex flex-col bg-base-300 border-r shadow-sm">
+    <aside className="h-screen relative z-30 transition duration-2000"  >
+      <nav className="h-full flex flex-col bg-base-300   shadow-sm">
         <div className={`p-4 pb-2 flex justify-between items-center mb-4`}
         >
           <img src={logo} className={`h-16
-          overflow-hidden transition-all  ${expanded ? "w-auto" : "w-0"}`} />
+          overflow-hidden duration-100  ${expanded ? "w-auto" : "w-0"}`} />
           <button
               onClick={() => setExpanded((curr) => !curr)}
             className={`ml-2 p-1.5 rounded-lg bg-base-content text-base-200 hover:bg-accent ${expanded || "m-auto"}`}>
@@ -103,7 +103,7 @@ const Sidebar = () => {
             <div
               className={`
                 flex justify-between items-center
-                overflow-hidden transition-all -mt-2 ${expanded ? "w-52 ml-3" : "w-0"}
+                overflow-hidden duration-100 -mt-2 ${expanded ? "w-52 ml-3" : "hidden"}
               `}>
                 <div className="leading-4">
                   <h4 className="font-semibold text-base-content capitalize">{`${firstname} ${lastname}`}</h4>

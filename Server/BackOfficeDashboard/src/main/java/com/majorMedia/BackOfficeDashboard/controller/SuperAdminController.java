@@ -40,7 +40,7 @@ public class SuperAdminController {
             @RequestParam(required = false) String searchKey
             )
     {
-        List<UserResponse> userResponses = superAdminService.getAllUsers(sortBy,searchKey);
+        List<UserResponse> userResponses = superAdminService.getAllAdmins(sortBy,searchKey);
         return ResponseEntity.ok(userResponses);
     }
 

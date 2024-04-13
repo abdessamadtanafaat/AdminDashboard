@@ -65,6 +65,7 @@ public class Admin {
 
     @Column(name = "last_logout")
     //@JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
+
     private LocalDateTime lastLogout;
 
     public Admin() {

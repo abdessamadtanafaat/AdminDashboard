@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.List;
 
 public interface ISuperAdminService {
-        public List<UserResponse> getAllUsers(String sortBy ,String searchKey);
+        public List<UserResponse> getAllAdmins(String sortBy ,String searchKey);
         public Admin createAdmin(CreateAdminRequest createAdminRequest);
         public UserResponse getAdminDetails(Long adminId);
         public String addRole(String name, String description);
