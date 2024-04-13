@@ -1,6 +1,7 @@
 import {toast} from 'react-toastify'
 import { customFetch } from '../utils'
 import {Plus , Save} from 'lucide-react'
+import { FormInput , RolesList } from "../components"
 export const loader = async()=>{
   try{
     const response = await customFetch("/super-admin/admins" )
@@ -26,9 +27,11 @@ const AdminManager = () => {
         <dialog id="my_modal_1" className="modal">
           <div className="modal-box min-h-14 w-3/4 max-w-4xl">
             <h3 className="font-bold text-lg mb-4">Create Administator</h3>
-            <div className="flex"></div>
+            <div className="my-5 mx-auto w-1/3"><FormInput label="Enter the Email" type="email" name="email" placeholder="email@email.com"/></div>
             <div className="flex justify-between gap-4">
-              <div className="w-60 h-80 bg-base-200">Roles</div>
+              <div className="w-60 h-80 bg-base-200">
+                <RolesList/>
+              </div>
               <div className="flex-col flex justify-evenly place-items-center">
                 <button className="btn btn-accent w-20 px-3">Grant</button>
                 <button className="btn btn-error w-20">Revoke</button>
@@ -53,7 +56,7 @@ const AdminManager = () => {
        </div>
     
     <div className="overflow-x-auto">
-        <table className="table">
+        <table className="table table-zebra-zebra">
           {/* head */}
         <thead>
         <tr>

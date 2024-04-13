@@ -50,7 +50,7 @@ const Sidebar = () => {
   }
   
   return(
-    <aside className="h-screen relative z-30"  >
+    <aside className="h-screen relative z-30 transition duration-2000"  >
       <nav className="h-full flex flex-col bg-base-300   shadow-sm">
         <div className={`p-4 pb-2 flex justify-between items-center mb-4`}
         >
