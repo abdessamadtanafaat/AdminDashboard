@@ -113,30 +113,27 @@ public class SuperAdminImpl implements ISuperAdminService {
             throw new AlreadyExistEmailException(createAdminRequest.getEmail());
         }
 
+
 //        String password;
 //        if (createAdminRequest.getUsername() != null && !createAdminRequest.getUsername().isEmpty()) {
 //            password = createAdminRequest.getUsername();
 //        } else {
 //            password = passwordEncoder.encode(SecurityConstants.DEFAULT_PASSWORD);
 //        }
-
-        String username;
-        if (createAdminRequest.getUsername() != null && !createAdminRequest.getUsername().isEmpty()) {
-            username = createAdminRequest.getUsername();
-        } else {
-             username = "admin" + createAdminRequest.getLastname().substring(0, Math.min(createAdminRequest.getLastname().length(), 5)).replaceAll("\\s+", "");
-        }
-
-        boolean changePasswordFirstLogin = createAdminRequest.isChangePasswordFirstLogin();
-        Admin admin = Admin.builder()
+//
+//        String username;
+//        if (createAdminRequest.getUsername() != null && !createAdminRequest.getUsername().isEmpty()) {
+//            username = createAdminRequest.getUsername();
+//        } else {
+//             username = "admin" + createAdminRequest.getLastname().substring(0, Math.min(createAdminRequest.getLastname().length(), 5)).replaceAll("\\s+", "");
+//        }
+//
+//        boolean changePasswordFirstLogin = createAdminRequest.isChangePasswordFirstLogin();
+        Admin admin = Admin
+                .builder()
                 .email(createAdminRequest.getEmail())
-                .lastname(createAdminRequest.getLastname())
-                .firstname(createAdminRequest.getFirstname())
-                .username(username)
-                .password(password)
-                .changePasswordFirstLogin(changePasswordFirstLogin)
+                .password(null)
                 .build();
-
         return adminRepository.save(admin);
 
     }
