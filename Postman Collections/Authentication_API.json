@@ -934,7 +934,7 @@
 						"auth": {
 							"type": "bearer",
 							"bearer": {
-								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbjEiLCJmaXJzdG5hbWUiOiJUYW5hZmFhdCIsInJvbGVzIjoiUk9MRV9BRE1JTiIsImV4cCI6MTcxMjg1NjAxMiwiZW1haWwiOiJ0YW5hZmFhdC5yY2EuMTZAZ21haWwuY29tIiwibGFzdG5hbWUiOiJBYmRlc3NhbWFkIn0.9P5bJ0BxUHf5QaSn4w6AHy2Ut6DjtL0rfLAINCThRqSd5YlD1j-uDiFbXgEa4FOMNB6ENCSNbU7eXfqRhe_THA"
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJSRUFEX1BSSVZJTEVHRSIsIldSSVRFX1BSSVZJTEVHRSJdLCJmaXJzdG5hbWUiOiJSb2NoZGkiLCJyb2xlcyI6WyJST0xFX1NVUEVSX0FETUlOIl0sImlkIjoyLCJleHAiOjE3MTMxODQzNDUsImVtYWlsIjoiaWxpYXMucm91Y2hkaTIxQGdtYWlsLmNvbSIsImxhc3RuYW1lIjoiaWxpYXMifQ.zL2BF9_pvhVv1xXSl925A5IbTJ82T04nxOb_JKnB_0olBTML3zrlhPx7eT0DrOEkLJvUxf5itHtN4qWVbICqEw"
 							}
 						},
 						"method": "DELETE",
@@ -950,7 +950,30 @@
 								"type": "text"
 							}
 						],
-						"url": "http://localhost:8080/super-admin/revoke-role"
+						"url": {
+							"raw": "http://localhost:8080/super-admin/revoke-role?adminId=3&roleId=4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"super-admin",
+								"revoke-role"
+							],
+							"query": [
+								{
+									"key": "adminId",
+									"value": "3",
+									"type": "text"
+								},
+								{
+									"key": "roleId",
+									"value": "4",
+									"type": "text"
+								}
+							]
+						}
 					},
 					"response": []
 				},
