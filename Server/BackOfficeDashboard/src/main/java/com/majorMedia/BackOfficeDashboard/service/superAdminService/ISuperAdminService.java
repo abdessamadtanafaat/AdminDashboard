@@ -21,12 +21,12 @@ public interface ISuperAdminService {
         public Role assignPrivilegesToRole(Long roleId, Collection<Long> privilegeIds);
         public String deactivateAccount(Long adminId);
         public String activateAccount(Long adminId);
-        public List<PermissionsResponse> getAllRoles();
-        public List<PermissionsResponse> getAllPrivileges();
+        public List<Role> getAllRoles();
+        public List<Privilege> getAllPrivileges();
 
-        public String revokeRoleFromAdmin(Long adminId, Long roleId);
+        public Admin revokeRoleFromAdmin(Long adminId, Long roleId);
 
-        public String revokePrivilegesFromRole(Long roleId, Collection<Long> privilegeIds);
+        public Role revokePrivilegesFromRole(Long roleId, Collection<Long> privilegeIds);
 }
 
 

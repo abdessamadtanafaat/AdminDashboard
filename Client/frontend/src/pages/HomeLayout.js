@@ -23,10 +23,11 @@ const HomeLayout = () => {
       <SidebarProvider>
          <Sidebar/>
       </SidebarProvider>
-      {isPageLoading ? (<Loading/>) :( 
-    <section className='align-element py-4'>
-        <Outlet />
-    </section>)}
+      {isPageLoading ? (<Loading/>) :(
+
+        <section className='align-element py-4'>
+            <Outlet />
+        </section>)}
     </div>
       
   )

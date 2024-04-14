@@ -164,10 +164,6 @@ public class SuperAdminImpl implements ISuperAdminService {
     @Override
     @Transactional
         public Admin assignRoleToAdmin(Long adminId, Long roleId){
-
-        if (adminId == null || roleId == null) {
-            throw new IllegalArgumentException("Admin and role are required");
-        }
         Admin admin = adminRepository.findById(adminId)
                 .orElseThrow(()-> new EntityNotFoundException(adminId, Admin.class));
 
@@ -177,9 +173,6 @@ public class SuperAdminImpl implements ISuperAdminService {
 
         if (adminService.isAdminSuperAdmin(admin)){
             throw new RuntimeException("Cannot assign role to a super admin");
-        }
-        if (!admin.getRoles().contains(role)) {
-            throw new RuntimeException("Admin does not have the specified role");
         }
 
         admin.getRoles().add(role);
@@ -204,7 +197,8 @@ public class SuperAdminImpl implements ISuperAdminService {
                                 .orElseThrow(()-> new EntityNotFoundException(privilegeId, Privilege.class)))
                                         .collect(Collectors.toList());
 
-        role.setPrivileges(privileges);
+//        role.setPrivileges(privileges);
+        role.getPrivileges().addAll(privileges);
         return  roleRepository.save(role);
 
 
@@ -247,27 +241,23 @@ public class SuperAdminImpl implements ISuperAdminService {
 
     @Override
     @Transactional
-    public List<PermissionsResponse> getAllRoles() {
+    public List<Role> getAllRoles() {
         List<Role> roles =  roleRepository.findAll();
-        return roles.stream()
-                .map(adminService::mapRoleToPermissionResponse)
-                .collect(Collectors.toList());
+        return roles;
 
 
     }
 
     @Override
     @Transactional
-    public List<PermissionsResponse> getAllPrivileges() {
+    public List<Privilege> getAllPrivileges() {
         List<Privilege> privileges =  privilegeRepository.findAll();
-        return privileges.stream()
-                .map(adminService::mapPrivilegeToPermissionResponse)
-                .collect(Collectors.toList());
+        return privileges ;
     }
 
     @Override
     @Transactional
-    public String revokeRoleFromAdmin(Long adminId, Long roleId){
+    public Admin revokeRoleFromAdmin(Long adminId, Long roleId){
 
         if (adminId == null || roleId == null) {
             throw new IllegalArgumentException("Admin and role are required");
@@ -285,14 +275,13 @@ public class SuperAdminImpl implements ISuperAdminService {
             throw new RuntimeException("Admin does not have the specified role");
         }
         admin.getRoles().remove(role);
-        adminRepository.save(admin);
+        return adminRepository.save(admin);
 
-        return "Role Revoked From " +admin.getLastname() +" Successfully" ;
     }
 
     @Override
     @Transactional
-    public String revokePrivilegesFromRole(Long roleId, Collection<Long> privilegeIds){
+    public Role revokePrivilegesFromRole(Long roleId, Collection<Long> privilegeIds){
 
 
         if (privilegeIds.isEmpty() || roleId == null) {
@@ -316,9 +305,8 @@ public class SuperAdminImpl implements ISuperAdminService {
                 for (Privilege privilege : privileges){
         role.getPrivileges().remove(privilege);
         }
-        roleRepository.save(role);
+        return roleRepository.save(role);
 
-        return "Privileges Revoked From the role "+ role.getName()+" Successfully ";
 
     }
 

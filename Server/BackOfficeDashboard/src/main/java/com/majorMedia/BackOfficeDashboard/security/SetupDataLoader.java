@@ -14,10 +14,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Component
 public class SetupDataLoader implements ApplicationListener<ContextRefreshedEvent> {
@@ -45,8 +42,8 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     Privilege readPrivilege = createPrivilegeIfNotFound("READ_PRIVILEGE","Description Privilige1");
     Privilege writePrivilege = createPrivilegeIfNotFound("WRITE_PRIVILEGE","Description Privilige2");
 
-    List<Privilege> superAdminPrivilegs = Arrays.asList(readPrivilege, writePrivilege);
-    List<Privilege> AdminPrivilegs = Arrays.asList(readPrivilege);
+    Set<Privilege> superAdminPrivilegs = new HashSet<>(Arrays.asList(readPrivilege, writePrivilege));
+    Set<Privilege> AdminPrivilegs = new HashSet<>(Arrays.asList(readPrivilege));
     Role superAdminRole = createRoleIfNotFound("ROLE_SUPER_ADMIN","Description SUPER ADMIN ROLE", superAdminPrivilegs);
     Role AdminRole = createRoleIfNotFound("ROLE_ADMIN","Descripton ADMIN ROLE", AdminPrivilegs);
 
@@ -60,7 +57,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
             .lastname("Abdessamad")
             .firstname("Tanafaat")
             .password(passwordEncoder.encode("raja2015"))
-            .roles(Arrays.asList((SuperAdminRole)))
+            .roles( new HashSet<>(Arrays.asList(superAdminRole)))
             .build();
             adminRepository.save(admin1);
 
@@ -72,7 +69,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
                 .lastname("ilias")
                 .firstname("Rochdi")
                 .password(passwordEncoder.encode("ff"))
-                .roles(Arrays.asList((SuperAdminRole)))
+                .roles(new HashSet<>(Arrays.asList(superAdminRole)))
                 .build();
         adminRepository.save(admin2);
         }
@@ -91,7 +88,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     return privilege;
     }
     @Transactional
-    Role createRoleIfNotFound(String name,String descrption, Collection<Privilege> privileges){
+    Role createRoleIfNotFound(String name,String descrption, Set<Privilege> privileges){
         Role role = roleRepository.findByName(name);
         if (role == null) {
             role = new Role(name,descrption);

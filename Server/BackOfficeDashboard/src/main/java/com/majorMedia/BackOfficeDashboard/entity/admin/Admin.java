@@ -10,15 +10,18 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Set;
 
 @Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 
 @Entity
 @Table(name = "admin")
@@ -68,9 +71,6 @@ public class Admin {
 
     private LocalDateTime lastLogout;
 
-    public Admin() {
-        this.roles = new ArrayList<>();
-    }
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -80,8 +80,8 @@ public class Admin {
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id"))
 
-    @JsonIgnore
-    private Collection<Role> roles;
+
+    private Set<Role> roles;
 
     @Column(length = 100000)
     private String avatarUrl;

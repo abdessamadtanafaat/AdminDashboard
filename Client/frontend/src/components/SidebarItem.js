@@ -5,7 +5,7 @@ const SidebarItem = ({icon , text ,alert ,active , link ,children }) => {
   
   return (
     <li 
-      onClick={()=>expanded || setExpanded(!expanded)}>
+      onClick={()=> expanded || setExpanded(!expanded)}>
         <Link to={link} className={`
             relative flex justify-center items-center w-full py-2 px-3 my-1
             font-medium rounded-md cursor-pointer hover:bg-base-100 text-base-content

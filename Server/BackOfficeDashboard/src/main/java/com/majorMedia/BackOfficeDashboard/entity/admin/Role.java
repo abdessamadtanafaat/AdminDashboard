@@ -1,6 +1,6 @@
 package com.majorMedia.BackOfficeDashboard.entity.admin;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,39 +8,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Collection;
+import java.util.Set;
 
-/*@RequiredArgsConstructor
-public enum Role {
-    SUPER_ADMIN,
-    ADMIN
-(
-
-            Set.of(
-                    ADMIN_CREATE,
-                    ADMIN_DELETE,
-                    ADMIN_READ,
-                    ADMIN_UPDATE
-            )
-)
-;
-
-    @Getter
-    private final Set<Permission> permissions;
-
-
-
-    public List<SimpleGrantedAuthority> getAuthorities() {
-        var authorities = getPermissions()
-                .stream()
-                .map(permission -> new SimpleGrantedAuthority(permission.getPermission()))
-                .collect(Collectors.toList());
-        authorities.add(new SimpleGrantedAuthority("ROLE_"+this.name()));
-        return authorities;
-
-        return List.of(new SimpleGrantedAuthority("ROLE_" + this.name()));
-
-    }
-}*/
 
 @AllArgsConstructor
 @Entity
@@ -56,7 +25,8 @@ public class Role {
     private String description;
 
     @ManyToMany(mappedBy = "roles")
-    private Collection<Admin> admins;
+    @JsonIgnore
+    private Set<Admin> admins;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -66,7 +36,7 @@ public class Role {
             inverseJoinColumns = @JoinColumn(
                     name = "privilege_id", referencedColumnName = "id"))
 
-    private Collection<Privilege> privileges;
+    private Set<Privilege> privileges;
 
     public Role() {}
 
