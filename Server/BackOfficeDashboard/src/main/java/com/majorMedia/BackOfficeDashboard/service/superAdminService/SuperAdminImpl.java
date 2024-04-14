@@ -38,8 +38,9 @@ public class SuperAdminImpl implements ISuperAdminService {
     private final ServiceUtils adminService;
 
     @Override
-    public List<Admin> getAllAdmins() {
-        return adminRepository.findAll();
+    public List<Admin> getAllAdmins(String searchKey  ) {
+        List<Admin> admins= adminRepository.findAllByFirstnameContainsIgnoreCaseOrLastnameContainsIgnoreCase(searchKey ,searchKey);
+        return admins;
     }
     @Override
     @Transactional

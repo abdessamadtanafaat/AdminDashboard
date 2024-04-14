@@ -1,7 +1,7 @@
 import {toast} from 'react-toastify'
 import { customFetch } from '../utils'
 import {Plus } from 'lucide-react'
-import { AdminsList ,CreateAdmin } from "../components"
+import { AdminsList ,CreateAdmin , SearchFilter } from "../components"
 import { useLoaderData } from 'react-router-dom'
 
 export const loader =(store)=> async()=>{
@@ -16,7 +16,7 @@ export const loader =(store)=> async()=>{
   }
   catch(err){
     console.log(err)
-    const errMessage  = err?.response?.data || "Cannot load Table Admin"
+    const errMessage  = err?.response?.data?.message || "Cannot load Table Admin"
     
     return  toast.error(errMessage)
 
@@ -30,16 +30,14 @@ const AdminManager = () => {
   console.log(admins)
   return (
     <>
-      <div className="flex w-full justify-between mb-3">
-        <h1>Administration</h1> 
-        <button className="btn btn-active btn-accent" onClick={()=>document.getElementById('my_modal_1').showModal()}> <Plus />Add New Administator</button>
-       <CreateAdmin/> 
+      <div className="flex w-full justify-center mb-3">
+        <SearchFilter/>
+      
+        {/* <button className="btn btn-active btn-accent" onClick={()=>document.getElementById('my_modal_1').showModal()}> <Plus />Add New Administator</button>
+       <CreateAdmin/>  */}
       
       </div>
-      <AdminsList/>
-    
-    
-    
+      <AdminsList/>    
     </>
     
   )

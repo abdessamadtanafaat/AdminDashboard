@@ -2,7 +2,11 @@ import { useLoaderData } from "react-router-dom"
 import default_avatar from '../assets/default_avatar.webp'
 const AdminsList = () => {
     const {admins} = useLoaderData();
-  return (
+    if(!admins || admins.length <1){
+      return (<div className="font-bold mx-auto  text-lg text-base-content">No Admin is Found On The database</div>)
+
+    }
+    return (
     <div className="overflow-x-auto">
         <table className="table table-zebra-zebra">
           {/* head */}
