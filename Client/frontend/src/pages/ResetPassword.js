@@ -1,5 +1,6 @@
 import {Form , redirect} from 'react-router-dom'
 import { SubmitBtn , FormInput} from '../components'
+import { useForm } from 'react-hook-form';
 import { customFetch } from '../utils';
 import { toast } from 'react-toastify';
 let token = ''; 
@@ -59,12 +60,14 @@ export const loader = async({request})=>{
 }
 
 const ResetPassword = () => {    
+    const { register, handleSubmit } = useForm();
+
   return (
     <section className='h-screen grid place-items-center bg-base-300'>
-       <Form method="POST" className='card w-96 p-8 bg-base-100 shadow-lg flex  flex-col gap-y-4'>
+       <Form method="POST"  className='card w-96 p-8 bg-base-100 shadow-lg flex  flex-col gap-y-4'>
         <h4 className='text-center text-2xl font-bold'>Enter a new password</h4>
-        <FormInput type="password" label="New Password" name="password" placeholder="secret"/>
-        <FormInput type="password" label="Confirm New Password" name="confirmed_password" placeholder="secret"/>
+        <FormInput type="password" label="New Password" name="password" placeholder="secret" register={register}/>
+        <FormInput type="password" label="Confirm New Password" name="confirmed_password" placeholder="secret" register={register}/>
         <div className='mt-4'>
            <SubmitBtn text='Submit' />
         </div>
