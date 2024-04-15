@@ -17,6 +17,10 @@ import com.majorMedia.BackOfficeDashboard.util.ServiceUtils;
 import io.micrometer.common.util.StringUtils;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -38,9 +42,11 @@ public class SuperAdminImpl implements ISuperAdminService {
     private final ServiceUtils adminService;
 
     @Override
-    public List<Admin> getAllAdmins(String searchKey  ) {
-        List<Admin> admins= adminRepository.findAllByFirstnameContainsIgnoreCaseOrLastnameContainsIgnoreCase(searchKey ,searchKey);
-        return admins;
+    public List<Admin> getAllAdmins(String searchKey  ,String sortBy ,int page ) {
+
+        Pageable paging  = PageRequest.of(page -1 , 5 , Sort.by(Sort.Direction.ASC , "firstname"));
+        Page<Admin> admins= adminRepository.findAllByFirstnameContainsIgnoreCaseOrLastnameContainsIgnoreCase(searchKey ,searchKey , paging);
+        return admins.getContent();
     }
     @Override
     @Transactional
@@ -88,23 +94,10 @@ public class SuperAdminImpl implements ISuperAdminService {
     }
     @Override
     @Transactional
-    public UserResponse getAdminDetails(Long adminId){
-        Admin admin = adminRepository.findById(adminId)
+    public Admin getAdminDetails(Long adminId){
+        return  adminRepository.findById(adminId)
                 .orElseThrow(()-> new EntityNotFoundException(adminId, Admin.class));
 
-        UserResponse userResponse = UserResponse.builder()
-                .firstname(admin.getFirstname())
-                .lastname(admin.getLastname())
-                .email(admin.getEmail())
-                .avatarUrl(admin.getAvatarUrl())
-                .lastLogout(admin.getLastLogout())
-                .imageByte(admin.getImageByte())
-                .avatarUrl(admin.getAvatarUrl())
-                .is_deactivated(admin.is_deactivated())
-                .lastLogin(admin.getLastLogin())
-                .role(admin.getRoles().toString())
-                .build();
-        return userResponse;
     }
     @Override
     @Transactional
@@ -133,7 +126,7 @@ public class SuperAdminImpl implements ISuperAdminService {
         Admin admin = Admin
                 .builder()
                 .email(createAdminRequest.getEmail())
-                .password(null)
+                .password(passwordEncoder.encode("satisnap"))
                 .build();
         return adminRepository.save(admin);
 

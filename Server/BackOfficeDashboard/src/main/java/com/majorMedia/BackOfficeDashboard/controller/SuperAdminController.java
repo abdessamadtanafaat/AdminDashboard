@@ -25,7 +25,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 //@SecurityRequirement(name = "bearerAuth")
-//@PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
+@PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
 @RequestMapping("/super-admin")
 
 public class SuperAdminController {
@@ -41,7 +41,7 @@ public class SuperAdminController {
             @RequestParam(required=false ,name="page" , defaultValue="1") int page
             )
     {
-        return ResponseEntity.ok(superAdminService.getAllAdmins(searchKey));
+        return ResponseEntity.ok(superAdminService.getAllAdmins(searchKey ,sortBy ,page));
     }
 
     @LogActivity
@@ -53,10 +53,9 @@ public class SuperAdminController {
     }
     @LogActivity
     @GetMapping("/admin-details")
-    public ResponseEntity<UserResponse> getAdminDetails(
+    public ResponseEntity<Admin> getAdminDetails(
             @RequestParam(value = "adminId")Long adminId){
-        UserResponse superResponse = superAdminService.getAdminDetails(adminId);
-        return ResponseEntity.ok(superResponse);
+        return ResponseEntity.ok(superAdminService.getAdminDetails(adminId));
     }
     @LogActivity
     @PostMapping("/create-role")
