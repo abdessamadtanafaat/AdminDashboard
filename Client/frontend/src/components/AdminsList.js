@@ -1,9 +1,10 @@
 import { useLoaderData } from "react-router-dom"
 import default_avatar from '../assets/default_avatar.webp'
 const AdminsList = () => {
-    const {admins} = useLoaderData();
+    const {admins , params} = useLoaderData();
+     
     if(!admins || admins.length <1){
-      return (<div className="font-bold mx-auto  text-lg text-base-content">No Admin is Found On The database</div>)
+      return (<div className="font-bold mx-auto  text-4xl text-center text-error">There is no match for the keyword You Typed !!! </div>)
 
     }
     return (
@@ -27,8 +28,8 @@ const AdminsList = () => {
                 return (
                     <tr key={id}>
                         <th>
-                            <label>
-                            <input type="checkbox" className="checkbox" />
+                            <label className="flex justify-center gap-2">
+                              <input type="checkbox" className="checkbox" />
                             </label>
                         </th>
                         <td>

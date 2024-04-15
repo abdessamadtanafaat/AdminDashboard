@@ -43,8 +43,12 @@ public class SuperAdminImpl implements ISuperAdminService {
 
     @Override
     public List<Admin> getAllAdmins(String searchKey  ,String sortBy ,int page ) {
-
         Pageable paging  = PageRequest.of(page -1 , 5 , Sort.by(Sort.Direction.ASC , "firstname"));
+
+        if(searchKey ==null){
+            return adminRepository.findAll(paging).getContent();
+        }
+
         Page<Admin> admins= adminRepository.findAllByFirstnameContainsIgnoreCaseOrLastnameContainsIgnoreCase(searchKey ,searchKey , paging);
         return admins.getContent();
     }

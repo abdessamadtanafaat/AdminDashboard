@@ -17,7 +17,7 @@ async({request})=>{
        const response = await customFetch.get(`/auth/password-request?email=${data.email}`); 
        console.log(response.data);
        toast.success("Please check your mail to reset your password!")
-       return {data : response.data}
+        return {data : response.data}
         
 
         

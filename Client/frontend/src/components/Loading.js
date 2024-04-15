@@ -2,7 +2,7 @@
 const Loading = () => {
   return (
     <div className='h-screen w-screen grid place-content-center items-center'>
-      <span className="loading text-primary loading-spinner w-20 h-20"></span>
+      <span className="loading text-accent loading-spinner w-20 h-20"></span>
     </div>
   )
 }

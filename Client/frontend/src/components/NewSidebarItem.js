@@ -2,17 +2,18 @@ import {Link} from 'react-router-dom'
 import { useGlobalContext } from './context';
 import {useState } from 'react'
 import {Minus, Plus } from 'lucide-react'
-const NewSidebarItem = ({icon , text ,alert ,active ,children }) => {
+const NewSidebarItem = ({icon , text ,alert,active ,children }) => {
     const {expanded ,setExpanded } = useGlobalContext();
-    const [show , setShow] = useState(false)
+    const [show , setShow] = useState(true)
     const showMenu =(event)=>{
         expanded ||setExpanded(true)
+        
         setShow(!show)           
 
     }
     
     return (
-        <li  onClick={()=>expanded || setExpanded(!expanded) && setShow(true)} className={`
+        <li  onClick={()=>expanded || (setExpanded(!expanded) && setShow(true))} className={`
          relative flex justify-center items-center w-full 
             font-medium rounded-md cursor-pointer hover:bg-base-100 text-base-content
             transition-colors group
