@@ -1,5 +1,7 @@
-import {Form ,redirect} from 'react-router-dom'
+import {Form ,redirect,useNavigate} from 'react-router-dom'
 import {FormInput, SubmitBtn} from '../components'
+import { useForm } from 'react-hook-form';
+import { useDispatch } from "react-redux";
 import {store} from '../app/store';
 import { customFetch } from '../utils';
 import { toast } from 'react-toastify';
@@ -17,10 +19,8 @@ async({request})=>{
        const response = await customFetch.get(`/auth/password-request?email=${data.email}`); 
        console.log(response.data);
        toast.success("Please check your mail to reset your password!")
-        return {data : response.data}
-        
-
-        
+       return {data : response.data}
+      
     }
     catch(err){
         console.log(err);
@@ -33,11 +33,31 @@ async({request})=>{
 
 }
 const ForgotPassword = () => {
+  const { register, handleSubmit, formState: { errors } } = useForm();
+
+  const onSubmit = async (data) => {
+
+  try{
+    const response = await customFetch.get(`/auth/password-request?email=${data.email}`); 
+    console.log(response.data);
+    toast.success("Please check your mail to reset your password!")
+    return {data : response.data}
+   
+ }
+ catch(err){
+     console.log(err);
+     const errorMessage = err?.response?.data || "Error Occured !!!";
+     
+     toast.error(errorMessage);
+     return null ;       
+ } 
+}
+
   return (
     <section className='h-screen grid place-items-center bg-base-300'>
-    <Form method="POST" className='card w-96 p-8 bg-base-100 shadow-lg flex bg--400 flex-col gap-y-4'>
+    <Form method="POST" onSubmit={handleSubmit(onSubmit)} className='card w-96 p-8 bg-base-100 shadow-lg flex bg--400 flex-col gap-y-4'>
         <h4 className='text-center text-2xl font-bold'>Enter Your Email to reset the password</h4>
-        <FormInput type="text" label="Email" name="email" placeholder="email@email.com"/>
+        <FormInput type="text" label="Email" name="email" placeholder="email@email.com" register={register} error={errors.email}/>
         <div className='mt-4'>
            <SubmitBtn text='Submit' />
         </div>
