@@ -9,9 +9,9 @@ import {Form} from 'react-router-dom'
 
 
 const CreateAdmin = () => {
-    const [email ,setEmail] = useState(null)
-    const [firstname ,setFirstname] = useState(null);
-    const [lastname , setLastname] = useState(null)
+    const [email ,setEmail] = useState('')
+    const [firstname ,setFirstname] = useState('');
+    const [lastname , setLastname] = useState('')
     const {token} = useSelector(selectAdmin)
     const createAdmin =async (event)=>{
       event.preventDefault();
