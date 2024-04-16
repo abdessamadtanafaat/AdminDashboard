@@ -46,7 +46,7 @@ public class SuperAdminController {
 
     @LogActivity
     @PostMapping("/create-admin")
-    public ResponseEntity<Admin> createAdmin(@RequestBody CreateAdminRequest admin)
+    public ResponseEntity<Admin> createAdmin(@Valid @RequestBody CreateAdminRequest admin)
     {
         Admin createdAdmin = superAdminService.createAdmin(admin);
         return new ResponseEntity<>(createdAdmin, HttpStatus.CREATED);

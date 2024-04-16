@@ -7,10 +7,7 @@ import com.majorMedia.BackOfficeDashboard.util.ImageUtils;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Type;
 
 import java.time.LocalDateTime;
@@ -18,7 +15,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,12 +27,13 @@ public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String firstname;
     private String lastname;
     private String username;
     @NotBlank(message = "Email is required")
-    @Email(message = "Invalid email format")
 
+    @Email(message = "Invalid email format")
     private String email;
 
     @Column(name = "password")
@@ -70,7 +69,6 @@ public class Admin {
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
 
     private LocalDateTime lastLogout;
-
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

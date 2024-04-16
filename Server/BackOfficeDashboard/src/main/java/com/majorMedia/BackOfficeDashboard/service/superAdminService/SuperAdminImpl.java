@@ -17,6 +17,7 @@ import com.majorMedia.BackOfficeDashboard.util.ServiceUtils;
 import io.micrometer.common.util.StringUtils;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -127,10 +128,17 @@ public class SuperAdminImpl implements ISuperAdminService {
 //        }
 //
 //        boolean changePasswordFirstLogin = createAdminRequest.isChangePasswordFirstLogin();
+        String password =   RandomStringUtils.randomAlphabetic(10);
+
+        System.out.println(password);
+
         Admin admin = Admin
                 .builder()
                 .email(createAdminRequest.getEmail())
-                .password(passwordEncoder.encode("satisnap"))
+                .firstname(createAdminRequest.getFirstname())
+                .lastname(createAdminRequest.getLastname())
+                .username(createAdminRequest.getUsername())
+                .password(passwordEncoder.encode(password))
                 .build();
         return adminRepository.save(admin);
 

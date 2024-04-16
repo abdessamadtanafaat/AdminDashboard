@@ -4,6 +4,7 @@ import {Profile , Tables ,BusinessOwner  , Admins, CreateAdmin} from './componen
 import {action as loginAction} from './pages/Login'
 import {action as forgotPasswordAction} from './pages/ForgotPassword'
 import {action as resetPasswordAction} from './pages/ResetPassword'
+import {action as createAdminAction} from './components/CreateAdmin'
 import {loader as resetPasswordLoader} from './pages/ResetPassword'
 import {loader as homeLayoutLoader} from './pages/HomeLayout'
 import {loader as adminsLoader} from './components/Admins'
@@ -36,7 +37,7 @@ const routes = createBrowserRouter([
       },
       {
         path:"/admin/create-admin",
-        element:<CreateAdmin/>
+        element:<CreateAdmin/>,
       }
 
     ]
