@@ -17,6 +17,11 @@ import com.majorMedia.BackOfficeDashboard.util.ServiceUtils;
 import io.micrometer.common.util.StringUtils;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +42,17 @@ public class SuperAdminImpl implements ISuperAdminService {
     private final PrivilegeRepository privilegeRepository;
     private final ServiceUtils adminService;
 
+    @Override
+    public List<Admin> getAllAdmins(String searchKey  ,String sortBy ,int page ) {
+        Pageable paging  = PageRequest.of(page -1 , 5 , Sort.by(Sort.Direction.ASC , "firstname"));
 
+        if(searchKey ==null){
+            return adminRepository.findAll(paging).getContent();
+        }
+
+        Page<Admin> admins= adminRepository.findAllByFirstnameContainsIgnoreCaseOrLastnameContainsIgnoreCase(searchKey ,searchKey , paging);
+        return admins.getContent();
+    }
     @Override
     @Transactional
     public List<UserResponse> getAllAdmins(String sortBy ,String searchKey) {
@@ -84,23 +99,10 @@ public class SuperAdminImpl implements ISuperAdminService {
     }
     @Override
     @Transactional
-    public UserResponse getAdminDetails(Long adminId){
-        Admin admin = adminRepository.findById(adminId)
+    public Admin getAdminDetails(Long adminId){
+        return  adminRepository.findById(adminId)
                 .orElseThrow(()-> new EntityNotFoundException(adminId, Admin.class));
 
-        UserResponse userResponse = UserResponse.builder()
-                .firstname(admin.getFirstname())
-                .lastname(admin.getLastname())
-                .email(admin.getEmail())
-                .avatarUrl(admin.getAvatarUrl())
-                .lastLogout(admin.getLastLogout())
-                .imageByte(admin.getImageByte())
-                .avatarUrl(admin.getAvatarUrl())
-                .is_deactivated(admin.is_deactivated())
-                .lastLogin(admin.getLastLogin())
-                .role(admin.getRoles().toString())
-                .build();
-        return userResponse;
     }
     @Override
     @Transactional
@@ -110,65 +112,64 @@ public class SuperAdminImpl implements ISuperAdminService {
             throw new AlreadyExistEmailException(createAdminRequest.getEmail());
         }
 
-        String password;
-        if (createAdminRequest.getUsername() != null && !createAdminRequest.getUsername().isEmpty()) {
-            password = createAdminRequest.getUsername();
-        } else {
-            password = passwordEncoder.encode(SecurityConstants.DEFAULT_PASSWORD);
-        }
 
-        String username;
-        if (createAdminRequest.getUsername() != null && !createAdminRequest.getUsername().isEmpty()) {
-            username = createAdminRequest.getUsername();
-        } else {
-             username = "admin" + createAdminRequest.getLastname().substring(0, Math.min(createAdminRequest.getLastname().length(), 5)).replaceAll("\\s+", "");
-        }
+//        String password;
+//        if (createAdminRequest.getUsername() != null && !createAdminRequest.getUsername().isEmpty()) {
+//            password = createAdminRequest.getUsername();
+//        } else {
+//            password = passwordEncoder.encode(SecurityConstants.DEFAULT_PASSWORD);
+//        }
+//
+//        String username;
+//        if (createAdminRequest.getUsername() != null && !createAdminRequest.getUsername().isEmpty()) {
+//            username = createAdminRequest.getUsername();
+//        } else {
+//             username = "admin" + createAdminRequest.getLastname().substring(0, Math.min(createAdminRequest.getLastname().length(), 5)).replaceAll("\\s+", "");
+//        }
+//
+//        boolean changePasswordFirstLogin = createAdminRequest.isChangePasswordFirstLogin();
+        String password =   RandomStringUtils.randomAlphabetic(10);
 
-        boolean changePasswordFirstLogin = createAdminRequest.isChangePasswordFirstLogin();
-        Admin admin = Admin.builder()
+        System.out.println(password);
+
+        Admin admin = Admin
+                .builder()
                 .email(createAdminRequest.getEmail())
-                .lastname(createAdminRequest.getLastname())
                 .firstname(createAdminRequest.getFirstname())
-                .username(username)
-                .password(password)
-                .changePasswordFirstLogin(changePasswordFirstLogin)
+                .lastname(createAdminRequest.getLastname())
+                .username(createAdminRequest.getUsername())
+                .password(passwordEncoder.encode(password))
                 .build();
-
         return adminRepository.save(admin);
 
     }
 
     @Override
     @Transactional
-    public String addRole(String nameRole, String descriptionRole){
+    public Role addRole(String nameRole, String descriptionRole){
         if (StringUtils.isEmpty(nameRole) || StringUtils.isEmpty(descriptionRole)) {
             throw new IllegalArgumentException("Name and description are required");
         }
 
         Role role = new Role(nameRole,descriptionRole);
-        roleRepository.save(role);
-        return  "Role Created Successfully";
+        return roleRepository.save(role);
     }
 
     @Override
     @Transactional
-    public String addPrivilege(String namePrivilege, String descriptionPrivilege){
+    public Privilege addPrivilege(String namePrivilege, String descriptionPrivilege){
         if (StringUtils.isEmpty(namePrivilege) || StringUtils.isEmpty(descriptionPrivilege)) {
             throw new IllegalArgumentException("Name and description are required");
         }
         Privilege privilege = new Privilege(namePrivilege,descriptionPrivilege);
-         privilegeRepository.save(privilege);
-            return  "Privilege Created Successfully";
+        return  privilegeRepository.save(privilege);
+
 
     }
 
     @Override
     @Transactional
-        public String assignRoleToAdmin(Long adminId, Long roleId){
-
-        if (adminId == null || roleId == null) {
-            throw new IllegalArgumentException("Admin and role are required");
-        }
+        public Admin assignRoleToAdmin(Long adminId, Long roleId){
         Admin admin = adminRepository.findById(adminId)
                 .orElseThrow(()-> new EntityNotFoundException(adminId, Admin.class));
 
@@ -179,20 +180,17 @@ public class SuperAdminImpl implements ISuperAdminService {
         if (adminService.isAdminSuperAdmin(admin)){
             throw new RuntimeException("Cannot assign role to a super admin");
         }
-        if (!admin.getRoles().contains(role)) {
-            throw new RuntimeException("Admin does not have the specified role");
-        }
 
         admin.getRoles().add(role);
-        adminRepository.save(admin);
+        return adminRepository.save(admin);
 
-        return "Role Assigned To " +admin.getLastname() +" Successfully" ;
+
     }
 
 
     @Override
     @Transactional
-    public String assignPrivilegesToRole(Long roleId, Collection<Long> privilegeIds){
+    public Role assignPrivilegesToRole(Long roleId, Collection<Long> privilegeIds){
 
         if (privilegeIds.isEmpty() || roleId == null) {
             throw new IllegalArgumentException("Privilege and role are required");
@@ -205,10 +203,11 @@ public class SuperAdminImpl implements ISuperAdminService {
                                 .orElseThrow(()-> new EntityNotFoundException(privilegeId, Privilege.class)))
                                         .collect(Collectors.toList());
 
-        role.setPrivileges(privileges);
-        roleRepository.save(role);
+//        role.setPrivileges(privileges);
+        role.getPrivileges().addAll(privileges);
+        return  roleRepository.save(role);
 
-        return "Privileges Assigned To "+ role.getName()+" Successfully ";
+
 
     }
 
@@ -248,27 +247,23 @@ public class SuperAdminImpl implements ISuperAdminService {
 
     @Override
     @Transactional
-    public List<PermissionsResponse> getAllRoles() {
+    public List<Role> getAllRoles() {
         List<Role> roles =  roleRepository.findAll();
-        return roles.stream()
-                .map(adminService::mapRoleToPermissionResponse)
-                .collect(Collectors.toList());
+        return roles;
 
 
     }
 
     @Override
     @Transactional
-    public List<PermissionsResponse> getAllPrivileges() {
+    public List<Privilege> getAllPrivileges() {
         List<Privilege> privileges =  privilegeRepository.findAll();
-        return privileges.stream()
-                .map(adminService::mapPrivilegeToPermissionResponse)
-                .collect(Collectors.toList());
+        return privileges ;
     }
 
     @Override
     @Transactional
-    public String revokeRoleFromAdmin(Long adminId, Long roleId){
+    public Admin revokeRoleFromAdmin(Long adminId, Long roleId){
 
         if (adminId == null || roleId == null) {
             throw new IllegalArgumentException("Admin and role are required");
@@ -286,14 +281,13 @@ public class SuperAdminImpl implements ISuperAdminService {
             throw new RuntimeException("Admin does not have the specified role");
         }
         admin.getRoles().remove(role);
-        adminRepository.save(admin);
+        return adminRepository.save(admin);
 
-        return "Role Revoked From " +admin.getLastname() +" Successfully" ;
     }
 
     @Override
     @Transactional
-    public String revokePrivilegesFromRole(Long roleId, Collection<Long> privilegeIds){
+    public Role revokePrivilegesFromRole(Long roleId, Collection<Long> privilegeIds){
 
 
         if (privilegeIds.isEmpty() || roleId == null) {
@@ -317,9 +311,8 @@ public class SuperAdminImpl implements ISuperAdminService {
                 for (Privilege privilege : privileges){
         role.getPrivileges().remove(privilege);
         }
-        roleRepository.save(role);
+        return roleRepository.save(role);
 
-        return "Privileges Revoked From the role "+ role.getName()+" Successfully ";
 
     }
 

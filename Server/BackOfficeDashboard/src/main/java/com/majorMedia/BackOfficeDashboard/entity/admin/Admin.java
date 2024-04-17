@@ -7,18 +7,19 @@ import com.majorMedia.BackOfficeDashboard.util.ImageUtils;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.Type;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 
 @Entity
 @Table(name = "admin")
@@ -26,12 +27,13 @@ public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String firstname;
     private String lastname;
     private String username;
     @NotBlank(message = "Email is required")
-    @Email(message = "Invalid email format")
 
+    @Email(message = "Invalid email format")
     private String email;
 
     @Column(name = "password")
@@ -68,10 +70,6 @@ public class Admin {
 
     private LocalDateTime lastLogout;
 
-    public Admin() {
-        this.roles = new ArrayList<>();
-    }
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "admin_role",
@@ -80,8 +78,8 @@ public class Admin {
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id"))
 
-    @JsonIgnore
-    private Collection<Role> roles;
+
+    private Set<Role> roles;
 
     @Column(length = 100000)
     private String avatarUrl;

@@ -11,21 +11,22 @@ import java.util.Collection;
 import java.util.List;
 
 public interface ISuperAdminService {
+        public List<Admin> getAllAdmins(String searchKey ,String sortBy ,  int page);
         public List<UserResponse> getAllAdmins(String sortBy ,String searchKey);
         public Admin createAdmin(CreateAdminRequest createAdminRequest);
-        public UserResponse getAdminDetails(Long adminId);
-        public String addRole(String name, String description);
-        public String assignRoleToAdmin(Long adminId, Long roleId);
-        public String addPrivilege(String name, String description);
-        public String assignPrivilegesToRole(Long roleId, Collection<Long> privilegeIds);
+        public Admin getAdminDetails(Long adminId);
+        public Role addRole(String name, String description);
+        public Admin assignRoleToAdmin(Long adminId, Long roleId);
+        public Privilege addPrivilege(String name, String description);
+        public Role assignPrivilegesToRole(Long roleId, Collection<Long> privilegeIds);
         public String deactivateAccount(Long adminId);
         public String activateAccount(Long adminId);
-        public List<PermissionsResponse> getAllRoles();
-        public List<PermissionsResponse> getAllPrivileges();
+        public List<Role> getAllRoles();
+        public List<Privilege> getAllPrivileges();
 
-        public String revokeRoleFromAdmin(Long adminId, Long roleId);
+        public Admin revokeRoleFromAdmin(Long adminId, Long roleId);
 
-        public String revokePrivilegesFromRole(Long roleId, Collection<Long> privilegeIds);
+        public Role revokePrivilegesFromRole(Long roleId, Collection<Long> privilegeIds);
 }
 
 

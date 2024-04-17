@@ -3,7 +3,7 @@ import {BsSunFill ,  BsMoonFill } from "react-icons/bs";
 import {ChevronFirst, ChevronLast , LogOut , Users} from 
 'lucide-react'
 import SidebarItem from './SidebarItem';
-import { LayoutDashboard, Home, StickyNote, Layers, Calendar, LifeBuoy ,Table } from "lucide-react";
+import { Home,  Layers, Calendar, LifeBuoy ,Table } from "lucide-react";
 import { useGlobalContext } from './context';
 import {  useDispatch, useSelector } from "react-redux";
 import {useNavigate ,Link} from 'react-router-dom'
@@ -17,7 +17,18 @@ import NewSidebarItem from "./NewSidebarItem";
 const items = [
   { icon: <Home  />, text: "Home", alert: true , link: "/" ,children:[]},
   { icon: <Table  />, text: "Tables", active: true  , link:"tables" , children:[{text:"Buissess Owners",link:"/business-owner"},{text:"Business",link:"forgotPassword"}]},
-  { icon: <Users />, text: "Admin Settings", alert: true , link:"/admin-manager",children:[] },
+  { icon: <Users />, text: "Admin Settings", alert: true ,children:[
+    {text:"Admin Table" , link :"/admins"} ,
+    {
+      text : "Create Admin" , link:"/admin/create-admin"
+    },
+    {
+      text:"Manage Roles" ,
+      link:""
+    },
+    { text:"Manage Privileges",
+      link:""
+    }] },
   { icon: <LifeBuoy  />, text: "Help", children : [] }
 ]
 

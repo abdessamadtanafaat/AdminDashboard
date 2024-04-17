@@ -25,7 +25,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 //@SecurityRequirement(name = "bearerAuth")
-//@PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
+@PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
 @RequestMapping("/super-admin")
 
 public class SuperAdminController {
@@ -35,66 +35,63 @@ public class SuperAdminController {
 
     @LogActivity
     @GetMapping(value = "/admins")
-    public ResponseEntity<List<UserResponse>> getAllUsers(
+    public ResponseEntity<List<Admin>> getAllAdmins(
             @RequestParam(required = false) String sortBy,
-            @RequestParam(required = false) String searchKey
+            @RequestParam(required = false) String searchKey,
+            @RequestParam(required=false ,name="page" , defaultValue="1") int page
             )
     {
-        List<UserResponse> userResponses = superAdminService.getAllAdmins(sortBy,searchKey);
-        return ResponseEntity.ok(userResponses);
+        return ResponseEntity.ok(superAdminService.getAllAdmins(searchKey ,sortBy ,page));
     }
 
     @LogActivity
     @PostMapping("/create-admin")
-    public ResponseEntity<Admin> createAdmin(@RequestBody CreateAdminRequest admin)
+    public ResponseEntity<Admin> createAdmin(@Valid @RequestBody CreateAdminRequest admin)
     {
         Admin createdAdmin = superAdminService.createAdmin(admin);
         return new ResponseEntity<>(createdAdmin, HttpStatus.CREATED);
     }
     @LogActivity
     @GetMapping("/admin-details")
-    public ResponseEntity<UserResponse> getAdminDetails(
+    public ResponseEntity<Admin> getAdminDetails(
             @RequestParam(value = "adminId")Long adminId){
-        UserResponse superResponse = superAdminService.getAdminDetails(adminId);
-        return ResponseEntity.ok(superResponse);
+        return ResponseEntity.ok(superAdminService.getAdminDetails(adminId));
     }
     @LogActivity
     @PostMapping("/create-role")
-    public ResponseEntity<String> createRole(
+    public ResponseEntity<Role> createRole(
     @RequestParam(value = "nameRole")String nameRole,
     @RequestParam(value = "descriptionRole")String descriptionRole)
     {
-        String roleMessage = superAdminService.addRole(nameRole, descriptionRole);
-        return ResponseEntity.status(HttpStatus.CREATED).body(roleMessage);
+        Role role = superAdminService.addRole(nameRole, descriptionRole);
+        return ResponseEntity.status(HttpStatus.CREATED).body(role);
     }
     @LogActivity
     @PostMapping("/assign-role")
-    public ResponseEntity<String> assignRole(@RequestParam(value = "adminId")Long adminId,
+    public ResponseEntity<Admin> assignRoleToAdmin(@RequestParam(value = "adminId")Long adminId,
                                             @RequestParam(value = "roleId")Long roleId)
     {
-        String roleMessage = superAdminService.assignRoleToAdmin(adminId,roleId);
-        return ResponseEntity.status(HttpStatus.OK).body(roleMessage);
+        Admin admin = superAdminService.assignRoleToAdmin(adminId,roleId);
+        return ResponseEntity.status(HttpStatus.OK).body(admin);
     }
     @LogActivity
     @PostMapping("/create-privilege")
-    public ResponseEntity<String> createPrivilege(
+    public ResponseEntity<Privilege> createPrivilege(
             @RequestParam(value = "namePrivilege")String namePrivilege,
             @RequestParam(value = "descriptionPrivilege")String descriptionPrivilege
     )
     {
-        String privilegeMessage = superAdminService.addPrivilege(namePrivilege, descriptionPrivilege);
-        return ResponseEntity.status(HttpStatus.CREATED).body(privilegeMessage);
+        return ResponseEntity.status(HttpStatus.CREATED).body(superAdminService.addPrivilege(namePrivilege, descriptionPrivilege));
     }
 
     @LogActivity
     @PostMapping("/assign-privilege-to-role")
-    public ResponseEntity<String> assignPrivilegeToRole(
+    public ResponseEntity<Role> assignPrivilegeToRole(
             @RequestParam(value = "roleId")Long roleId,
             @RequestParam(value = "privilegeIds")Collection<Long> privilegeIds)
             {
 
-                String privilegeMessage = superAdminService.assignPrivilegesToRole(roleId, privilegeIds);
-                return ResponseEntity.status(HttpStatus.OK).body(privilegeMessage);
+                return ResponseEntity.status(HttpStatus.OK).body(superAdminService.assignPrivilegesToRole(roleId, privilegeIds));
             }
 
     @LogActivity
@@ -117,37 +114,32 @@ public class SuperAdminController {
     }
     @LogActivity
     @GetMapping(value = "/roles")
-    public ResponseEntity<List<PermissionsResponse>> getAllRoles(
+    public ResponseEntity<List<Role>> getAllRoles(
     )
     {
-        List<PermissionsResponse> roleResponse = superAdminService.getAllRoles();
-        return ResponseEntity.ok(roleResponse);
+        return ResponseEntity.ok(superAdminService.getAllRoles());
     }
 
     @LogActivity
     @GetMapping(value = "/privileges")
-    public ResponseEntity<List<PermissionsResponse>> getAllPrivileges(
+    public ResponseEntity<List<Privilege>> getAllPrivileges(
     )
     {
-        List<PermissionsResponse> privilegesResponse = superAdminService.getAllPrivileges();
-        return ResponseEntity.ok(privilegesResponse);
+        return ResponseEntity.ok(superAdminService.getAllPrivileges());
     }
     @LogActivity
-    @DeleteMapping("/revoke-privilege-from-role")
-    public ResponseEntity<String> RevokePrivilegeFromRole(
+    @PatchMapping("/revoke-privilege-from-role")
+    public ResponseEntity<Role> RevokePrivilegeFromRole(
             @RequestParam(value = "roleId")Long roleId,
             @RequestParam(value = "privilegeIds")Collection<Long> privilegeIds)
     {
-
-        String revokeMessage = superAdminService.revokePrivilegesFromRole(roleId, privilegeIds);
-        return ResponseEntity.status(HttpStatus.OK).body(revokeMessage);
+        return ResponseEntity.status(HttpStatus.OK).body(superAdminService.revokePrivilegesFromRole(roleId, privilegeIds));
     }
     @LogActivity
-    @DeleteMapping("/revoke-role")
-    public ResponseEntity<String> revokeRole(@RequestParam(value = "adminId")Long adminId,
+    @PatchMapping("/revoke-role")
+    public ResponseEntity<Admin> revokeRole(@RequestParam(value = "adminId")Long adminId,
                                              @RequestParam(value = "roleId")Long roleId)
     {
-        String revokeMessage = superAdminService.revokeRoleFromAdmin(adminId,roleId);
-        return ResponseEntity.status(HttpStatus.OK).body(revokeMessage);
+        return ResponseEntity.status(HttpStatus.OK).body(superAdminService.revokeRoleFromAdmin(adminId,roleId));
     }
 }
