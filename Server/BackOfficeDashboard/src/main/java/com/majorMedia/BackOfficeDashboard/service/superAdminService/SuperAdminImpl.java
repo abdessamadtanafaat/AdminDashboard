@@ -106,7 +106,7 @@ public class SuperAdminImpl implements ISuperAdminService {
     }
     @Override
     @Transactional
-    public Admin createAdmin(CreateAdminRequest createAdminRequest) {
+    public Admin createAdmin(Admin createAdminRequest) {
         boolean adminExists = adminRepository.findByEmail(createAdminRequest.getEmail()).isPresent();
         if (adminExists) {
             throw new AlreadyExistEmailException(createAdminRequest.getEmail());
@@ -131,16 +131,8 @@ public class SuperAdminImpl implements ISuperAdminService {
         String password =   RandomStringUtils.randomAlphabetic(10);
 
         System.out.println(password);
-
-        Admin admin = Admin
-                .builder()
-                .email(createAdminRequest.getEmail())
-                .firstname(createAdminRequest.getFirstname())
-                .lastname(createAdminRequest.getLastname())
-                .username(createAdminRequest.getUsername())
-                .password(passwordEncoder.encode(password))
-                .build();
-        return adminRepository.save(admin);
+        createAdminRequest.setPassword(passwordEncoder.encode(password));
+        return adminRepository.save(createAdminRequest);
 
     }
 

@@ -13,7 +13,7 @@ import java.util.List;
 public interface ISuperAdminService {
         public List<Admin> getAllAdmins(String searchKey ,String sortBy ,  int page);
         public List<UserResponse> getAllAdmins(String sortBy ,String searchKey);
-        public Admin createAdmin(CreateAdminRequest createAdminRequest);
+        public Admin createAdmin(Admin createAdminRequest);
         public Admin getAdminDetails(Long adminId);
         public Role addRole(String name, String description);
         public Admin assignRoleToAdmin(Long adminId, Long roleId);
