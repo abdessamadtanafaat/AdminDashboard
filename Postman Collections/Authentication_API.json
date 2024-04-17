@@ -489,14 +489,14 @@
 						"auth": {
 							"type": "bearer",
 							"bearer": {
-								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJSRUFEX1BSSVZJTEVHRSIsIldSSVRFX1BSSVZJTEVHRSJdLCJmaXJzdG5hbWUiOiJSb2NoZGkiLCJyb2xlcyI6WyJST0xFX1NVUEVSX0FETUlOIl0sImlkIjoyLCJleHAiOjE3MTMxMzc0MDAsImVtYWlsIjoiaWxpYXMucm91Y2hkaTIxQGdtYWlsLmNvbSIsImxhc3RuYW1lIjoiaWxpYXMifQ.u0cn63O9W9hcnPFwmAIKsf9eO97uUx3g3esjLN67f5f7G0X8iLrbMYNaVrSb7r0uMuemt7cuSY_98Mw8f99usg"
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJXUklURV9QUklWSUxFR0UiLCJSRUFEX1BSSVZJTEVHRSJdLCJmaXJzdG5hbWUiOiJSb2NoZGkiLCJyb2xlcyI6WyJST0xFX1NVUEVSX0FETUlOIl0sImlkIjoyLCJleHAiOjE3MTM0NTk4NzksImVtYWlsIjoiaWxpYXMucm91Y2hkaTIxQGdtYWlsLmNvbSIsImxhc3RuYW1lIjoiaWxpYXMifQ.BDm4EC1kOWFcHB4Fzls5riz_kSIG4tme0j42fdocZkGAwik2OzvD4EraO7CydvyzTxEnrfIiElEKpr_WPmZjLw"
 							}
 						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \r\n  \"email\": \"ilyassrouchdi10@gmail.com\",\r\n  \"firstname\":\"iliaas\",\r\n  \"lastname\":\"rouchdi\",\r\n  \"username\":\"iliaasroc21\"\r\n  \r\n}",
+							"raw": "{\r\n  \r\n  \"email\": \"rayane.rouchdi@gmail.com\",\r\n  \"firstname\":\"mouad\",\r\n  \"lastname\":\"rouchdi\",\r\n  \"username\":\"mouadroc21\",\r\n  \"roles\": [\r\n            {\r\n                \"id\": 1,\r\n                \"name\": \"ROLE_SUPER_ADMIN\",\r\n                \"description\": \"Description SUPER ADMIN ROLE\",\r\n                \"privileges\": [\r\n                    {\r\n                        \"id\": 1,\r\n                        \"name\": \"READ_PRIVILEGE\",\r\n                        \"description\": \"Description Privilige1\"\r\n                    },\r\n                    {\r\n                        \"id\": 2,\r\n                        \"name\": \"WRITE_PRIVILEGE\",\r\n                        \"description\": \"Description Privilige2\"\r\n                    }\r\n                ]\r\n            }\r\n        ]\r\n  \r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
