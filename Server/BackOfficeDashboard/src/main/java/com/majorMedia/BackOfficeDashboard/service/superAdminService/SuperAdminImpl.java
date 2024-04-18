@@ -7,6 +7,7 @@ import com.majorMedia.BackOfficeDashboard.entity.user.User;
 import com.majorMedia.BackOfficeDashboard.exception.AlreadyExistEmailException;
 import com.majorMedia.BackOfficeDashboard.exception.EntityNotFoundException;
 import com.majorMedia.BackOfficeDashboard.model.requests.CreateAdminRequest;
+import com.majorMedia.BackOfficeDashboard.model.responses.AdminRolesResponse;
 import com.majorMedia.BackOfficeDashboard.model.responses.PermissionsResponse;
 import com.majorMedia.BackOfficeDashboard.model.responses.UserResponse;
 import com.majorMedia.BackOfficeDashboard.repository.AdminRepository;
@@ -25,10 +26,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -99,10 +97,18 @@ public class SuperAdminImpl implements ISuperAdminService {
     }
     @Override
     @Transactional
-    public Admin getAdminDetails(Long adminId){
-        return  adminRepository.findById(adminId)
+    public AdminRolesResponse getAdminDetails(Long adminId){
+        Admin admin  =  adminRepository.findById(adminId)
                 .orElseThrow(()-> new EntityNotFoundException(adminId, Admin.class));
+        List<Role> allRoles = getAllRoles();
+        Set<Role> adminRoles = admin.getRoles();
 
+        // Filter allRoles from adminRoles
+        List<Role> filteredRoles = allRoles.stream()
+                .filter(role -> !adminRoles.contains(role))
+                .collect(Collectors.toList());
+
+        return new AdminRolesResponse(admin, filteredRoles);
     }
     @Override
     @Transactional
@@ -133,6 +139,15 @@ public class SuperAdminImpl implements ISuperAdminService {
         System.out.println(password);
         createAdminRequest.setPassword(passwordEncoder.encode(password));
         return adminRepository.save(createAdminRequest);
+
+    }
+
+    @Override
+    public Admin updateAdmin(Long adminId ,Set<Role> roles ) {
+        Admin admin = adminRepository.findById(adminId)
+                .orElseThrow(()-> new EntityNotFoundException(adminId, Admin.class));
+        admin.setRoles(roles);
+        return adminRepository.save(admin);
 
     }
 

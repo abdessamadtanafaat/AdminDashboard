@@ -5,7 +5,7 @@ import {Save , Plus} from 'lucide-react'
 import { customFetch } from '../utils'
 import { useSelector } from 'react-redux'
 import { selectAdmin } from '../features/admin/adminSlice'
-import {Form} from 'react-router-dom'
+import {Form, useLoaderData} from 'react-router-dom'
 import { useRolesContext } from './RolesContext'
 export const loader =(store)=>async()=>{
   const admin = store.getState().adminState.admin;
@@ -15,7 +15,7 @@ export const loader =(store)=>async()=>{
       headers: { Authorization: `Bearer ${admin.token}` } 
     })
     
-    return {roles: response.data}
+    return {systemRoles: response.data , roles :[] }
 
   }
   catch(err){
@@ -26,37 +26,13 @@ export const loader =(store)=>async()=>{
 }
 
 const CreateAdmin = () => {
+    
     const [email ,setEmail] = useState('')
     const [firstname ,setFirstname] = useState('');
     const [lastname , setLastname] = useState('')
-    const {predefinedRoles ,grantedRoles ,setPredefinedRoles , setGrantedRoles ,checkedPredefinedRoles  , setCheckedPredefinedRoles , checkedGrantedRoles , setCheckedGrantedRoles }=useRolesContext();
+    const {predefinedRoles ,grantedRoles ,setPredefinedRoles , setGrantedRoles ,checkedPredefinedRoles  , setCheckedPredefinedRoles , checkedGrantedRoles , setCheckedGrantedRoles  , handleGrantButtonClick , handleRevokeButtonClick , 
+    handleRevokeAllButtonClick}=useRolesContext();
     const {token} = useSelector(selectAdmin)
-
-    const handleGrantButtonClick = () => {
-      const uncheckedPredefinedRoles = predefinedRoles.filter(role => !checkedPredefinedRoles.includes(role));
-      setGrantedRoles([...grantedRoles , ...checkedPredefinedRoles])
-
-      setPredefinedRoles(uncheckedPredefinedRoles);
-      setCheckedPredefinedRoles([]);
-       // Clear checked roles
-    };
-    const handleRevokeButtonClick=()=>{
-      const uncheckedGrantedRoles = grantedRoles.filter(role => !checkedGrantedRoles.includes(role));
-      
-
-      setPredefinedRoles([...predefinedRoles , ...checkedGrantedRoles]);
-      setGrantedRoles(uncheckedGrantedRoles)
-      setCheckedGrantedRoles([]);
-      
-
-    }
-    const handleRevokeAllButtonClick=()=>{
-      setPredefinedRoles([...predefinedRoles,...grantedRoles])
-      setGrantedRoles([]);
-      // Clear checked granted roles
-      setCheckedGrantedRoles([]);
-
-    }
 
     const createAdmin =async (event)=>{
       event.preventDefault();

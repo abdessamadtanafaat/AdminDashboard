@@ -1,6 +1,6 @@
 import { RouterProvider  , createBrowserRouter } from "react-router-dom";
-import { Login ,HomeLayout , Error , ForgotPassword , ResetPassword , Landing } from "./pages";
-import {Profile , Tables ,BusinessOwner  , Admins, CreateAdmin} from './components'
+import { Login ,HomeLayout ,SingleAdmin ,  Error , ForgotPassword , ResetPassword , Landing } from "./pages";
+import {Profile , Tables ,BusinessOwner  , Admins, CreateAdmin , ErrorElement} from './components'
 import {action as loginAction} from './pages/Login'
 import { RolesProvider } from "./components/RolesContext";
 import {action as forgotPasswordAction} from './pages/ForgotPassword'
@@ -10,6 +10,7 @@ import {loader as resetPasswordLoader} from './pages/ResetPassword'
 import {loader as homeLayoutLoader} from './pages/HomeLayout'
 import {loader as adminsLoader} from './components/Admins'
 import {loader as createAdminLoader} from './components/CreateAdmin'
+import {loader as singleAdminLoader} from './pages/SingleAdmin'
 import {store} from './app/store'
 
 const routes = createBrowserRouter([
@@ -35,16 +36,25 @@ const routes = createBrowserRouter([
       {
         path:"/admins",
         element: <Admins/>,
-        loader :adminsLoader(store) 
+        loader :adminsLoader(store),
+        errorElement:<ErrorElement/>
       },
       {
         path:"/admin/create-admin",
         element:<RolesProvider>
           <CreateAdmin/>
-        </RolesProvider>
-
-        ,
-        loader:createAdminLoader(store)
+        </RolesProvider>,
+        loader:createAdminLoader(store),
+        errorElement:<ErrorElement/>
+      },
+    
+      {
+        path:"/admin/:adminId",
+        element:<RolesProvider>
+        <SingleAdmin/>
+      </RolesProvider>,
+        loader:singleAdminLoader(store),
+        errorElement:<ErrorElement/>
       }
 
     ]

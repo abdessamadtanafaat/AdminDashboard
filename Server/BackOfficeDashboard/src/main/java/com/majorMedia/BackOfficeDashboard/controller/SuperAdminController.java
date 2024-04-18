@@ -5,6 +5,7 @@ import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Privilege;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Role;
 import com.majorMedia.BackOfficeDashboard.model.requests.*;
+import com.majorMedia.BackOfficeDashboard.model.responses.AdminRolesResponse;
 import com.majorMedia.BackOfficeDashboard.model.responses.PermissionsResponse;
 import com.majorMedia.BackOfficeDashboard.model.responses.UserResponse;
 import com.majorMedia.BackOfficeDashboard.service.superAdminService.ISuperAdminService;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 
 @RestController
@@ -52,10 +54,17 @@ public class SuperAdminController {
         return new ResponseEntity<>(createdAdmin, HttpStatus.CREATED);
     }
     @LogActivity
+    @PatchMapping("/update-admin")
+    public ResponseEntity<Admin> updateAdmin(@Valid @RequestBody AdminRolesRequest admin)
+    {
+        Admin createdAdmin = superAdminService.updateAdmin(admin.getAdminId(), admin.getRoles());
+        return new ResponseEntity<>(createdAdmin, HttpStatus.CREATED);
+    }
+    @LogActivity
     @GetMapping("/admin-details")
-    public ResponseEntity<Admin> getAdminDetails(
+    public ResponseEntity<AdminRolesResponse> getAdminDetails(
             @RequestParam(value = "adminId")Long adminId){
-        return ResponseEntity.ok(superAdminService.getAdminDetails(adminId));
+           return ResponseEntity.ok(superAdminService.getAdminDetails(adminId));
     }
     @LogActivity
     @PostMapping("/create-role")

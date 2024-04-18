@@ -25,6 +25,7 @@ export const loader =(store)=> async({request})=>{
     return  toast.error(errMessage)
   }
 
+
 }
 const Admins = () => {
   
@@ -32,9 +33,6 @@ const Admins = () => {
     <>
       <div className="flex w-full justify-center mb-3">
         <SearchFilter/>
-      
-        
-      
       </div>
       <AdminsList/>
     </>
