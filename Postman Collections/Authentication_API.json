@@ -1018,6 +1018,18 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "update Admin",
+					"id": "2ee5d189-d5b1-4131-9b69-c0c8f83b065b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
 				}
 			],
 			"id": "d99d9dc1-12c8-44d6-bab4-6155cd8ca06e"
