@@ -38,8 +38,6 @@ public class Admin {
 
     @Column(name = "password")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @NotBlank(message = "Password is required")
-
     private String password;
 
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)

@@ -1,6 +1,6 @@
 
 
-const FormInput = ({type , label , name , placeholder, value, disabled , register, error}) => {
+const FormInput = ({type , label , name , placeholder, value, onChange ,  disabled , register, error}) => {
 
   return (
     <div className='form-control '>
@@ -12,6 +12,7 @@ const FormInput = ({type , label , name , placeholder, value, disabled , registe
         name={name}
         placeholder={placeholder}
         value={value}
+        onChange={onChange}
         className={`input input-bordered input-accent ${error ? 'input-error' : ''}`}
         disabled={disabled}
         {...(register ? register(name, { required: true }) : {})} 
