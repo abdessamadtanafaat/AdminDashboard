@@ -1018,6 +1018,28 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "update Admin",
+					"id": "2ee5d189-d5b1-4131-9b69-c0c8f83b065b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \r\n  \"email\": \"rayane.rouchdi@gmail.com\",\r\n  \"firstname\":\"mouad\",\r\n  \"lastname\":\"rouchdi\",\r\n  \"username\":\"mouadroc21\",\r\n  \"roles\":[\r\n    {\r\n        \"id\": 1,\r\n        \"name\": \"ROLE_SUPER_ADMIN\",\r\n        \"description\": \"Description SUPER ADMIN ROLE\",\r\n        \"privileges\": [\r\n            {\r\n                \"id\": 1,\r\n                \"name\": \"READ_PRIVILEGE\",\r\n                \"description\": \"Description Privilige1\"\r\n            },\r\n            {\r\n                \"id\": 2,\r\n                \"name\": \"WRITE_PRIVILEGE\",\r\n                \"description\": \"Description Privilige2\"\r\n            }\r\n        ]\r\n    },\r\n    {\r\n        \"id\": 2,\r\n        \"name\": \"ROLE_ADMIN\",\r\n        \"description\": \"Descripton ADMIN ROLE\",\r\n        \"privileges\": [\r\n            {\r\n                \"id\": 1,\r\n                \"name\": \"READ_PRIVILEGE\",\r\n                \"description\": \"Description Privilige1\"\r\n            }\r\n        ]\r\n    }\r\n]\r\n  \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/super-admin/update-admin"
+					},
+					"response": []
 				}
 			],
 			"id": "d99d9dc1-12c8-44d6-bab4-6155cd8ca06e"
