@@ -1,4 +1,4 @@
-import { useLoaderData } from "react-router-dom"
+import { useLoaderData  , Link} from "react-router-dom"
 import default_avatar from '../assets/default_avatar.webp'
 const AdminsList = () => {
     const {admins , params} = useLoaderData();
@@ -52,8 +52,8 @@ const AdminsList = () => {
                     {email}
           
                     </td>
-        <th>
-          <button className="btn btn-ghost btn-xs">details</button>
+                <th>
+                <Link key={id} to={`/admin/${id}`} className="btn btn-ghost btn-xs">details</Link>
                 </th>
             </tr>
                 )
