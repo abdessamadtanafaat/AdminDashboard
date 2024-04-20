@@ -1040,6 +1040,18 @@
 						"url": "http://localhost:8080/super-admin/update-admin"
 					},
 					"response": []
+				},
+				{
+					"name": "New Request",
+					"id": "5c39b132-de67-45ba-ac66-def9bc990e31",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
 				}
 			],
 			"id": "d99d9dc1-12c8-44d6-bab4-6155cd8ca06e"
