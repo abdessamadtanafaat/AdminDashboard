@@ -23,12 +23,10 @@ const items = [
       text : "Create Admin" , link:"/admin/create-admin"
     },
     {
-      text:"Manage Roles" ,
-      link:""
-    },
-    { text:"Manage Privileges",
-      link:""
-    }] },
+      text:"Manage Roles and Privileges" ,
+      link:"/role/create-role"
+    }
+  ] },
   { icon: <LifeBuoy  />, text: "Help", children : [] }
 ]
 
@@ -50,18 +48,19 @@ const Sidebar = () => {
       const response = await customFetch.post("/auth/logout", {email : email} ,{
           headers: { Authorization: `Bearer ${token}` } 
       });
-      navigate("/login")
+      
       dispatch(logoutAdmin())
+      return navigate("/login")
       
     } catch (err) {
-      const errorMessage = err?.response?.data;
+      const errorMessage = err?.response?.data || "Logout Impossible now!!!";
       console.log(errorMessage);
-      toast.error(errorMessage);
+      return toast.error(errorMessage);
     } 
   }
   
   return(
-    <aside className="h-screen relative z-30 transition duration-2000"  >
+    <aside className="h-screen relative z-30 transition duration-2000 "  >
       <nav className="h-full flex flex-col bg-base-300   shadow-sm">
         <div className={`p-4 pb-2 flex justify-between items-center mb-4`}
         >
@@ -84,7 +83,7 @@ const Sidebar = () => {
 
 
           
-          <div className="border-t flex p-3">
+          <div className="border-t flex p-3 h-1/8">
             <div className="dropdown  dropdown-end dropdown-right dropdown-top dropdown-hover ">
               <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                 <div className="w-13 rounded-full">

@@ -3,6 +3,10 @@ const ErrorElement = () => {
   const error = useRouteError();
   console.log(error);
 
-  return <h4 className='font-bold text-4xl'>there was an error... </h4>;
+  return(
+  <>
+   <h4 className='font-bold text-6xl text-base-content text-center'>{error.message}</h4>
+   <span className="text-center text-error">{error.status}</span>
+  </>);
 };
 export default ErrorElement;

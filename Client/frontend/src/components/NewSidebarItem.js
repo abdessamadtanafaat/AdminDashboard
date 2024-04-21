@@ -14,9 +14,9 @@ const NewSidebarItem = ({icon , text ,alert,active ,children }) => {
     
     return (
         <li  onClick={()=>expanded || (setExpanded(!expanded) && setShow(true))} className={`
-         relative flex justify-center items-center w-full 
+            relative flex justify-center items-center w-full 
             font-medium rounded-md cursor-pointer hover:bg-base-100 text-base-content
-            transition-colors group
+             group
             ${active? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800": "hover:bg-base-content text-base-content hover:text-base-100"
             }`} >
             
@@ -31,8 +31,12 @@ const NewSidebarItem = ({icon , text ,alert,active ,children }) => {
                  } >{!show ? <Minus /> : <Plus />}</span>
               </span>
             <ul className={`${show || "menu-dropdown-show"} ${expanded ? "p-1 menu-dropdown" : "hidden"}`}>
-            {children.map(child=><li><Link
-             to={child.link} className="" >{child.text}</Link></li>)}
+            {children.map(child=><li ><Link
+             to={child.link} className={`
+             relative flex justify-start items-center w-full py-2 px-3 my-1
+             font-medium rounded-md cursor-pointer
+             active:text-base-100 hover:text-base-100
+             `} >{child.text}</Link></li>)}
         
             </ul>
             {!expanded && (
