@@ -5,11 +5,10 @@ import com.majorMedia.BackOfficeDashboard.entity.admin.Privilege;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Role;
 import com.majorMedia.BackOfficeDashboard.entity.user.User;
 import com.majorMedia.BackOfficeDashboard.exception.AlreadyExistEmailException;
+import com.majorMedia.BackOfficeDashboard.exception.AlreadyExistRoleException;
 import com.majorMedia.BackOfficeDashboard.exception.EntityNotFoundException;
 import com.majorMedia.BackOfficeDashboard.model.requests.CreateAdminRequest;
-import com.majorMedia.BackOfficeDashboard.model.responses.AdminRolesResponse;
-import com.majorMedia.BackOfficeDashboard.model.responses.PermissionsResponse;
-import com.majorMedia.BackOfficeDashboard.model.responses.UserResponse;
+import com.majorMedia.BackOfficeDashboard.model.responses.*;
 import com.majorMedia.BackOfficeDashboard.repository.AdminRepository;
 import com.majorMedia.BackOfficeDashboard.repository.PrivilegeRepository;
 import com.majorMedia.BackOfficeDashboard.repository.RoleRepository;
@@ -41,60 +40,24 @@ public class SuperAdminImpl implements ISuperAdminService {
     private final ServiceUtils adminService;
 
     @Override
-    public List<Admin> getAllAdmins(String searchKey  ,String sortBy ,int page ) {
+    public ObjectsList<Admin> getAllAdmins(String searchKey  ,String sortBy ,int page ) {
         Pageable paging  = PageRequest.of(page -1 , 5 , Sort.by(Sort.Direction.ASC , "firstname"));
-
         if(searchKey ==null){
-            return adminRepository.findAll(paging).getContent();
+            return unwrapAdminList( adminRepository.findAll(paging) , page);
         }
-
         Page<Admin> admins= adminRepository.findAllByFirstnameContainsIgnoreCaseOrLastnameContainsIgnoreCase(searchKey ,searchKey , paging);
-        return admins.getContent();
+        return unwrapAdminList(admins , page);
     }
-    @Override
-    @Transactional
-    public List<UserResponse> getAllAdmins(String sortBy ,String searchKey) {
-        List<UserResponse> userResponses = new ArrayList<>();
+    public ObjectsList<Admin> unwrapAdminList(Page<Admin> admins , int page){
+        return ObjectsList.<Admin>builder().data(admins.getContent()).
+                meta(
+                        new PaginationData(
+                                page , 5 , admins.getTotalPages() ,
+                                admins.getTotalElements()
+                               )).build();
 
-        List<Admin> admins = adminService.fetchAdmins(sortBy);
-
-        List<UserResponse> userResponsesFromAdmins = admins.stream()
-                .map(admin -> {
-                    String role = "";
-                    for (Role adminRole : admin.getRoles()) {
-                        if (adminRole.getName().equals("ROLE_SUPER_ADMIN")) {
-                            role = "Super Admin";
-                            break;
-                        } else if (adminRole.getName().equals("ROLE_ADMIN")) {
-                            role = "Admin";
-                            break;
-                        }
-                    }
-                    return adminService.mapToUserResponse(admin, role);
-                })
-                .collect(Collectors.toList());
-
-
-        userResponses.addAll(userResponsesFromAdmins);
-        userResponses.sort(Comparator.comparing(UserResponse::getLastLogout).reversed());
-
-        if(userResponses.isEmpty()){
-            throw new EntityNotFoundException(User.class);
-        }
-
-
-        // Apply filtering by searchKey if requested
-        if (searchKey != null && !searchKey.isEmpty()) {
-            userResponses = userResponses.stream()
-                    .filter(userResponse -> userResponse.getFirstname().contains(searchKey) || userResponse.getLastname().contains(searchKey)|| userResponse.getEmail().contains(searchKey))
-                    .collect(Collectors.toList());
-            if (userResponses.isEmpty()) {
-                throw new EntityNotFoundException(searchKey, User.class);
-            }
-        }
-
-        return userResponses;
     }
+
     @Override
     @Transactional
     public AdminRolesResponse getAdminDetails(Long adminId){
@@ -153,25 +116,45 @@ public class SuperAdminImpl implements ISuperAdminService {
 
     @Override
     @Transactional
-    public Role addRole(String nameRole, String descriptionRole){
-        if (StringUtils.isEmpty(nameRole) || StringUtils.isEmpty(descriptionRole)) {
+    public Role addRole(Role role){
+        if (StringUtils.isEmpty(role.getName()) || StringUtils.isEmpty(role.getDescription())) {
             throw new IllegalArgumentException("Name and description are required");
         }
-
-        Role role = new Role(nameRole,descriptionRole);
+        boolean roleExists = roleRepository.findByNameIgnoreCase(role.getName()).isPresent();
+        if (roleExists) {
+            throw new AlreadyExistRoleException(role.getName());
+        }
         return roleRepository.save(role);
     }
 
     @Override
     @Transactional
-    public Privilege addPrivilege(String namePrivilege, String descriptionPrivilege){
-        if (StringUtils.isEmpty(namePrivilege) || StringUtils.isEmpty(descriptionPrivilege)) {
+    public Privilege addPrivilege(Privilege privilege){
+        if (StringUtils.isEmpty(privilege.getName()) || StringUtils.isEmpty(privilege.getDescription())) {
             throw new IllegalArgumentException("Name and description are required");
         }
-        Privilege privilege = new Privilege(namePrivilege,descriptionPrivilege);
+        boolean privilegeExists = privilegeRepository.findByNameIgnoreCase(privilege.getName()).isPresent();
+        if (privilegeExists) {
+            throw new AlreadyExistRoleException(privilege.getName());
+        }
         return  privilegeRepository.save(privilege);
 
 
+    }
+
+    @Override
+    public RolePrivilegeResponse getRoleDetails(Long roleId) {
+        Role role  =  roleRepository.findById(roleId)
+                .orElseThrow(()-> new EntityNotFoundException(roleId, Admin.class));
+        List<Privilege> privileges = getAllPrivileges();
+        Set<Privilege> rolePrivileges = role.getPrivileges();
+
+        // Filter allRoles from adminRoles
+        List<Privilege> filteredPrivileges = privileges.stream()
+                .filter(privilege -> !rolePrivileges.contains(privilege))
+                .collect(Collectors.toList());
+
+        return new RolePrivilegeResponse(role, filteredPrivileges);
     }
 
     @Override

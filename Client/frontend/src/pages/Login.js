@@ -51,19 +51,19 @@ const Login = () => {
 
   return (
     <section className='h-screen grid place-items-center bg-base-300'>
-        <Form method="POST" onSubmit={handleSubmit(onSubmit)} className='card w-96 p-8 bg-base-100 shadow-lg flex  flex-col gap-y-4'>
+        <Form method="POST"  onSubmit={handleSubmit(onSubmit)} className='card w-96 p-8 bg-base-100 shadow-lg flex  flex-col gap-y-4'>
             <h4 className='text-center text-3xl font-bold'>Login</h4>
             <FormInput type="text" label="Email" name="email" placeholder="email@email.com" register={register} error={errors.email}/>
             <FormInput type="password" label="Password" name="password" placeholder="secret" register={register} error={errors.password}/>
              <p className='text-center font-bold'>
               Forgot Password ?{' '}
-               <Link
+                <Link
                  to='/forgotPassword'
                  className='ml-2 font-semibold  link link-hover link-primary capitalize'
               >
                  Reset your Password  
              </Link>
-        </p>
+            </p>
             <div className='mt-4'>
                <SubmitBtn text='Submit' />
             </div>

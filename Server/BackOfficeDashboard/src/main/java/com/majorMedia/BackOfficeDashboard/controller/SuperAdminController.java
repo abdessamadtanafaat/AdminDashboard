@@ -5,9 +5,7 @@ import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Privilege;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Role;
 import com.majorMedia.BackOfficeDashboard.model.requests.*;
-import com.majorMedia.BackOfficeDashboard.model.responses.AdminRolesResponse;
-import com.majorMedia.BackOfficeDashboard.model.responses.PermissionsResponse;
-import com.majorMedia.BackOfficeDashboard.model.responses.UserResponse;
+import com.majorMedia.BackOfficeDashboard.model.responses.*;
 import com.majorMedia.BackOfficeDashboard.service.superAdminService.ISuperAdminService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
@@ -37,13 +35,22 @@ public class SuperAdminController {
 
     @LogActivity
     @GetMapping(value = "/admins")
-    public ResponseEntity<List<Admin>> getAllAdmins(
+    public ResponseEntity<ObjectsList<Admin>> getAllAdmins(
             @RequestParam(required = false) String sortBy,
             @RequestParam(required = false) String searchKey,
             @RequestParam(required=false ,name="page" , defaultValue="1") int page
             )
     {
         return ResponseEntity.ok(superAdminService.getAllAdmins(searchKey ,sortBy ,page));
+    }
+
+    @LogActivity
+    @GetMapping(value = "/role-details")
+    public ResponseEntity<RolePrivilegeResponse> getRoleDetails(
+            @RequestParam(value = "roleId")Long roleId
+    )
+    {
+        return ResponseEntity.ok(superAdminService.getRoleDetails(roleId));
     }
 
     @LogActivity
@@ -69,11 +76,10 @@ public class SuperAdminController {
     @LogActivity
     @PostMapping("/create-role")
     public ResponseEntity<Role> createRole(
-    @RequestParam(value = "nameRole")String nameRole,
-    @RequestParam(value = "descriptionRole")String descriptionRole)
+    @Valid @RequestBody Role role)
     {
-        Role role = superAdminService.addRole(nameRole, descriptionRole);
-        return ResponseEntity.status(HttpStatus.CREATED).body(role);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(superAdminService.addRole(role));
     }
     @LogActivity
     @PostMapping("/assign-role")
@@ -86,11 +92,10 @@ public class SuperAdminController {
     @LogActivity
     @PostMapping("/create-privilege")
     public ResponseEntity<Privilege> createPrivilege(
-            @RequestParam(value = "namePrivilege")String namePrivilege,
-            @RequestParam(value = "descriptionPrivilege")String descriptionPrivilege
+            @Valid @RequestBody Privilege privilege
     )
     {
-        return ResponseEntity.status(HttpStatus.CREATED).body(superAdminService.addPrivilege(namePrivilege, descriptionPrivilege));
+        return ResponseEntity.status(HttpStatus.CREATED).body(superAdminService.addPrivilege(privilege));
     }
 
     @LogActivity

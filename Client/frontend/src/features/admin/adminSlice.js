@@ -18,7 +18,6 @@ const getAdminFromLocalStorage=()=>{
 const defaultState = {
     admin : getAdminFromLocalStorage(),
     theme :getThemeFromLocalStorage()
-    
 }
 
 const adminSlice = createSlice({

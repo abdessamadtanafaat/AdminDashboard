@@ -30,7 +30,7 @@ public class SystemExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
     @ExceptionHandler({InvalidTokenException.class,
-                        AlreadyExistEmailException.class})
+                        AlreadyExistEmailException.class , AlreadyExistRoleException.class})
         public ResponseEntity<String> handleInvalidTokenException(Exception e){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }

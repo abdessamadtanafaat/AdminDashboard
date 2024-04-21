@@ -1,8 +1,8 @@
 import {toast} from 'react-toastify'
 import { customFetch } from '../utils'
 
-import { AdminsList ,CreateAdmin , SearchFilter } from "."
-import { useLoaderData } from 'react-router-dom'
+import { AdminsList ,CreateAdmin , PaginationContainer, SearchFilter } from "."
+import { useLoaderData ,redirect } from 'react-router-dom'
 
 export const loader =(store)=> async({request})=>{
   const admin = store.getState().adminState.admin;
@@ -15,14 +15,16 @@ export const loader =(store)=> async({request})=>{
       headers: { Authorization: `Bearer ${admin.token}` } 
     })
     console.log(response.data)
-    return {admins: response.data , params}
+    return {admins: response.data.data , params , meta : response.data.meta}
     
   }
   catch(err){
     console.log(err)
-    const errMessage  = err?.response?.data?.message || "Cannot load Table Admin"
+    const errMessage  = err?.response?.data?.message || err?.response?.data || "Server Failed To load Admin Table"
+    toast.error(errMessage)
+
+    return redirect("/")
     
-    return  toast.error(errMessage)
   }
 
 
@@ -35,6 +37,8 @@ const Admins = () => {
         <SearchFilter/>
       </div>
       <AdminsList/>
+      <PaginationContainer/>
+      
     </>
     
   )

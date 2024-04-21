@@ -4,23 +4,21 @@ import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Privilege;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Role;
 import com.majorMedia.BackOfficeDashboard.model.requests.CreateAdminRequest;
-import com.majorMedia.BackOfficeDashboard.model.responses.AdminRolesResponse;
-import com.majorMedia.BackOfficeDashboard.model.responses.PermissionsResponse;
-import com.majorMedia.BackOfficeDashboard.model.responses.UserResponse;
+import com.majorMedia.BackOfficeDashboard.model.responses.*;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
 public interface ISuperAdminService {
-        public List<Admin> getAllAdmins(String searchKey ,String sortBy ,  int page);
-        public List<UserResponse> getAllAdmins(String sortBy ,String searchKey);
+        public ObjectsList<Admin> getAllAdmins(String searchKey , String sortBy , int page);
         public Admin createAdmin(Admin createAdminRequest);
         public Admin updateAdmin(Long adminId , Set<Role> roles);
         public AdminRolesResponse getAdminDetails(Long adminId);
-        public Role addRole(String name, String description);
+        public Role addRole(Role role);
         public Admin assignRoleToAdmin(Long adminId, Long roleId);
-        public Privilege addPrivilege(String name, String description);
+        public Privilege addPrivilege(Privilege privilege);
+        public RolePrivilegeResponse getRoleDetails(Long roleId);
         public Role assignPrivilegesToRole(Long roleId, Collection<Long> privilegeIds);
         public String deactivateAccount(Long adminId);
         public String activateAccount(Long adminId);
