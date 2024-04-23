@@ -1055,6 +1055,24 @@
 				}
 			],
 			"id": "d99d9dc1-12c8-44d6-bab4-6155cd8ca06e"
+		},
+		{
+			"name": "SystemSettings",
+			"item": [
+				{
+					"name": "getServiceAreas",
+					"id": "51e8b58b-f2cc-4f53-9967-32b216dffbf4",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			],
+			"id": "bdb8088f-81d6-43e3-8e32-43816e60e94c"
 		}
 	]
 }
