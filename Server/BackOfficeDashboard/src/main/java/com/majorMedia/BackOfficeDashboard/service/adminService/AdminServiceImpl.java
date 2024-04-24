@@ -6,6 +6,8 @@ import com.majorMedia.BackOfficeDashboard.exception.*;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
 import com.majorMedia.BackOfficeDashboard.model.requests.ResetPasswordRequest;
 import com.majorMedia.BackOfficeDashboard.model.responses.BusinessResponse;
+import com.majorMedia.BackOfficeDashboard.model.responses.ObjectsList;
+import com.majorMedia.BackOfficeDashboard.model.responses.PaginationData;
 import com.majorMedia.BackOfficeDashboard.model.responses.UserResponse;
 import com.majorMedia.BackOfficeDashboard.repository.AdminRepository;
 import com.majorMedia.BackOfficeDashboard.repository.BusinessRepository;
@@ -20,6 +22,10 @@ import io.micrometer.common.util.StringUtils;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.apache.commons.io.FilenameUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -44,6 +50,7 @@ public class AdminServiceImpl implements IAdminService {
     private final AdminRepository adminRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final BusinessRepository  businessRepository;
     private ServiceUtils adminService;
     @Override
     public String updateAccountSettings(MultipartFile file,
@@ -131,7 +138,7 @@ public class AdminServiceImpl implements IAdminService {
 
         return imageData;
     }
-    @Override
+/*    @Override
     public List<UserResponse> getAllOwners(String sortBy , String searchKey) {
         List<UserResponse> userResponses = new ArrayList<>();
 
@@ -162,8 +169,26 @@ public class AdminServiceImpl implements IAdminService {
         }
 
         return userResponses;
-    }
+    }*/
 
+    @Override
+    public ObjectsList<User> getAllOwners(String searchKey  , String sortBy , int page ) {
+        Pageable paging  = PageRequest.of(page -1 , 5 , Sort.by(Sort.Direction.ASC , "firstName"));
+        if(searchKey ==null){
+            return unwrapOwnerList(userRepository.findAll(paging) , page);
+        }
+        Page<User> users= userRepository.findAllByFirstNameContainsIgnoreCaseOrLastNameContainsIgnoreCase(searchKey ,searchKey , paging);
+        return unwrapOwnerList(users , page);
+    }
+    public ObjectsList<User> unwrapOwnerList(Page<User> users , int page){
+        return ObjectsList.<User>builder().data(users.getContent()).
+                meta(
+                        new PaginationData(
+                                page , 5 , users.getTotalPages() ,
+                                users.getTotalElements()
+                        )).build();
+
+    }
     @Override
     @Transactional
     public String deactivateAccount(Long ownerId) {
@@ -193,6 +218,27 @@ public class AdminServiceImpl implements IAdminService {
         return "Account : "+owner.getLastName() +" activated Successfully";
     }
 
+
+    @Override
+    public ObjectsList<Business> getAllBusiness(String searchKey  , String sortBy , int page ) {
+        Pageable paging  = PageRequest.of(page -1 , 5 , Sort.by(Sort.Direction.ASC , "businessName"));
+        if(searchKey ==null){
+            return unwrapBusinessList(businessRepository.findAll(paging) , page);
+        }
+        Page<Business> business= businessRepository.findAllByBusinessNameContainsIgnoreCase(searchKey, paging);
+        return unwrapBusinessList(business , page);
+    }
+    public ObjectsList<Business> unwrapBusinessList(Page<Business> business , int page){
+        return ObjectsList.<Business>builder().data(business.getContent()).
+                meta(
+                        new PaginationData(
+                                page , 5 , business.getTotalPages() ,
+                                business.getTotalElements()
+                        )).build();
+
+    }
+
+/*
     @Override
     public List<BusinessResponse> getAllBusiness(String sortBy, String searchKey) {
 
@@ -225,6 +271,7 @@ public class AdminServiceImpl implements IAdminService {
 
         return businessResponses;
     }
+*/
 
 
 }

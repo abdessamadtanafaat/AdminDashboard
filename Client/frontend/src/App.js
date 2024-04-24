@@ -1,6 +1,7 @@
 import { RouterProvider  , createBrowserRouter } from "react-router-dom";
 import { Login ,HomeLayout ,SingleAdmin ,  Error , ForgotPassword , ResetPassword , Landing } from "./pages";
-import {Profile , Tables ,BusinessOwner  , Admins, CreateAdmin , ErrorElement ,CreateRole } from './components'
+import {Profile , Tables , BusinessOwners  ,Business, Admins, CreateAdmin , ErrorElement ,CreateRole } from './components'
+
 import {action as loginAction} from './pages/Login'
 import {action as forgotPasswordAction} from './pages/ForgotPassword'
 import {action as resetPasswordAction} from './pages/ResetPassword'
@@ -8,9 +9,14 @@ import {action as createAdminAction} from './components/CreateAdmin'
 import {loader as resetPasswordLoader} from './pages/ResetPassword'
 import {loader as homeLayoutLoader} from './pages/HomeLayout'
 import {loader as adminsLoader} from './components/Admins'
+import {loader as businessOwnerLoader} from './components/BusinessOwners'; 
+import {loader as businessLoader} from './components/Business'; 
+
+
 import {loader as createAdminLoader} from './components/CreateAdmin'
 import {loader as singleAdminLoader} from './pages/SingleAdmin'
 import {loader as createRoleLoader} from './components/CreateRole'
+
 
 import {store} from './app/store'
 import { ItemsProvider } from "./components/ItemContext";
@@ -32,9 +38,19 @@ const routes = createBrowserRouter([
         element:<Profile/>
       },
       {
-        path:"/business-owner",
-        element:<BusinessOwner/>
+        path: "/business-owner",
+        element: <BusinessOwners/>,
+        loader: businessOwnerLoader(store),
+        errorElement: <ErrorElement />
       },
+      
+      {
+        path: "/business",
+        element: <Business/>,
+        loader: businessLoader(store),
+        errorElement: <ErrorElement />
+      },
+
       {
         path:"/admins",
         element: <Admins/>,
@@ -94,7 +110,6 @@ const routes = createBrowserRouter([
     errorElement:<Error/>,
     action : resetPasswordAction(store),
     loader : resetPasswordLoader
-    
  }
   
 

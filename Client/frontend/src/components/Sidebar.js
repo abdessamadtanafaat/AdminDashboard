@@ -16,7 +16,7 @@ import NewSidebarItem from "./NewSidebarItem";
 
 const items = [
   { icon: <Home  />, text: "Home", alert: true , link: "/" ,children:[]},
-  { icon: <Table  />, text: "Tables", active: true  , link:"tables" , children:[{text:"Buissess Owners",link:"/business-owner"},{text:"Business",link:"forgotPassword"}]},
+  { icon: <Table  />, text: "Tables", active: true  , link:"tables" , children:[{text:"Buissess Owners",link:"/business-owner"},{text:"Business",link:"/business"}]},
   { icon: <Users />, text: "Admin Settings", alert: true ,children:[
     {text:"Admin Table" , link :"/admins"} ,
     {
