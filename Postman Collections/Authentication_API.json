@@ -1092,6 +1092,28 @@
 						"url": "http://localhost:8080/config/service-categories"
 					},
 					"response": []
+				},
+				{
+					"name": "Create Service Category",
+					"id": "5470d409-41f4-4882-b252-b89cf1fbbb2f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Accueil\",\r\n    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget massa at nunc tempor convallis.\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/config/service-categories"
+					},
+					"response": []
 				}
 			],
 			"id": "bdb8088f-81d6-43e3-8e32-43816e60e94c"
