@@ -43,7 +43,7 @@ public class SuperAdminImpl implements ISuperAdminService {
     public ObjectsList<Admin> getAllAdmins(String searchKey  ,String sortBy ,int page ) {
         Pageable paging  = PageRequest.of(page -1 , 5 , Sort.by(Sort.Direction.ASC , "firstname"));
         if(searchKey ==null){
-            return unwrapAdminList( adminRepository.findAll(paging) , page);
+            return unwrapAdminList(adminRepository.findAll(paging) , page);
         }
         Page<Admin> admins= adminRepository.findAllByFirstnameContainsIgnoreCaseOrLastnameContainsIgnoreCase(searchKey ,searchKey , paging);
         return unwrapAdminList(admins , page);

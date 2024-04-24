@@ -1055,6 +1055,46 @@
 				}
 			],
 			"id": "d99d9dc1-12c8-44d6-bab4-6155cd8ca06e"
+		},
+		{
+			"name": "SystemSettings",
+			"item": [
+				{
+					"name": "getServiceAreas",
+					"id": "51e8b58b-f2cc-4f53-9967-32b216dffbf4",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Save Service Categories",
+					"id": "13957568-b961-4c88-92f8-a09d4cc80f0a",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"name\": \"Accueil\",\r\n    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget massa at nunc tempor convallis.\",\r\n    \"serviceAreas\": [\r\n      {\r\n        \"name\": \"Orientation du personnel\",\r\n        \"isPrivate\": false\r\n      },\r\n      {\r\n        \"name\": \"Réception\",\r\n        \"isPrivate\": false\r\n      },\r\n      {\r\n        \"name\": \"Assistance à l’arrivée\",\r\n        \"isPrivate\": false\r\n      },\r\n      {\r\n        \"name\": \"Service de bagages\",\r\n        \"isPrivate\": false\r\n      },\r\n      {\r\n        \"name\": \"Personnel\",\r\n        \"isPrivate\": false\r\n      },\r\n      {\r\n        \"name\": \"Generale\",\r\n        \"isPrivate\": false\r\n      },\r\n      {\r\n        \"name\": \"Agreabilite\",\r\n        \"isPrivate\": false\r\n      },\r\n      {\r\n        \"name\": \"service acceuil 1\",\r\n        \"isPrivate\": false\r\n      },\r\n      {\r\n        \"name\": \"service acceuil 2\",\r\n        \"isPrivate\": false\r\n      },\r\n      {\r\n        \"name\": \"service acceuil 3\",\r\n        \"isPrivate\": false\r\n      }\r\n    ]\r\n  },\r\n  {\r\n    \"name\": \"Rapidité\",\r\n    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget massa at nunc tempor convallis.\",\r\n    \"serviceAreas\": [\r\n      {\r\n        \"name\": \"Service express\",\r\n        \"isPrivate\": false\r\n      },\r\n      {\r\n        \"name\": \"Check-in/check-out\",\r\n        \"isPrivate\": false\r\n      },\r\n      {\r\n        \"name\": \"Service en chambre\",\r\n        \"isPrivate\": false\r\n      },\r\n      {\r\n        \"name\": \"Réponse aux requêtes\",\r\n        \"isPrivate\": false\r\n      },\r\n      {\r\n        \"name\": \"service rapidite 1\",\r\n        \"isPrivate\": false\r\n      },\r\n      {\r\n        \"name\": \"service rapidite 2\",\r\n        \"isPrivate\": false\r\n      },\r\n      {\r\n        \"name\": \"service rapidite 3\",\r\n        \"isPrivate\": false\r\n      },\r\n      {\r\n        \"name\": \"service rapidite 4\",\r\n        \"isPrivate\": false\r\n      }\r\n    ]\r\n  },\r\n  {\r\n    \"name\": \"Confort\",\r\n    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget massa at nunc tempor convallis.\",\r\n    \"serviceAreas\": [\r\n      {\r\n        \"name\": \"Espace\",\r\n        \"isPrivate\": false\r\n      },\r\n      {\r\n        \"name\": \"Température local\",\r\n        \"isPrivate\": false\r\n      },\r\n      {\r\n        \"name\": \"Luminosité\",\r\n        \"isPrivate\": false\r\n      }\r\n    ]\r\n  },\r\n  {\r\n    \"name\": \"Sécurité\",\r\n    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget massa at nunc tempor convallis.\",\r\n    \"serviceAreas\": [\r\n      {\r\n        \"name\": \"Surveillance\",\r\n        \"isPrivate\": false\r\n      },\r\n      {\r\n        \"name\": \"Contrôle d’accès\",\r\n        \"isPrivate\": false\r\n      }\r\n    ]\r\n  },\r\n  {\r\n    \"name\": \"Services Personnalisés\",\r\n    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget massa at nunc tempor convallis.\",\r\n    \"serviceAreas\": [\r\n      {\r\n        \"name\": \"personnal service area\",\r\n        \"isPrivate\": true\r\n      },\r\n      {\r\n        \"name\": \"test\",\r\n        \"isPrivate\": true\r\n      },\r\n      {\r\n        \"name\": \"test123\",\r\n        \"isPrivate\": true\r\n      },\r\n      {\r\n        \"name\": \"t\",\r\n        \"isPrivate\": true\r\n      },\r\n      {\r\n        \"name\": \"r\",\r\n        \"isPrivate\": true\r\n      },\r\n      {\r\n        \"name\": \"my service\",\r\n        \"isPrivate\": true\r\n      },\r\n      {\r\n        \"name\": \"test\",\r\n        \"isPrivate\": true\r\n      },\r\n      {\r\n        \"name\": \"my service\",\r\n        \"isPrivate\": true\r\n      },\r\n      {\r\n        \"name\": \"test123\",\r\n        \"isPrivate\": true\r\n      },\r\n      {\r\n        \"name\": \"my service test\",\r\n        \"isPrivate\": true\r\n      },\r\n      {\r\n        \"name\": \"testt\",\r\n        \"isPrivate\": true\r\n      },\r\n      {\r\n        \"name\": \"test123455\",\r\n        \"isPrivate\": true\r\n      },\r\n      {\r\n        \"name\": \"dvf\",\r\n        \"isPrivate\": true\r\n      }\r\n    ]\r\n  }\r\n]\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/config/service-categories"
+					},
+					"response": []
+				}
+			],
+			"id": "bdb8088f-81d6-43e3-8e32-43816e60e94c"
 		}
 	]
 }

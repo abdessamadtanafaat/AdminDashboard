@@ -1,5 +1,5 @@
 import {toast} from 'react-toastify'
-import { customFetch } from '../utils'
+import { customFetch } from "../utils"
 
 import { AdminsList ,CreateAdmin , PaginationContainer, SearchFilter } from "."
 import { useLoaderData ,redirect } from 'react-router-dom'
