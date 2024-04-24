@@ -156,4 +156,5 @@ public class SuperAdminController {
     {
         return ResponseEntity.status(HttpStatus.OK).body(superAdminService.revokeRoleFromAdmin(adminId,roleId));
     }
+
 }

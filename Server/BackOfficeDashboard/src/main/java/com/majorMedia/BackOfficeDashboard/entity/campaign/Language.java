@@ -21,4 +21,5 @@ public class Language {
     @ManyToMany(mappedBy = "languages")
     private Set<Campaign> compagnes;
 
+
 }
