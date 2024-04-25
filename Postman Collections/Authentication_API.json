@@ -1114,6 +1114,34 @@
 						"url": "http://localhost:8080/config/service-categories"
 					},
 					"response": []
+				},
+				{
+					"name": "Save Service Area",
+					"id": "d89c3764-5c5d-4e72-a61c-ef48d6ebdfc8",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJSRUFEX1BSSVZJTEVHRSIsIldSSVRFX1BSSVZJTEVHRSIsIlJFQURfUFJJVklMRUdFIl0sImZpcnN0bmFtZSI6IlJvY2hkaSIsInJvbGVzIjpbIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX0FETUlOIl0sImlkIjoyLCJleHAiOjE3MTQxMzU3NDYsImVtYWlsIjoiaWxpYXMucm91Y2hkaTIxQGdtYWlsLmNvbSIsImxhc3RuYW1lIjoiaWxpYXMifQ.zAdzj9Bt9N4DL2FtQCppM1PD2L_lrsuzJnAe46widwUQIQioP2Z1uLYs9sanVDJO4Ap7sXdC57pNGEObbJ4XqA"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n                \r\n                \"name\": \"Service de bagages\",\r\n                \"private\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/config/service-area"
+					},
+					"response": []
 				}
 			],
 			"id": "bdb8088f-81d6-43e3-8e32-43816e60e94c"
