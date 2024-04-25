@@ -1132,7 +1132,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n                \r\n                \"name\": \"Service de bagages\",\r\n                \"private\": false\r\n}",
+							"raw": "{\r\n                \r\n                \"name\": \"Service de bagages\",\r\n                \"private\": false,\r\n                \"serviceCategory\":{\r\n                    \"id\": 1,\r\n                    \"name\": \"Accueil\",\r\n                    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget massa at nunc tempor convallis.\",\r\n                    \"photoUrl\": null}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
