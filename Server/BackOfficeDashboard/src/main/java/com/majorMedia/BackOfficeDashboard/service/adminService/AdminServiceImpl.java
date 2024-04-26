@@ -220,13 +220,18 @@ public class AdminServiceImpl implements IAdminService {
 
 
     @Override
-    public ObjectsList<Business> getAllBusiness(String searchKey  , String sortBy , int page ) {
-        Pageable paging  = PageRequest.of(page -1 , 5 , Sort.by(Sort.Direction.ASC , "businessName"));
-        if(searchKey ==null){
-            return unwrapBusinessList(businessRepository.findAll(paging) , page);
+    public ObjectsList<Business> getAllBusiness(String searchKey, String sortOrder, int page) {
+        Pageable paging;
+        if ("asc".equalsIgnoreCase(sortOrder)) {
+            paging = PageRequest.of(page - 1, 5, Sort.by(Sort.Direction.ASC, "createdDate"));
+        } else {
+            paging = PageRequest.of(page - 1, 5, Sort.by(Sort.Direction.DESC, "createdDate"));
         }
-        Page<Business> business= businessRepository.findAllByBusinessNameContainsIgnoreCase(searchKey, paging);
-        return unwrapBusinessList(business , page);
+        if (searchKey == null) {
+            return unwrapBusinessList(businessRepository.findAll(paging), page);
+        }
+        Page<Business> business = businessRepository.findAllByBusinessNameContainsIgnoreCase(searchKey, paging);
+        return unwrapBusinessList(business, page);
     }
 
     @Override

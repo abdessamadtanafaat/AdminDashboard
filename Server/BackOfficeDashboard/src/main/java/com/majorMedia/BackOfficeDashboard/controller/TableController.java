@@ -45,11 +45,11 @@ public class TableController {
     @LogActivity
     @GetMapping(value = "/business")
     public ResponseEntity<ObjectsList<Business>> getAllBusiness(
-            @RequestParam(required = false) String sortBy,
+            @RequestParam(required = false) String sortOrder,
             @RequestParam(required = false) String searchKey,
             @RequestParam(required=false ,name="page" , defaultValue="1") int page
     )
     {
-        return ResponseEntity.ok(adminService.getAllBusiness(searchKey,sortBy,page));
+        return ResponseEntity.ok(adminService.getAllBusiness(searchKey,sortOrder,page));
     }
 }

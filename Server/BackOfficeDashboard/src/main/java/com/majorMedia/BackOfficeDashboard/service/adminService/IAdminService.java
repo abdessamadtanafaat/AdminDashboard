@@ -20,13 +20,20 @@ import java.util.List;
 
 public interface IAdminService {
 
-    public String updateAccountSettings(MultipartFile file , String firstname , String lastname , String email) throws IOException;
+    public String updateAccountSettings(MultipartFile file, String firstname, String lastname, String email) throws IOException;
+
     public Admin uploadAdminAvatar(Long adminId, MultipartFile file) throws IOException;
+
     public byte[] getImageData(Long adminId);
+
     public String changePassword(ResetPasswordRequest resetPasswordRequest);
-    public ObjectsList<User> getAllOwners(String sortBy , String searchKey, int page);
+
+    public ObjectsList<User> getAllOwners(String sortBy, String searchKey, int page);
+
     public String deactivateAccount(Long ownerId);
+
     public String activateAccount(Long ownerId);
-    public ObjectsList<Business> getAllBusiness(String sortBy , String searchKey, int page);
     public String resetPassword(String email , String password);
+
+    public ObjectsList<Business> getAllBusiness(String searchKey, String sortOrder, int page);
 }
