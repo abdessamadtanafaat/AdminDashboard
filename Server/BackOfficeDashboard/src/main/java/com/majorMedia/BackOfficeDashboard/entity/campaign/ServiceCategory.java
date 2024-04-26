@@ -17,8 +17,11 @@ public class ServiceCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     private String description;
+    private String photoUrl;
+
     @OneToMany(mappedBy = "serviceCategory" ,  orphanRemoval = true , cascade =  CascadeType.ALL)
     private Set<ServiceArea> serviceAreas;
 }
