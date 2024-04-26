@@ -2,22 +2,26 @@ package com.majorMedia.BackOfficeDashboard.entity.campaign;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+import java.util.Set;
+
+
 @Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 public class ServiceCategory {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     private String description;
+    private String photoUrl;
 
+    @OneToMany(mappedBy = "serviceCategory" ,  orphanRemoval = true , cascade =  CascadeType.ALL)
+    private Set<ServiceArea> serviceAreas;
 }

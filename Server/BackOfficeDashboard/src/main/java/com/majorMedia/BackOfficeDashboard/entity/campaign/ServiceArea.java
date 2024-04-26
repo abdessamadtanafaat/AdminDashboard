@@ -1,5 +1,6 @@
 package com.majorMedia.BackOfficeDashboard.entity.campaign;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.majorMedia.BackOfficeDashboard.entity.user.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -16,7 +17,8 @@ public class ServiceArea {
     private String name;
     private boolean isPrivate;
     @ManyToOne
-    @JoinColumn(name = "service_category_id")
+    @JoinColumn(name = "service_category_id" , referencedColumnName = "id")
+    @JsonIgnore
     private ServiceCategory serviceCategory;
     @ManyToOne
     @JoinColumn(name = "user_id")
