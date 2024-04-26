@@ -1,5 +1,5 @@
 import { RouterProvider  , createBrowserRouter } from "react-router-dom";
-import { Login ,HomeLayout ,SingleAdmin ,  Error , ForgotPassword , ResetPassword , Landing } from "./pages";
+import { Login ,HomeLayout ,SingleAdmin ,  Error , ForgotPassword , ResetPassword , Landing, ServiceAreaManager } from "./pages";
 import {Profile , Tables , BusinessOwners  ,Business, Admins, CreateAdmin , ErrorElement ,CreateRole } from './components'
 
 import {action as loginAction} from './pages/Login'
@@ -16,7 +16,7 @@ import {loader as businessLoader} from './components/Business';
 import {loader as createAdminLoader} from './components/CreateAdmin'
 import {loader as singleAdminLoader} from './pages/SingleAdmin'
 import {loader as createRoleLoader} from './components/CreateRole'
-
+import {loader as serviceAreaManagerLoader} from './pages/ServiceAreaManager'
 
 import {store} from './app/store'
 import { ItemsProvider } from "./components/ItemContext";
@@ -80,14 +80,12 @@ const routes = createBrowserRouter([
           <CreateRole/>
         </ItemsProvider>,
         loader : createRoleLoader(store)
+      },
+      {
+        path:"/service-area",
+        element:<ServiceAreaManager/>, 
+        loader: serviceAreaManagerLoader(store)
       }
-      /* {
-        path:"/role/:roleId",
-        element:<ItemsProvider>
-          <SingleRole/>
-          </ItemsProvider> ,
-        loader:singleRoleLoader(store)
-      } */
 
     ]
   },

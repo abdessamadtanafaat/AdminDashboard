@@ -69,7 +69,11 @@ const CreateAdmin = () => {
         <FormInput value={lastname} onChange={(e)=>setLastname(e.target.value)} label="Last Name" type="text" name="lastname" placeholder="Smith"/>
       </div>
       <div className="flex justify-between gap-4 w-7/8 max-w-4xl max-h-1/3 overflow-y-auto">
-        <div className={`w-60 h-80 bg-base-200 border-2 rounded-lg border-outline border-success ${!predefinedItems.length <1 || "grid place-content-center text-center"}`}>{!predefinedItems.length < 1 ? <RolesList /> :<p className="text-success">No Roles Available</p> }</div>
+        <div className={`w-60 h-80 bg-base-200 border-2 rounded-lg 
+        scrollbar-thin 
+        scrollbar-thumb-base-content
+        scrollbar-rounded-full scrollbar-track-base-300
+        border-outline border-success overflow-y-auto overflow-x-hidden ${!predefinedItems.length <1 || "grid place-content-center text-center"}`}>{!predefinedItems.length < 1 ? <RolesList /> :<p className="text-success">No Roles Available</p> }</div>
         
         <div className="flex-col flex justify-evenly place-items-center">
           <button className="btn btn-secondary text-base-content w-20 px-3 " onClick={handleGrantButtonClick}>Grant
@@ -79,7 +83,7 @@ const CreateAdmin = () => {
           <button className="btn btn-error text-base-content  w-20" onClick={handleRevokeAllButtonClick}>Revoke All
           </button>
           </div>
-            <div className={`w-60 h-80 bg-base-200 border-2 rounded-lg border-outline border-info ${!grantedItems.length <1 || "grid place-content-center text-center"}`}>{!grantedItems.length < 1 ? <GrantedRolesList /> :<p className="text-info">No Roles Granted </p> }</div>
+            <div className={`w-60 h-80 bg-base-200 border-2 rounded-lg border-outline overflow-y-auto overflow-x-hidden border-info ${!grantedItems.length <1 || "grid place-content-center text-center"}`}>{!grantedItems.length < 1 ? <GrantedRolesList /> :<p className="text-info">No Roles Granted </p> }</div>
       </div>
       <div className="mx-auto flex justify-center gap-3">
         

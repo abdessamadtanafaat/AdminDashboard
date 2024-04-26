@@ -6,7 +6,7 @@ export default {
       '2000': '2000ms',
     }},
   },
-  plugins: [require('@tailwindcss/typography'), require('daisyui')],
+  plugins: [require('@tailwindcss/typography'), require('daisyui') , require('tailwind-scrollbar')],
   daisyui: {
     themes: ['nord', 'dracula'],
   }
