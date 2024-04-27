@@ -1142,6 +1142,18 @@
 						"url": "http://localhost:8080/config/service-area"
 					},
 					"response": []
+				},
+				{
+					"name": "DeleteServiceArea",
+					"id": "342a246c-fa1a-4fef-9709-046aa470eb2d",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
 				}
 			],
 			"id": "bdb8088f-81d6-43e3-8e32-43816e60e94c"
