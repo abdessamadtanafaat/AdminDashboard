@@ -1161,6 +1161,37 @@
 						"url": "http://localhost:8080/config/service-area/3"
 					},
 					"response": []
+				},
+				{
+					"name": "DeleteServiceAreas",
+					"id": "74409e6d-27c7-4c86-9c67-125395749003",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/config/service-area?serviceIds=1,7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"config",
+								"service-area"
+							],
+							"query": [
+								{
+									"key": "serviceIds",
+									"value": "1,7",
+									"type": "text"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"id": "bdb8088f-81d6-43e3-8e32-43816e60e94c"
