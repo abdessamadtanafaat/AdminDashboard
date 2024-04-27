@@ -1048,8 +1048,32 @@
 						"disableBodyPruning": true
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJXUklURV9QUklWSUxFR0UiLCJSRUFEX1BSSVZJTEVHRSJdLCJmaXJzdG5hbWUiOiJSb2NoZGkiLCJyb2xlcyI6WyJST0xFX1NVUEVSX0FETUlOIl0sImlkIjoyLCJleHAiOjE3MTM3NDA4MDUsImVtYWlsIjoiaWxpYXMucm91Y2hkaTIxQGdtYWlsLmNvbSIsImxhc3RuYW1lIjoiaWxpYXMifQ.yHsuz52LvfMWj2HPUIFt2VjkjoHO277YBgcqX5VVnEjXZWoc6TMawTn0c2tRDPl9SkOs7N5kDOZdlC-1rdAfNw"
+							}
+						},
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/super-admin/role-details?roleId=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"super-admin",
+								"role-details"
+							],
+							"query": [
+								{
+									"key": "roleId",
+									"value": "1"
+								}
+							]
+						}
 					},
 					"response": []
 				}
@@ -1066,8 +1090,15 @@
 						"disableBodyPruning": true
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJSRUFEX1BSSVZJTEVHRSIsIldSSVRFX1BSSVZJTEVHRSIsIlJFQURfUFJJVklMRUdFIl0sImZpcnN0bmFtZSI6IlJvY2hkaSIsInJvbGVzIjpbIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX0FETUlOIl0sImlkIjoyLCJleHAiOjE3MTQzMjMzNTksImVtYWlsIjoiaWxpYXMucm91Y2hkaTIxQGdtYWlsLmNvbSIsImxhc3RuYW1lIjoiaWxpYXMifQ.m0U6MTqWhu5wRoBVKxalDNY48JZI0uPIsAed7e98Fpk0medzSnuZl9YiTHL7yMlbYN_oXW8riH7ihMD1hFJqSA"
+							}
+						},
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": "http://localhost:8080/config/service-categories"
 					},
 					"response": []
 				},
@@ -1078,6 +1109,12 @@
 						"disableBodyPruning": true
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJSRUFEX1BSSVZJTEVHRSIsIldSSVRFX1BSSVZJTEVHRSJdLCJmaXJzdG5hbWUiOiJSb2NoZGkiLCJyb2xlcyI6WyJST0xFX1NVUEVSX0FETUlOIl0sImlkIjoyLCJleHAiOjE3MTQwNjk5MTIsImVtYWlsIjoiaWxpYXMucm91Y2hkaTIxQGdtYWlsLmNvbSIsImxhc3RuYW1lIjoiaWxpYXMifQ.KFvCyy0Pw_IX97XunA2B05OycYghkLxE8Put0OcPEHpp9nCQ_Q1U6m6a8yNqRGLUoBiefnWYsgHOKUJzZ8YwCA"
+							}
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -1100,6 +1137,12 @@
 						"disableBodyPruning": true
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJXUklURV9QUklWSUxFR0UiLCJSRUFEX1BSSVZJTEVHRSJdLCJmaXJzdG5hbWUiOiJSb2NoZGkiLCJyb2xlcyI6WyJST0xFX1NVUEVSX0FETUlOIl0sImlkIjoyLCJleHAiOjE3MTQwODM1ODksImVtYWlsIjoiaWxpYXMucm91Y2hkaTIxQGdtYWlsLmNvbSIsImxhc3RuYW1lIjoiaWxpYXMifQ.l2y2D-l5PObQKBUsFc_QB8690sIx6m4nr6dJN6W4IVnJZTbYYS9c75MaKEfSpGGgERa8eD28C4ghJvNHTOEFig"
+							}
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -1111,7 +1154,7 @@
 								}
 							}
 						},
-						"url": "http://localhost:8080/config/service-categories"
+						"url": "http://localhost:8080/config/service-category"
 					},
 					"response": []
 				},
@@ -1140,6 +1183,84 @@
 							}
 						},
 						"url": "http://localhost:8080/config/service-area"
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteServiceArea",
+					"id": "342a246c-fa1a-4fef-9709-046aa470eb2d",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJSRUFEX1BSSVZJTEVHRSIsIldSSVRFX1BSSVZJTEVHRSIsIlJFQURfUFJJVklMRUdFIl0sImZpcnN0bmFtZSI6IlJvY2hkaSIsInJvbGVzIjpbIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX0FETUlOIl0sImlkIjoyLCJleHAiOjE3MTQzMjMzNTksImVtYWlsIjoiaWxpYXMucm91Y2hkaTIxQGdtYWlsLmNvbSIsImxhc3RuYW1lIjoiaWxpYXMifQ.m0U6MTqWhu5wRoBVKxalDNY48JZI0uPIsAed7e98Fpk0medzSnuZl9YiTHL7yMlbYN_oXW8riH7ihMD1hFJqSA"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:8080/config/service-area/3"
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteServiceAreas",
+					"id": "74409e6d-27c7-4c86-9c67-125395749003",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/config/service-area?serviceIds=1,7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"config",
+								"service-area"
+							],
+							"query": [
+								{
+									"key": "serviceIds",
+									"value": "1,7",
+									"type": "text"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Service Category",
+					"id": "00f92a06-a58c-4709-80b4-e63d0f2c9acc",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJSRUFEX1BSSVZJTEVHRSIsIlJFQURfUFJJVklMRUdFIiwiV1JJVEVfUFJJVklMRUdFIl0sImZpcnN0bmFtZSI6IlJvY2hkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iLCJST0xFX1NVUEVSX0FETUlOIl0sImlkIjoyLCJleHAiOjE3MTQzMzg5NjYsImVtYWlsIjoiaWxpYXMucm91Y2hkaTIxQGdtYWlsLmNvbSIsImxhc3RuYW1lIjoiaWxpYXMifQ.dNEycjKSeU01QL9t2WFd69a3-LkOyLOjHt6H64YIJUQ-iTSkus6rCxWbAa1c_PY2C6nFMNX108_Vhx-v3H68gQ"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" :\"Strength\",\r\n    \"description\":\"lkflskfjlsj\",\r\n    \"serviceCategoryId\":3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/config/service-category"
 					},
 					"response": []
 				}
