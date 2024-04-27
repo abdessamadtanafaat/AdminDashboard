@@ -10,6 +10,7 @@ export const loader =(store)=> async({request})=>{
     const params = Object.fromEntries([
       ...new URL(request.url).searchParams.entries(),
     ]);
+    
     console.log(params)
     const response = await customFetch("/super-admin/admins" ,{params,
       headers: { Authorization: `Bearer ${admin.token}` } 

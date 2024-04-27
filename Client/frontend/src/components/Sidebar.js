@@ -66,10 +66,11 @@ const Sidebar = () => {
   
   return(
     <aside className="h-screen relative z-30 transition duration-2000 " >
-      <nav className="h-full  flex flex-col bg-base-300   shadow-sm">
-        <div className={` p-4 pb-2 flex justify-between items-center mb-4`}
+      <nav className="h-full fixed scrollbar-thin
+      scrollbar-corner-black  overflow-y-auto flex flex-col bg-base-300   shadow-sm">
+        <div className={`fixed border-b  bg-base-300 z-30  top-0 p-4 pb-2 flex  justify-end items-center mb-4`}
         >
-          <img src={logo} className={`h-16
+          <img src={logo} className={`h-20
           overflow-hidden duration-100  ${expanded ? "w-auto" : "w-0"}`} />
           <button
               onClick={() => setExpanded((curr) => !curr)}
@@ -78,7 +79,7 @@ const Sidebar = () => {
           </button>
         </div>
         
-        <ul className="flex-1 px-3  menu">
+        <ul className=" px-3 my-24  static  menu-horizantal   menu">
             {items.map((item , index)=>{
               const {icon , text ,link ,children } = item;
               const haveChildren = children && children.length > 0 
@@ -88,7 +89,7 @@ const Sidebar = () => {
 
 
           
-          <div className="border-t flex p-3  bottom-0 h-1/8">
+          <div className="border-t bg-base-300 fixed z-5 flex p-4 shadow-3xl bottom-0 ">
             <div className="dropdown  dropdown-end dropdown-right dropdown-top dropdown-hover ">
               <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                 <div className="w-13 rounded-full">

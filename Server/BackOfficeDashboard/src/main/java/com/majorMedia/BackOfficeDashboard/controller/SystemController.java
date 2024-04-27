@@ -4,6 +4,7 @@ import com.majorMedia.BackOfficeDashboard.aspect.LogActivity;
 import com.majorMedia.BackOfficeDashboard.entity.campaign.ServiceArea;
 import com.majorMedia.BackOfficeDashboard.entity.campaign.ServiceCategory;
 import com.majorMedia.BackOfficeDashboard.model.requests.ServiceAreaRequest;
+import com.majorMedia.BackOfficeDashboard.model.requests.UpdateServiceCategory;
 import com.majorMedia.BackOfficeDashboard.repository.ServiceAreaCategoryRepository;
 import com.majorMedia.BackOfficeDashboard.service.IServiceAreaService;
 import com.majorMedia.BackOfficeDashboard.service.ServiceAreaService;
@@ -39,6 +40,11 @@ public class SystemController {
         return new ResponseEntity<>(serviceAreaService.saveServiceCategory(serviceCategory) , HttpStatus.CREATED);
     }
     @LogActivity
+    @PutMapping("/service-category")
+    public ResponseEntity<ServiceCategory> updateServiceCategory(@RequestBody UpdateServiceCategory serviceCategory){
+        return new ResponseEntity<>(serviceAreaService.updateServiceCategory(serviceCategory) ,HttpStatus.ACCEPTED);
+    }
+    @LogActivity
     @PostMapping("/service-area")
     public ResponseEntity<ServiceArea> saveServiceArea(@Valid @RequestBody ServiceAreaRequest serviceArea){
         return new ResponseEntity<>(serviceAreaService.saveServiceArea(serviceArea) , HttpStatus.CREATED);
@@ -48,7 +54,14 @@ public class SystemController {
     @DeleteMapping("/service-area/{id}")
     public ResponseEntity<HttpStatus> deleteServiceArea(@PathVariable long id){
         serviceAreaService.deleteServiceArea(id);
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
+    @LogActivity
+    @DeleteMapping("/service-area")
+    public ResponseEntity<HttpStatus> deleteServiceAreas(@RequestParam List<Long> serviceIds){
+        serviceAreaService.deleteServiceAreas(serviceIds);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
 

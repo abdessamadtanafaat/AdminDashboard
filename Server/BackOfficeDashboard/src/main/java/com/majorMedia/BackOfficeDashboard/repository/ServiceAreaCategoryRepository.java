@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface ServiceAreaCategoryRepository extends JpaRepository<ServiceCategory, Long> {
     Optional<ServiceCategory> findByNameIgnoreCase(String name);
 
+
 }
