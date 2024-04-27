@@ -1192,6 +1192,34 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Update Service Category",
+					"id": "00f92a06-a58c-4709-80b4-e63d0f2c9acc",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJSRUFEX1BSSVZJTEVHRSIsIlJFQURfUFJJVklMRUdFIiwiV1JJVEVfUFJJVklMRUdFIl0sImZpcnN0bmFtZSI6IlJvY2hkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iLCJST0xFX1NVUEVSX0FETUlOIl0sImlkIjoyLCJleHAiOjE3MTQzMzg5NjYsImVtYWlsIjoiaWxpYXMucm91Y2hkaTIxQGdtYWlsLmNvbSIsImxhc3RuYW1lIjoiaWxpYXMifQ.dNEycjKSeU01QL9t2WFd69a3-LkOyLOjHt6H64YIJUQ-iTSkus6rCxWbAa1c_PY2C6nFMNX108_Vhx-v3H68gQ"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" :\"Strength\",\r\n    \"description\":\"lkflskfjlsj\",\r\n    \"serviceCategoryId\":3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/config/service-category"
+					},
+					"response": []
 				}
 			],
 			"id": "bdb8088f-81d6-43e3-8e32-43816e60e94c"
