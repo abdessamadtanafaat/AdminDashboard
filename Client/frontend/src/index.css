@@ -4,9 +4,10 @@
 
 @layer components {
     .align-element {
-      @apply grid items-center  overflow-x-auto   mx-auto max-w-6xl w-8/12  ;
+      @apply grid place-content-center items-center overflow-x-auto  mx-auto  max-w-6xl w-10/12  ;
     }
     .transition-duration{
       @apply duration-2000
     }
+    
 }
