@@ -1171,7 +1171,7 @@
 								"auth": {
 									"type": "bearer",
 									"bearer": {
-										"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJSRUFEX1BSSVZJTEVHRSIsIldSSVRFX1BSSVZJTEVHRSIsIlJFQURfUFJJVklMRUdFIl0sImZpcnN0bmFtZSI6IlJvY2hkaSIsInJvbGVzIjpbIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX0FETUlOIl0sImlkIjoyLCJleHAiOjE3MTQxMzU3NDYsImVtYWlsIjoiaWxpYXMucm91Y2hkaTIxQGdtYWlsLmNvbSIsImxhc3RuYW1lIjoiaWxpYXMifQ.zAdzj9Bt9N4DL2FtQCppM1PD2L_lrsuzJnAe46widwUQIQioP2Z1uLYs9sanVDJO4Ap7sXdC57pNGEObbJ4XqA"
+										"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6W10sImZpcnN0bmFtZSI6IkFobWVkIiwicm9sZXMiOlsiUk9MRV9BTkFMWVNUIiwiUk9MRV9TVVBFUl9BRE1JTiIsIlJPTEVfQURNSU4iXSwiaWQiOjIsImV4cCI6MTcxNDYwMjM3OCwiZW1haWwiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwibGFzdG5hbWUiOiJSb3VjaGRpIn0.Hnvvwh9KgF-sOnJwE6bGxrmmLYdEfnk3H35LINEdgRgFyN1VnmrED4gqPFvFqWg79cTGSKNIe_OELxwAd1455g"
 									}
 								},
 								"method": "POST",
@@ -1352,7 +1352,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\":\"Barca\",\r\n    \"businessCategoryId\": 2\r\n}",
+									"raw": "{\r\n    \"name\":\"real\",\r\n    \"businessCategoryId\": 2\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1378,7 +1378,24 @@
 								},
 								"method": "DELETE",
 								"header": [],
-								"url": "http://localhost:8080/config/business-type"
+								"url": {
+									"raw": "http://localhost:8080/config/business-type?businessIds=12",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"config",
+										"business-type"
+									],
+									"query": [
+										{
+											"key": "businessIds",
+											"value": "12"
+										}
+									]
+								}
 							},
 							"response": []
 						}
