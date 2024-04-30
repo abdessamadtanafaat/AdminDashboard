@@ -1,90 +1,78 @@
 import React, { useState, useEffect } from "react";
-import { useLoaderData, Link } from "react-router-dom";
+import { useLoaderData, Link, useNavigate } from "react-router-dom";
 import { ChevronDownIcon } from '@heroicons/react/solid';
+import { useSelector } from 'react-redux';
+import { customFetch } from '../utils';
 
 const BusinessList = () => {
+    const admin = useSelector(state => state.adminState.admin);
     const { businesses, params } = useLoaderData();
-    const [businessNameSort, setBusinessNameSort] = useState({ ascending: true });
-    const [ownerSort, setOwnerSort] = useState({ ascending: true });
+    const history = useNavigate();
+
+    const initialSortOrder = localStorage.getItem('sortOrder') || 'asc';
     const [createdDateSort, setCreatedDateSort] = useState({ ascending: false });
 
-    useEffect(() => {
-        // Set the default sorting when the component mounts
-        setCreatedDateSort({ ascending: true });
-    }, []);
+    const [selectAll, setSelectAll] = useState(false);
+    const [selectedBusinessOwners, setSelectedBusinessOwners] = useState([]);
 
-    if (!businesses || businesses.length < 1) {
-        return (
-            <div className="font-bold mx-auto text-4xl text-center text-error">
-                There are no businesses matching the search criteria.
-            </div>
-        );
-    }
+    useEffect(() => {
+        setCreatedDateSort({ ascending: initialSortOrder === 'asc' });
+
+        const sortOrder = localStorage.getItem('sortOrder');
+        if (sortOrder) {
+            setCreatedDateSort({ ascending: sortOrder === 'asc' });
+        } else {
+            setCreatedDateSort({ ascending: false });
+            localStorage.setItem('sortOrder', 'desc');
+        }
+
+    }, [initialSortOrder]);
+
+    const toggleCreatedDateSort = async () => {
+        setCreatedDateSort(prevSort => { 
+            const newSort = { ascending: !prevSort.ascending };
+
+            localStorage.setItem('sortOrder', newSort.ascending ? 'asc' : 'desc');
+
+
+            const sortOrderParam = newSort.ascending ? 'asc' : 'desc';
+            const queryParams = new URLSearchParams({ sortOrder: sortOrderParam });
+            history(`/business?${queryParams.toString()}`);
+
+            return newSort;
+        });
+
+        const response = await customFetch("/tables/business", {
+            params: {
+                searchKey: params.searchKey,
+                sortOrder: createdDateSort.ascending ? 'asc' : 'desc',
+                page: params.page
+            },
+            headers: { Authorization: `Bearer ${admin.token}` }
+        });
+        console.log(response.data);
+    };
 
     const formatCreatedDate = (dateString) => {
         const date = new Date(dateString);
         return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
     };
 
-    const toggleBusinessNameSort = () => {
-        setBusinessNameSort({ ascending: !businessNameSort.ascending });
-    };
-
-    const toggleOwnerSort = () => {
-        setOwnerSort({ ascending: !ownerSort.ascending });
-    };
-
-    const toggleCreatedDateSort = () => {
-        const newSortOrder = createdDateSort.ascending ? 'desc' : 'asc';
-        setCreatedDateSort({ ascending: !createdDateSort.ascending });
-        fetchSortedBusinesses('createdDate', newSortOrder);
-    };
- 
-    const fetchSortedBusinesses = async (sortField, sortOrder) => {
-        try {
-            const response = await customFetch("tables/business", {
-                params: {
-                    searchKey: params.searchKey,
-                    sortOrder: sortOrder,
-                    sortField: sortField,
-                    page: params.page
-                },
-                headers: { Authorization: `Bearer ${admin.token}` }
-            });
-    
-            // Update the state with the sorted businesses
-            setBusinesses(response.data.businesses);
-        } catch (err) {
-            console.error('Error fetching sorted businesses:', err);
-            // Handle error
-        }
-    };
-
-
-    const sortedBusinesses = () => {
-        if (businesses.length === 0) return [];
-
-        let sorted = [...businesses];
-
-        if (businessNameSort.ascending) {
-            sorted.sort((a, b) => a.businessName.localeCompare(b.businessName));
+    const handleSelectAll = () => {
+        setSelectAll(!selectAll); 
+        if (!selectAll) {
+            setSelectedBusinessOwners(businesses.map(owner => owner.id));
         } else {
-            sorted.sort((a, b) => b.businessName.localeCompare(a.businessName));
+            setSelectedBusinessOwners([]);
         }
+    };
 
-        if (ownerSort.ascending) {
-            sorted.sort((a, b) => a.user.fullName.localeCompare(b.user.fullName));
+    const handleSelectOwner = (businessOwnerId) => {
+        if (selectedBusinessOwners.includes(businessOwnerId)) {
+            setSelectedBusinessOwners(selectedBusinessOwners.filter(id => id !== businessOwnerId));
         } else {
-            sorted.sort((a, b) => b.user.fullName.localeCompare(a.user.fullName));
+            setSelectedBusinessOwners([...selectedBusinessOwners, businessOwnerId]);
         }
-
-        if (createdDateSort.ascending) {
-            sorted.sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate));
-        } else {
-            sorted.sort((a, b) => new Date(a.createdDate) - new Date(b.createdDate));
-        }
-
-        return sorted;
     };
 
     return (
@@ -93,50 +81,57 @@ const BusinessList = () => {
                 {/* table header */}
                 <thead>
                     <tr>
-                        <th></th>
-                        <th className="cursor-pointer" onClick={toggleBusinessNameSort}>
-                            <div className="flex items-center">
-                                Business Name
-                                <ChevronDownIcon className={`w-4 h-4 ml-1 text-gray-800 dark:text-black ${businessNameSort.ascending ? '' : 'transform rotate-180'}`} />
-                            </div>
+                    <th>
+                                    <label className="flex justify-center gap-2">
+                                        <input type="checkbox"
+                                         className="checkbox"
+                                         checked={selectAll} 
+                                         onChange={handleSelectAll}
+                                         />
+                                    </label>
                         </th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th className="cursor-pointer" onClick={toggleOwnerSort}>
+                        <th className="text-center">Business Name</th>
+                        <th className="text-center">Owner</th>
+                        <th className="cursor-pointer" onClick={toggleCreatedDateSort}>
                             <div className="flex items-center">
-                                Owner
-                                <ChevronDownIcon className={`w-4 h-4 ml-1 text-gray-800 dark:text-black ${ownerSort.ascending ? '' : 'transform rotate-180'}`} />
-                            </div>
-                        </th>
-                        <th className="cursor-pointer">
-                            <div className="flex items-center" onClick={toggleCreatedDateSort}>
                                 Created Date
-                                <ChevronDownIcon className={`w-4 h-4 ml-1 text-gray-800 dark:text-black ${createdDateSort.ascending ? '' : 'transform rotate-180'}`} />
+                                <ChevronDownIcon className={`w-4 h-4 ml-1 text-gray-800 dark:text-black ${!createdDateSort.ascending ? '' : 'transform rotate-180'}`} />
                             </div>
                         </th>
                         <th className="text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {sortedBusinesses().map((business) => {
-                        const { businessName, email, phone, createdDate, id, user } = business;
-                        return (
-                            <tr key={id}>
-                                <td>
+                    {businesses.map((business) => {
+                    const { businessName, lastName, email, avatarUrl, username, id, _deactivated, active,fullName } = business;
+                    return (
+                        <tr key={business.id}>
+                                <th>
                                     <label className="flex justify-center gap-2">
-                                        <input type="checkbox" className="checkbox" />
+                                        <input type="checkbox"
+                                         className="checkbox"
+                                         checked={selectedBusinessOwners.includes(id)} 
+                                         onChange={() => handleSelectOwner(id)} 
+                                          />
                                     </label>
+                                </th>
+                            <td>
+                                <div className="font-bold">{businessName}</div>
+                                <div className="text-sm font-normal text-gray-500 dark:text-gray-400"
+                                     style={{ fontSize: '0.8em' }}>{email}</div>
                                 </td>
-                                <td><div className="font-bold">{businessName}</div></td>
-                                <td>{email}</td>
-                                <td>{phone}</td>
-                                <td><div className="font-bold">{user.fullName}</div></td>
-                                <td>{formatCreatedDate(createdDate)}</td>
-                                <td>
-                                    <Link to={`/business/${id}`} className="btn btn-ghost btn-xs">Details</Link>
+                            <td>
+                                <div className="font-bold">{business.user.fullName}</div>
+                                <div className="text-sm font-normal text-gray-500 dark:text-gray-400"
+                                     style={{ fontSize: '0.8em' }}>{business.user.email}</div>
+                            
                                 </td>
-                            </tr>
-                        );
+                            <td>{formatCreatedDate(business.createdDate)}</td>
+                            <td>
+                                <Link to={`/business/${business.id}`} className="btn btn-ghost btn-xs">Details</Link>
+                            </td>
+                        </tr>
+                    );
                     })}
                 </tbody>
             </table>

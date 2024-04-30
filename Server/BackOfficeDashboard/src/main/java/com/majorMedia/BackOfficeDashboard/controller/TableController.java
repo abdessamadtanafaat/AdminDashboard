@@ -3,6 +3,7 @@ package com.majorMedia.BackOfficeDashboard.controller;
 import com.majorMedia.BackOfficeDashboard.aspect.LogActivity;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
 import com.majorMedia.BackOfficeDashboard.entity.business.Business;
+import com.majorMedia.BackOfficeDashboard.entity.campaign.Campaign;
 import com.majorMedia.BackOfficeDashboard.entity.user.User;
 import com.majorMedia.BackOfficeDashboard.model.responses.BusinessResponse;
 import com.majorMedia.BackOfficeDashboard.model.responses.ObjectsList;
@@ -52,4 +53,15 @@ public class TableController {
     {
         return ResponseEntity.ok(adminService.getAllBusiness(searchKey,sortOrder,page));
     }
+
+@LogActivity
+@GetMapping(value = "/campagnes")
+public ResponseEntity<ObjectsList<Campaign>> getAllCampagnes(
+        @RequestParam(required = false) String sortOrder,
+        @RequestParam(required = false) String searchKey,
+        @RequestParam(required=false ,name="page" , defaultValue="1") int page
+)
+{
+    return ResponseEntity.ok(adminService.getAllCampagnes(searchKey,sortOrder,page));
+}
 }

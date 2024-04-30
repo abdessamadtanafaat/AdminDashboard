@@ -32,6 +32,12 @@ public class Campaign {
             joinColumns = @JoinColumn(name = "campaign_id"),
             inverseJoinColumns = @JoinColumn(name = "service_area_id"))
     private List<ServiceArea> serviceAreas ;
+    @JoinColumn(name = "campaignName", nullable = false)
+    private String campaignName;
+
+    @ManyToOne
+    @JoinColumn(name = "template_id", nullable = false)
+    private Template template;
 
     @ManyToOne
     @JoinColumn(name = "business_id")
