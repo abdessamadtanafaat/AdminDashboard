@@ -1320,7 +1320,7 @@
 										"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6W10sImZpcnN0bmFtZSI6IlJvY2hkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iLCJST0xFX1NVUEVSX0FETUlOIiwiUk9MRV9BTkFMWVNUIl0sImlkIjoyLCJleHAiOjE3MTQ1ODA2NjgsImVtYWlsIjoiaWxpYXMucm91Y2hkaTIxQGdtYWlsLmNvbSIsImxhc3RuYW1lIjoiaWxpYXMifQ.ZDVMBys_aYnMHUaqIAIBwBu9R8YOx-s_h5HnU-GW8D3ED4jUvwRZWV1zHH2ULa4PKER2Gn2aLf7VDIqGPmFKgw"
 									}
 								},
-								"method": "PUT",
+								"method": "PATCH",
 								"header": [],
 								"body": {
 									"mode": "raw",
