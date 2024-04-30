@@ -9,7 +9,7 @@ import {toast} from 'react-toastify'
 const ServiceCategory = ({ id ,name , description , serviceAreas}) => {
     const [expandedList ,setExpandedList] = useState(false);
     const [serviceName , setServiceName] = useState(null)
-    const [services,setServices] =useState(serviceAreas)
+    const [services,setServices] =useState(serviceAreas || [])
     const [checkedServices , setCheckedServices] = useState([])
     const {token} = useSelector(selectAdmin)
     

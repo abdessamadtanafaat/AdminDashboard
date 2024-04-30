@@ -70,7 +70,7 @@ public class User {
     private LocalDateTime lastLogin;
 
     @Column(name = "is_active")
-    @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
+    //@JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
     private boolean isActive;
 
     @Column(name = "last_logout")
@@ -78,7 +78,7 @@ public class User {
     private LocalDateTime lastLogout;
 
     @Column(name = "is_deactivated")
-    @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
+    //@JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
     private boolean is_deactivated ;
 
     @Column(name = "imagedata")

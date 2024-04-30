@@ -1,6 +1,6 @@
 import { RouterProvider  , createBrowserRouter } from "react-router-dom";
 import { Login ,HomeLayout ,SingleAdmin ,  Error , ForgotPassword , ResetPassword , Landing, ServiceAreaManager } from "./pages";
-import {Profile , Tables , BusinessOwners  ,Business, Admins, CreateAdmin , ErrorElement ,CreateRole } from './components'
+import {Profile , Tables , BusinessOwners  ,Business, Admins, CreateAdmin , ErrorElement ,CreateRole, Campaigns } from './components'
 
 import {action as loginAction} from './pages/Login'
 import {action as forgotPasswordAction} from './pages/ForgotPassword'
@@ -11,6 +11,7 @@ import {loader as homeLayoutLoader} from './pages/HomeLayout'
 import {loader as adminsLoader} from './components/Admins'
 import {loader as businessOwnerLoader} from './components/BusinessOwners'; 
 import {loader as businessLoader} from './components/Business'; 
+import {loader as campaignLoader} from './components/Campaigns'; 
 
 
 import {loader as createAdminLoader} from './components/CreateAdmin'
@@ -50,6 +51,13 @@ const routes = createBrowserRouter([
         loader: businessLoader(store),
         errorElement: <ErrorElement />
       },
+      {
+        path: "/campaign",
+        element: <Campaigns/>,
+        loader: campaignLoader(store),
+        errorElement: <ErrorElement />
+      },
+
 
       {
         path:"/admins",

@@ -2,6 +2,7 @@ package com.majorMedia.BackOfficeDashboard.service.adminService;
 
 import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
 import com.majorMedia.BackOfficeDashboard.entity.business.Business;
+import com.majorMedia.BackOfficeDashboard.entity.campaign.Campaign;
 import com.majorMedia.BackOfficeDashboard.entity.user.User;
 import com.majorMedia.BackOfficeDashboard.model.requests.RegisterRequest;
 import com.majorMedia.BackOfficeDashboard.model.requests.ResetPasswordRequest;
@@ -9,6 +10,7 @@ import com.majorMedia.BackOfficeDashboard.model.responses.BusinessResponse;
 import com.majorMedia.BackOfficeDashboard.model.responses.ObjectsList;
 import com.majorMedia.BackOfficeDashboard.model.responses.UserResponse;
 import jakarta.mail.MessagingException;
+import org.apache.coyote.BadRequestException;
 import org.hibernate.query.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,9 +32,13 @@ public interface IAdminService {
 
     public ObjectsList<User> getAllOwners(String sortBy, String searchKey, int page);
 
-    public String deactivateAccount(Long ownerId);
+    public String deactivateAccount(Long ownerId) throws BadRequestException;
+
+    public String deactivateAccounts(List<Long> ownerIds);
 
     public String activateAccount(Long ownerId);
 
     public ObjectsList<Business> getAllBusiness(String searchKey, String sortOrder, int page);
+
+    ObjectsList<Campaign> getAllCampagnes(String searchKey, String sortOrder, int page);
 }

@@ -17,4 +17,5 @@ public class Template {
     private Long id;
     private String htmlFilePath;
     private String cssFilePath;
+    private String templateName;
 }

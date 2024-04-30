@@ -10,6 +10,7 @@ import com.majorMedia.BackOfficeDashboard.service.superAdminService.ISuperAdminS
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -71,10 +72,14 @@ public class AdminController {
 
     @LogActivity
     @PatchMapping("/deactivateAccount/{ownerId}")
-    public ResponseEntity<String> deactivateAccount(@PathVariable Long ownerId)
-    {
+    public ResponseEntity<String> deactivateAccount(@PathVariable Long ownerId) throws BadRequestException {
         String string = adminService.deactivateAccount(ownerId);
         return ResponseEntity.ok(string);
+    }
+    @PatchMapping("/deactivateAccounts")
+    public ResponseEntity<String> deactivateAccounts(@RequestBody List<Long> ownerIds) {
+        String result = adminService.deactivateAccounts(ownerIds);
+        return ResponseEntity.ok(result);
     }
     @LogActivity
     @PatchMapping("/activateAccount/{ownerId}")

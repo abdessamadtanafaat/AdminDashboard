@@ -36,6 +36,7 @@ const ServiceAreaManager = () => {
         })
         setCategoryDesc(null)
         setCategoryName(null)
+        console.log(response.data)
         serviceCategories.push(response.data)
         document.getElementById('my_modal_3').close();
         return toast.success("Service Category Created")

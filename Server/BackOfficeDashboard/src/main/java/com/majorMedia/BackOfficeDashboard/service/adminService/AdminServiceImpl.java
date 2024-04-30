@@ -1,6 +1,7 @@
 package com.majorMedia.BackOfficeDashboard.service.adminService;
 
 import com.majorMedia.BackOfficeDashboard.entity.business.Business;
+import com.majorMedia.BackOfficeDashboard.entity.campaign.Campaign;
 import com.majorMedia.BackOfficeDashboard.entity.user.User;
 import com.majorMedia.BackOfficeDashboard.exception.*;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
@@ -9,10 +10,7 @@ import com.majorMedia.BackOfficeDashboard.model.responses.BusinessResponse;
 import com.majorMedia.BackOfficeDashboard.model.responses.ObjectsList;
 import com.majorMedia.BackOfficeDashboard.model.responses.PaginationData;
 import com.majorMedia.BackOfficeDashboard.model.responses.UserResponse;
-import com.majorMedia.BackOfficeDashboard.repository.AdminRepository;
-import com.majorMedia.BackOfficeDashboard.repository.BusinessRepository;
-import com.majorMedia.BackOfficeDashboard.repository.RoleRepository;
-import com.majorMedia.BackOfficeDashboard.repository.UserRepository;
+import com.majorMedia.BackOfficeDashboard.repository.*;
 import com.majorMedia.BackOfficeDashboard.security.SecurityConstants;
 import com.majorMedia.BackOfficeDashboard.util.EmailUtils;
 import com.majorMedia.BackOfficeDashboard.util.ImageUtils;
@@ -22,6 +20,7 @@ import io.micrometer.common.util.StringUtils;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.coyote.BadRequestException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -51,6 +50,7 @@ public class AdminServiceImpl implements IAdminService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final BusinessRepository  businessRepository;
+    private final CampagneRepository campagneRepository;
     private ServiceUtils adminService;
     @Override
     public String updateAccountSettings(MultipartFile file,
@@ -191,7 +191,7 @@ public class AdminServiceImpl implements IAdminService {
     }
     @Override
     @Transactional
-    public String deactivateAccount(Long ownerId) {
+    public String deactivateAccount(Long ownerId){
         if (ownerId == null) {
             throw new IllegalArgumentException("Owner are required");
         }
@@ -199,10 +199,41 @@ public class AdminServiceImpl implements IAdminService {
         User owner  = userRepository.findById(ownerId)
                 .orElseThrow(()->new EntityNotFoundException(ownerId, User.class));
 
+        if (owner.is_deactivated()){
+            throw new IllegalStateException("Account: " + owner.getLastName() + " is already deactivated");
+            //return "Account : "+owner.getLastName() +" is already deactivated";
+        }
         owner.set_deactivated(true);
+        owner.setActive(false);
         userRepository.save(owner);
         return "Account : "+owner.getLastName() +" deactivated Successfully";
     }
+
+    @Override
+    @Transactional
+    public String deactivateAccounts(List<Long> ownerIds) {
+        try {
+            if (ownerIds == null || ownerIds.isEmpty()) {
+                throw new IllegalArgumentException("At least one owner ID is required");
+            }
+
+            List<User> owners = userRepository.findAllById(ownerIds);
+            StringBuilder deactivatedAccounts = new StringBuilder();
+            for (User owner : owners) {
+                owner.set_deactivated(true);
+                owner.setActive(false);
+                userRepository.save(owner);
+                deactivatedAccounts.append("Account: ").append(owner.getLastName()).append(" deactivated Successfully\n");
+            }
+
+            return deactivatedAccounts.toString();
+        } catch (IllegalArgumentException | EntityNotFoundException ex) {
+            return "Error: " + ex.getMessage();
+        } catch (Exception e) {
+            return "An unexpected error occurred: " + e.getMessage();
+        }
+    }
+
 
     @Override
     @Transactional
@@ -213,11 +244,37 @@ public class AdminServiceImpl implements IAdminService {
         User owner  = userRepository.findById(ownerId)
                 .orElseThrow(()->new EntityNotFoundException(ownerId, User.class));
 
-        owner.set_deactivated(true);
+        owner.set_deactivated(false);
+        owner.setActive(false);
         userRepository.save(owner);
         return "Account : "+owner.getLastName() +" activated Successfully";
     }
 
+
+    @Override
+    public ObjectsList<Campaign> getAllCampagnes(String searchKey, String sortOrder, int page) {
+        Pageable paging;
+        if ("asc".equalsIgnoreCase(sortOrder)) {
+            paging = PageRequest.of(page - 1, 5, Sort.by(Sort.Direction.ASC, "campaignName"));
+        } else {
+            paging = PageRequest.of(page - 1, 5, Sort.by(Sort.Direction.DESC, "campaignName"));
+        }
+        if (searchKey == null) {
+            return unwrapCampaignList(campagneRepository.findAll(paging), page);
+        }
+        Page<Campaign> campaigns = campagneRepository.findAllByCampaignNameContainsIgnoreCase(searchKey, paging);
+        return unwrapCampaignList(campaigns, page);
+    }
+
+        public ObjectsList<Campaign> unwrapCampaignList(Page<Campaign> campaigns , int page){
+        return ObjectsList.<Campaign>builder().data(campaigns.getContent()).
+                meta(
+                        new PaginationData(
+                                page , 5 , campaigns.getTotalPages() ,
+                                campaigns.getTotalElements()
+                        )).build();
+
+    }
 
     @Override
     public ObjectsList<Business> getAllBusiness(String searchKey, String sortOrder, int page) {
@@ -243,6 +300,7 @@ public class AdminServiceImpl implements IAdminService {
                         )).build();
 
     }
+
 
 /*
     @Override

@@ -1,6 +1,7 @@
+import React from 'react';
 import { toast } from 'react-toastify';
 import { customFetch } from '../utils';
-import { BusinessOwnerList, PaginationContainer, SearchFilter } from ".";
+import { CampaignList, PaginationContainer, SearchFilter } from "."; // Import CampaignList and other components if available
 
 import { useLoaderData, redirect } from 'react-router-dom';
 
@@ -11,16 +12,16 @@ export const loader = (store) => async ({ request }) => {
             ...new URL(request.url).searchParams.entries(),
         ]);
         console.log(params);
-        const response = await customFetch("/tables/owners", {
+        const response = await customFetch("/tables/campagnes", { // Adjust the endpoint to fetch campaigns
             params,
             headers: { Authorization: `Bearer ${admin.token}` }
         });
         console.log(response.data);
-        return { businessOwners: response.data.data, params, meta: response.data.meta };
+        return { campaigns: response.data.data, params, meta: response.data.meta }; // Assuming the response contains campaigns data
 
     } catch (err) {
         console.log(err);
-        const errMessage = err?.response?.data?.message || err?.response?.data || "Server Failed To load Business Owners Table";
+        const errMessage = err?.response?.data?.message || err?.response?.data || "Server Failed To load Campaigns Table";
         toast.error(errMessage);
 
         return redirect("/");
@@ -28,21 +29,25 @@ export const loader = (store) => async ({ request }) => {
     }
 }
 
-const BusinessOwners = () => {
-
+const Campaigns = () => {
     return (
         <>
             <div className="flex w-full justify-center mb-3">
-                <SearchFilter/>
+            <SearchFilter/>
+
             </div>
             
-            <BusinessOwnerList/>
+            {/* Render the CampaignList component passing the campaigns data */}
+            <CampaignList/>
+
             <div className="flex w-full justify-center mb-3">
-                <PaginationContainer/>
-                </div>
+            <PaginationContainer/>
+            </div>
+
+
         </>
 
     );
 }
 
-export default BusinessOwners;
+export default Campaigns;

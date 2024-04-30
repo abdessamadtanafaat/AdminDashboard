@@ -20,6 +20,9 @@ public class Campaign {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JoinColumn(name = "campaignName", nullable = false)
+    private String campaignName;
+
     @ManyToOne
     @JoinColumn(name = "template_id", nullable = false)
     private Template template;

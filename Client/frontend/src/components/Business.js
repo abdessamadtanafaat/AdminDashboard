@@ -1,10 +1,11 @@
 import { toast } from 'react-toastify';
 import { customFetch } from '../utils';
+import { useState } from 'react'; // Import useState hook
 import { BusinessList, PaginationContainer, SearchFilter } from ".";
 
-import { useLoaderData, redirect } from 'react-router-dom';
+import {redirect } from 'react-router-dom';
 
-export const loader = (store) => async ({ request }) => {
+export const loader = (store) => async ({ request}) => {
     const admin = store.getState().adminState.admin;
 try {
     const params = Object.fromEntries([
@@ -12,21 +13,20 @@ try {
     ]);
     console.log(params);
     
-    // Include sortOrder and page parameters in the request
-    const { sortOrder, page, ...otherParams } = params;
+    const { sortOrder, searchKey, page } = params;
 
-    const response = await customFetch("tables/business", {
+    const response = await customFetch("/tables/business", {
         params: {
-            searchKey: otherParams.searchKey,
+            searchKey: searchKey,
             sortOrder: sortOrder,
-            page: page
+            page: page 
+
         },
         headers: { Authorization: `Bearer ${admin.token}` }
     });
 
     console.log(response.data);
     
-    // Return the response data along with params and meta
     return { businesses: response.data.data, params, meta: response.data.meta };
 
 } catch (err) {
@@ -36,9 +36,12 @@ try {
 
     return redirect("/");
 }
+
+
 }
 
 const Business = () => {
+
     return (
         <>
             <div className="flex w-full justify-center mb-3">
