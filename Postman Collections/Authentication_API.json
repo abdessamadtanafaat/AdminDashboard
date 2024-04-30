@@ -1334,6 +1334,18 @@
 								"url": "http://localhost:8080/config/business-category"
 							},
 							"response": []
+						},
+						{
+							"name": "Create BusinessType",
+							"id": "037e330f-528f-496c-a4e2-e0596199e462",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
 						}
 					],
 					"id": "b14894c9-77af-4c63-b9f5-127b97e552f3"
