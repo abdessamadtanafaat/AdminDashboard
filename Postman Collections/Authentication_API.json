@@ -1362,6 +1362,25 @@
 								"url": "http://localhost:8080/config/business-type"
 							},
 							"response": []
+						},
+						{
+							"name": "Delete BusinessTypes",
+							"id": "b420fc5c-70f5-483e-821f-0aca7af03bc5",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6W10sImZpcnN0bmFtZSI6IkFobWVkIiwicm9sZXMiOlsiUk9MRV9TVVBFUl9BRE1JTiIsIlJPTEVfQU5BTFlTVCIsIlJPTEVfQURNSU4iXSwiaWQiOjIsImV4cCI6MTcxNDYwMzg2OSwiZW1haWwiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwibGFzdG5hbWUiOiJSb3VjaGRpIn0.JAbd356mrKELXM49lDXmsGvVJJVJSBEvQiPj6voGYqxPIFEpUxVrsDZeWLdURBECyYTUYyTv3F_YTt-7iz60PA"
+									}
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": "http://localhost:8080/config/business-type"
+							},
+							"response": []
 						}
 					],
 					"id": "b14894c9-77af-4c63-b9f5-127b97e552f3"
