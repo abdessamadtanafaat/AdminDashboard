@@ -1286,14 +1286,24 @@
 							"response": []
 						},
 						{
-							"name": "New Request",
+							"name": "Create Bussiness Category",
 							"id": "8aa18d91-fa0e-4932-9dca-5428becd0a54",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
 							"request": {
-								"method": "GET",
-								"header": []
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n        \"categoryName\": \"Gastronomie\"\r\n        ,\"categoryDesc\": \"lorem ipsum shi 7aja\"}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:8080/config/business-category"
 							},
 							"response": []
 						}
