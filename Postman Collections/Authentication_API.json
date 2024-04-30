@@ -1323,24 +1323,13 @@
 								"method": "PATCH",
 								"header": [],
 								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "categoryId",
-											"value": "1",
-											"type": "text"
-										},
-										{
-											"key": "name",
-											"value": "ilias",
-											"type": "text"
-										},
-										{
-											"key": "description",
-											"value": "lorem eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0YW5hZmFhdC5yY2EuMTZAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJSRUFEX1BSSVZJTEVHRSIsIldSSVRFX1BSSVZJTEVHRSJdLCJmaXJzdG5hbWUiOiJ0YW5hZmFhdCIsInJvbGVzIjpbIlJPTEVfU1VQRVJfQURNSU4iXSwiaWQiOjEsImV4cCI6MTcxMTA2MjMwMCwiZW1haWwiOiJ0YW5hZmFhdC5yY2EuMTZAZ21haWwuY29tIiwibGFzdG5hbWUiOiJBQkRFU1NBTUFEIn0.DUnbTDeb0JHojmBezcOpv1pBOQlrF6294bLaJt8ZoRs9yh8_qg-nPbidZj9hHgOr1n-M8nYtDh6Qz8b6fUFLjA",
-											"type": "text"
+									"mode": "raw",
+									"raw": "{\r\n    \"categoryId\":1,\r\n    \"name\":\"Ilias\",\r\n    \"description\":\"lorem eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0YW5hZmFhdC5yY2EuMTZAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJSRUFEX1BSSVZJTEVHRSIsIldSSVRFX1BSSVZJTEVHRSJdLCJmaXJzdG5hbWUiOiJ0YW5hZmFhdCIsInJvbGVzIjpbIlJPTEVfU1VQRVJfQURNSU4iXSwiaWQiOjEsImV4cCI6MTcxMTA2MjMwMCwiZW1haWwiOiJ0YW5hZmFhdC5yY2EuMTZAZ21haWwuY29tIiwibGFzdG5hbWUiOiJBQkRFU1NBTUFEIn0.DUnbTDeb0JHojmBezcOpv1pBOQlrF6294bLaJt8ZoRs9yh8_qg-nPbidZj9hHgOr1n-M8nYtDh6Qz8b6fUFLjA\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
 										}
-									]
+									}
 								},
 								"url": "http://localhost:8080/config/business-category"
 							},
