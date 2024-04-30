@@ -1342,8 +1342,24 @@
 								"disableBodyPruning": true
 							},
 							"request": {
-								"method": "GET",
-								"header": []
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6W10sImZpcnN0bmFtZSI6IkFobWVkIiwicm9sZXMiOlsiUk9MRV9BTkFMWVNUIiwiUk9MRV9TVVBFUl9BRE1JTiIsIlJPTEVfQURNSU4iXSwiaWQiOjIsImV4cCI6MTcxNDYwMjM3OCwiZW1haWwiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwibGFzdG5hbWUiOiJSb3VjaGRpIn0.Hnvvwh9KgF-sOnJwE6bGxrmmLYdEfnk3H35LINEdgRgFyN1VnmrED4gqPFvFqWg79cTGSKNIe_OELxwAd1455g"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"Barca\",\r\n    \"businessCategoryId\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:8080/config/business-type"
 							},
 							"response": []
 						}
