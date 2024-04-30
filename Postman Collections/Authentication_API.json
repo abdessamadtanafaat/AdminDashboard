@@ -1306,6 +1306,18 @@
 								"url": "http://localhost:8080/config/business-category"
 							},
 							"response": []
+						},
+						{
+							"name": "Update Business Category",
+							"id": "688fa573-21fc-4973-8678-553c3c8db63c",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
 						}
 					],
 					"id": "b14894c9-77af-4c63-b9f5-127b97e552f3"
