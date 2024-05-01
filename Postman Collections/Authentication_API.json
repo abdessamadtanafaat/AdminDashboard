@@ -1171,7 +1171,7 @@
 								"auth": {
 									"type": "bearer",
 									"bearer": {
-										"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJSRUFEX1BSSVZJTEVHRSIsIldSSVRFX1BSSVZJTEVHRSIsIlJFQURfUFJJVklMRUdFIl0sImZpcnN0bmFtZSI6IlJvY2hkaSIsInJvbGVzIjpbIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX0FETUlOIl0sImlkIjoyLCJleHAiOjE3MTQxMzU3NDYsImVtYWlsIjoiaWxpYXMucm91Y2hkaTIxQGdtYWlsLmNvbSIsImxhc3RuYW1lIjoiaWxpYXMifQ.zAdzj9Bt9N4DL2FtQCppM1PD2L_lrsuzJnAe46widwUQIQioP2Z1uLYs9sanVDJO4Ap7sXdC57pNGEObbJ4XqA"
+										"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6W10sImZpcnN0bmFtZSI6IkFobWVkIiwicm9sZXMiOlsiUk9MRV9BTkFMWVNUIiwiUk9MRV9TVVBFUl9BRE1JTiIsIlJPTEVfQURNSU4iXSwiaWQiOjIsImV4cCI6MTcxNDYwMjM3OCwiZW1haWwiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwibGFzdG5hbWUiOiJSb3VjaGRpIn0.Hnvvwh9KgF-sOnJwE6bGxrmmLYdEfnk3H35LINEdgRgFyN1VnmrED4gqPFvFqWg79cTGSKNIe_OELxwAd1455g"
 									}
 								},
 								"method": "POST",
@@ -1282,6 +1282,120 @@
 							"request": {
 								"method": "GET",
 								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "Create Bussiness Category",
+							"id": "8aa18d91-fa0e-4932-9dca-5428becd0a54",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n        \"categoryName\": \"Gastronomie\"\r\n        ,\"categoryDesc\": \"lorem ipsum shi 7aja\"}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:8080/config/business-category"
+							},
+							"response": []
+						},
+						{
+							"name": "Update Business Category",
+							"id": "688fa573-21fc-4973-8678-553c3c8db63c",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6W10sImZpcnN0bmFtZSI6IlJvY2hkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iLCJST0xFX1NVUEVSX0FETUlOIiwiUk9MRV9BTkFMWVNUIl0sImlkIjoyLCJleHAiOjE3MTQ1ODA2NjgsImVtYWlsIjoiaWxpYXMucm91Y2hkaTIxQGdtYWlsLmNvbSIsImxhc3RuYW1lIjoiaWxpYXMifQ.ZDVMBys_aYnMHUaqIAIBwBu9R8YOx-s_h5HnU-GW8D3ED4jUvwRZWV1zHH2ULa4PKER2Gn2aLf7VDIqGPmFKgw"
+									}
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"categoryId\":1,\r\n    \"name\":\"Ilias\",\r\n    \"description\":\"lorem eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0YW5hZmFhdC5yY2EuMTZAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJSRUFEX1BSSVZJTEVHRSIsIldSSVRFX1BSSVZJTEVHRSJdLCJmaXJzdG5hbWUiOiJ0YW5hZmFhdCIsInJvbGVzIjpbIlJPTEVfU1VQRVJfQURNSU4iXSwiaWQiOjEsImV4cCI6MTcxMTA2MjMwMCwiZW1haWwiOiJ0YW5hZmFhdC5yY2EuMTZAZ21haWwuY29tIiwibGFzdG5hbWUiOiJBQkRFU1NBTUFEIn0.DUnbTDeb0JHojmBezcOpv1pBOQlrF6294bLaJt8ZoRs9yh8_qg-nPbidZj9hHgOr1n-M8nYtDh6Qz8b6fUFLjA\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:8080/config/business-category"
+							},
+							"response": []
+						},
+						{
+							"name": "Create BusinessType",
+							"id": "037e330f-528f-496c-a4e2-e0596199e462",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6W10sImZpcnN0bmFtZSI6IkFobWVkIiwicm9sZXMiOlsiUk9MRV9BTkFMWVNUIiwiUk9MRV9TVVBFUl9BRE1JTiIsIlJPTEVfQURNSU4iXSwiaWQiOjIsImV4cCI6MTcxNDYwMjM3OCwiZW1haWwiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwibGFzdG5hbWUiOiJSb3VjaGRpIn0.Hnvvwh9KgF-sOnJwE6bGxrmmLYdEfnk3H35LINEdgRgFyN1VnmrED4gqPFvFqWg79cTGSKNIe_OELxwAd1455g"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"real\",\r\n    \"businessCategoryId\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:8080/config/business-type"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete BusinessTypes",
+							"id": "b420fc5c-70f5-483e-821f-0aca7af03bc5",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6W10sImZpcnN0bmFtZSI6IkFobWVkIiwicm9sZXMiOlsiUk9MRV9TVVBFUl9BRE1JTiIsIlJPTEVfQU5BTFlTVCIsIlJPTEVfQURNSU4iXSwiaWQiOjIsImV4cCI6MTcxNDYwMzg2OSwiZW1haWwiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwibGFzdG5hbWUiOiJSb3VjaGRpIn0.JAbd356mrKELXM49lDXmsGvVJJVJSBEvQiPj6voGYqxPIFEpUxVrsDZeWLdURBECyYTUYyTv3F_YTt-7iz60PA"
+									}
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/config/business-type?businessIds=12",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"config",
+										"business-type"
+									],
+									"query": [
+										{
+											"key": "businessIds",
+											"value": "12"
+										}
+									]
+								}
 							},
 							"response": []
 						}
