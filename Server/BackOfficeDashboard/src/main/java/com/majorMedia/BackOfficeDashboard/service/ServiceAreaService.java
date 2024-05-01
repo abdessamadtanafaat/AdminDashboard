@@ -24,6 +24,7 @@ public class ServiceAreaService implements IServiceAreaService{
     private ServiceAreaRepository seriviceAreaRepository;
     @Override
     public List<ServiceCategory> getAllServiceAreaCategories() {
+
         return serviceAreaCategoryRepository.findAll();
 
     }
@@ -65,7 +66,7 @@ public class ServiceAreaService implements IServiceAreaService{
     public ServiceCategory saveServiceCategory(ServiceCategory serviceCategory) {
         boolean categoryExists = serviceAreaCategoryRepository.findByNameIgnoreCase(serviceCategory.getName()).isPresent();
         if(categoryExists){
-            throw new EntityNotFoundException(ServiceCategory.class);
+            throw new AlreadyExistsEntityException(serviceCategory.getName() , ServiceCategory.class);
         }
 
         return serviceAreaCategoryRepository.save(serviceCategory);

@@ -1,11 +1,16 @@
 package com.majorMedia.BackOfficeDashboard.controller;
 
 import com.majorMedia.BackOfficeDashboard.aspect.LogActivity;
+import com.majorMedia.BackOfficeDashboard.entity.business.BusinessCategory;
+import com.majorMedia.BackOfficeDashboard.entity.business.BusinessType;
 import com.majorMedia.BackOfficeDashboard.entity.campaign.ServiceArea;
 import com.majorMedia.BackOfficeDashboard.entity.campaign.ServiceCategory;
+import com.majorMedia.BackOfficeDashboard.model.requests.BusinessTypeRequest;
 import com.majorMedia.BackOfficeDashboard.model.requests.ServiceAreaRequest;
+import com.majorMedia.BackOfficeDashboard.model.requests.UpdateBusinessCategory;
 import com.majorMedia.BackOfficeDashboard.model.requests.UpdateServiceCategory;
 import com.majorMedia.BackOfficeDashboard.repository.ServiceAreaCategoryRepository;
+import com.majorMedia.BackOfficeDashboard.service.IBusinessTypeService;
 import com.majorMedia.BackOfficeDashboard.service.IServiceAreaService;
 import com.majorMedia.BackOfficeDashboard.service.ServiceAreaService;
 import jakarta.validation.Valid;
@@ -22,6 +27,7 @@ import java.util.List;
 public class SystemController {
 
     private IServiceAreaService serviceAreaService ;
+    private IBusinessTypeService businessTypeService;
     @LogActivity
     @GetMapping("/service-categories")
     public ResponseEntity<List<ServiceCategory>> getAllServiceCategories(){
@@ -63,9 +69,41 @@ public class SystemController {
         serviceAreaService.deleteServiceAreas(serviceIds);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
+    @LogActivity
+    @GetMapping("/business-categories")
+    public ResponseEntity<List<BusinessCategory>> getAllBussinessCategories(){
+        return new ResponseEntity<>(businessTypeService.getAllBusinessCategories() , HttpStatus.OK);
+    }
+    @LogActivity
+    @PostMapping("/business-category")
+    public ResponseEntity<BusinessCategory> saveBusinessCategory(@RequestBody @Valid BusinessCategory businessCategory){
 
+        return new ResponseEntity<>( businessTypeService.saveBusinessCategory(businessCategory), HttpStatus.CREATED);
+    }
+    @LogActivity
+    @PatchMapping("/business-category")
+    public ResponseEntity<BusinessCategory> updateBusinessCategory(@RequestBody @Valid UpdateBusinessCategory updateBusinessCategory) {
+        BusinessCategory updatedCategory = businessTypeService.updateBusinessCategory(
+                updateBusinessCategory.getCategoryId() , updateBusinessCategory.getName() , updateBusinessCategory.getDescription());
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(updatedCategory);
+    }
+    @LogActivity
+    @PostMapping("/business-type")
+    public ResponseEntity<BusinessType> createBusinessType(@Valid @RequestBody BusinessTypeRequest businessTypeRequest){
+
+        return new ResponseEntity<>(businessTypeService.createBusinessType(businessTypeRequest) , HttpStatus.CREATED);
+
+    }
+    @LogActivity
+    @DeleteMapping("/business-type")
+    public ResponseEntity<HttpStatus> deleteBusinessTypes(@RequestParam List<Long> businessIds ){
+        businessTypeService.deleteBusinessTypes(businessIds);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+
+    }
 
 
 
 
 }
+

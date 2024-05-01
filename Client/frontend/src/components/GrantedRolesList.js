@@ -15,12 +15,12 @@ const GrantedRolesList = () => {
     }
    
     return (
-        <ul className="menu menu-xs bg-base-200 rounded-lg max-w-xs w-full">
+        <ul className="menu menu-sm bg-base-200 rounded-lg max-w-xs w-full">
           {grantedItems.map((role)=>{
             const {id  , name  ,priveleges} =role
             return(<li key={id}>
               <label className="inline-flex items-center">
-                <input type="checkbox" className="form-checkbox checkbox checkbox-secondary checkbox-sm h-4 w-4" defaultChecked={false}
+                <input type="checkbox" className="form-checkbox checkbox checkbox-sm checkbox-secondary h-4 w-4" defaultChecked={false}
                  checked={checkedGrantedItems.some((checkedRole) => checkedRole.id === role.id)}
                 onChange={()=>handleCheckboxChange(role)} 
                  />

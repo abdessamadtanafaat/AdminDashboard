@@ -125,7 +125,8 @@ const CreateRole = () => {
        
       </div>
       <div className="flex justify-between gap-4 w-7/8 max-w-4xl max-h-1/3 overflow-y-auto">
-        <div className={`w-60 h-80 bg-base-200 border-2 rounded-lg border-outline overflow-y-auto overflow-x-hidden  border-success ${!predefinedItems.length <1 || "grid place-content-center text-center"}`}>{!predefinedItems.length < 1 ? <PrivilegesList /> :<p className="text-success">No Privileges Available</p> }</div>
+        <div className={`w-60  h-80 bg-base-200 border-2 rounded-lg border-outline overflow-y-auto overflow-x-hidden
+         scrollbar-thin border-success ${!predefinedItems.length <1 || "grid place-content-center text-center"}`}>{!predefinedItems.length < 1 ? <PrivilegesList /> :<p className="text-success">No Privileges Available</p> }</div>
         
         <div className="flex-col flex justify-evenly place-items-center">
           <button className="btn btn-secondary text-base-content w-20 px-3 " onClick={handleGrantButtonClick}>Grant

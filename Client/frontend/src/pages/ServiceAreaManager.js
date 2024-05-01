@@ -34,15 +34,15 @@ const ServiceAreaManager = () => {
         const response = await customFetch.post('/config/service-category',{name :categoryName , description :  categoryDesc},  {
             headers: { Authorization: `Bearer ${token}`} 
         })
-        setCategoryDesc(null)
-        setCategoryName(null)
+        setCategoryDesc('')
+        setCategoryName('')
         serviceCategories.push(response.data)
         document.getElementById('my_modal_3').close();
         return toast.success("Service Category Created")
 
     }
     catch(err){
-        const errorMessage = err?.response?.data || "Failed to Create Service Category"
+        const errorMessage =err?.response?.data?.message || err?.response?.data || "Failed to Create Service Category"
         document.getElementById('my_modal_3').close();
         return toast.error(errorMessage) 
 
@@ -60,10 +60,10 @@ const ServiceAreaManager = () => {
       
             <button className="close-dialog btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={(event)=>{event.preventDefault(); document.getElementById('my_modal_3').close()}} >✕</button>
             </form>
-            <h3 className="font-bold text-lg">New ServiceArea Category</h3>
+            <h3 className="font-bold text-lg">Enter Information about category: </h3>
             <div className="my-5 mx-auto flex flex-col justify-center   gap-3">
                 <div className="w-2/3">
-                    <FormInput label="Name" type="text" name="name" value={categoryName} onChange={(e)=>setCategoryName(e.target.value)} placeholder="Enter Name for Privilege"/>
+                    <FormInput label="Name" type="text" name="name" value={categoryName} onChange={(e)=>setCategoryName(e.target.value)} placeholder="Enter Name for category"/>
 
                 </div>
                 
@@ -85,25 +85,31 @@ const ServiceAreaManager = () => {
          
         </div>
 
-    <div className="mx-auto carousel w-3/4  max-w-2xl p-4 flex justify-between gap-10 overflow-hidden ">
-        
-    {
+        <div className="mx-auto carousel w-3/4  max-w-2xl p-4 flex justify-between gap-10 overflow-hidden ">
+                
+            
+                {
                 serviceCategories.length < 1 ? (<h1 className="text-center font-bold text-3xl">
                     No Service Category Available , Create New One
                 </h1>) : (
                     serviceCategories.map((serviceCategory)=>{
                         const {id , name , description , serviceAreas } = serviceCategory
-                        return <ServiceCategory key={`serviceCategory_${id}` } id={id} name ={name} description={description} serviceAreas={serviceAreas}/>
+                        return  <ServiceCategory key={`serviceCategory_${id}` } id={id} name ={name} description={description} serviceAreas={serviceAreas} custom ={name=="custom"}/>
                         
                         
                     })
                 )
             }
-    </div> 
-    <div className=" mx-auto flex justify-center flex-wrap w-3/4  max-w-2xl  py-2 gap-2">
-        {serviceCategories.map((category)=>{
-        return <a className="btn btn-sm" href=  {`#serviceCategory_${category.id}`}>{category.name}</a>
-    })}
+        </div> 
+        <div className=" mx-auto flex justify-center flex-wrap w-3/4  max-w-2xl  py-2 gap-2">
+            {serviceCategories.map((category)=>{
+            
+            return   category.name=="custom" ?
+            <a className="btn btn-accent btn-sm" href=  {`#serviceCategory_${category.id}`}>{category.name}</a> :<a className="btn btn-sm" href=  {`#serviceCategory_${category.id}`}>
+            {category.name}</a>
+                
+              
+        })}
   
         </div>
     </div>

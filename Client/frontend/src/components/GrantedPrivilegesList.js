@@ -16,12 +16,12 @@ const GrantedPrivilegesList = () => {
     }
    
     return (
-        <ul className="menu menu-xs bg-base-200 rounded-lg max-w-xs w-full">
+        <ul className="menu menu-sm bg-base-200 rounded-lg max-w-xs w-full">
           {grantedItems.map((privilege)=>{
             const {id  , name  ,description} =privilege
             return(<li key={id}>
               <label className="inline-flex items-center">
-                <input type="checkbox" className="form-checkbox checkbox-secondary checkbox h-4 w-4" defaultChecked={false}
+                <input type="checkbox" className="form-checkbox checkbox checkbox-sm checkbox-secondary h-4 w-4" defaultChecked={false}
                  checked={checkedGrantedItems.some((checkedPrivilege) => checkedPrivilege.id === privilege.id)}
                 onChange={()=>handleCheckboxChange(privilege)} 
                  />

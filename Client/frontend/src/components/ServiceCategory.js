@@ -1,16 +1,16 @@
 import ServiceAreaLogo from '../assets/32658b2f-c72d-43a2-9a63-0813f3c339da.png'
 import {useState} from 'react'
-import {Plus , Trash , Pen } from 'lucide-react'
+import {Plus , Trash , Pen ,X } from 'lucide-react'
 import {FormInput ,SubmitBtn} from './index';
 import { useSelector } from 'react-redux';
 import { selectAdmin } from '../features/admin/adminSlice';
 import { customFetch } from '../utils';
 import {toast} from 'react-toastify'
-const ServiceCategory = ({ id ,name , description , serviceAreas}) => {
-    const [expandedList ,setExpandedList] = useState(false);
+const ServiceCategory = ({ id ,name , description , serviceAreas , custom}) => {
+    const [show ,setShow] = useState(false);
     const [serviceName , setServiceName] = useState(null)
     const [services,setServices] =useState(serviceAreas || [])
-    const [categoryName , setcategoryName]  = useState(name);
+    const [categoryName , setCategoryName]  = useState(name);
     const [categoryDesc , setCategoryDesc] = useState(description)
     
     const [checkedServices , setCheckedServices] = useState([])
@@ -34,17 +34,16 @@ const ServiceCategory = ({ id ,name , description , serviceAreas}) => {
               } 
             );
             console.log(response.data);
-            setcategoryName(updatedName)
-            setUpdatedName(null);
+            setCategoryName(updatedName)
             setCategoryDesc(updatedDesc)
-            setUpdatedDesc(null)
+            
             
             document.getElementById(`update_modal_${id}`).close();
             return toast.success("Service Category Updated")
         }
         catch(err){
             console.log(err);
-            const errorMessage = err?.response?.data || "Failed to update Service Category"
+            const errorMessage = err?.response?.data|| "Failed to update Service Category"
             document.getElementById(`update_modal_${id}`).close();
             return toast.error(errorMessage)
             
@@ -115,14 +114,17 @@ const ServiceCategory = ({ id ,name , description , serviceAreas}) => {
             })
             console.log(response.data)
             setServiceName('')
+            
             setServices([response.data , ...services])
+            setShow(false)
+            
             return toast.success("Service Area Added") 
 
         }
         catch(err){
             console.log(err)
             setServiceName('')
-            const errorMessage=err?.response?.data || "Failed To add Service Area"
+            const errorMessage= err?.response?.data?.message || err?.response?.data || "Failed To add Service Area"
             return toast.error(errorMessage) 
 
         }
@@ -134,7 +136,7 @@ const ServiceCategory = ({ id ,name , description , serviceAreas}) => {
                     <h2 className="font-bold">{categoryName}</h2>
                     <p className="text-slate-500">{categoryDesc}</p>
                 </div>    
-                <div className="flex justify-center">
+                <div className={`flex justify-center ${!custom || "hidden"} `}>
                   
                     <button
                     onClick={()=>document.getElementById(!checkedServices.length <1 ?`delete_modal_${id}` :`update_modal_${id}`).showModal()} className={`${!checkedServices.length < 1 ? "btn-error" : "btn-success"} btn  btn-square  btn-sm  `}>
@@ -189,17 +191,11 @@ const ServiceCategory = ({ id ,name , description , serviceAreas}) => {
 
                </div>
             </div>
-            <div className="join w-full">
-                <input type="text"  class="input input-bordered input-primary w-5/6 max-w-xs join-item" placeholder="Type Service Name to add" value={serviceName} onChange={(e)=>setServiceName(e.target.value)} />
-                <button onClick={createServiceArea}className="btn-primary btn"><Plus/></button>
-
-            </div>
-            
-            <div className={`w-full h-40 overflow-y-auto border-primary scrollbar-track-base-content
+            <div className={`w-full pr-3 h-40 overflow-y-auto border-primary scrollbar-track-base-content
             scrollbar-thumb-base-100 p-1
-            scrollbar-thin flex flex-col gap-2 ${!services.length<1 || "grid place-items-center"}  `}>
+            scrollbar-thin flex flex-col gap-2 ${!services.length<1 || ""}  `}>
                 {!services.length<1 || (
-                    <h3 className="text-center font-bold text-bg-info text-xl">No Service Area Created Yet </h3>
+                    <h3 className="text-center font-bold text-bg-info text-xl">{!custom ?"No Service Area Created "  :"No Customized Service Area Created By Clients"}Yet </h3>
                 )}
 
                 {!services || services.map((serviceArea)=>{
@@ -219,7 +215,35 @@ const ServiceCategory = ({ id ,name , description , serviceAreas}) => {
                     )
 
                 })}
+                
+                
             </div>
+            <div className={`w-full ${!custom || "hidden" }`}>
+                { show ? (
+                    <input type="text"  class="input input-bordered input-primary  input-md w-2/3 max-w-xs join-item" placeholder="Type Service Name to add" value={serviceName} onChange={(e)=>setServiceName(e.target.value)} />
+
+                ): (<button onClick={(event)=>setShow(!show)} className="btn btn-primary  btn-sm w-auto">
+                <Plus/>Service Area
+                </button>)}
+                    
+                    
+
+            </div>
+            <div className={show ||`hidden`}>
+                    
+                    <div className="flex justify-start items-center gap-3">
+                    <button onClick={createServiceArea}className="btn-primary btn btn-square btn-sm"><Plus/></button>
+                    <button onClick={(event)=>{setShow(false);setServiceName(null)}}  className="btn btn-circle btn-sm ">
+                        <X />
+                    </button>
+
+                    </div>
+                    
+                    
+                    
+            </div>
+            
+
         </div>
     )
 

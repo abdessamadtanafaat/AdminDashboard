@@ -1,5 +1,6 @@
 package com.majorMedia.BackOfficeDashboard.entity.business;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,10 +16,10 @@ public class BusinessType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String typeName;
     @ManyToOne
-    @JoinColumn(name = "category_id")
-    private BusinessCategory category;
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    @JsonIgnore
+    private BusinessCategory businessCategory;
 
 }

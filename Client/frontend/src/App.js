@@ -1,5 +1,5 @@
 import { RouterProvider  , createBrowserRouter } from "react-router-dom";
-import { Login ,HomeLayout ,SingleAdmin ,  Error , ForgotPassword , ResetPassword , Landing, ServiceAreaManager } from "./pages";
+import { Login ,HomeLayout ,SingleAdmin ,  Error , ForgotPassword , ResetPassword , Landing, ServiceAreaManager , BusinessTypeManager } from "./pages";
 import {Profile , Tables , BusinessOwners  ,Business, Admins, CreateAdmin , ErrorElement ,CreateRole } from './components'
 
 import {action as loginAction} from './pages/Login'
@@ -11,13 +11,11 @@ import {loader as homeLayoutLoader} from './pages/HomeLayout'
 import {loader as adminsLoader} from './components/Admins'
 import {loader as businessOwnerLoader} from './components/BusinessOwners'; 
 import {loader as businessLoader} from './components/Business'; 
-
-
 import {loader as createAdminLoader} from './components/CreateAdmin'
 import {loader as singleAdminLoader} from './pages/SingleAdmin'
 import {loader as createRoleLoader} from './components/CreateRole'
 import {loader as serviceAreaManagerLoader} from './pages/ServiceAreaManager'
-
+import {loader as businessTypeManagerLoader} from './pages/BusinessTypeManager'
 import {store} from './app/store'
 import { ItemsProvider } from "./components/ItemContext";
 
@@ -85,6 +83,11 @@ const routes = createBrowserRouter([
         path:"/service-area",
         element:<ServiceAreaManager/>, 
         loader: serviceAreaManagerLoader(store)
+      }
+      ,{
+        path :"/business-type",
+        element:<BusinessTypeManager/>,
+        loader : businessTypeManagerLoader(store)
       }
 
     ]

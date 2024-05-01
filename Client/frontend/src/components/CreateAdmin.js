@@ -83,7 +83,7 @@ const CreateAdmin = () => {
           <button className="btn btn-error text-base-content  w-20" onClick={handleRevokeAllButtonClick}>Revoke All
           </button>
           </div>
-            <div className={`w-60 h-80 bg-base-200 border-2 rounded-lg border-outline overflow-y-auto overflow-x-hidden border-info ${!grantedItems.length <1 || "grid place-content-center text-center"}`}>{!grantedItems.length < 1 ? <GrantedRolesList /> :<p className="text-info">No Roles Granted </p> }</div>
+            <div className={`w-60 h-80 bg-base-200 border-2 rounded-lg border-outline scrollbar-thin overflow-y-auto overflow-x-hidden border-info ${!grantedItems.length <1 || "grid place-content-center text-center"}`}>{!grantedItems.length < 1 ? <GrantedRolesList /> :<p className="text-info">No Roles Granted </p> }</div>
       </div>
       <div className="mx-auto flex justify-center gap-3">
         

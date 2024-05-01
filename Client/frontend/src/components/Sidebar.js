@@ -5,7 +5,7 @@ import {ChevronFirst, ChevronLast , LogOut , Users} from
 import SidebarItem from './SidebarItem';
 import { Home,  Settings ,Table } from "lucide-react";
 import { useGlobalContext } from './context';
-import {  useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {useNavigate ,Link} from 'react-router-dom'
 import {toggleTheme  , logoutAdmin, selectAdmin, selectTheme} from '../features/admin/adminSlice'
 import logo from '../assets/logo.png'
@@ -31,7 +31,7 @@ const items = [
     {text : "languages" , link:""},
     {text:"Templates" , link:""},
     {text:"Service Area",link:"/service-area" },
-    {text:"Business Types" , link:""}
+    {text:"Business Types" , link:"/business-type"}
   ] }
 ]
 
@@ -79,7 +79,7 @@ const Sidebar = () => {
           </button>
         </div>
         
-        <ul className=" px-3 my-24  static  menu-horizantal   menu">
+        <ul className=" px-3 my-28  static  menu-horizantal   menu">
             {items.map((item , index)=>{
               const {icon , text ,link ,children } = item;
               const haveChildren = children && children.length > 0 
