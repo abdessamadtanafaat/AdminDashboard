@@ -39,7 +39,7 @@ const BusinessOwners = () => {
             <BusinessOwnerList/>
             <div className="flex w-full justify-center mb-3">
                 <PaginationContainer/>
-                </div>
+            </div>
         </>
 
     );

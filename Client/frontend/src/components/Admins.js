@@ -2,7 +2,8 @@ import {toast} from 'react-toastify'
 import { customFetch } from "../utils"
 
 import { AdminsList ,CreateAdmin , PaginationContainer, SearchFilter } from "."
-import { useLoaderData ,redirect } from 'react-router-dom'
+import { useLoaderData ,redirect ,useNavigate } from 'react-router-dom'
+import AddNewAdminButton from './AddNewAdminButton'
 
 export const loader =(store)=> async({request})=>{
   const admin = store.getState().adminState.admin;
@@ -30,17 +31,20 @@ export const loader =(store)=> async({request})=>{
 
 }
 const Admins = () => {
-  
+
+  const history = useNavigate();
+  const handleAddNewAdmin = () => {
+    history('/admin/create-admin');
+  };
   return (
     <>
-      <div className="flex w-full justify-center mb-3">
+      <div className="flex w-full justify-center mb-5">
         <SearchFilter/>
       </div>
-      <AdminsList/>
-      <PaginationContainer/>
-      
+        <AddNewAdminButton/>
+        <AdminsList/>
+        <PaginationContainer/>
     </>
-    
   )
 }
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { toast } from 'react-toastify';
 import { customFetch } from '../utils';
-import { CampaignList, PaginationContainer, SearchFilter } from "."; // Import CampaignList and other components if available
+import { CampaignList, PaginationContainer, SearchFilter } from ".";
 
 import { useLoaderData, redirect } from 'react-router-dom';
 
@@ -12,13 +12,12 @@ export const loader = (store) => async ({ request }) => {
             ...new URL(request.url).searchParams.entries(),
         ]);
         console.log(params);
-        const response = await customFetch("/tables/campagnes", { // Adjust the endpoint to fetch campaigns
+        const response = await customFetch("/tables/campagnes", { 
             params,
             headers: { Authorization: `Bearer ${admin.token}` }
         });
         console.log(response.data);
-        return { campaigns: response.data.data, params, meta: response.data.meta }; // Assuming the response contains campaigns data
-
+        return { campaigns: response.data.data, params, meta: response.data.meta }; 
     } catch (err) {
         console.log(err);
         const errMessage = err?.response?.data?.message || err?.response?.data || "Server Failed To load Campaigns Table";

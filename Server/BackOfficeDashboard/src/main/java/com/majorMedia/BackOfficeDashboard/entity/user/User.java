@@ -66,7 +66,7 @@ public class User {
     private boolean isUsedTokenEmail;
 
     @Column(name = "last_login")
-    @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
+    //@JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
     private LocalDateTime lastLogin;
 
     @Column(name = "is_active")
