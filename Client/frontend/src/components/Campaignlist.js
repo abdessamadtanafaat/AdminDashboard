@@ -64,9 +64,8 @@ const CampaignList = () => {
                             </label>
                         </th>
                         <th className="text-center">Campaign Name</th>
-                        <th className="text-center">Business ID</th>
-                        <th className="text-center">Template ID</th>
-                        <th className="text-center">Action</th>
+                        <th className="text-center">Business</th>
+                        <th className="text-center">Template</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -83,10 +82,10 @@ const CampaignList = () => {
                 </label>
             </th>
             <td>{campaign.campaignName}</td>
-            <td>{campaign.business.id}</td>
-            <td>{campaign.template.id}</td>
+            <td>{campaign.business.businessName}</td>
+            <td>{campaign.template.templateName}</td>
             <td>
-                <Link to={`/campaign/${campaign.id}`} className="btn btn-ghost btn-xs">Details</Link>
+            <button class="btn btn-active btn-sucess && btn-sm" onClick={() => {window.location.href=`/campaign/${campaign.id}`}}>details</button>
             </td>
         </tr>
     ))}

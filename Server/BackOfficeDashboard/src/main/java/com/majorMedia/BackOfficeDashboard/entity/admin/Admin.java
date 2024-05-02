@@ -31,6 +31,7 @@ public class Admin {
     private String firstname;
     private String lastname;
     private String username;
+    private String fullname;
     @NotBlank(message = "Email is required")
 
     @Email(message = "Invalid email format")
@@ -56,7 +57,7 @@ public class Admin {
     private LocalDateTime lastLogin;
 
     @Column(name = "is_active")
-    @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
+    //@JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
     private boolean isActive;
 
     @Column(name = "is_deactivated")

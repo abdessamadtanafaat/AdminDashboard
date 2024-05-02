@@ -1,5 +1,6 @@
 import { useLoaderData  , Link} from "react-router-dom"
 import default_avatar from '../assets/default_avatar.webp'
+import { CogIcon } from "@heroicons/react/solid";
 const AdminsList = () => {
     const {admins , params} = useLoaderData();
      
@@ -15,16 +16,17 @@ const AdminsList = () => {
                 <tr>
                     
                     <th>        </th>
-                    <th>Profile</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>  
-                    <th className="text-center">Email</th>
-                    
+                    <th className="text-center" >Profile</th>
+                    <th className="text-center" >Full Name</th>   
+                    <th className="text-center" >Role</th>   
+                    <th className="text-center" >Status</th>   
+
+                                     
                 </tr>
             </thead>
             <tbody>
               {admins.map((admin)=>{
-                const {firstname , lastname ,email ,avatarUrl , username , id} = admin;  
+                const {fullname,firstname , lastname ,email ,avatarUrl , username , id, roles,active} = admin;  
                 return (
                     <tr key={id}>
                         <th>
@@ -40,21 +42,46 @@ const AdminsList = () => {
                                 </div>
                             </div>
                         <div>
-                     
-              
                     </div>
                      </div>
                     </td>
-                    <td><div className="font-bold">{firstname}</div></td>
-                    <td><div className="font-bold">{lastname}</div></td>
-                    
-                    <td className="text-center">
-                    {email}
-          
-                    </td>
-                <th>
-                <Link key={id} to={`/admin/${id}`} className="btn btn-ghost btn-xs">details</Link>
-                </th>
+                    <td>
+                      <div className="font-bold">{fullname}</div>
+                      <div className="text-sm font-normal text-gray-500 dark:text-gray-400"
+                                     style={{ fontSize: '0.8em' }}>{email}
+                      </div>
+                      </td>
+                      <td>
+    <div className="font-bold">
+        {active ? (
+            <div class="flex items-center">
+            <div class="h-2.5 w-2.5 rounded-full bg-green-400 mr-2"></div>  ONLINE
+            </div>
+                    ) : (
+            <div class="flex items-center">
+            <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div>  OFFLINE
+            </div> 
+               )}
+    </div>
+</td>
+                      <td>
+                      <div className="font-bold">
+    {roles.map((role, index) => (
+        <span key={role.id}>
+            {index === 0 && role.name === 'ROLE_ADMIN' && 'ADMIN'}
+            {index === 0 && role.name === 'ROLE_SUPER_ADMIN' && 'SUPER ADMIN'}
+        </span>
+    ))}
+</div>
+
+            </td>
+                      <th>
+    <button className="btn btn-active btn-sucess && btn-sm" onClick={() => {window.location.href=`/admin/${id}`}}>
+        <CogIcon className='w-4 h-4'/>
+        <span >Details</span>
+    </button>
+</th>
+
             </tr>
                 )
               })}
