@@ -3,6 +3,8 @@ import { useLoaderData, Link, useNavigate } from "react-router-dom";
 import { ChevronDownIcon } from '@heroicons/react/solid';
 import { useSelector } from 'react-redux';
 import { customFetch } from '../utils';
+import { ArrowUpDown, LampWallDown, PencilIcon, SortAscIcon, SortDescIcon, } from "lucide-react";
+
 
 const BusinessList = () => {
     const admin = useSelector(state => state.adminState.admin);
@@ -127,7 +129,8 @@ const BusinessList = () => {
                         <th style={{ cursor: 'pointer' }} onClick={toggleCreatedDateSort}>
                             <div className="flex items-center">
                                 Created Date
-                                <ChevronDownIcon className={`w-4 h-4 ml-1 text-gray-800 dark:text-black ${!createdDateSort.ascending ? '' : 'transform rotate-180'}`} />
+                                <ArrowUpDown className={`w-4 h-4 ml-1 text-gray-800 dark:text-black`} />
+
                             </div>
                         </th>
                     </tr>

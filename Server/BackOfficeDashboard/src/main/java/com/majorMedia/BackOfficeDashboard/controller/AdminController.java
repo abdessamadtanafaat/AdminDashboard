@@ -61,6 +61,8 @@ public class AdminController {
     }
 
 
+
+
     @LogActivity
     @PatchMapping("/deactivateAccount/{ownerId}")
     public ResponseEntity<String> deactivateAccount(@PathVariable Long ownerId) throws BadRequestException {

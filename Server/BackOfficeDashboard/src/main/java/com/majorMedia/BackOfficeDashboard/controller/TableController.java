@@ -8,21 +8,19 @@ import com.majorMedia.BackOfficeDashboard.entity.user.User;
 import com.majorMedia.BackOfficeDashboard.model.responses.BusinessResponse;
 import com.majorMedia.BackOfficeDashboard.model.responses.ObjectsList;
 import com.majorMedia.BackOfficeDashboard.model.responses.UserResponse;
+import com.majorMedia.BackOfficeDashboard.service.TableService.ITableService;
 import com.majorMedia.BackOfficeDashboard.service.adminService.IAdminService;
 import lombok.AllArgsConstructor;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/tables")
-
 
 @AllArgsConstructor
 
@@ -30,17 +28,18 @@ import java.util.List;
 
 public class TableController {
 
-    private final IAdminService adminService;
+    private final ITableService tableService;
+
     @LogActivity
     @GetMapping(value = "/owners")
     public ResponseEntity<ObjectsList<User>> getAllUsers(
-            @RequestParam(required = false) String sortBy,
+            @RequestParam(required = false) String sortOrder,
             @RequestParam(required = false) String searchKey,
             @RequestParam(required=false ,name="page" , defaultValue="1") int page
 
     )
     {
-        return ResponseEntity.ok(adminService.getAllOwners(searchKey,sortBy,page));
+        return ResponseEntity.ok(tableService.getAllOwners(searchKey,sortOrder,page));
     }
 
     @LogActivity
@@ -51,7 +50,7 @@ public class TableController {
             @RequestParam(required=false ,name="page" , defaultValue="1") int page
     )
     {
-        return ResponseEntity.ok(adminService.getAllBusiness(searchKey,sortOrder,page));
+        return ResponseEntity.ok(tableService.getAllBusiness(searchKey,sortOrder,page));
     }
 
 @LogActivity
@@ -62,6 +61,50 @@ public ResponseEntity<ObjectsList<Campaign>> getAllCampagnes(
         @RequestParam(required=false ,name="page" , defaultValue="1") int page
 )
 {
-    return ResponseEntity.ok(adminService.getAllCampagnes(searchKey,sortOrder,page));
+    return ResponseEntity.ok(tableService.getAllCampagnes(searchKey,sortOrder,page));
 }
+    @LogActivity
+    @GetMapping(value = "/owner")
+    public ResponseEntity<User> getOwner(@RequestParam(value = "ownerId")
+                                                        Long ownerId)
+    {
+        return ResponseEntity.ok(tableService.getOwnerInfo(ownerId));
+    }
+
+
+    @LogActivity
+    @PatchMapping("/deactivateAccount/{ownerId}")
+    public ResponseEntity<String> deactivateAccount(@PathVariable Long ownerId) throws BadRequestException {
+        String string = tableService.deactivateAccount(ownerId);
+        return ResponseEntity.ok(string);
+    }
+    @LogActivity
+    @PatchMapping("/deactivateAccounts/{ownerIds}")
+    public ResponseEntity<String> deactivateAccounts(@PathVariable List<Long> ownerIds) {
+        String result = tableService.deactivateAccounts(ownerIds);
+        return ResponseEntity.ok(result);
+    }
+    @LogActivity
+    @PatchMapping("/activateAccount/{ownerId}")
+    public ResponseEntity<String> activateAccount(@PathVariable Long ownerId)
+    {
+        String string = tableService.activateAccount(ownerId);
+        return ResponseEntity.ok(string);
+    }
+    @LogActivity
+    @PatchMapping("/editOwner/{ownerId}")
+    public ResponseEntity<String> editOwner(
+            @PathVariable Long ownerId,
+            @RequestParam("firstName") String firstName,
+            @RequestParam("lastName") String lastName,
+            @RequestParam("email") String email,
+            @RequestParam(value = "password") String password,
+            @RequestParam("username") String username
+    ) {
+        String result = tableService.editOwner(ownerId, firstName, lastName, email, password, username);
+        return ResponseEntity.ok(result);
+    }
+
+
+
 }

@@ -6,14 +6,16 @@ import { customFetch } from '../utils';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { BsPencilSquare } from "react-icons/bs";
-import { LampWallDown } from "lucide-react";
-import {EditOwnerForm} from "."
-import {LockOwnerDialog} from "."
+import { ArrowUpDown, LampWallDown, Lock, LockOpen, PencilIcon, SortAscIcon, SortDescIcon } from "lucide-react";
+import {EditOwnerForm} from ".";
+import {LockOwnerDialog} from ".";
+import { ChevronDownIcon } from '@heroicons/react/solid';
 
 
 const BusinessOwnerList = () => {
     const admin = useSelector(state => state.adminState.admin);
-    const navigate = useNavigate(); 
+
+    const history = useNavigate();
     const { businessOwners, params } = useLoaderData();
     const [selectedOwnerId, setSelectedOwnerId] = useState(null); 
     const [deactivatedOwners, setDeactivatedOwners] = useState([]);
@@ -45,18 +47,15 @@ const BusinessOwnerList = () => {
             
             console.log(JSON.stringify(selectedOwners));
 
-            const response = await customFetch(`/admin/deactivateAccounts`, {
+            const response = await customFetch(`tables/deactivateAccounts/${selectedOwners.join(',')}`,{
                 method: 'PATCH',
                 headers: {Authorization: `Bearer ${admin.token}`},
-                body: JSON.stringify(selectedOwners)
             });
-            console.log(response.selectedOwners);
 
-            console.log('Response status:', response.status);
-            //const responseData = await response.text();
-            const responseData = await response.text();
-            toast.success("Account deactivated Successfully");
-            console.log('Deactivation response:', responseData);
+            //return response.data;
+            console.log(response.data);
+            history(`/business-owner`);
+            toast.success("Accounts deactivated Successfully");
 
         } catch (error) {
             toast.error(`${error.message}`);
@@ -66,13 +65,46 @@ const BusinessOwnerList = () => {
         }
 };
     
+const initialSortOrder = localStorage.getItem('sortOrder') || 'asc';
+const [createdDateSort, setCreatedDateSort] = useState({ ascending: false });
+
+useEffect(() => {
+    if (businessOwners) {
+        const deactivatedIds = businessOwners.filter(owner => owner._deactivated).map(owner => owner.id);
+        setDeactivatedOwners(deactivatedIds);
+    }
+
+    setCreatedDateSort({ ascending: initialSortOrder === 'asc' });
+
+    const sortOrder = localStorage.getItem('sortOrder');
+    if (sortOrder) {
+        setCreatedDateSort({ ascending: sortOrder === 'asc' });
+    } else {
+        setCreatedDateSort({ ascending: false });
+        localStorage.setItem('sortOrder', 'desc');
+    }
+}, [businessOwners, initialSortOrder]);
+
+
      
-    useEffect(() => {
-        if (businessOwners) {
-            const deactivatedIds = businessOwners.filter(owner => owner._deactivated).map(owner => owner.id);
-            setDeactivatedOwners(deactivatedIds);
-        }
-    }, [businessOwners]);
+    // useEffect(() => {
+    //     if (businessOwners) {
+    //         const deactivatedIds = businessOwners.filter(owner => owner._deactivated).map(owner => owner.id);
+    //         setDeactivatedOwners(deactivatedIds);
+    //     }
+    // }, [businessOwners]);
+    // useEffect(() => {
+    //     setCreatedDateSort({ ascending: initialSortOrder === 'asc' });
+
+    //     const sortOrder = localStorage.getItem('sortOrder');
+    //     if (sortOrder) {
+    //         setCreatedDateSort({ ascending: sortOrder === 'asc' });
+    //     } else {
+    //         setCreatedDateSort({ ascending: false });
+    //         localStorage.setItem('sortOrder', 'desc');
+    //     }
+
+    // }, [initialSortOrder]);
 
 
     const handleLockClick = (id,isDeactivated) => {
@@ -116,12 +148,38 @@ const BusinessOwnerList = () => {
             return `${seconds} second${seconds > 1 ? 's' : ''} ago`;
         }
     };
-    
-    const handleEditOwnerClick = (ownerId) => {
-        setSelectedOwnerId(ownerId);
-        setEditDialogOpen(true);
+    const [editOwnerInfo, setEditOwnerInfo] = useState(null); 
 
+    const handleEditOwnerClick = async (ownerId) => {
+        //setSelectedOwnerId(ownerId);
+        console.log(selectedOwnerId)
+        setEditDialogOpen(true);
     };
+
+    const toggleCreatedDateSort = async () => {
+        setCreatedDateSort(prevSort => { 
+            const newSort = { ascending: !prevSort.ascending };
+
+            localStorage.setItem('sortOrder', newSort.ascending ? 'asc' : 'desc');
+
+
+            const sortOrderParam = newSort.ascending ? 'asc' : 'desc';
+            const queryParams = new URLSearchParams({ sortOrder: sortOrderParam });
+            history(`/business-owner?${queryParams.toString()}`);
+
+            return newSort;
+        });
+        const response = await customFetch("/tables/owners", {
+            params: {
+                searchKey: params.searchKey,
+                sortOrder: createdDateSort.ascending ? 'asc' : 'desc',
+                page: params.page
+            },
+            headers: { Authorization: `Bearer ${admin.token}` }
+        });
+        console.log(response.data);
+    };
+    
 
     if (!businessOwners || businessOwners.length < 1) {
         return (
@@ -149,17 +207,25 @@ const BusinessOwnerList = () => {
                     <th key="profile" className="text-center">Profile</th>
                     <th key="fullName" className="text-center">Full Name</th>
                     <th key="status" className="text-center">Status</th>
-                    <th key="signedUp" className="text-center">Signed Up</th>
+                    {/* <th key="signedUp" className="text-center">Signed Up</th> */}
+
+                    <th key="signedUp" style={{ cursor: 'pointer' }} onClick={toggleCreatedDateSort}>
+                            <div className="flex items-center">
+                                Signed Up  &nbsp;
+                                <ArrowUpDown className={`w-4 h-4 ml-1 text-gray-800 dark:text-black`} />
+                            </div>
+                    </th>
+                        
                     <th key="edit" className="text-center"></th>
                     <th key="lockButton">
                         
                         {selectedOwners.length > 0 && ( 
                             <button
                             onClick={() => handleLockAll(selectedOwners)}
-                                 className="btn btn-error btn-sm flex justify-end items" 
+                                 className="btn btn-error btn-sm flex justify-end" 
                                 >
-                                                <LockClosedIcon className='w-4 h-4' />
-                                                <span className="ml-1">Lock &nbsp;&nbsp;&nbsp;</span>
+                                                <Lock className='w-4 h-4' />
+                                                {/* <span className="ml-1">Lock &nbsp;&nbsp;&nbsp;</span> */}
                                 </button>
                         )}
                         </th>
@@ -169,7 +235,7 @@ const BusinessOwnerList = () => {
                     {businessOwners.map((owner) => {
                         const { firstName, lastName,createdAt, email, avatarUrl, username, id, _deactivated, active,fullName } = owner;
                         return (
-                            <tr key={id}>
+                            <tr>
                                 <th key="checkbox">
                                     <label className="flex justify-center gap-2">
                                         <input type="checkbox"
@@ -211,13 +277,15 @@ const BusinessOwnerList = () => {
                     <div>{getSignedUpText(createdAt)}</div>
                     </td>
                     <td>
-                                    <button className='btn btn-accent btn-sm'
+                                    <button className='btn btn-success btn-sm'
                                         onClick={() => {
                                             handleEditOwnerClick(id)
+                                            setSelectedOwnerId(id)
+
                                                                                 }}
                                     >
-                                    <PencilAltIcon className='w-4 h-4' />
-                                    <span className="ml-1">Edit Owner</span>
+                                    <PencilIcon className='w-4 h-4' />
+                                    {/* <span className="ml-1">Edit Owner</span> */}
                                     </button>
                     </td>
 
@@ -231,13 +299,13 @@ const BusinessOwnerList = () => {
                                     >
                                             {_deactivated ? 
         <>
-            <LockOpenIcon className='w-4 h-4' />
-            <span className="ml-1">Unlock</span>
+            <LockOpen className='w-4 h-4' />
+            {/* <span className="ml-1">Unlock</span> */}
         </> 
         : 
         <>
-            <LockClosedIcon className='w-4 h-4' />
-            <span className="ml-1">Lock &nbsp;&nbsp;&nbsp;</span>
+            <Lock className='w-4 h-4' />
+            {/* <span className="ml-1">Lock &nbsp;&nbsp;&nbsp;</span> */}
         </>
     }
                                     </button>
@@ -251,7 +319,7 @@ const BusinessOwnerList = () => {
 
              {/* Lock Dialog */}
              {businessOwners.map((owner) => {
-                const {id, _deactivated} = owner;
+                const {id} = owner;
                 return (
 
                     <dialog
@@ -272,7 +340,7 @@ const BusinessOwnerList = () => {
 
              {/* Edit Dialog */}
              {businessOwners.map((owner) => {
-                const { id } = owner;
+                const {id} = owner;
                 return (
                     <dialog
                         key={id}

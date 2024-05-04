@@ -3,6 +3,7 @@ import { customFetch } from '../utils';
 import { BusinessOwnerList, PaginationContainer, SearchFilter } from ".";
 
 import { useLoaderData, redirect } from 'react-router-dom';
+import { SortAsc, SortDesc } from 'lucide-react';
 
 export const loader = (store) => async ({ request }) => {
     const admin = store.getState().adminState.admin;
@@ -35,7 +36,6 @@ const BusinessOwners = () => {
             <div className="flex w-full justify-center mb-3">
                 <SearchFilter/>
             </div>
-            
             <BusinessOwnerList/>
             <div className="flex w-full justify-center mb-3">
                 <PaginationContainer/>

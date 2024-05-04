@@ -13,7 +13,7 @@ const LockOwnerDialog = ({ownerId, isDeactivated ,onClose }) => {
 
     const LockUnlockAccount = async () => {
         try {
-            const response = await customFetch(`/admin/${isDeactivated ? 'activate' : 'deactivate'}Account/${ownerId}`, {
+            const response = await customFetch(`/tables/${isDeactivated ? 'activate' : 'deactivate'}Account/${ownerId}`, {
                 method: 'PATCH',
                 headers: { Authorization: `Bearer ${admin.token}` }
             });

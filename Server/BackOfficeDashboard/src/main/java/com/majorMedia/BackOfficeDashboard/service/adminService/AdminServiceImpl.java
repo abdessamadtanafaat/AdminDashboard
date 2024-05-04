@@ -1,23 +1,19 @@
 package com.majorMedia.BackOfficeDashboard.service.adminService;
 
-import com.majorMedia.BackOfficeDashboard.entity.business.Business;
-import com.majorMedia.BackOfficeDashboard.entity.campaign.Campaign;
-import com.majorMedia.BackOfficeDashboard.entity.user.User;
-import com.majorMedia.BackOfficeDashboard.exception.*;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
+import com.majorMedia.BackOfficeDashboard.exception.EntityNotFoundException;
+import com.majorMedia.BackOfficeDashboard.exception.InvalidTokenException;
+import com.majorMedia.BackOfficeDashboard.exception.NotFoundEmailException;
 import com.majorMedia.BackOfficeDashboard.model.requests.ResetPasswordRequest;
-import com.majorMedia.BackOfficeDashboard.model.responses.BusinessResponse;
-import com.majorMedia.BackOfficeDashboard.model.responses.ObjectsList;
-import com.majorMedia.BackOfficeDashboard.model.responses.PaginationData;
-import com.majorMedia.BackOfficeDashboard.model.responses.UserResponse;
-import com.majorMedia.BackOfficeDashboard.repository.*;
+import com.majorMedia.BackOfficeDashboard.repository.AdminRepository;
+import com.majorMedia.BackOfficeDashboard.repository.BusinessRepository;
+import com.majorMedia.BackOfficeDashboard.repository.CampagneRepository;
+import com.majorMedia.BackOfficeDashboard.repository.UserRepository;
 import com.majorMedia.BackOfficeDashboard.security.SecurityConstants;
-import com.majorMedia.BackOfficeDashboard.util.EmailUtils;
 import com.majorMedia.BackOfficeDashboard.util.ImageUtils;
 import com.majorMedia.BackOfficeDashboard.util.JwtUtils;
 import com.majorMedia.BackOfficeDashboard.util.ServiceUtils;
 import io.micrometer.common.util.StringUtils;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.data.domain.Page;
@@ -28,17 +24,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.io.IOException;
 
-import static com.majorMedia.BackOfficeDashboard.security.SecurityConstants.*;
+import static com.majorMedia.BackOfficeDashboard.security.SecurityConstants.AVATAR_URL;
 
 @Service
 @AllArgsConstructor
@@ -170,135 +158,6 @@ public class AdminServiceImpl implements IAdminService {
         return userResponses;
     }*/
 
-    @Override
-    public ObjectsList<User> getAllOwners(String searchKey  , String sortBy , int page ) {
-        Pageable paging  = PageRequest.of(page -1 , 5 , Sort.by(Sort.Direction.ASC , "firstName"));
-        if(searchKey ==null){
-            return unwrapOwnerList(userRepository.findAll(paging) , page);
-        }
-        Page<User> users= userRepository.findAllByFirstNameContainsIgnoreCaseOrLastNameContainsIgnoreCase(searchKey ,searchKey , paging);
-        return unwrapOwnerList(users , page);
-    }
-    public ObjectsList<User> unwrapOwnerList(Page<User> users , int page){
-        return ObjectsList.<User>builder().data(users.getContent()).
-                meta(
-                        new PaginationData(
-                                page , 5 , users.getTotalPages() ,
-                                users.getTotalElements()
-                        )).build();
-
-    }
-    @Override
-    @Transactional
-    public String deactivateAccount(Long ownerId){
-        if (ownerId == null) {
-            throw new IllegalArgumentException("Owner are required");
-        }
-
-        User owner  = userRepository.findById(ownerId)
-                .orElseThrow(()->new EntityNotFoundException(ownerId, User.class));
-
-        if (owner.is_deactivated()){
-            throw new IllegalStateException("Account: " + owner.getLastName() + " is already deactivated");
-            //return "Account : "+owner.getLastName() +" is already deactivated";
-        }
-        owner.set_deactivated(true);
-        owner.setActive(false);
-        userRepository.save(owner);
-        return "Account : "+owner.getLastName() +" deactivated Successfully";
-    }
-
-    @Override
-    @Transactional
-    public String deactivateAccounts(List<Long> ownerIds) {
-        try {
-            if (ownerIds == null || ownerIds.isEmpty()) {
-                throw new IllegalArgumentException("At least one owner ID is required");
-            }
-
-            List<User> owners = userRepository.findAllById(ownerIds);
-            StringBuilder deactivatedAccounts = new StringBuilder();
-            for (User owner : owners) {
-                owner.set_deactivated(true);
-                owner.setActive(false);
-                userRepository.save(owner);
-                deactivatedAccounts.append("Account: ").append(owner.getLastName()).append(" deactivated Successfully\n");
-            }
-
-            return deactivatedAccounts.toString();
-        } catch (IllegalArgumentException | EntityNotFoundException ex) {
-            return "Error: " + ex.getMessage();
-        } catch (Exception e) {
-            return "An unexpected error occurred: " + e.getMessage();
-        }
-    }
-
-
-    @Override
-    @Transactional
-    public String activateAccount(Long ownerId) {
-        if (ownerId == null) {
-            throw new IllegalArgumentException("Owner are required");
-        }
-        User owner  = userRepository.findById(ownerId)
-                .orElseThrow(()->new EntityNotFoundException(ownerId, User.class));
-
-        owner.set_deactivated(false);
-        owner.setActive(false);
-        userRepository.save(owner);
-        return "Account : "+owner.getLastName() +" activated Successfully";
-    }
-
-
-    @Override
-    public ObjectsList<Campaign> getAllCampagnes(String searchKey, String sortOrder, int page) {
-        Pageable paging;
-        if ("asc".equalsIgnoreCase(sortOrder)) {
-            paging = PageRequest.of(page - 1, 5, Sort.by(Sort.Direction.ASC, "campaignName"));
-        } else {
-            paging = PageRequest.of(page - 1, 5, Sort.by(Sort.Direction.DESC, "campaignName"));
-        }
-        if (searchKey == null) {
-            return unwrapCampaignList(campagneRepository.findAll(paging), page);
-        }
-        Page<Campaign> campaigns = campagneRepository.findAllByCampaignNameContainsIgnoreCase(searchKey, paging);
-        return unwrapCampaignList(campaigns, page);
-    }
-
-        public ObjectsList<Campaign> unwrapCampaignList(Page<Campaign> campaigns , int page){
-        return ObjectsList.<Campaign>builder().data(campaigns.getContent()).
-                meta(
-                        new PaginationData(
-                                page , 5 , campaigns.getTotalPages() ,
-                                campaigns.getTotalElements()
-                        )).build();
-
-    }
-
-    @Override
-    public ObjectsList<Business> getAllBusiness(String searchKey, String sortOrder, int page) {
-        Pageable paging;
-        if ("asc".equalsIgnoreCase(sortOrder)) {
-            paging = PageRequest.of(page - 1, 5, Sort.by(Sort.Direction.ASC, "createdDate"));
-        } else {
-            paging = PageRequest.of(page - 1, 5, Sort.by(Sort.Direction.DESC, "createdDate"));
-        }
-        if (searchKey == null) {
-            return unwrapBusinessList(businessRepository.findAll(paging), page);
-        }
-        Page<Business> business = businessRepository.findAllByBusinessNameContainsIgnoreCase(searchKey, paging);
-        return unwrapBusinessList(business, page);
-    }
-
-    public ObjectsList<Business> unwrapBusinessList(Page<Business> business , int page){
-        return ObjectsList.<Business>builder().data(business.getContent()).
-                meta(
-                        new PaginationData(
-                                page , 5 , business.getTotalPages() ,
-                                business.getTotalElements()
-                        )).build();
-
-    }
 
 
 /*
