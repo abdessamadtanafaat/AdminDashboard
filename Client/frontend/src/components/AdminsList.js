@@ -1,6 +1,7 @@
 import { useLoaderData  , Link} from "react-router-dom"
 import default_avatar from '../assets/default_avatar.webp'
 import { CogIcon } from "@heroicons/react/solid";
+import { UserRoundCog, UserRoundCogIcon } from "lucide-react";
 const AdminsList = () => {
     const {admins , params} = useLoaderData();
      
@@ -77,8 +78,8 @@ const AdminsList = () => {
             </td>
                       <th>
     <button className="btn btn-active btn-sucess && btn-sm" onClick={() => {window.location.href=`/admin/${id}`}}>
-        <CogIcon className='w-4 h-4'/>
-        <span >Details</span>
+        <UserRoundCogIcon className='w-5 h-5'/>
+        {/* <span >Details</span> */}
     </button>
 </th>
 
