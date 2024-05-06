@@ -13,4 +13,7 @@ public interface IBusinessTypeService {
 
     void deleteBusinessTypes(List<Long> businessIds);
     BusinessType createBusinessType(BusinessTypeRequest businessTypeRequest);
+
+    class StatisctisService {
+    }
 }

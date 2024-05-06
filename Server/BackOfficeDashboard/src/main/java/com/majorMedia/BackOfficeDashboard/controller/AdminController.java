@@ -58,16 +58,7 @@ public class AdminController {
             @RequestParam("email") String email ) throws IOException {
         return new ResponseEntity<>(adminService.updateAccountSettings(file , firstname , lastname , email),HttpStatus.ACCEPTED);
     }
-/*    @LogActivity
-    @GetMapping(value = "/owners")
-    public ResponseEntity<List<UserResponse>> getAllUsers(
-            @RequestParam(required = false) String sortBy,
-            @RequestParam(required = false) String searchKey
-    )
-    {
-        List<UserResponse> userResponses = adminService.getAllOwners(sortBy,searchKey,page);
-        return ResponseEntity.ok(userResponses);
-    }*/
+
 
     @LogActivity
     @PatchMapping("/deactivateAccount/{ownerId}")
@@ -82,6 +73,11 @@ public class AdminController {
     {
         String string = adminService.activateAccount(ownerId);
         return ResponseEntity.ok(string);
+    }
+    @LogActivity
+    @PatchMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequest request){
+        return new ResponseEntity<>(adminService.resetPassword(request.getEmail() ,request.getPassword()),HttpStatus.ACCEPTED) ;
     }
 
 }

@@ -29,6 +29,11 @@ const BusinessTypeManager = () => {
     const {token} = useSelector(selectAdmin)
     const [categoryName , setCategoryName] = useState(null);
     const [categoryDesc ,setCategoryDesc] = useState(null)
+    const [activeCategory, setActiveCategory] = useState(!businessCategories.length < 1 ? businessCategories[0].id : null);
+
+    const toggleActive = (id) => {
+        setActiveCategory(activeCategory === id ? null : id);
+    };
     const createBusinessCategory = async()=>{
         try{
             const response = await customFetch.post('/config/business-category',{
@@ -109,7 +114,10 @@ const BusinessTypeManager = () => {
             {businessCategories.map((category)=>{
                 const {id , categoryName } =category
             
-            return <a className="btn btn-sm" href=    {`#businessCategory_${id}`}>
+            return <a 
+            className={`btn btn-sm ${activeCategory === id ? 'btn-accent' : ''}`}
+            href={`#businessCategory_${id}`}
+            onClick={() => toggleActive(id)}>
             {categoryName}</a>
                 
               

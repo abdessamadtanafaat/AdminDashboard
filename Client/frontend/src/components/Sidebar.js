@@ -28,8 +28,8 @@ const items = [
     }
   ] },
   { icon: <Settings />, text: "System Settings", children : [
-    {text : "languages" , link:""},
-    {text:"Templates" , link:""},
+    {text : "languages" , link:"/langues"},
+    {text:"Templates" , link:"/templates"},
     {text:"Service Area",link:"/service-area" },
     {text:"Business Types" , link:"/business-type"}
   ] }
@@ -42,7 +42,7 @@ const Sidebar = () => {
   const dispatch = useDispatch();
  
   const admin = useSelector(selectAdmin)
-  const {firstname , lastname ,email , avatarUrl , token , imageByte} = admin
+  const {firstname , lastname ,email , avatarUrl , token } = admin
 
 
   const handleTheme = ()=>{
@@ -66,8 +66,9 @@ const Sidebar = () => {
   
   return(
     <aside className="h-screen relative z-30 transition duration-2000 " >
-      <nav className="h-full fixed scrollbar-thin
-      scrollbar-corner-black  overflow-y-auto flex flex-col bg-base-300   shadow-sm">
+      <nav className="h-full fixed scrollbar-track-base-100
+      scrollbar-thin
+      scrollbar-thumb-base-content  overflow-y-auto flex flex-col bg-base-300   shadow-sm">
         <div className={`fixed border-b  bg-base-300 z-30  top-0 p-4 pb-2 flex  justify-end items-center mb-4`}
         >
           <img src={logo} className={`h-20

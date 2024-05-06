@@ -30,10 +30,6 @@ public class User {
     private String username;
 
     @Column(nullable = false)
-    @NotBlank(message = "Full name is required")
-    private String fullName;
-
-    @Column(nullable = false)
     @NotBlank(message = "first name is required")
     private String firstName;
 

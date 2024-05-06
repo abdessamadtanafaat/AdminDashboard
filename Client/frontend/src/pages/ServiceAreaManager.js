@@ -29,6 +29,11 @@ const ServiceAreaManager = () => {
   const {token} = useSelector(selectAdmin)
   const [categoryName, setCategoryName] = useState(null)
   const [categoryDesc , setCategoryDesc] = useState(null)
+  const [activeCategory, setActiveCategory] = useState(!serviceCategories.length < 1 ? serviceCategories[0].id : null);
+
+    const toggleActive = (id) => {
+        setActiveCategory(activeCategory === id ? null : id);
+    };
   const createServiceCategory = async()=>{
     try{
         const response = await customFetch.post('/config/service-category',{name :categoryName , description :  categoryDesc},  {
@@ -105,7 +110,9 @@ const ServiceAreaManager = () => {
             {serviceCategories.map((category)=>{
             
             return   category.name=="custom" ?
-            <a className="btn btn-accent btn-sm" href=  {`#serviceCategory_${category.id}`}>{category.name}</a> :<a className="btn btn-sm" href=  {`#serviceCategory_${category.id}`}>
+            <a className="btn btn-info btn-sm" href=  {`#serviceCategory_${category.id}`}>{category.name}</a> :<a className={`btn btn-sm ${activeCategory === category.id ? 'btn-accent' : ''}`}
+            href={`#businessCategory_${category.id}`}
+            onClick={() => toggleActive(category.id)}>
             {category.name}</a>
                 
               

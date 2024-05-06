@@ -9,9 +9,11 @@ import com.majorMedia.BackOfficeDashboard.model.requests.BusinessTypeRequest;
 import com.majorMedia.BackOfficeDashboard.model.requests.ServiceAreaRequest;
 import com.majorMedia.BackOfficeDashboard.model.requests.UpdateBusinessCategory;
 import com.majorMedia.BackOfficeDashboard.model.requests.UpdateServiceCategory;
+import com.majorMedia.BackOfficeDashboard.model.responses.StatisctisData;
 import com.majorMedia.BackOfficeDashboard.repository.ServiceAreaCategoryRepository;
 import com.majorMedia.BackOfficeDashboard.service.IBusinessTypeService;
 import com.majorMedia.BackOfficeDashboard.service.IServiceAreaService;
+import com.majorMedia.BackOfficeDashboard.service.IStatisticsService;
 import com.majorMedia.BackOfficeDashboard.service.ServiceAreaService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -28,6 +30,7 @@ public class SystemController {
 
     private IServiceAreaService serviceAreaService ;
     private IBusinessTypeService businessTypeService;
+    private IStatisticsService statisticsService;
     @LogActivity
     @GetMapping("/service-categories")
     public ResponseEntity<List<ServiceCategory>> getAllServiceCategories(){
@@ -96,11 +99,17 @@ public class SystemController {
     }
     @LogActivity
     @DeleteMapping("/business-type")
-    public ResponseEntity<HttpStatus> deleteBusinessTypes(@RequestParam List<Long> businessIds ){
+    public ResponseEntity<HttpStatus> deleteBusinessTypes(@RequestParam List<Long> businessIds ) {
         businessTypeService.deleteBusinessTypes(businessIds);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
 
     }
+    @LogActivity
+    @GetMapping("/statistics")
+    public ResponseEntity<StatisctisData> getSystemData(){
+        return new ResponseEntity<>(statisticsService.getSystemData() , HttpStatus.OK);
+    }
+
 
 
 

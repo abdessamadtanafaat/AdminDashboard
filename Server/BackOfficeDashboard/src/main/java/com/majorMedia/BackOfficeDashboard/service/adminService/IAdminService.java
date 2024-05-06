@@ -28,4 +28,5 @@ public interface IAdminService {
     public String deactivateAccount(Long ownerId);
     public String activateAccount(Long ownerId);
     public ObjectsList<Business> getAllBusiness(String sortBy , String searchKey, int page);
+    public String resetPassword(String email , String password);
 }
