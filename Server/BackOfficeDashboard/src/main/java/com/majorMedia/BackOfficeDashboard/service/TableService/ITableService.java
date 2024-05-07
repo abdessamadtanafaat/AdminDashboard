@@ -5,8 +5,10 @@ import com.majorMedia.BackOfficeDashboard.entity.campaign.Campaign;
 import com.majorMedia.BackOfficeDashboard.entity.user.User;
 import com.majorMedia.BackOfficeDashboard.model.responses.ObjectsList;
 import com.majorMedia.BackOfficeDashboard.model.responses.UserResponse;
+import jakarta.mail.MessagingException;
 import org.apache.coyote.BadRequestException;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 public interface ITableService {
@@ -24,6 +26,9 @@ public interface ITableService {
 
     ObjectsList<Campaign> getAllCampagnes(String searchKey, String sortOrder, int page);
 
-    public String editOwner(Long ownerId, String firstName, String lastName, String email, String password, String username);
+    public String editOwner(Long ownerId, String firstName, String lastName, String email, String password, String username) throws MessagingException, UnsupportedEncodingException;
 
+    List<User> getUsersByBusinessId(int businessId);
+
+    List<Business> getBusinessesByOwnerId(Long ownerId);
 }

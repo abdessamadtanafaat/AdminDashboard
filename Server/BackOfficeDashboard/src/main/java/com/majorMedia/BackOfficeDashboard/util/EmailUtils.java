@@ -42,6 +42,28 @@ public class EmailUtils {
 
         javaMailSender.send(message);
     }
+    public void sendEmailActivation(String to, String newPassword) throws MessagingException, UnsupportedEncodingException {
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        String emailContent = "<div style=\"font-family: Arial, sans-serif;\">" +
+                "<h3>Hello,</h3>" +
+                "<p>Your password has been reset successfully. Below is your new password:</p>" +
+                "<p style=\"background-color: #f0f0f0; padding: 10px; border-radius: 5px;\">" + newPassword + "</p>" +
+                "<p>Your account has been reactivated. You can now use this password to log in again.</p>" +
+                "<p>If you did not request a password reset or have any concerns, please contact us immediately.</p>" +
+                "<p>Best regards,<br>The Team</p>" +
+                "</div>";
+
+        helper.setText(emailContent, true);
+        helper.setFrom("tvta3ichannel@gmail.com", "SmtpSatisnap");
+        helper.setSubject("Password Reset and Account Activation");
+        helper.setTo(to);
+
+        javaMailSender.send(message);
+    }
+
+
     public static String generateToken() {
         byte[] tokenBytes = new byte[TOKEN_LENGTH];
         secureRandom.nextBytes(tokenBytes);

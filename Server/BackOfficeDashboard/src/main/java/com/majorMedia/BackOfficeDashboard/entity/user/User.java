@@ -1,6 +1,8 @@
 package com.majorMedia.BackOfficeDashboard.entity.user;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.majorMedia.BackOfficeDashboard.entity.business.Business;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -11,6 +13,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Data
@@ -87,5 +90,9 @@ public class User {
 
     @Column(length = 100000)
     private String avatarUrl;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Business> businesses;
 
 }

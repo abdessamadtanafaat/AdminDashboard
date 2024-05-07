@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import {PiPencilSimpleDuotone , PiTrashDuotone} from 'react-icons/pi'
 import avatar_default from '../assets/default_avatar.webp'
 
-const EditOwnerForm = React.memo(({ownerId, onClose }) => {
+const EditOwnerForm = React.memo(({businessId, onClose }) => {
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -18,8 +18,7 @@ const EditOwnerForm = React.memo(({ownerId, onClose }) => {
 
     const navigate = useNavigate();
 
-
-//console.log(ownerId)
+    //console.log(ownerId)
     const [ownerInfo, setOwnerInfo] = useState({
         firstName: '',
         lastName: '',
@@ -28,27 +27,34 @@ const EditOwnerForm = React.memo(({ownerId, onClose }) => {
         newPassword: ''
     });
 
-    
-    const admin = useSelector(state => state.adminState.admin);
-    useEffect(() => {
-        
-        if (ownerId) {
-                    customFetch (`/tables/owner?ownerId=${ownerId}`, {
-                    headers: { Authorization: `Bearer ${admin.token}` }
-                })
-                    .then(res => {
-                        const { firstName, lastName, email, username, avatarUrl } = res.data;
-                        console.log('Owner Info:', res.data);
-                        setFirstName(firstName);
-                        setLastName(lastName);
-                        setEmail(email);
-                        setUsername(username);
-                        setSelectedImage(avatarUrl);
-                    })
-                    .catch(err => console.log(err))
-                }
-    }, [ownerId, admin.token]) 
 
+    const admin = useSelector(state => state.adminState.admin);
+
+    useEffect(() => {
+        if (businessId) {
+            customFetch(`/tables/business/${businessId}/users`, {
+                headers: { Authorization: `Bearer ${admin.token}` }
+            })
+            .then(res => {
+                if (res.data.length > 0) {
+                    const userData = res.data[0]; // Suppose que vous traitez seulement le premier utilisateur
+                    const { firstName, lastName, email, username, avatarUrl } = userData;
+                    console.log('Owner Info:', userData);
+                    setFirstName(firstName);
+                    setLastName(lastName);
+                    setEmail(email);
+                    setUsername(username);
+                    setSelectedImage(avatarUrl);
+                } else {
+                    console.error('No user data found');
+                }
+            })
+            .catch(err => console.log(err))
+        }
+    }, [businessId, admin.token]);
+
+    
+    console.log(firstName);
 
     
     const handleChange = (e) => {
@@ -65,41 +71,28 @@ const EditOwnerForm = React.memo(({ownerId, onClose }) => {
         onClose();
     };
     
-    const handleSubmit = async () => {
+    // const handleSubmit = async () => {
         
-        try {
-            const response =  customFetch(`tables/editOwner/${ownerId}?firstName=${firstName}&lastName=${lastName}&email=${email}&password=${newPassword}&username=${username}`, {
-                method: 'PATCH',
-                headers: {
-                    Authorization: `Bearer ${admin.token}`
-                },
+    //     try {
+    //         const response =  customFetch(`tables/editOwner/${businessId}?firstName=${firstName}&lastName=${lastName}&email=${email}&password=${newPassword}&username=${username}`, {
+    //             method: 'PATCH',
+    //             headers: {
+    //                 Authorization: `Bearer ${admin.token}`
+    //             },
 
-            });
-            toast.success(`Account ${firstName} successfully updated`);
-            console.log(response);
-            navigate("/business-owner");
-            onClose();
+    //         });
+    //         toast.success(`Account ${firstName} successfully updated`);
+    //         console.log(response);
+    //         navigate("/business-owner");
+    //         onClose();
     
-        } catch (error) {
-            // Handle errors here
-            toast.error(error);
-            console.error('Error:', error);
-        }
-    };
+    //     } catch (error) {
+    //         // Handle errors here
+    //         toast.error(error);
+    //         console.error('Error:', error);
+    //     }
+    // };
     
-    
-    const generateRandomPassword = () => {
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+{}|:<>?';
-        const passwordLength = 10;
-        let newPassword = '';
-        for (let i = 0; i < passwordLength; i++) {
-            const randomIndex = Math.floor(Math.random() * characters.length);
-            newPassword += characters[randomIndex];
-        }
-
-        setNewPassword(newPassword);
-        console.log(newPassword)
-    };
     
     const [selectedImage, setSelectedImage] = useState(admin.avatarUrl);
     const [imageFile , setImageFile] = useState(null)
@@ -108,14 +101,13 @@ const EditOwnerForm = React.memo(({ownerId, onClose }) => {
     return (
 
         <div className="modal-box flex flex-col items-center justify-center z-50">
-            <form onSubmit={handleSubmit} className="grid place-content-center">
+            <form className="grid place-content-center">
                 <button className="close-dialog btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={handleClose}>✕</button>
                 <div className="avatar w-32 mx-auto mb-3 ">
           <div className="mx-auto mask rounded-lg">
             <img src={selectedImage ||avatar_default} />
           </div>
         </div>
-
                 <div className="my-5 mx-auto flex flex-col justify-center gap-3">
                     <div className="flex gap-4">
                         <div className="form-control">
@@ -182,37 +174,9 @@ const EditOwnerForm = React.memo(({ownerId, onClose }) => {
                         </div>
                     </div>
                     <div className="flex gap-4 items-center">
-                    <div className="form-control flex-1">
-                        <label className="label">
-                            <span className="label-text capitalize font-semibold">New Password</span>
-                        </label>
-                        <input
-                            type="password"
-                            name="newPassword"
-                            placeholder="Enter New Password"
-                            className="input input-bordered input-accent"
-                            value={newPassword}
-                            onChange={handleChange}
-                            autoComplete="new-password"
-                        />
-                    </div>
                     <div className="form-control">
-                    <label className="label">
-                            <span className="label-text capitalize font-semibold">Generate</span>
-                        </label>
-                        
-                        <button
-                            type="button"
-                            className="btn btn-success"
-                            onClick={generateRandomPassword} // Appel de la fonction pour générer un mot de passe
-                        >
-            <PencilIcon className='w-4 h-4' />
-                        </button>
                     </div>
                     </div>
-                </div>
-                <div className="mt-4">
-                    <button type="submit" className="capitalize tracking-wide btn btn-accent btn-block">Save Changes</button>
                 </div>
             </form>
         </div>

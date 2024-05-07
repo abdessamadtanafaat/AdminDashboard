@@ -1,5 +1,6 @@
 package com.majorMedia.BackOfficeDashboard.entity.business;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.majorMedia.BackOfficeDashboard.entity.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -38,6 +39,7 @@ public class Business {
     @JoinColumn(name = "type_id")
     private BusinessType type;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

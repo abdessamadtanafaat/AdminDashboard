@@ -19,7 +19,7 @@ const AdminsList = () => {
                     <th>        </th>
                     <th className="text-center" >Profile</th>
                     <th className="text-center" >Full Name</th>   
-                    <th className="text-center" >Role</th>   
+                    {/* <th className="text-center" >Role</th>    */}
                     <th className="text-center" >Status</th>   
 
                                      
@@ -66,14 +66,14 @@ const AdminsList = () => {
     </div>
 </td>
                       <td>
-                      <div className="font-bold">
+                      {/* <div className="font-bold">
     {roles.map((role, index) => (
         <span key={role.id}>
             {index === 0 && role.name === 'ROLE_ADMIN' && 'ADMIN'}
             {index === 0 && role.name === 'ROLE_SUPER_ADMIN' && 'SUPER ADMIN'}
         </span>
     ))}
-</div>
+</div> */}
 
             </td>
                       <th>
