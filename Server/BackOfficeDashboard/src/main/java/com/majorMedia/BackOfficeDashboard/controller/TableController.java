@@ -10,6 +10,7 @@ import com.majorMedia.BackOfficeDashboard.model.responses.ObjectsList;
 import com.majorMedia.BackOfficeDashboard.model.responses.UserResponse;
 import com.majorMedia.BackOfficeDashboard.service.TableService.ITableService;
 import com.majorMedia.BackOfficeDashboard.service.adminService.IAdminService;
+import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @RestController
@@ -95,16 +97,25 @@ public ResponseEntity<ObjectsList<Campaign>> getAllCampagnes(
     @PatchMapping("/editOwner/{ownerId}")
     public ResponseEntity<String> editOwner(
             @PathVariable Long ownerId,
-            @RequestParam("firstName") String firstName,
-            @RequestParam("lastName") String lastName,
-            @RequestParam("email") String email,
+            @RequestParam(value = "firstName", required = false) String firstName,
+            @RequestParam(value ="lastName", required = false) String lastName,
+            @RequestParam(value =  "email", required = false) String email,
             @RequestParam(value = "password") String password,
-            @RequestParam("username") String username
-    ) {
+            @RequestParam(value = "username", required = false) String username
+    ) throws MessagingException, UnsupportedEncodingException {
         String result = tableService.editOwner(ownerId, firstName, lastName, email, password, username);
         return ResponseEntity.ok(result);
     }
 
 
+    @GetMapping("/business/{businessId}/users")
+    public List<User> getUsersByBusinessId(@PathVariable int businessId) {
+        return tableService.getUsersByBusinessId(businessId);
+    }
+
+    @GetMapping("/owner/{ownerId}/businesses")
+    public List<Business> getBusinessesByOwnerId(@PathVariable Long ownerId) {
+        return tableService.getBusinessesByOwnerId(ownerId);
+    }
 
 }

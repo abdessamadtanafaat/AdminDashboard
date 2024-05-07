@@ -3,8 +3,8 @@ import { useLoaderData, Link, useNavigate } from "react-router-dom";
 import { ChevronDownIcon } from '@heroicons/react/solid';
 import { useSelector } from 'react-redux';
 import { customFetch } from '../utils';
-import { ArrowUpDown, LampWallDown, PencilIcon, SortAscIcon, SortDescIcon, } from "lucide-react";
-
+import { ArrowUpDown, BriefcaseBusinessIcon,LampWallDown, PencilIcon, SortAscIcon, SortDescIcon, User, } from "lucide-react";
+import {InfoOwnerBusiness} from ".";
 
 const BusinessList = () => {
     const admin = useSelector(state => state.adminState.admin);
@@ -16,6 +16,9 @@ const BusinessList = () => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedBusinessOwners, setSelectedBusinessOwners] = useState([]);
+
+    const [infoOwnerDialogOpen, setInfoOwnerDialogOpen] = useState(false);
+    const [selectedbusinessId, setSelectedBusinessId] = useState(false);
 
     useEffect(() => {
         setCreatedDateSort({ ascending: initialSortOrder === 'asc' });
@@ -109,6 +112,14 @@ const BusinessList = () => {
         }
     };
 
+    const handleOwnerInfoClick = async (id) => {
+        setSelectedBusinessId(id)
+        console.log(selectedbusinessId)
+        setInfoOwnerDialogOpen(true);
+    };
+
+
+
     return (
         <div className="overflow-x-auto">
             <table className="table table-zebra-zebra">
@@ -125,7 +136,8 @@ const BusinessList = () => {
                                     </label>
                         </th>
                         <th>Business Name</th>
-                        <th>Owner</th>
+                        <th>Address</th>
+                        <th>Phone</th>
                         <th style={{ cursor: 'pointer' }} onClick={toggleCreatedDateSort}>
                             <div className="flex items-center">
                                 Created Date
@@ -133,11 +145,13 @@ const BusinessList = () => {
 
                             </div>
                         </th>
+                        <th>Business Owner</th>
+
                     </tr>
                 </thead>
                 <tbody>
                     {businesses.map((business) => {
-                    const { businessName, lastName, email, avatarUrl, username, id, _deactivated, active,fullName } = business;
+                    const { businessName, email, phone, id,address,type } = business;
                     return (
                         <tr key={business.id}>
                                 <th>
@@ -152,23 +166,53 @@ const BusinessList = () => {
                             <td>
                                 <div className="font-bold">{businessName}</div>
                                 <div className="text-sm font-normal text-gray-500 dark:text-gray-400"
-                                     style={{ fontSize: '0.8em' }}>{email}</div>
-                                </td>
+                                     style={{ fontSize: '0.8em' }}>{business.type.typeName}</div>
+                            </td>
                             <td>
-                                <div className="font-bold">{business.user.fullName}</div>
-                                <div className="text-sm font-normal text-gray-500 dark:text-gray-400"
-                                     style={{ fontSize: '0.8em' }}>{business.user.email}</div>
-                            
+                                <div className="font-bold">{business.address}</div>
+                            </td>
+                            <td>
+                                <div>{business.phone}</div>        
                             </td>
                             <td>{formatDateDuration(business.createdDate)}</td>
                             <td>
-                            <button class="btn btn-active btn-sucess && btn-sm" onClick={() => {window.location.href=`/business/${business.id}`}}>details</button>
+                                    <button className='btn btn-success btn-sm'
+                                        onClick={() => {
+                                            handleOwnerInfoClick(id)
+                                                                                }}
+                                    >
+                                    <User className='w-4 h-4' />
+                                    {/* <span className="ml-1">Edit Owner</span> */}
+                                    </button>
                             </td>
+
+                            {/* <button class="btn btn-active btn-sucess && btn-sm" onClick={() => {window.location.href=`/business/${business.id}`}}>details</button> */}
                         </tr>
                     );
                     })}
                 </tbody>
             </table>
+
+                         {/* Info de Owner */}
+                         {businesses.map((business) => {
+                const {id} = business;
+                return (
+                    <dialog
+                        key={id}
+                        id={`owner-dialog-${id}`}
+                        className="modal modal-bottom sm:modal-middle"
+                        open={infoOwnerDialogOpen && selectedbusinessId === id}
+                        onClose={() => setInfoOwnerDialogOpen(false)}
+                    >
+                        <div className="fixed inset-0 z-50 bg-black opacity-50"></div> 
+                        <InfoOwnerBusiness
+                            businessId={selectedbusinessId}
+                            onClose={() => setInfoOwnerDialogOpen(false)}
+                        />
+                    </dialog>
+                );
+            })}
+
         </div>
     );
 };

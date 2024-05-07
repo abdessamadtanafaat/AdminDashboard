@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { Form, useLoaderData, useNavigate } from "react-router-dom";
 import default_avatar from '../assets/default_avatar.webp';
 import { ExclamationCircleIcon, LockClosedIcon, LockOpenIcon, PencilAltIcon } from "@heroicons/react/solid";
 import { customFetch } from '../utils';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { BsPencilSquare } from "react-icons/bs";
-import { ArrowUpDown, LampWallDown, Lock, LockOpen, PencilIcon, SortAscIcon, SortDescIcon } from "lucide-react";
+import { ArrowUpDown, BriefcaseBusinessIcon, Circle, LampWallDown, Lock, LockOpen, PencilIcon, SortAscIcon, SortDescIcon } from "lucide-react";
 import {EditOwnerForm} from ".";
+import {BusinessCarousel} from ".";
 import {LockOwnerDialog} from ".";
-import { ChevronDownIcon } from '@heroicons/react/solid';
 
 
 const BusinessOwnerList = () => {
@@ -24,6 +24,9 @@ const BusinessOwnerList = () => {
     const [DeactivatedState, setDeactivatedState] = useState(null); 
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [lockDialogOpen, setLockDialogOpen] = useState(false);
+    const [selectedOwnerIdForBusiness, setOwnerIdForBusiness] = useState(null); 
+    const [selectedOwnerIdForEdit, setOwnerIdForEdit] = useState(null); 
+
 
         const handleSelectAll = () => {
             setSelectAll(!selectAll); 
@@ -68,7 +71,7 @@ const BusinessOwnerList = () => {
 const initialSortOrder = localStorage.getItem('sortOrder') || 'asc';
 const [createdDateSort, setCreatedDateSort] = useState({ ascending: false });
 
-useEffect(() => {
+    useEffect(() => {
     if (businessOwners) {
         const deactivatedIds = businessOwners.filter(owner => owner._deactivated).map(owner => owner.id);
         setDeactivatedOwners(deactivatedIds);
@@ -83,29 +86,7 @@ useEffect(() => {
         setCreatedDateSort({ ascending: false });
         localStorage.setItem('sortOrder', 'desc');
     }
-}, [businessOwners, initialSortOrder]);
-
-
-     
-    // useEffect(() => {
-    //     if (businessOwners) {
-    //         const deactivatedIds = businessOwners.filter(owner => owner._deactivated).map(owner => owner.id);
-    //         setDeactivatedOwners(deactivatedIds);
-    //     }
-    // }, [businessOwners]);
-    // useEffect(() => {
-    //     setCreatedDateSort({ ascending: initialSortOrder === 'asc' });
-
-    //     const sortOrder = localStorage.getItem('sortOrder');
-    //     if (sortOrder) {
-    //         setCreatedDateSort({ ascending: sortOrder === 'asc' });
-    //     } else {
-    //         setCreatedDateSort({ ascending: false });
-    //         localStorage.setItem('sortOrder', 'desc');
-    //     }
-
-    // }, [initialSortOrder]);
-
+    }, [businessOwners, initialSortOrder]);
 
     const handleLockClick = (id,isDeactivated) => {
         setLockDialogOpen(true);
@@ -148,10 +129,9 @@ useEffect(() => {
             return `${seconds} second${seconds > 1 ? 's' : ''} ago`;
         }
     };
-    const [editOwnerInfo, setEditOwnerInfo] = useState(null); 
 
-    const handleEditOwnerClick = async (ownerId) => {
-        //setSelectedOwnerId(ownerId);
+    const handleEditOwnerClick = async (id) => {
+        setOwnerIdForEdit(id)
         console.log(selectedOwnerId)
         setEditDialogOpen(true);
     };
@@ -180,6 +160,13 @@ useEffect(() => {
         console.log(response.data);
     };
     
+    const [isCarouselOpen, setIsCarouselOpen] = useState(false);
+    const handleCarousel = async (id) => {
+        setSelectedOwnerId(id);
+        console.log(selectedOwnerId);
+        setIsCarouselOpen(true);
+    };
+
 
     if (!businessOwners || businessOwners.length < 1) {
         return (
@@ -206,15 +193,16 @@ useEffect(() => {
                         </th>
                     <th key="profile" className="text-center">Profile</th>
                     <th key="fullName" className="text-center">Full Name</th>
-                    <th key="status" className="text-center">Status</th>
-                    {/* <th key="signedUp" className="text-center">Signed Up</th> */}
-
+                    {/* <th key="status" className="text-center">Status</th> */}
                     <th key="signedUp" style={{ cursor: 'pointer' }} onClick={toggleCreatedDateSort}>
                             <div className="flex items-center">
                                 Signed Up  &nbsp;
                                 <ArrowUpDown className={`w-4 h-4 ml-1 text-gray-800 dark:text-black`} />
                             </div>
                     </th>
+                    <th key="Business" className="text-center">Businesses</th>
+
+
                         
                     <th key="edit" className="text-center"></th>
                     <th key="lockButton">
@@ -233,7 +221,7 @@ useEffect(() => {
                 </thead>
                 <tbody>
                     {businessOwners.map((owner) => {
-                        const { firstName, lastName,createdAt, email, avatarUrl, username, id, _deactivated, active,fullName } = owner;
+                        const { firstName, lastName,createdAt, email, avatarUrl, username, id, _deactivated, active,fullName,businesses } = owner;
                         return (
                             <tr>
                                 <th key="checkbox">
@@ -246,42 +234,53 @@ useEffect(() => {
                                     </label>
                                 </th>
                                 <td>
-                                    <div className="flex items-center gap-3">
-                                        <div className="avatar">
-                                            <div className="mask mask-squircle w-12 h-12">
-                                                <img alt="profile image" src={avatarUrl ? `${avatarUrl}` : default_avatar} />
-                                            </div>
-                                        </div>
-                                        <div></div>
-                                    </div>
+                                <div className="flex items-center gap-3 relative">
+    <div className="avatar relative">
+        <div className="mask mask-squircle w-12 h-12">
+            <img alt="profile image" src={avatarUrl ? `${avatarUrl}` : default_avatar} />
+        </div>
+        {active ? (
+            <div className="absolute -top-0 -right-0 flex items-center justify-center w-2 h-2 rounded-full bg-green-400 text-white">
+            </div>
+        ): (
+            <div className="absolute -top-0 -right-0 flex items-center justify-center w-2 h-2 rounded-full bg-red-500 text-white">
+            </div>
+        )}
+    </div>
+</div>
+
                                 </td>
                                 <td>
                                 <div className="font-bold">{fullName}</div>
                                 <div className="text-sm font-normal text-gray-500 dark:text-gray-400"
                                      style={{ fontSize: '0.8em' }}>{email}</div>
                                 </td>
-                                <td>
-    <div className="font-bold">
-        {active ? (
-            <div className="flex items-center">
-            <div className="h-2.5 w-2.5 rounded-full bg-green-400 mr-2"></div>  ONLINE
-            </div>
-                    ) : (
-            <div className="flex items-center">
-            <div className="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div>  OFFLINE
-            </div> 
-               )}
-    </div>
-</td>
                     <td>
                     <div>{getSignedUpText(createdAt)}</div>
                     </td>
+                    <td className="text-center">
+                {/* Afficher les entreprises associées */}
+                
+                {businesses.map((business) => (
+                    <div key={business.id}>
+                        {/* <briefcase-business/> */}
+                        {/* <div className="font-bold">{business.businessName}</div> */}
+                    </div>
+                ))}
+
+                <button className='btn btn-success btn-sm '
+                        onClick={() => setOwnerIdForBusiness(id)}
+
+                                    >
+                                    <BriefcaseBusinessIcon className='w-4 h-4' />
+                                    </button>
+            </td>
+
                     <td>
                                     <button className='btn btn-success btn-sm'
                                         onClick={() => {
-                                            handleEditOwnerClick(id)
-                                            setSelectedOwnerId(id)
-
+                                            //handleEditOwnerClick(id)
+                                            setOwnerIdForEdit(id)
                                                                                 }}
                                     >
                                     <PencilIcon className='w-4 h-4' />
@@ -346,19 +345,39 @@ useEffect(() => {
                         key={id}
                         id={`edit-dialog-${id}`}
                         className="modal modal-bottom sm:modal-middle"
-                        open={editDialogOpen && selectedOwnerId === id}
+                        open={selectedOwnerIdForEdit === id}
                         onClose={() => setEditDialogOpen(false)}
                     >
                         <div className="fixed inset-0 z-50 bg-black opacity-50"></div> 
                         <EditOwnerForm
-                            ownerId={selectedOwnerId}
+                            ownerId={selectedOwnerIdForEdit}
                             onClose={() => setEditDialogOpen(false)}
                         />
                     </dialog>
                 );
             })}
+
+            {businessOwners.map((owner) => {
+                const {id} = owner;
+            return (
+                <Form  
+                    key={id}
+                    id={`business-caroussel-${id}`}    
+                    className="modal modal-bottom sm:modal-middle"
+                    open={selectedOwnerIdForBusiness === id}
+                    onClose={() => setOwnerIdForBusiness(null)}
+                    >
+
+                            <BusinessCarousel
+                            ownerId = {selectedOwnerIdForBusiness}
+                            onClose={() => setOwnerIdForBusiness(null)}
+                                                        />
+                </Form>
+            );
+})}
         </div>
     );
+
 };
 
 export default BusinessOwnerList;
