@@ -1,7 +1,10 @@
 import {Bar} from 'react-chartjs-2'
 import { Chart as ChartJS } from 'chart.js';
 import 'chart.js/auto';
+import colors from "tailwindcss/colors";
+
 const BarChart = ({chart}) => {
+  console.log(colors);
   const labels = Object.keys(chart);
   const data = Object.values(chart);
   console.log(labels)
@@ -12,7 +15,7 @@ const BarChart = ({chart}) => {
       {
         label: 'Number of Businesses',
         data: data,
-        backgroundColor: ''
+        backgroundColor: colors.slate['500']
     
 
       },

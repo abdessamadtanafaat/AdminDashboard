@@ -1,4 +1,4 @@
-package com.majorMedia.BackOfficeDashboard.service;
+package com.majorMedia.BackOfficeDashboard.service.SystemService;
 
 import com.majorMedia.BackOfficeDashboard.entity.business.Business;
 import com.majorMedia.BackOfficeDashboard.entity.business.BusinessType;

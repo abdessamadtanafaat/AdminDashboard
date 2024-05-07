@@ -111,7 +111,7 @@ const ServiceAreaManager = () => {
             
             return   category.name=="custom" ?
             <a className="btn btn-info btn-sm" href=  {`#serviceCategory_${category.id}`}>{category.name}</a> :<a className={`btn btn-sm ${activeCategory === category.id ? 'btn-accent' : ''}`}
-            href={`#businessCategory_${category.id}`}
+            href={`#serviceCategory_${category.id}`}
             onClick={() => toggleActive(category.id)}>
             {category.name}</a>
                 

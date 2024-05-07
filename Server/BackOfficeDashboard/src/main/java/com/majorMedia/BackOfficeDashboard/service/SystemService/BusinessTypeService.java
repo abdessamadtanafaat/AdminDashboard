@@ -1,16 +1,13 @@
-package com.majorMedia.BackOfficeDashboard.service;
+package com.majorMedia.BackOfficeDashboard.service.SystemService;
 
 import com.majorMedia.BackOfficeDashboard.entity.business.BusinessCategory;
 import com.majorMedia.BackOfficeDashboard.entity.business.BusinessType;
-import com.majorMedia.BackOfficeDashboard.entity.campaign.ServiceArea;
-import com.majorMedia.BackOfficeDashboard.entity.campaign.ServiceCategory;
 import com.majorMedia.BackOfficeDashboard.exception.AlreadyExistsEntityException;
 import com.majorMedia.BackOfficeDashboard.exception.EntityNotFoundException;
 import com.majorMedia.BackOfficeDashboard.model.requests.BusinessTypeRequest;
 import com.majorMedia.BackOfficeDashboard.repository.BusinessCategoryRepository;
 import com.majorMedia.BackOfficeDashboard.repository.BusinessTypeRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -29,7 +29,7 @@ const Landing = () => {
   
   const {businessNbr , usersNbr , compainsNbr , customersNbr , businessTypes , businesesCreated , campaignsCreated}= useLoaderData();
   return (
-    <div className="flex flex-col justify-between  items-center gap-6">
+    <div className="flex flex-col justify-between w-full items-center gap-6">
       <div className="stats shadow md:stats-horizontal stats-vertical">
         <div className="stat">
           <div className="stat-figure text-secondary">
@@ -66,7 +66,7 @@ const Landing = () => {
 </div>
 
       </div>
-      <div className="w-full"> 
+      <div className="w-full "> 
       <BarChart chart={businessTypes}/>
       <CreationLine businessData={businesesCreated} campaignData={campaignsCreated}/>
       </div>

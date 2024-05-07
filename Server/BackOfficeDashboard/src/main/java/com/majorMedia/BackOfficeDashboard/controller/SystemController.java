@@ -3,6 +3,7 @@ package com.majorMedia.BackOfficeDashboard.controller;
 import com.majorMedia.BackOfficeDashboard.aspect.LogActivity;
 import com.majorMedia.BackOfficeDashboard.entity.business.BusinessCategory;
 import com.majorMedia.BackOfficeDashboard.entity.business.BusinessType;
+import com.majorMedia.BackOfficeDashboard.entity.campaign.Language;
 import com.majorMedia.BackOfficeDashboard.entity.campaign.ServiceArea;
 import com.majorMedia.BackOfficeDashboard.entity.campaign.ServiceCategory;
 import com.majorMedia.BackOfficeDashboard.model.requests.BusinessTypeRequest;
@@ -10,11 +11,10 @@ import com.majorMedia.BackOfficeDashboard.model.requests.ServiceAreaRequest;
 import com.majorMedia.BackOfficeDashboard.model.requests.UpdateBusinessCategory;
 import com.majorMedia.BackOfficeDashboard.model.requests.UpdateServiceCategory;
 import com.majorMedia.BackOfficeDashboard.model.responses.StatisctisData;
-import com.majorMedia.BackOfficeDashboard.repository.ServiceAreaCategoryRepository;
-import com.majorMedia.BackOfficeDashboard.service.IBusinessTypeService;
-import com.majorMedia.BackOfficeDashboard.service.IServiceAreaService;
-import com.majorMedia.BackOfficeDashboard.service.IStatisticsService;
-import com.majorMedia.BackOfficeDashboard.service.ServiceAreaService;
+import com.majorMedia.BackOfficeDashboard.service.SystemService.IBusinessTypeService;
+import com.majorMedia.BackOfficeDashboard.service.SystemService.ILanguagesService;
+import com.majorMedia.BackOfficeDashboard.service.SystemService.IServiceAreaService;
+import com.majorMedia.BackOfficeDashboard.service.SystemService.IStatisticsService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -31,6 +31,7 @@ public class SystemController {
     private IServiceAreaService serviceAreaService ;
     private IBusinessTypeService businessTypeService;
     private IStatisticsService statisticsService;
+    private ILanguagesService languagesService;
     @LogActivity
     @GetMapping("/service-categories")
     public ResponseEntity<List<ServiceCategory>> getAllServiceCategories(){
@@ -102,6 +103,12 @@ public class SystemController {
     public ResponseEntity<HttpStatus> deleteBusinessTypes(@RequestParam List<Long> businessIds ) {
         businessTypeService.deleteBusinessTypes(businessIds);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
+
+    }
+    @LogActivity
+    @GetMapping("/languages")
+    public ResponseEntity<List<Language>> getLangues(){
+        return new ResponseEntity<>(languagesService.getLangues(),  HttpStatus.OK);
 
     }
     @LogActivity

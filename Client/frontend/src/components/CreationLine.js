@@ -1,5 +1,7 @@
 import { Line } from 'react-chartjs-2';
 import {formatDate} from '../utils'
+import colors from "tailwindcss/colors";
+
 const CreationLine = ({ businessData, campaignData }) => {
   const businessLabels = Object.keys(businessData);
   const businessValues = Object.values(businessData);
@@ -16,8 +18,8 @@ const CreationLine = ({ businessData, campaignData }) => {
       {
         label: 'Businesses Created',
         data: businessDataset,
-        backgroundColor: 'green',
-        borderColor: 'green'
+        backgroundColor:  colors.slate['800'] , 
+        borderColor:  colors.green['700'] , 
       },
       {
         label: 'Campaigns Created',
@@ -27,8 +29,6 @@ const CreationLine = ({ businessData, campaignData }) => {
       }
     ]
   };
-
-  // Configure chart options
   const chartOptions = {
     scales: {
       y: {
@@ -38,7 +38,7 @@ const CreationLine = ({ businessData, campaignData }) => {
   };
 
   return (
-    <div className="grid place-content-center items bg-center">
+    <div className="grid place-content-center items  rounded-md ">
       <Line data={chartData} options={chartOptions} />
     </div>
   );

@@ -1,4 +1,4 @@
-package com.majorMedia.BackOfficeDashboard.service;
+package com.majorMedia.BackOfficeDashboard.service.SystemService;
 
 import com.majorMedia.BackOfficeDashboard.entity.campaign.ServiceArea;
 import com.majorMedia.BackOfficeDashboard.entity.campaign.ServiceCategory;

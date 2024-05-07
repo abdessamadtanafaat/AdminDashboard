@@ -1,6 +1,5 @@
-package com.majorMedia.BackOfficeDashboard.service;
+package com.majorMedia.BackOfficeDashboard.service.SystemService;
 
-import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
 import com.majorMedia.BackOfficeDashboard.entity.campaign.ServiceArea;
 import com.majorMedia.BackOfficeDashboard.entity.campaign.ServiceCategory;
 import com.majorMedia.BackOfficeDashboard.exception.AlreadyExistsEntityException;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 @AllArgsConstructor

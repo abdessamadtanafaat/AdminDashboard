@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: { transitionDuration: {
       '2000': '2000ms',
-    }},
+    }}
   },
   plugins: [require('@tailwindcss/typography'), require('daisyui') , require('tailwind-scrollbar')],
   daisyui: {
