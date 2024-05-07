@@ -46,11 +46,6 @@ public class Campaign {
     private List<LoyaltyProgramme> loyaltyProgrammes;
 
 
-    @ManyToOne
-    @JoinColumn(name = "template_id")
-    private Template template;
-
-
     @ManyToMany
     @JoinTable(
             name = "campaign_language",

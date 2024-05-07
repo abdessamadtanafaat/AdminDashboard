@@ -1,8 +1,8 @@
 import { RouterProvider  , createBrowserRouter } from "react-router-dom";
 import { Login ,HomeLayout ,SingleAdmin ,  Error , ForgotPassword , ResetPassword , Landing, ServiceAreaManager , BusinessTypeManager  , LanguesManager, TemplatesManager} from "./pages";
-import {Profile , Tables , BusinessOwners  ,Business, Admins, CreateAdmin , ErrorElement ,CreateRole } from './components'
-import { Login ,HomeLayout ,SingleAdmin ,  Error , ForgotPassword , ResetPassword , Landing, ServiceAreaManager } from "./pages";
-import {Profile , Tables , BusinessOwners  ,Business, Admins, CreateAdmin , ErrorElement ,CreateRole, Campaigns } from './components'
+import {Profile , Tables , BusinessOwners  ,Business, Admins, CreateAdmin , ErrorElement ,CreateRole,Campaigns } from './components'
+// import { Login ,HomeLayout ,SingleAdmin ,  Error , ForgotPassword , ResetPassword , Landing, ServiceAreaManager } from "./pages";
+// import {Profile , Tables , BusinessOwners  ,Business, Admins, CreateAdmin , ErrorElement ,CreateRole, Campaigns } from './components'
 
 import {action as loginAction} from './pages/Login'
 import {action as forgotPasswordAction} from './pages/ForgotPassword'
@@ -21,6 +21,9 @@ import {loader as serviceAreaManagerLoader} from './pages/ServiceAreaManager'
 import {loader as businessTypeManagerLoader} from './pages/BusinessTypeManager'
 import {loader as languesManagerLoader} from './pages/LanguesManager'
 import {loader as templateManagerLoader} from './pages/TemplatesManager'
+import {loader as campaignLoader} from './components/Campaigns'
+
+
 import {store} from './app/store'
 import { ItemsProvider } from "./components/ItemContext";
 

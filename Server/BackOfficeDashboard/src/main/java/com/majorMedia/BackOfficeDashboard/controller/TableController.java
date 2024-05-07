@@ -55,20 +55,20 @@ public class TableController {
         return ResponseEntity.ok(tableService.getAllBusiness(searchKey,sortOrder,page));
     }
 
-@LogActivity
-@GetMapping(value = "/campagnes")
-public ResponseEntity<ObjectsList<Campaign>> getAllCampagnes(
-        @RequestParam(required = false) String sortOrder,
-        @RequestParam(required = false) String searchKey,
-        @RequestParam(required=false ,name="page" , defaultValue="1") int page
-)
-{
-    return ResponseEntity.ok(tableService.getAllCampagnes(searchKey,sortOrder,page));
-}
+    @LogActivity
+    @GetMapping(value = "/campagnes")
+    public ResponseEntity<ObjectsList<Campaign>> getAllCampagnes(
+            @RequestParam(required = false) String sortOrder,
+            @RequestParam(required = false) String searchKey,
+            @RequestParam(required=false ,name="page" , defaultValue="1") int page
+    )
+    {
+        return ResponseEntity.ok(tableService.getAllCampagnes(searchKey,sortOrder,page));
+    }
     @LogActivity
     @GetMapping(value = "/owner")
     public ResponseEntity<User> getOwner(@RequestParam(value = "ownerId")
-                                                        Long ownerId)
+                                         Long ownerId)
     {
         return ResponseEntity.ok(tableService.getOwnerInfo(ownerId));
     }

@@ -47,7 +47,7 @@ const AdminsList = () => {
                      </div>
                     </td>
                     <td>
-                      <div className="font-bold">{fullname}</div>
+                      <div className="font-bold">{firstname} {lastname}</div>
                       <div className="text-sm font-normal text-gray-500 dark:text-gray-400"
                                      style={{ fontSize: '0.8em' }}>{email}
                       </div>

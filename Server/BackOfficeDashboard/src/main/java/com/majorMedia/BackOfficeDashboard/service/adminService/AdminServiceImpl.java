@@ -1,10 +1,12 @@
 package com.majorMedia.BackOfficeDashboard.service.adminService;
 
 import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
+import com.majorMedia.BackOfficeDashboard.entity.user.User;
 import com.majorMedia.BackOfficeDashboard.exception.EntityNotFoundException;
 import com.majorMedia.BackOfficeDashboard.exception.InvalidTokenException;
 import com.majorMedia.BackOfficeDashboard.exception.NotFoundEmailException;
 import com.majorMedia.BackOfficeDashboard.model.requests.ResetPasswordRequest;
+import com.majorMedia.BackOfficeDashboard.model.responses.ObjectsList;
 import com.majorMedia.BackOfficeDashboard.repository.AdminRepository;
 import com.majorMedia.BackOfficeDashboard.repository.BusinessRepository;
 import com.majorMedia.BackOfficeDashboard.repository.CampagneRepository;
@@ -16,6 +18,7 @@ import com.majorMedia.BackOfficeDashboard.util.ServiceUtils;
 import io.micrometer.common.util.StringUtils;
 import lombok.AllArgsConstructor;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.coyote.BadRequestException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 import static com.majorMedia.BackOfficeDashboard.security.SecurityConstants.AVATAR_URL;
 
@@ -115,6 +119,32 @@ public class AdminServiceImpl implements IAdminService {
         adminRepository.save(admin);
         return "Password changed successfully";
     }
+
+    @Override
+    public ObjectsList<User> getAllOwners(String sortBy, String searchKey, int page) {
+        return null;
+    }
+
+    @Override
+    public String deactivateAccount(Long ownerId) throws BadRequestException {
+        return null;
+    }
+
+    @Override
+    public String deactivateAccounts(List<Long> ownerIds) {
+        return null;
+    }
+
+    @Override
+    public String activateAccount(Long ownerId) {
+        return null;
+    }
+
+    @Override
+    public String resetPassword(String email, String password) {
+        return null;
+    }
+
     @Override
     public byte[] getImageData(Long adminId) {
 

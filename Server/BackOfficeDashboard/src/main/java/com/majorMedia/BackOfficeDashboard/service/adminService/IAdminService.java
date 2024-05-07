@@ -38,8 +38,8 @@ public interface IAdminService {
 
     public String activateAccount(Long ownerId);
     public String resetPassword(String email , String password);
-
-    public ObjectsList<Business> getAllBusiness(String searchKey, String sortOrder, int page);
-
-    ObjectsList<Campaign> getAllCampagnes(String searchKey, String sortOrder, int page);
+//
+//    public ObjectsList<Business> getAllBusiness(String searchKey, String sortOrder, int page);
+//
+//    ObjectsList<Campaign> getAllCampagnes(String searchKey, String sortOrder, int page);
 }

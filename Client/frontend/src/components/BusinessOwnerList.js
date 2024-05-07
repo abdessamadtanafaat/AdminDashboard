@@ -251,7 +251,7 @@ const [createdDateSort, setCreatedDateSort] = useState({ ascending: false });
 
                                 </td>
                                 <td>
-                                <div className="font-bold">{fullName}</div>
+                                <div className="font-bold">{firstName} {lastName}</div>
                                 <div className="text-sm font-normal text-gray-500 dark:text-gray-400"
                                      style={{ fontSize: '0.8em' }}>{email}</div>
                                 </td>
