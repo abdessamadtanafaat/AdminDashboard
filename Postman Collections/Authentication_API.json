@@ -1403,6 +1403,24 @@
 					"id": "b14894c9-77af-4c63-b9f5-127b97e552f3"
 				},
 				{
+					"name": "Langues",
+					"item": [
+						{
+							"name": "Get All Langues",
+							"id": "f87e9466-2071-4609-b407-2a03eb718283",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						}
+					],
+					"id": "00790d0c-a4e6-4ec8-9859-6c2f1deaff02"
+				},
+				{
 					"name": "Statistics",
 					"id": "ed3ecf25-add3-4ce5-a875-299e7ac174fb",
 					"protocolProfileBehavior": {
