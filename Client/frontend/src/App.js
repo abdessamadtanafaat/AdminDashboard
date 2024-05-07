@@ -13,7 +13,11 @@ import {loader as resetPasswordLoader} from './pages/ResetPassword'
 import {loader as homeLayoutLoader} from './pages/HomeLayout'
 import {loader as adminsLoader} from './components/Admins'
 import {loader as businessOwnerLoader} from './components/BusinessOwners'; 
-import {loader as businessLoader} from './components/Business';
+
+import {loader as businessLoader} from './components/Business'; 
+import {loader as campaignLoader} from './components/Campaigns'; 
+
+
 import {loader as createAdminLoader} from './components/CreateAdmin'
 import {loader as singleAdminLoader} from './pages/SingleAdmin'
 import {loader as createRoleLoader} from './components/CreateRole'
@@ -21,7 +25,6 @@ import {loader as serviceAreaManagerLoader} from './pages/ServiceAreaManager'
 import {loader as businessTypeManagerLoader} from './pages/BusinessTypeManager'
 import {loader as languesManagerLoader} from './pages/LanguesManager'
 import {loader as templateManagerLoader} from './pages/TemplatesManager'
-import {loader as campaignLoader} from './components/Campaigns'
 
 
 import {store} from './app/store'

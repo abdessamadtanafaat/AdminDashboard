@@ -37,11 +37,10 @@ public class TableController {
     public ResponseEntity<ObjectsList<User>> getAllUsers(
             @RequestParam(required = false) String sortOrder,
             @RequestParam(required = false) String searchKey,
-            @RequestParam(required=false ,name="page" , defaultValue="1") int page
+            @RequestParam(required = false, name = "page", defaultValue = "1") int page
 
-    )
-    {
-        return ResponseEntity.ok(tableService.getAllOwners(searchKey,sortOrder,page));
+    ) {
+        return ResponseEntity.ok(tableService.getAllOwners(searchKey, sortOrder, page));
     }
 
     @LogActivity
@@ -49,10 +48,9 @@ public class TableController {
     public ResponseEntity<ObjectsList<Business>> getAllBusiness(
             @RequestParam(required = false) String sortOrder,
             @RequestParam(required = false) String searchKey,
-            @RequestParam(required=false ,name="page" , defaultValue="1") int page
-    )
-    {
-        return ResponseEntity.ok(tableService.getAllBusiness(searchKey,sortOrder,page));
+            @RequestParam(required = false, name = "page", defaultValue = "1") int page
+    ) {
+        return ResponseEntity.ok(tableService.getAllBusiness(searchKey, sortOrder, page));
     }
 
     @LogActivity
@@ -60,16 +58,15 @@ public class TableController {
     public ResponseEntity<ObjectsList<Campaign>> getAllCampagnes(
             @RequestParam(required = false) String sortOrder,
             @RequestParam(required = false) String searchKey,
-            @RequestParam(required=false ,name="page" , defaultValue="1") int page
-    )
-    {
-        return ResponseEntity.ok(tableService.getAllCampagnes(searchKey,sortOrder,page));
+            @RequestParam(required = false, name = "page", defaultValue = "1") int page
+    ) {
+        return ResponseEntity.ok(tableService.getAllCampagnes(searchKey, sortOrder, page));
     }
+
     @LogActivity
     @GetMapping(value = "/owner")
     public ResponseEntity<User> getOwner(@RequestParam(value = "ownerId")
-                                         Long ownerId)
-    {
+                                         Long ownerId) {
         return ResponseEntity.ok(tableService.getOwnerInfo(ownerId));
     }
 
@@ -80,26 +77,28 @@ public class TableController {
         String string = tableService.deactivateAccount(ownerId);
         return ResponseEntity.ok(string);
     }
+
     @LogActivity
     @PatchMapping("/deactivateAccounts/{ownerIds}")
     public ResponseEntity<String> deactivateAccounts(@PathVariable List<Long> ownerIds) {
         String result = tableService.deactivateAccounts(ownerIds);
         return ResponseEntity.ok(result);
     }
+
     @LogActivity
     @PatchMapping("/activateAccount/{ownerId}")
-    public ResponseEntity<String> activateAccount(@PathVariable Long ownerId)
-    {
+    public ResponseEntity<String> activateAccount(@PathVariable Long ownerId) {
         String string = tableService.activateAccount(ownerId);
         return ResponseEntity.ok(string);
     }
+
     @LogActivity
     @PatchMapping("/editOwner/{ownerId}")
     public ResponseEntity<String> editOwner(
             @PathVariable Long ownerId,
             @RequestParam(value = "firstName", required = false) String firstName,
-            @RequestParam(value ="lastName", required = false) String lastName,
-            @RequestParam(value =  "email", required = false) String email,
+            @RequestParam(value = "lastName", required = false) String lastName,
+            @RequestParam(value = "email", required = false) String email,
             @RequestParam(value = "password") String password,
             @RequestParam(value = "username", required = false) String username
     ) throws MessagingException, UnsupportedEncodingException {
@@ -117,5 +116,6 @@ public class TableController {
     public List<Business> getBusinessesByOwnerId(@PathVariable Long ownerId) {
         return tableService.getBusinessesByOwnerId(ownerId);
     }
-
 }
+
+

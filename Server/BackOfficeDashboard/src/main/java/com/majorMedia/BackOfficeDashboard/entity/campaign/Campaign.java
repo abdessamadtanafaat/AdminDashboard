@@ -35,6 +35,7 @@ public class Campaign {
     @JoinColumn(name = "campaignName", nullable = false)
     private String campaignName;
 
+
     @ManyToOne
     @JoinColumn(name = "template_id", nullable = false)
     private Template template;

@@ -12,8 +12,10 @@ const ServiceCategory = ({ id ,name , description , serviceAreas , custom}) => {
     const [services,setServices] =useState(serviceAreas || [])
     const [categoryName , setCategoryName]  = useState(name);
     const [categoryDesc , setCategoryDesc] = useState(description)
-    
+
     const [checkedServices , setCheckedServices] = useState([])
+ 
+    
     const [updatedName  ,setUpdatedName] = useState(categoryName);
     const [updatedDesc , setUpdatedDesc]= useState(categoryDesc)
     

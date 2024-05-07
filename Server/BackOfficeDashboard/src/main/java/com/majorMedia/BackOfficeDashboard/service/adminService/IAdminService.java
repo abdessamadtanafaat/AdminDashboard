@@ -30,16 +30,10 @@ public interface IAdminService {
 
     public String changePassword(ResetPasswordRequest resetPasswordRequest);
 
-    public ObjectsList<User> getAllOwners(String sortBy, String searchKey, int page);
-
-    public String deactivateAccount(Long ownerId) throws BadRequestException;
-
-    public String deactivateAccounts(List<Long> ownerIds);
-
-    public String activateAccount(Long ownerId);
     public String resetPassword(String email , String password);
 //
 //    public ObjectsList<Business> getAllBusiness(String searchKey, String sortOrder, int page);
 //
 //    ObjectsList<Campaign> getAllCampagnes(String searchKey, String sortOrder, int page);
+
 }

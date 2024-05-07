@@ -61,30 +61,11 @@ public class AdminController {
     }
 
 
-
-
-    @LogActivity
-    @PatchMapping("/deactivateAccount/{ownerId}")
-    public ResponseEntity<String> deactivateAccount(@PathVariable Long ownerId) throws BadRequestException {
-        String string = adminService.deactivateAccount(ownerId);
-        return ResponseEntity.ok(string);
-    }
-    @PatchMapping("/deactivateAccounts")
-    public ResponseEntity<String> deactivateAccounts(@RequestBody List<Long> ownerIds) {
-        String result = adminService.deactivateAccounts(ownerIds);
-        return ResponseEntity.ok(result);
-    }
-    @LogActivity
-    @PatchMapping("/activateAccount/{ownerId}")
-    public ResponseEntity<String> activateAccount(@PathVariable Long ownerId)
-    {
-        String string = adminService.activateAccount(ownerId);
-        return ResponseEntity.ok(string);
-    }
     @LogActivity
     @PatchMapping("/reset-password")
     public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequest request){
         return new ResponseEntity<>(adminService.resetPassword(request.getEmail() ,request.getPassword()),HttpStatus.ACCEPTED) ;
     }
+
 
 }
