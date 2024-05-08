@@ -19,6 +19,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -113,6 +114,7 @@ public class SystemController {
     }
     @LogActivity
     @GetMapping("/statistics")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<StatisctisData> getSystemData(){
         return new ResponseEntity<>(statisticsService.getSystemData() , HttpStatus.OK);
     }

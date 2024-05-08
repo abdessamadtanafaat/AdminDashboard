@@ -63,6 +63,40 @@ public class EmailUtils {
         javaMailSender.send(message);
     }
 
+    public void sendEmailToAdmin(String email, String password) throws MessagingException, UnsupportedEncodingException {
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        String loginLink = "http://localhost:3000/Login";
+        String emailContent = "<html>"
+                + "<head>"
+                + "<style>"
+                + "body { font-family: Arial, sans-serif; }"
+                + "p { margin-bottom: 10px; }"
+                + "a { color: #007bff; text-decoration: none; }"
+                + "</style>"
+                + "</head>"
+                + "<body>"
+                + "<p>Hello,</p>"
+                + "<p>You have been invited to join the Administration App as an admin. Below are your login details:</p>"
+                + "<p><strong>Email:</strong> " + email + "</p>"
+                + "<p><strong>Password:</strong> " + password + "</p>"
+                + "<p>Please click the link below to log in:</p>"
+                + "<p><a href=\"" + loginLink + "\">Login</a></p>"
+                + "<p>If you have any questions, feel free to contact us.</p>"
+                + "<p>Best regards,<br>The Administration Team</p>"
+                + "</body>"
+                + "</html>";
+
+        helper.setText(emailContent, true);
+        helper.setFrom("tvta3ichannel@gmail.com", "SmtpSatisnap");
+        helper.setSubject("Invitation to Login in Administration App");
+        helper.setTo(email);
+
+        javaMailSender.send(message);
+    }
+
+
 
     public static String generateToken() {
         byte[] tokenBytes = new byte[TOKEN_LENGTH];

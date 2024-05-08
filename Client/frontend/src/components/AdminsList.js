@@ -1,6 +1,5 @@
 import { useLoaderData  , Link} from "react-router-dom"
 import default_avatar from '../assets/default_avatar.webp'
-import { CogIcon } from "@heroicons/react/solid";
 import { UserRoundCog, UserRoundCogIcon } from "lucide-react";
 const AdminsList = () => {
     const {admins , params} = useLoaderData();

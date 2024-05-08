@@ -1,5 +1,5 @@
 import {BriefcaseBusiness ,User  ,MessageCircleQuestion , UserRoundCheck } from 'lucide-react'
-import { BarChart , LineChart , CreationLine } from '../components';
+import { BarChart , LineChart , CreationLine, DoughnutChart } from '../components';
 import { customFetch } from '../utils';
 import { useLoaderData } from 'react-router-dom';
 export const loader =(store)=>async({})=>{
@@ -19,6 +19,7 @@ export const loader =(store)=>async({})=>{
 
   }
   catch(err){
+    console.log(err)
     return {businessNbr : 0 , usersNbr  :0 , compainsNbr : 0, customersNbr :0,businessTypes :{} ,businesesCreated : {} , campaignsCreated: {}} ; 
 
   }
@@ -29,8 +30,22 @@ const Landing = () => {
   
   const {businessNbr , usersNbr , compainsNbr , customersNbr , businessTypes , businesesCreated , campaignsCreated}= useLoaderData();
   return (
-    <div className="flex flex-col justify-between w-full items-center gap-6">
-      <div className="stats shadow md:stats-horizontal stats-vertical">
+    <div className="flex justify-between items-center w-full gap-3"> 
+      <div className="w-full flex flex-col justify-between items-center gap-1">
+      
+      
+      <div className="flex justify-between gap-2 text-accent">
+          <BarChart chart={businessTypes}/>
+          <DoughnutChart chart={businessTypes} />
+
+      </div> 
+        <div className="w-full bg-base-200">
+          <CreationLine businessData={businesesCreated} campaignData={campaignsCreated}/>
+        </div>
+     
+      
+      </div>
+      <div className="stats shadow  stats-vertical w-full">
         <div className="stat">
           <div className="stat-figure text-secondary">
             <BriefcaseBusiness />
@@ -45,7 +60,7 @@ const Landing = () => {
           </div>
         <div className="stat-title">Users</div>
 <div className="stat-value">{usersNbr}</div>
-<div className="stat-desc">↗︎ 400 (22%)</div>
+<div className="stat-desc">Total</div>
 </div>
 
 <div className="stat">
@@ -66,14 +81,10 @@ const Landing = () => {
 </div>
 
       </div>
-      <div className="w-full "> 
-      <BarChart chart={businessTypes}/>
-      <CreationLine businessData={businesesCreated} campaignData={campaignsCreated}/>
-      </div>
       
-    </div>
+    </div>   
    
-
+  
   )
 }
 

@@ -1,4 +1,3 @@
-import { PlusCircleIcon, PlusIcon } from '@heroicons/react/solid';
 import { Plus, UserRoundPlus } from 'lucide-react';
 import React from 'react';
 import { useHistory, useNavigate } from 'react-router-dom';

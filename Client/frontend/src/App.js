@@ -116,7 +116,7 @@ const routes = createBrowserRouter([
       ,{
         path :"/templates",
         element:<TemplatesManager/>,
-        loader:templateManagerLoader(store)
+        
       }
 
     ]

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Form, useLoaderData, useNavigate } from "react-router-dom";
 import default_avatar from '../assets/default_avatar.webp';
-import { ExclamationCircleIcon, LockClosedIcon, LockOpenIcon, PencilAltIcon } from "@heroicons/react/solid";
 import { customFetch } from '../utils';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';

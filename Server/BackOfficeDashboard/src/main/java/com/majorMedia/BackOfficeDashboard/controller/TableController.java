@@ -26,7 +26,7 @@ import java.util.List;
 
 @AllArgsConstructor
 
-//@PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
+@PreAuthorize("hasRole('ROLE_SUPER_ADMIN') or hasRole('ROLE_ANALYST')")
 
 public class TableController {
 

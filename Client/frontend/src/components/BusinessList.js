@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLoaderData, Link, useNavigate } from "react-router-dom";
-import { ChevronDownIcon } from '@heroicons/react/solid';
+
 import { useSelector } from 'react-redux';
 import { customFetch } from '../utils';
 import { ArrowUpDown, BriefcaseBusinessIcon,LampWallDown, PencilIcon, SortAscIcon, SortDescIcon, User, } from "lucide-react";

@@ -8,6 +8,7 @@ import com.majorMedia.BackOfficeDashboard.model.requests.*;
 import com.majorMedia.BackOfficeDashboard.model.responses.*;
 import com.majorMedia.BackOfficeDashboard.service.superAdminService.ISuperAdminService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -17,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -55,8 +57,7 @@ public class SuperAdminController {
 
     @LogActivity
     @PostMapping("/create-admin")
-    public ResponseEntity<Admin> createAdmin(@Valid @RequestBody Admin admin)
-    {
+    public ResponseEntity<Admin> createAdmin(@Valid @RequestBody Admin admin) throws MessagingException, UnsupportedEncodingException {
         Admin createdAdmin = superAdminService.createAdmin(admin);
         return new ResponseEntity<>(createdAdmin, HttpStatus.CREATED);
     }

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useLoaderData, Link } from "react-router-dom";
-import { ChevronDownIcon } from '@heroicons/react/solid';
 import { useSelector } from 'react-redux';
 import { customFetch } from '../utils';
 

@@ -5,14 +5,16 @@ import com.majorMedia.BackOfficeDashboard.entity.admin.Privilege;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Role;
 import com.majorMedia.BackOfficeDashboard.model.requests.CreateAdminRequest;
 import com.majorMedia.BackOfficeDashboard.model.responses.*;
+import jakarta.mail.MessagingException;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
 public interface ISuperAdminService {
         public ObjectsList<Admin> getAllAdmins(String searchKey , String sortBy , int page);
-        public Admin createAdmin(Admin createAdminRequest);
+        public Admin createAdmin(Admin createAdminRequest) throws MessagingException, UnsupportedEncodingException;
         public Admin updateAdmin(Long adminId , Set<Role> roles);
         public AdminRolesResponse getAdminDetails(Long adminId);
         public Role addRole(Role role);

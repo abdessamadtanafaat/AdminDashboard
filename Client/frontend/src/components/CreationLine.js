@@ -4,10 +4,9 @@ import colors from "tailwindcss/colors";
 
 const CreationLine = ({ businessData, campaignData }) => {
   const businessLabels = Object.keys(businessData);
-  const businessValues = Object.values(businessData);
 
   const campaignLabels = Object.keys(campaignData);
-  const campaignValues = Object.values(campaignData);
+ 
 
   const allLabels = [...new Set([...businessLabels, ...campaignLabels])];
   const businessDataset = allLabels.map(label => businessData[label] || 0);
@@ -17,15 +16,11 @@ const CreationLine = ({ businessData, campaignData }) => {
     datasets: [
       {
         label: 'Businesses Created',
-        data: businessDataset,
-        backgroundColor:  colors.slate['800'] , 
-        borderColor:  colors.green['700'] , 
+        data: businessDataset
       },
       {
         label: 'Campaigns Created',
-        data: campaignDataset,
-        backgroundColor: 'blue',
-        borderColor: 'blue'
+        data: campaignDataset
       }
     ]
   };

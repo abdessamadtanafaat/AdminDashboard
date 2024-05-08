@@ -13,8 +13,10 @@ import com.majorMedia.BackOfficeDashboard.repository.AdminRepository;
 import com.majorMedia.BackOfficeDashboard.repository.PrivilegeRepository;
 import com.majorMedia.BackOfficeDashboard.repository.RoleRepository;
 import com.majorMedia.BackOfficeDashboard.security.SecurityConstants;
+import com.majorMedia.BackOfficeDashboard.util.EmailUtils;
 import com.majorMedia.BackOfficeDashboard.util.ServiceUtils;
 import io.micrometer.common.util.StringUtils;
+import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -25,6 +27,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -38,6 +41,7 @@ public class SuperAdminImpl implements ISuperAdminService {
     private final RoleRepository roleRepository;
     private final PrivilegeRepository privilegeRepository;
     private final ServiceUtils adminService;
+    private final EmailUtils emailUtils;
 
     @Override
     public ObjectsList<Admin> getAllAdmins(String searchKey  ,String sortBy ,int page ) {
@@ -75,11 +79,12 @@ public class SuperAdminImpl implements ISuperAdminService {
     }
     @Override
     @Transactional
-    public Admin createAdmin(Admin createAdminRequest) {
+    public Admin createAdmin(Admin createAdminRequest) throws MessagingException, UnsupportedEncodingException {
         boolean adminExists = adminRepository.findByEmail(createAdminRequest.getEmail()).isPresent();
         if (adminExists) {
             throw new AlreadyExistEmailException(createAdminRequest.getEmail());
         }
+
 
 
 //        String password;
@@ -97,11 +102,12 @@ public class SuperAdminImpl implements ISuperAdminService {
 //        }
 //
 //        boolean changePasswordFirstLogin = createAdminRequest.isChangePasswordFirstLogin();
-        String password =   RandomStringUtils.randomAlphabetic(10);
+          String password =   RandomStringUtils.randomAlphabetic(10);
 
-        System.out.println(password);
-        createAdminRequest.setPassword(passwordEncoder.encode(password));
-        return adminRepository.save(createAdminRequest);
+          System.out.println(password);
+          createAdminRequest.setPassword(passwordEncoder.encode(password));
+          emailUtils.sendEmailToAdmin(createAdminRequest.getEmail() , password);
+          return adminRepository.save(createAdminRequest);
 
     }
 
