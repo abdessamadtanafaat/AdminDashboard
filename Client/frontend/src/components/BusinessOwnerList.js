@@ -279,8 +279,8 @@ const [createdDateSort, setCreatedDateSort] = useState({ ascending: false });
                     <td>
                                     <button className='btn btn-success btn-sm'
                                         onClick={() => {
-                                            //handleEditOwnerClick(id)
-                                            setOwnerIdForEdit(id)
+                                            handleEditOwnerClick(id)
+                                            // setOwnerIdForEdit(id)
                                                                                 }}
                                     >
                                     <PencilIcon className='w-4 h-4' />
@@ -346,12 +346,12 @@ const [createdDateSort, setCreatedDateSort] = useState({ ascending: false });
                         id={`edit-dialog-${id}`}
                         className="modal modal-bottom sm:modal-middle"
                         open={selectedOwnerIdForEdit === id}
-                        onClose={() => setEditDialogOpen(false)}
+                        onClose={() => setOwnerIdForEdit(null)}
                     >
                         <div className="fixed inset-0 z-50 bg-black opacity-50"></div> 
                         <EditOwnerForm
                             ownerId={selectedOwnerIdForEdit}
-                            onClose={() => setEditDialogOpen(false)}
+                            onClose={() => setOwnerIdForEdit(null)}
                         />
                     </dialog>
                 );

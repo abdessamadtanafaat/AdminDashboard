@@ -89,7 +89,7 @@ const EditOwnerForm = React.memo(({ownerId, onClose }) => {
     
     
     const generateRandomPassword = () => {
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+{}|:<>?';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         const passwordLength = 10;
         let newPassword = '';
         for (let i = 0; i < passwordLength; i++) {
