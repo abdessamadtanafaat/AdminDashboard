@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { customFetch } from '../utils';
 import { useSelector } from 'react-redux'; 
 import axios from 'axios'
-import { PencilIcon } from "lucide-react";
+import { Lock, PencilIcon, Save } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import {PiPencilSimpleDuotone , PiTrashDuotone} from 'react-icons/pi'
 import avatar_default from '../assets/default_avatar.webp'
@@ -89,7 +89,7 @@ const EditOwnerForm = React.memo(({ownerId, onClose }) => {
     
     
     const generateRandomPassword = () => {
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
         const passwordLength = 10;
         let newPassword = '';
         for (let i = 0; i < passwordLength; i++) {
@@ -99,23 +99,26 @@ const EditOwnerForm = React.memo(({ownerId, onClose }) => {
 
         setNewPassword(newPassword);
         console.log(newPassword)
+        setShowSubmitButton(true); 
+        toast.success("Password generated successfully");
+
+
     };
     
     const [selectedImage, setSelectedImage] = useState(admin.avatarUrl);
     const [imageFile , setImageFile] = useState(null)
-
+    const [showSubmitButton, setShowSubmitButton] = useState(false);
 
     return (
-
         <div className="modal-box flex flex-col items-center justify-center z-50">
             <form onSubmit={handleSubmit} className="grid place-content-center">
                 <button className="close-dialog btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={handleClose}>✕</button>
                 <div className="avatar w-32 mx-auto mb-3 ">
-          <div className="mx-auto mask rounded-lg">
-            <img src={selectedImage ||avatar_default} />
-          </div>
-        </div>
-
+                    <div className="mx-auto mask rounded-lg">
+                        <img src={selectedImage || avatar_default} alt="User Avatar" />
+                    </div>
+                </div>
+    
                 <div className="my-5 mx-auto flex flex-col justify-center gap-3">
                     <div className="flex gap-4">
                         <div className="form-control">
@@ -149,7 +152,7 @@ const EditOwnerForm = React.memo(({ownerId, onClose }) => {
                             />
                         </div>
                     </div>
-                    <div className="flex gap-4">
+                    <div className="flex gap-6">
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text capitalize font-semibold">Email</span>
@@ -181,42 +184,41 @@ const EditOwnerForm = React.memo(({ownerId, onClose }) => {
                             />
                         </div>
                     </div>
-                    <div className="flex gap-4 items-center">
-                    <div className="form-control flex-1">
-                        <label className="label">
-                            <span className="label-text capitalize font-semibold">New Password</span>
-                        </label>
-                        <input
-                            type="password"
-                            name="newPassword"
-                            placeholder="Enter New Password"
-                            className="input input-bordered input-accent"
-                            value={newPassword}
-                            onChange={handleChange}
-                            autoComplete="new-password"
-                        />
+                    <div className="flex gap-4 items-center justify-center">
+                        <div className="form-control flex flex-col items-center">
+                            <label className="label">
+                                <span className="label-text capitalize font-semibold justify-center">Generate New Password</span>
+                            </label>
+                            <button
+                                type="button"
+                                className="btn btn-success h-8 w-24"
+                                onClick={generateRandomPassword}
+                            >
+                                <Lock className='w-4 h-4 justify-center' />
+                            </button>
+                            <p className="text-xs text-gray-500">Click to generate a new password</p>
+                        </div>
+                        {showSubmitButton && (
+                                                    <div className="form-control flex flex-col items-center">
+
+                                                        <label className="label">
+                                                        <span className="label-text capitalize font-semibold">Unlock Account</span>
+                                                    </label>
+                            <button type="submit" className="capitalize tracking-wide btn btn-accent btn-block h-8 w-24">
+                            <Save className='w-4 h-4' />
+
+                            </button>
+                            <p className="text-xs text-gray-500">Click to unlock the user's account</p>
+
+                            </div>
+
+                        )}
                     </div>
-                    <div className="form-control">
-                    <label className="label">
-                            <span className="label-text capitalize font-semibold">Generate</span>
-                        </label>
-                        
-                        <button
-                            type="button"
-                            className="btn btn-success"
-                            onClick={generateRandomPassword} // Appel de la fonction pour générer un mot de passe
-                        >
-            <PencilIcon className='w-4 h-4' />
-                        </button>
-                    </div>
-                    </div>
-                </div>
-                <div className="mt-4">
-                    <button type="submit" className="capitalize tracking-wide btn btn-accent btn-block">Save Changes</button>
                 </div>
             </form>
         </div>
     );
+    
 });
 
 export default EditOwnerForm;

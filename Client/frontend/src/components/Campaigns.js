@@ -5,27 +5,37 @@ import { CampaignList, PaginationContainer, SearchFilter } from ".";
 
 import { useLoaderData, redirect } from 'react-router-dom';
 
-export const loader = (store) => async ({ request }) => {
+export const loader = (store) => async ({ request}) => {
     const admin = store.getState().adminState.admin;
-    try {
-        const params = Object.fromEntries([
-            ...new URL(request.url).searchParams.entries(),
-        ]);
-        console.log(params);
-        const response = await customFetch("/tables/campagnes", { 
-            params,
-            headers: { Authorization: `Bearer ${admin.token}` }
-        });
-        console.log(response.data);
-        return { campaigns: response.data.data, params, meta: response.data.meta }; 
-    } catch (err) {
-        console.log(err);
-        const errMessage = err?.response?.data?.message || err?.response?.data || "Server Failed To load Campaigns Table";
-        toast.error(errMessage);
+try {
+    const params = Object.fromEntries([
+        ...new URL(request.url).searchParams.entries(),
+    ]);
+    console.log(params);
+    
+    const { sortOrder, searchKey, page } = params;
 
-        return redirect("/");
+    const response = await customFetch("/tables/campagnes", {
+        params: {
+            searchKey: searchKey,
+            sortOrder: sortOrder,
+            page: page 
 
-    }
+        },
+        headers: { Authorization: `Bearer ${admin.token}` }
+    });
+
+    console.log(response.data);
+    
+    return { campaigns: response.data.data, params, meta: response.data.meta };
+
+} catch (err) {
+    console.log(err);
+    const errMessage = err?.response?.data?.message || err?.response?.data || "Server Failed To load Business Owners Table";
+    toast.error(errMessage);
+
+    return redirect("/");
+}
 }
 
 const Campaigns = () => {

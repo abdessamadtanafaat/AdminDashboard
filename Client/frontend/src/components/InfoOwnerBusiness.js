@@ -14,6 +14,7 @@ const EditOwnerForm = React.memo(({businessId, onClose }) => {
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
+    const [phone, setPhone] = useState('');
     const [newPassword, setNewPassword] = useState('');
 
     const navigate = useNavigate();
@@ -38,12 +39,13 @@ const EditOwnerForm = React.memo(({businessId, onClose }) => {
             .then(res => {
                 if (res.data.length > 0) {
                     const userData = res.data[0]; // Suppose que vous traitez seulement le premier utilisateur
-                    const { firstName, lastName, email, username, avatarUrl } = userData;
+                    const { firstName, lastName, email, username, avatarUrl,phone } = userData;
                     console.log('Owner Info:', userData);
                     setFirstName(firstName);
                     setLastName(lastName);
                     setEmail(email);
                     setUsername(username);
+                    setPhone(phone);
                     setSelectedImage(avatarUrl);
                 } else {
                     console.error('No user data found');
@@ -173,6 +175,23 @@ const EditOwnerForm = React.memo(({businessId, onClose }) => {
                             />
                         </div>
                     </div>
+
+                    <div className="form-control">
+                            <label className="label">
+                                <span className="label-text capitalize font-semibold">Phone</span>
+                            </label>
+                            <input
+                                type="text"
+                                name="lastName"
+                                placeholder="Enter Last Name"
+                                className="input input-bordered input-accent"
+                                value={phone}
+                                disabled 
+                                onChange={handleChange}
+                                autoComplete="given-name"
+                            />
+                        </div>
+
                     <div className="flex gap-4 items-center">
                     <div className="form-control">
                     </div>

@@ -3,6 +3,7 @@ package com.majorMedia.BackOfficeDashboard.security.filter;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
 import com.majorMedia.BackOfficeDashboard.entity.admin.*;
 import com.majorMedia.BackOfficeDashboard.model.requests.AuthRequest;
@@ -95,9 +96,9 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private void sendAuthenticationResponse(HttpServletResponse response, String token, Admin admin) throws IOException {
 
-
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
         AuthenticationResponse authenticationResponse = new AuthenticationResponse(token, admin);
-        String jsonResponse = new ObjectMapper().writeValueAsString(authenticationResponse);
+        String jsonResponse = objectMapper.writeValueAsString(authenticationResponse);
         response.setContentType("application/json");
         response.getWriter().write(jsonResponse);
     }
