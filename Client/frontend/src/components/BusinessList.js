@@ -145,7 +145,7 @@ const BusinessList = () => {
 
                             </div>
                         </th>
-                        <th>Business Owner</th>
+                        <th className="text-center">Business Owner</th>
 
                     </tr>
                 </thead>
@@ -175,7 +175,7 @@ const BusinessList = () => {
                                 <div>{business.phone}</div>        
                             </td>
                             <td>{formatDateDuration(business.createdDate)}</td>
-                            <td>
+                            <td style={{ textAlign: 'center' }}>
                                     <button className='btn btn-success btn-sm'
                                         onClick={() => {
                                             handleOwnerInfoClick(id)
