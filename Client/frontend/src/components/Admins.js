@@ -43,8 +43,10 @@ const Admins = () => {
       </div>
         <AddNewAdminButton/>
         <AdminsList/>
-        <PaginationContainer/>
-    </>
+        <div className="flex w-full justify-center mb-3">
+                <PaginationContainer/>
+                </div>
+                    </>
   )
 }
 

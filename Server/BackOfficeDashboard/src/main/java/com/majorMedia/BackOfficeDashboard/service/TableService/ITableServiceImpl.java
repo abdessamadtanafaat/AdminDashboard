@@ -178,9 +178,9 @@ public class ITableServiceImpl implements ITableService {
     public ObjectsList<Campaign> getAllCampagnes(String searchKey, String sortOrder, int page) {
         Pageable paging;
         if ("asc".equalsIgnoreCase(sortOrder)) {
-            paging = PageRequest.of(page - 1, 5, Sort.by(Sort.Direction.ASC, "campaignName"));
+            paging = PageRequest.of(page - 1, 5, Sort.by(Sort.Direction.ASC, "createdDate"));
         } else {
-            paging = PageRequest.of(page - 1, 5, Sort.by(Sort.Direction.DESC, "campaignName"));
+            paging = PageRequest.of(page - 1, 5, Sort.by(Sort.Direction.DESC, "createdDate"));
         }
         if (searchKey == null) {
             return unwrapCampaignList(campagneRepository.findAll(paging), page);

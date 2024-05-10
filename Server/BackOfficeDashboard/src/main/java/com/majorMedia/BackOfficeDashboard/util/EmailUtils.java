@@ -33,7 +33,8 @@ public class EmailUtils {
                 + "Click the link below to reset your password:<br>"
                 + "<a href=\"" + emailLink + "\">Reset Password</a>"
                 + "<br><br>"
-                + "Ignore this email if you did not request a password reset.";
+                + "Ignore this email if you did not request a password reset."
+                + "<p>Best regards,<br>The Administration Team</p>";
 
         helper.setText(emailContent, true);
         helper.setFrom("tvta3ichannel@gmail.com", "SmtpSatisnap");
@@ -47,12 +48,19 @@ public class EmailUtils {
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
         String emailContent = "<div style=\"font-family: Arial, sans-serif;\">" +
-                "<h3>Hello,</h3>" +
-                "<p>Your password has been reset successfully. Below is your new password:</p>" +
-                "<p style=\"background-color: #f0f0f0; padding: 10px; border-radius: 5px;\">" + newPassword + "</p>" +
-                "<p>Your account has been reactivated. You can now use this password to log in again.</p>" +
-                "<p>If you did not request a password reset or have any concerns, please contact us immediately.</p>" +
-                "<p>Best regards,<br>The Team</p>" +
+                "<Hello,"
+                +
+                "<p>Your account has been reactivated. You can now use this password to log in again.</p>"
+                +
+                "<p style=\"background-color: #f0f0f0; padding: 10px; border-radius: 5px;\">"
+                + newPassword +
+                "</p>"
+                +
+                "<p>Your account has been reactivated. You can now use this password to log in again.</p>"
+                +
+                "<p>If you did not request a password reset or have any concerns, please contact us immediately.</p>"
+                +
+                "<p>Best regards,<br>The Administration Team</p>" +
                 "</div>";
 
         helper.setText(emailContent, true);

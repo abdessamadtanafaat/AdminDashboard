@@ -2,6 +2,10 @@ package com.majorMedia.BackOfficeDashboard.entity.user;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.majorMedia.BackOfficeDashboard.entity.business.Business;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -65,6 +69,8 @@ public class User {
     private boolean isUsedTokenEmail;
 
     @Column(name = "last_login")
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     //@JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
     private LocalDateTime lastLogin;
 
@@ -73,7 +79,9 @@ public class User {
     private boolean isActive;
 
     @Column(name = "last_logout")
-    @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    //@JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
     private LocalDateTime lastLogout;
 
     @Column(name = "is_deactivated")

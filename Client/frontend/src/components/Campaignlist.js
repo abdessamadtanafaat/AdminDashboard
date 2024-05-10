@@ -17,33 +17,44 @@ const CampaignList = () => {
 
 
     useEffect(() => {
-        fetchCampaigns();
-    }, []);
+        setCreatedDateSort({ ascending: initialSortOrder === 'asc' });
 
-    const fetchCampaigns = async () => {
-        try {
-            const response = await customFetch("/tables/campagnes", {
-                params: {
-                    searchKey: params.searchKey,
-                    page: params.page
-                },
-
-                headers: { Authorization: `Bearer ${admin.token}` }
-            });
-            setCampaignsData(response.data);
-            console.log(response.data);
-        } catch (error) {
-            console.error('Error fetching campaigns:', error);
+        const sortOrder = localStorage.getItem('sortOrder');
+        if (sortOrder) {
+            setCreatedDateSort({ ascending: sortOrder === 'asc' });
+        } else {
+            setCreatedDateSort({ ascending: false });
+            localStorage.setItem('sortOrder', 'desc');
         }
-    };
+
+    }, [initialSortOrder]);
+
+ 
+
+    // const fetchCampaigns = async () => {
+    //     try {
+    //         const response = await customFetch("/tables/campagnes", {
+    //             params: {
+    //                 searchKey: params.searchKey,
+    //                 page: params.page
+    //             },
+
+    //             headers: { Authorization: `Bearer ${admin.token}` }
+    //         });
+    //         setCampaignsData(response.data);
+    //         console.log(response.data);
+    //     } catch (error) {
+    //         console.error('Error fetching campaigns:', error);
+    //     }
+    // };
 
     const handleSelectAll = () => {
         setSelectAll(!selectAll); 
-        if (!selectAll) {
-            setSelectedCampaigns(campaignsData.map(campaign => campaign.id));
-        } else {
-            setSelectedCampaigns([]);
-        }
+        // if (!selectAll) {
+        //     setSelectedCampaigns(campaignsData.map(campaign => campaign.id));
+        // } else {
+        //     setSelectedCampaigns([]);
+        // }
     };
 
     const handleLanguageClick = ()=> {
@@ -118,6 +129,15 @@ const CampaignList = () => {
         });
         console.log(response.data);
     };
+
+    if (!campaigns || campaigns.length < 1) {
+        return (
+            <div className="font-bold mx-auto text-4xl text-center text-error">
+                There is no match for the keyword You Typed !!!
+            </div>
+        );
+    }
+
     return (
         <div className="overflow-x-auto">
             <table className="table table-zebra-zebra">
@@ -147,7 +167,7 @@ const CampaignList = () => {
                     </tr>
                 </thead>
                 <tbody>
-                {Array.isArray(campaignsData.data) && campaignsData.data.map((campaign) => (
+                {Array.isArray(campaigns) && campaigns.map((campaign) => (
         <tr key={campaign.id}>
             <th>
                 <label className="flex justify-center gap-2">

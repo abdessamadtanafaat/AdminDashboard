@@ -119,7 +119,13 @@ const BusinessList = () => {
     };
 
 
-
+    if (!businesses || businesses.length < 1) {
+        return (
+            <div className="font-bold mx-auto text-4xl text-center text-error">
+                There is no match for the keyword You Typed !!!
+            </div>
+        );
+    }
     return (
         <div className="overflow-x-auto">
             <table className="table table-zebra-zebra">

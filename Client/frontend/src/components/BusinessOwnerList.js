@@ -192,6 +192,10 @@ const [createdDateSort, setCreatedDateSort] = useState({ ascending: false });
                         </th>
                     <th key="profile" className="text-center">Profile</th>
                     <th key="fullName" className="text-center">Full Name</th>
+                    {/* <th key="fullName" className="text-center">Username</th> */}
+                    <th key="fullName" >Last Login</th>
+                    <th key="fullName">Last Logout</th>
+
                     {/* <th key="status" className="text-center">Status</th> */}
                     <th key="signedUp" style={{ cursor: 'pointer' }} onClick={toggleCreatedDateSort}>
                             <div className="flex items-center">
@@ -220,7 +224,7 @@ const [createdDateSort, setCreatedDateSort] = useState({ ascending: false });
                 </thead>
                 <tbody>
                     {businessOwners.map((owner) => {
-                        const { firstName, lastName,createdAt, email, avatarUrl, username, id, _deactivated, active,fullName,businesses } = owner;
+                        const { firstName, lastName,createdAt, email, avatarUrl, username, id, _deactivated, active,fullName,businesses,lastLogin,lastLogout } = owner;
                         return (
                             <tr>
                                 <th key="checkbox">
@@ -251,9 +255,17 @@ const [createdDateSort, setCreatedDateSort] = useState({ ascending: false });
                                 </td>
                                 <td>
                                 <div className="font-bold">{firstName} {lastName}</div>
-
                                 <div className="text-sm font-normal text-gray-500 dark:text-gray-400"
                                      style={{ fontSize: '0.8em' }}>{email}</div>
+                                </td>
+                                {/* <td>
+                                <div className="font-bold">{username}</div>
+                                </td> */}
+                                <td>
+                                <div >{getSignedUpText(lastLogin)}</div>
+                                </td>
+                                <td>
+                                <div>{getSignedUpText(lastLogout)}</div>
                                 </td>
                     <td>
                     <div>{getSignedUpText(createdAt)}</div>
@@ -363,7 +375,7 @@ const [createdDateSort, setCreatedDateSort] = useState({ ascending: false });
                 <Form  
                     key={id}
                     id={`business-caroussel-${id}`}    
-                    className="modal modal-bottom sm:modal-middle"
+                    className="modal xs:modal-middle "
                     open={selectedOwnerIdForBusiness === id}
                     onClose={() => setOwnerIdForBusiness(null)}
                     >
