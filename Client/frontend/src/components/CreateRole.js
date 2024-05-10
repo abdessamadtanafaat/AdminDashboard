@@ -125,10 +125,11 @@ const CreateRole = () => {
        
       </div>
       <div className="flex justify-between gap-4 w-7/8 max-w-4xl max-h-1/3 overflow-y-auto">
-        <div className={`w-60  h-80 bg-base-200 border-2 rounded-lg border-outline overflow-y-auto overflow-x-hidden
-         scrollbar-track-base-100
-         scrollbar-thin
-         scrollbar-thumb-base-content border-success ${!predefinedItems.length <1 || "grid place-content-center text-center"}`}>{!predefinedItems.length < 1 ? <PrivilegesList /> :<p className="text-success">No Privileges Available</p> }</div>
+        <div className={` h-80 bg-base-200 border-2 rounded-lg 
+        scrollbar-track-base-100
+        scrollbar-thin
+        scrollbar-thumb-base-content
+        border-outline border-success overflow-y-auto overflow-x-hidden ${!predefinedItems.length <1 || "grid place-content-center text-center"}`}>{!predefinedItems.length < 1 ? <PrivilegesList /> :<p className="text-success">No Privileges Available</p> }</div>
         
         <div className="flex-col flex justify-evenly place-items-center">
           <button className="btn btn-secondary text-base-content w-20 px-3 " onClick={handleGrantButtonClick}>Grant
@@ -138,7 +139,11 @@ const CreateRole = () => {
           <button className="btn btn-error text-base-content  w-20" onClick={handleRevokeAllButtonClick}>Revoke All
           </button>
           </div>
-            <div className={`w-60 h-80 bg-base-200 border-2 rounded-lg border-outline overflow-y-auto overflow-x-hidden border-info ${!grantedItems.length <1 || "grid place-content-center text-center"}`}>{!grantedItems.length < 1 ? <GrantedPrivilegesList /> :<p className="text-info">No Privileges Granted </p> }</div>
+            <div className={` h-80 bg-base-200 border-2 rounded-lg 
+            scrollbar-track-base-100
+            scrollbar-thin
+            scrollbar-thumb-base-content
+            border-outline border-info overflow-y-auto overflow-x-hidden ${!grantedItems.length <1 || "grid place-content-center text-center"}`}>{!grantedItems.length < 1 ? <GrantedPrivilegesList /> :<p className="text-info">No Privileges Granted </p> }</div>
       </div>
       <div className="mx-auto flex justify-center items-center gap-3">
             

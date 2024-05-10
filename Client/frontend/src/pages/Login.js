@@ -22,7 +22,9 @@ export const action =(store)=>
             navigate("/");
 
           }
-          catch(err){
+          catch(err)
+          {
+            console.log(err)
             const errorMessage = err?.response?.data || "Please Double check your credentials"; 
             console.log(err?.response?.data)
             

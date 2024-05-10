@@ -1,5 +1,6 @@
 package com.majorMedia.BackOfficeDashboard.entity.campaign;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.majorMedia.BackOfficeDashboard.entity.business.Business;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -47,13 +48,14 @@ public class Campaign {
     private List<LoyaltyProgramme> loyaltyProgrammes;
 
 
-    @ManyToMany
+    @ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(
-            name = "campaign_language",
-            joinColumns = @JoinColumn(name = "campaign_id"),
-            inverseJoinColumns = @JoinColumn(name = "language_id")
+            name = "compagne_language",
+            joinColumns = @JoinColumn(name = "compagne_id" ,  referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "language_id",  referencedColumnName = "id")
     )
-    private List<Language> languages;
+    @JsonIgnore
+    private Set<Language> languages;
 
 
     @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL)

@@ -1,7 +1,7 @@
 import { useItemsContext } from './ItemContext';
 
 const RolesList = () => {
-  const {checkedPredefinedItems ,setCheckedPredefinedItems , predefinedItems , setPredefinedItems} = useItemsContext();
+  const {checkedPredefinedItems ,setCheckedPredefinedItems , predefinedItems , setPredefinedItems , handleSelectAllChange} = useItemsContext();
   
   console.log(checkedPredefinedItems)
   const handleCheckboxChange = (event , role) => {
@@ -12,8 +12,22 @@ const RolesList = () => {
     }
   };
   
+  
   return (
-    <ul className="menu menu-sm bg-base-200 rounded-lg max-w-xs w-full">
+    <ul className="menu">
+      <li>
+        <details open>
+          <summary><label className="inline-flex items-center">
+            <input type="checkbox" className="form-checkbox checkbox checkbox-sm checkbox-secondary h-4 w-4"
+            checked={checkedPredefinedItems.length === predefinedItems.length}
+            onChange={handleSelectAllChange} 
+            
+             />
+            
+            <span className="ml-3 text-base font-semibold">UnGranted Roles</span>
+          </label></summary>
+          <ul className="menu menu-sm bg-base-200 rounded-lg max-w-xs w-full">
+      
       {predefinedItems.map((role)=>{
         const {id  , name  ,priveleges} =role
         return(<li key={id} >
@@ -28,7 +42,13 @@ const RolesList = () => {
       })
     }
     
-</ul>
+          </ul>
+        </details>
+      
+      </li>
+    </ul>
+    
+    
 
   )
 }

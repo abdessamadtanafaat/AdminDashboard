@@ -12,10 +12,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -37,14 +35,60 @@ public class StatisticsService implements  IStatisticsService {
                 compainsNbr((int)campaignRepository.count()).
                 customerNbr((int) customerRepository.count()).
                 businessTypes(getBusinessBarData()).
-                businesesCreated(getBusinessLineData()).
-                campaignsCreated(getCampaignLineData()).
+                businesesCreated(getBusinessLineDataLastSevenDays()).
+                campaignsCreated(getCampaignLineDataLastSevenDays()).
 
 
                 
                 build();
     }
+    public Map<String, Integer> getBusinessLineDataLastSevenDays() {
+        // Create a map to store the counts for each day
+        Map<String, Integer> businessData = new TreeMap<>();
 
+        // Initialize the map with counts for each day in the last seven days
+        for (int i = 6; i >= 0; i--) {
+            LocalDate date = LocalDate.now().minusDays(i);
+            String dateString = date.toString();
+            businessData.put(dateString, 0);
+        }
+
+        // Get all businesses created in the last seven days
+        List<Business> businesses = businessRepository.findByCreatedDateBetween(LocalDate.now().minusDays(7).atStartOfDay(), LocalDate.now().atStartOfDay());
+
+        // Update counts for existing records
+        for (Business business : businesses) {
+            LocalDate creationDate = business.getCreatedDate().toLocalDate();
+            String dateString = creationDate.toString();
+            businessData.put(dateString, businessData.getOrDefault(dateString, 0) + 1);
+        }
+
+        return businessData;
+    }
+
+    public Map<String, Integer> getCampaignLineDataLastSevenDays() {
+        // Create a map to store the counts for each day
+        Map<String, Integer> campaignData = new TreeMap<>();
+
+        // Initialize the map with counts for each day in the last seven days
+        for (int i = 6; i >= 0; i--) {
+            LocalDate date = LocalDate.now().minusDays(i);
+            String dateString = date.toString();
+            campaignData.put(dateString, 0);
+        }
+
+        // Get all campaigns created in the last seven days
+        List<Campaign> campaigns = campaignRepository.findByCreatedDateBetween(LocalDate.now().minusDays(7).atStartOfDay(), LocalDate.now().atStartOfDay());
+
+        // Update counts for existing records
+        for (Campaign campaign : campaigns) {
+            LocalDate creationDate = campaign.getCreatedDate().toLocalDate();
+            String dateString = creationDate.toString();
+            campaignData.put(dateString, campaignData.getOrDefault(dateString, 0) + 1);
+        }
+
+        return campaignData;
+    }
     public Map<String, Integer> getBusinessLineData() {
         List<Business> businesses = businessRepository.findAll();
 

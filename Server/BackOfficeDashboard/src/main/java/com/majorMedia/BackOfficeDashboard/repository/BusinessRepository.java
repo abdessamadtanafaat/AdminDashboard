@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +19,9 @@ public interface BusinessRepository extends JpaRepository<Business, Integer> {
     Optional<Business> findById(int id);
     Page<Business> findAllByBusinessNameContainsIgnoreCase(String businessName,  Pageable page);
 
-    List<Business> findAllByCreatedDateAfter(LocalDate date);
+    List<Business> findAllByCreatedDateAfterAndCreatedDateBefore(LocalDate dateAfter  ,LocalDate dateBefore);
 
+    List<Business> findByCreatedDateAfter(LocalDateTime localDateTime);
+
+    List<Business> findByCreatedDateBetween(LocalDateTime localDateTime, LocalDateTime localDateTime1);
 }

@@ -1,40 +1,50 @@
-import { useItemsContext } from "./ItemContext"
+import { useItemsContext } from "./ItemContext";
 
 const GrantedRolesList = () => {
-    const { grantedItems ,setGrantedItems , checkedGrantedItems , setCheckedGrantedItems } = useItemsContext()
-    console.log(checkedGrantedItems)
-    const handleCheckboxChange =(role)=>{
+    const { grantedItems, checkedGrantedItems, setCheckedGrantedItems , handleSelectAllGrantedChange} = useItemsContext();
+
+    const handleCheckboxChange = (event, role) => {
         if (checkedGrantedItems.some((checkedRole) => checkedRole.id === role.id)) {
-            setCheckedGrantedItems(checkedGrantedItems.filter((checkedItem) => checkedItem.id !== role.id));
-          } else {
+            setCheckedGrantedItems(checkedGrantedItems.filter((checkedRole) => checkedRole.id !== role.id));
+        } else {
             setCheckedGrantedItems([...checkedGrantedItems, role]);
-          }
-        
-
-
-    }
-   
-    return (
-        <ul className="menu menu-sm bg-base-200 rounded-lg max-w-xs w-full">
-          {grantedItems.map((role)=>{
-            const {id  , name  ,priveleges} =role
-            return(<li key={id}>
-              <label className="inline-flex items-center">
-                <input type="checkbox" className="form-checkbox checkbox checkbox-sm checkbox-secondary h-4 w-4" defaultChecked={false}
-                 checked={checkedGrantedItems.some((checkedRole) => checkedRole.id === role.id)}
-                onChange={()=>handleCheckboxChange(role)} 
-                 />
-                
-                <span className="text-base font-semibold">{name}</span>
-              </label>
-            </li>) 
-          })
         }
-      
-  
-    </ul>
-    
-      )
-}
+    };
 
-export default GrantedRolesList
+    return (
+        <ul className="menu">
+            <li>
+                <details open>
+                    <summary>
+                      <label className="inline-flex items-center">
+                        <input type="checkbox" className="form-checkbox checkbox checkbox-sm checkbox-secondary h-4 w-4" checked={checkedGrantedItems.length === grantedItems.length}
+                        onChange={handleSelectAllGrantedChange} />
+                        <span className="ml-3 text-base font-semibold">Granted Roles</span>
+                      </label>
+                    </summary>
+                    <ul className="menu menu-sm bg-base-200 rounded-lg max-w-xs w-full">
+                        {grantedItems.map((role) => {
+                            const { id, name, privileges } = role;
+                            return (
+                                <li key={id}>
+                                    <label className="inline-flex items-center">
+                                        <input
+                                            type="checkbox"
+                                            className="form-checkbox checkbox checkbox-sm checkbox-secondary h-4 w-4"
+                                            defaultChecked={false}
+                                            checked={checkedGrantedItems.some((checkedRole) => checkedRole.id === role.id)}
+                                            onChange={(event) => handleCheckboxChange(event, role)}
+                                        />
+                                        <span className="text-base font-semibold">{name}</span>
+                                    </label>
+                                </li>
+                            );
+                        })}
+                    </ul>
+                </details>
+            </li>
+        </ul>
+    );
+};
+
+export default GrantedRolesList;

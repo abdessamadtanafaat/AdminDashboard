@@ -32,14 +32,30 @@ const ItemsProvider = ({children})=>{
         // Clear checked granted items
         setCheckedGrantedItems([]);
     };
+    const handleSelectAllChange = (event) => {
+        const { checked } = event.target;
+        if (checked) {
+            setCheckedPredefinedItems(predefinedItems);
+        } else {
+            setCheckedPredefinedItems([]);
+        }
+    };
 
+    const handleSelectAllGrantedChanges = (event) => {
+        const { checked } = event.target;
+        if (checked) {
+            setCheckedGrantedItems(grantedItems);
+        } else {
+            setCheckedGrantedItems([]);
+        }
+    };
 
     return (
         <ItemsContext.Provider
         value={{
             grantedItems , setGrantedItems , checkedGrantedItems , setCheckedGrantedItems , 
             predefinedItems , setPredefinedItems , checkedPredefinedItems ,setCheckedPredefinedItems ,
-            handleGrantButtonClick , handleRevokeAllButtonClick , handleRevokeButtonClick
+            handleGrantButtonClick , handleRevokeAllButtonClick , handleRevokeButtonClick , handleSelectAllChange , handleSelectAllGrantedChanges
 
         }}>
             {children}
