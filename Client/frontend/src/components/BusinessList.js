@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import { useLoaderData, Link, useNavigate } from "react-router-dom";
-
+import { toast } from 'react-toastify';
+import { useReactToPrint } from "react-to-print";
 import { useSelector } from 'react-redux';
 import { customFetch } from '../utils';
-import { ArrowUpDown, BriefcaseBusinessIcon,LampWallDown, PencilIcon, SortAscIcon, SortDescIcon, User, } from "lucide-react";
+import { ArrowUpDown, BriefcaseBusinessIcon,LampWallDown, PencilIcon, SortAscIcon, SortDescIcon, User,File, Download } from "lucide-react";
 import {InfoOwnerBusiness} from ".";
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+
 
 const BusinessList = () => {
     const admin = useSelector(state => state.adminState.admin);
@@ -33,6 +37,54 @@ const BusinessList = () => {
 
     }, [initialSortOrder]);
 
+     const [isGenerating, setIsGenerating] = useState(false);
+     const conponentPDF= useRef();
+    // const generatePDF= useReactToPrint({
+    //     content: ()=>conponentPDF.current,
+    //     documentTitle:"Business data",
+    //     onBeforeGetContent: () => setIsGenerating(true),
+    //     onAfterPrint:()=>{
+    //         setIsGenerating(false);
+    //         //toast.success("Business data saved successfully");
+    //     }
+
+    // });    
+    const handleExportRows = (businesses) => {
+        const doc = new jsPDF();
+        
+        const tableData = businesses.map((business) => {
+            const { businessName, address, phone, createdDate, type } = business;
+            return [businessName, address, phone, formatDateDuration(createdDate), type.typeName];
+        });
+    
+        const tableHeaders = ['Business Name', 'Address', 'Phone', 'Created Date', 'Type'];
+    
+        doc.autoTable({
+            head: [tableHeaders],
+            body: tableData,
+        });
+    
+        doc.save('businesses.pdf');
+    };
+
+    const handleAllExportRows = (businesses) => {
+        // const doc = new jsPDF();
+        
+        // const tableData = businesses.map((business) => {
+        //     const { businessName, address, phone, createdDate, type } = business;
+        //     return [businessName, address, phone, formatDateDuration(createdDate), type.typeName];
+        // });
+    
+        // const tableHeaders = ['Business Name', 'Address', 'Phone', 'Created Date', 'Type'];
+    
+        // doc.autoTable({
+        //     head: [tableHeaders],
+        //     body: tableData,
+        // });
+    
+        // doc.save('businesses.pdf');
+    };
+    
     const toggleCreatedDateSort = async () => {
         setCreatedDateSort(prevSort => { 
             const newSort = { ascending: !prevSort.ascending };
@@ -82,9 +134,6 @@ const BusinessList = () => {
         return `${hours}:${minutes}`+` `+`${amOrPm}`;
     };
     
-    
-    
-
     const handleSelectAll = () => {
         setSelectAll(!selectAll); 
         if (!selectAll) {
@@ -117,7 +166,36 @@ const BusinessList = () => {
         );
     }
     return (
+        <div>
+        <div className="justify-content-md-start" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem'}}>
+    <button
+         className={`btn btn-success btn-sm ${isGenerating ? 'disabled' : ''}`}
+         onClick={() => handleExportRows(businesses)}
+        style={{ borderRadius: '0.25rem', padding: '0.5rem 1rem', fontSize: '1rem' }}
+        disabled={isGenerating}>
+        <Download className='w-4 h-4' />
+        {isGenerating ? 'Exporting...' : 'Export Page Rows'}
+    </button>   
+    {/* <button
+         className={`btn btn-success btn-sm ${isGenerating ? 'disabled' : ''}`}
+         onClick={() => handleExportRows(businesses)}
+        style={{ borderRadius: '0.25rem', padding: '0.5rem 1rem', fontSize: '1rem' }}
+        disabled={isGenerating}>
+        <Download className='w-4 h-4' />
+        {isGenerating ? 'Exporting...' : 'Export Page Rows : CSV '}
+    </button>  */}
+            <button
+         className={`btn btn-success btn-sm ${isGenerating ? 'disabled' : ''}`}
+         onClick={() => handleAllExportRows(businesses)}
+        style={{ borderRadius: '0.25rem', padding: '0.5rem 1rem', fontSize: '1rem' }}
+        disabled={isGenerating}>
+        <Download className='w-4 h-4' />
+        {isGenerating ? 'Exporting...' : 'Export All Rows'}
+    </button>     
+</div>
+
         <div className="overflow-x-auto">
+            <div ref={conponentPDF} style={{width:'100%'}}>
             <table className="table table-zebra-zebra">
                 {/* table header */}
                 <thead>
@@ -191,6 +269,8 @@ const BusinessList = () => {
                     })}
                 </tbody>
             </table>
+            </div>
+
 
                          {/* Info de Owner */}
                          {businesses.map((business) => {
@@ -212,6 +292,7 @@ const BusinessList = () => {
                 );
             })}
 
+        </div>
         </div>
     );
 };

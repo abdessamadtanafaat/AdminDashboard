@@ -233,17 +233,26 @@ const [createdDateSort, setCreatedDateSort] = useState({ ascending: false });
  
                     <th key="edit" className="text-center"></th>
                     <th key="lockButton">
-                        
-                        {selectedOwners.length > 0 && ( 
-                            <button
-                            onClick={() => handleLockAll(selectedOwners)}
-                                 className="btn btn-error btn-sm flex justify-end" 
-                                >
-                                                <Lock className='w-4 h-4' />
-                                                {/* <span className="ml-1">Lock &nbsp;&nbsp;&nbsp;</span> */}
-                                </button>
-                        )}
-                        </th>
+    {selectedOwners.length > 0 ? (
+        <button
+            onClick={() => handleLockAll(selectedOwners)}
+            className="btn btn-error btn-sm flex justify-end" 
+        >
+            <Lock className='w-4 h-4' />
+            {/* <span className="ml-1">Lock &nbsp;&nbsp;&nbsp;</span> */}
+        </button>
+    ) : (
+        <button
+            disabled
+            className="btn btn-error btn-sm flex justify-end cursor-not-allowed"
+            aria-disabled="true"
+        >
+            <Lock className='w-4 h-4' />
+            {/* <span className="ml-1">Lock &nbsp;&nbsp;&nbsp;</span> */}
+        </button>
+    )}
+</th>
+
                     </tr>
                 </thead>
                 <tbody>
