@@ -166,6 +166,31 @@ const [createdDateSort, setCreatedDateSort] = useState({ ascending: false });
         setIsCarouselOpen(true);
     };
 
+    const formatDateDuration = (createdDate) => {
+        const date = new Date(createdDate);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        return `${month}/${day}/${year}`;
+    };
+
+    const formatTime = (createdDate) => {
+        const date = new Date(createdDate);
+    
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+    
+        const amOrPm = hours >= 12 ? 'PM' : 'AM';
+    
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+    
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+    
+        return `${hours}:${minutes}`+` `+`${amOrPm}`;
+    };
+    
+
 
     if (!businessOwners || businessOwners.length < 1) {
         return (
@@ -194,7 +219,7 @@ const [createdDateSort, setCreatedDateSort] = useState({ ascending: false });
                     <th key="fullName" className="text-center">Full Name</th>
                     {/* <th key="fullName" className="text-center">Username</th> */}
                     <th key="fullName" >Last Login</th>
-                    <th key="fullName">Last Logout</th>
+                    {/* <th key="fullName">Last Logout</th> */}
 
                     {/* <th key="status" className="text-center">Status</th> */}
                     <th key="signedUp" style={{ cursor: 'pointer' }} onClick={toggleCreatedDateSort}>
@@ -205,8 +230,7 @@ const [createdDateSort, setCreatedDateSort] = useState({ ascending: false });
                     </th>
                     <th key="Business" className="text-center">Businesses</th>
 
-
-                        
+ 
                     <th key="edit" className="text-center"></th>
                     <th key="lockButton">
                         
@@ -225,6 +249,7 @@ const [createdDateSort, setCreatedDateSort] = useState({ ascending: false });
                 <tbody>
                     {businessOwners.map((owner) => {
                         const { firstName, lastName,createdAt, email, avatarUrl, username, id, _deactivated, active,fullName,businesses,lastLogin,lastLogout } = owner;
+                        const numberOfBusinesses = businesses.length;     
                         return (
                             <tr>
                                 <th key="checkbox">
@@ -261,14 +286,25 @@ const [createdDateSort, setCreatedDateSort] = useState({ ascending: false });
                                 {/* <td>
                                 <div className="font-bold">{username}</div>
                                 </td> */}
+
+                            {/* <td>{formatDateDuration(business.createdDate)}
+                            <div className="text-sm font-normal text-gray-500 dark:text-gray-400"
+                                     style={{ fontSize: '0.8em' }}>{formatTime(business.createdDate)}</div>
+                            </td> */}
+
                                 <td>
-                                <div >{getSignedUpText(lastLogin)}</div>
+                                <div >{getSignedUpText(lastLogin)}
+                                <div className="text-sm font-normal text-gray-500 dark:text-gray-400"
+                                     style={{ fontSize: '0.8em' }}>{formatTime(lastLogin)}</div>
+                                </div>
                                 </td>
-                                <td>
+                                {/* <td>
                                 <div>{getSignedUpText(lastLogout)}</div>
-                                </td>
+                                </td> */}
                     <td>
                     <div>{getSignedUpText(createdAt)}</div>
+                    <div className="text-sm font-normal text-gray-500 dark:text-gray-400"
+                                     style={{ fontSize: '0.8em' }}>{formatDateDuration(createdAt)}</div>
                     </td>
                     <td className="text-center">
                 {/* Afficher les entreprises associées */}
@@ -284,7 +320,7 @@ const [createdDateSort, setCreatedDateSort] = useState({ ascending: false });
                         onClick={() => setOwnerIdForBusiness(id)}
 
                                     >
-                                    <BriefcaseBusinessIcon className='w-4 h-4' />
+                                    <BriefcaseBusinessIcon className='w-4 h-4' /> {numberOfBusinesses}
                                     </button>
             </td>
 
@@ -303,7 +339,7 @@ const [createdDateSort, setCreatedDateSort] = useState({ ascending: false });
 
                                 <td>
                                     <button 
-                                        className={`btn btn-${_deactivated ? 'success' : 'error'} btn-sm`}
+                                        className={`btn btn-${_deactivated ? 'success' : 'error'} btn-sm flex items-center`}
                                         onClick={() => {
                                             handleLockClick(id, _deactivated); 
                                         }}
@@ -311,12 +347,12 @@ const [createdDateSort, setCreatedDateSort] = useState({ ascending: false });
                                             {_deactivated ? 
         <>
             <LockOpen className='w-4 h-4' />
-            {/* <span className="ml-1">Unlock</span> */}
+            {/* <span>Unlock</span> */}
         </> 
         : 
         <>
-            <Lock className='w-4 h-4' />
-            {/* <span className="ml-1">Lock &nbsp;&nbsp;&nbsp;</span> */}
+            <Lock className='w-4 h-4'/>
+            {/* <span >Lock</span> */}
         </>
     }
                                     </button>

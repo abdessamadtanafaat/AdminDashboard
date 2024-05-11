@@ -129,6 +129,14 @@ const CampaignList = () => {
         });
         console.log(response.data);
     };
+    
+    const formatDate = (createdDate) => {
+        const date = new Date(createdDate);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        return `${month}/${day}/${year}`;
+    };
 
     if (!campaigns || campaigns.length < 1) {
         return (
@@ -180,9 +188,15 @@ const CampaignList = () => {
                 </label>
             </th>
             <td>{campaign.campaignName}</td>
-            <td>{campaign.business.businessName}</td>
+            <td>{campaign.business.businessName}
+            <div className="text-sm font-normal text-gray-500 dark:text-gray-400"
+                                     style={{ fontSize: '0.8em' }}>{campaign.business.email}</div>
+            </td>
             <td>{campaign.template.templateName}</td>
-            <td>{formatDateDuration(campaign.createdDate)}</td>
+            <td>{formatDateDuration(campaign.createdDate)}
+            <div className="text-sm font-normal text-gray-500 dark:text-gray-400"
+                                     style={{ fontSize: '0.8em' }}>{formatDate(campaign.createdDate)}</div>
+            </td>
             <td style={{ textAlign: 'center' }}>
                                     <button className='btn btn-success btn-sm'
                                         onClick={() => {

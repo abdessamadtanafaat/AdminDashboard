@@ -26,6 +26,9 @@ function  BusinessCarousel ({ ownerId ,isOpen, onClose }) {
 
     const handleNextClick = () => {
         setActiveIndex((prevIndex) => (prevIndex === businesses.length - 1 ? 0 : prevIndex + 1));
+        //console.log(index);
+
+
     };
 
     const handleOutsideClick = (e) => {
@@ -80,12 +83,12 @@ function  BusinessCarousel ({ ownerId ,isOpen, onClose }) {
                     <div className="flex gap-4">
                         <div className="form-control">
                             <label className="label">
-                                <span className="label-text capitalize font-semibold">First Name</span>
+                                <span className="label-text capitalize font-semibold">Business Name</span>
                             </label>
                             <input
                                 type="text"
-                                name="firstName"
-                                placeholder="Enter First Name"
+                                name="Business Name	"
+                                placeholder="Business Name"
                                 className="input input-bordered input-accent"
                                 value={business.businessName}
                                 disabled 
@@ -95,12 +98,12 @@ function  BusinessCarousel ({ ownerId ,isOpen, onClose }) {
                         </div>
                         <div className="form-control">
                             <label className="label">
-                                <span className="label-text capitalize font-semibold">Last Name</span>
+                                <span className="label-text capitalize font-semibold">Type</span>
                             </label>
                             <input
                                 type="text"
-                                name="lastName"
-                                placeholder="Enter Last Name"
+                                name="TypeBusiness"
+                                placeholder="TypeBusiness"
                                 className="input input-bordered input-accent"
                                 value={business.type.typeName}
                                 disabled 
@@ -127,12 +130,12 @@ function  BusinessCarousel ({ ownerId ,isOpen, onClose }) {
                         </div>
                         <div className="form-control">
                             <label className="label">
-                                <span className="label-text capitalize font-semibold">Username</span>
+                                <span className="label-text capitalize font-semibold">Phone</span>
                             </label>
                             <input
                                 type="text"
-                                name="username"
-                                placeholder="Enter Username"
+                                name="Phone"
+                                placeholder="Phone"
                                 className="input input-bordered input-accent"
                                 value={business.phone}
                                 disabled
