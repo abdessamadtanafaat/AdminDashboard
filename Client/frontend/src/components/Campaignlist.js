@@ -129,6 +129,7 @@ const CampaignList = () => {
         });
         console.log(response.data);
     };
+
     
     const formatDate = (createdDate) => {
         const date = new Date(createdDate);
@@ -137,6 +138,7 @@ const CampaignList = () => {
         const day = date.getDate();
         return `${month}/${day}/${year}`;
     };
+
 
     if (!campaigns || campaigns.length < 1) {
         return (

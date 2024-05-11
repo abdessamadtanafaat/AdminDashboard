@@ -89,6 +89,7 @@ function  BusinessCarousel ({ ownerId ,isOpen, onClose }) {
                                 type="text"
                                 name="Business Name	"
                                 placeholder="Business Name"
+
                                 className="input input-bordered input-accent"
                                 value={business.businessName}
                                 disabled 
@@ -104,6 +105,7 @@ function  BusinessCarousel ({ ownerId ,isOpen, onClose }) {
                                 type="text"
                                 name="TypeBusiness"
                                 placeholder="TypeBusiness"
+
                                 className="input input-bordered input-accent"
                                 value={business.type.typeName}
                                 disabled 
@@ -136,6 +138,7 @@ function  BusinessCarousel ({ ownerId ,isOpen, onClose }) {
                                 type="text"
                                 name="Phone"
                                 placeholder="Phone"
+
                                 className="input input-bordered input-accent"
                                 value={business.phone}
                                 disabled

@@ -250,6 +250,7 @@ const [createdDateSort, setCreatedDateSort] = useState({ ascending: false });
                     {businessOwners.map((owner) => {
                         const { firstName, lastName,createdAt, email, avatarUrl, username, id, _deactivated, active,fullName,businesses,lastLogin,lastLogout } = owner;
                         const numberOfBusinesses = businesses.length;     
+
                         return (
                             <tr>
                                 <th key="checkbox">
@@ -286,7 +287,6 @@ const [createdDateSort, setCreatedDateSort] = useState({ ascending: false });
                                 {/* <td>
                                 <div className="font-bold">{username}</div>
                                 </td> */}
-
                             {/* <td>{formatDateDuration(business.createdDate)}
                             <div className="text-sm font-normal text-gray-500 dark:text-gray-400"
                                      style={{ fontSize: '0.8em' }}>{formatTime(business.createdDate)}</div>
@@ -301,6 +301,7 @@ const [createdDateSort, setCreatedDateSort] = useState({ ascending: false });
                                 {/* <td>
                                 <div>{getSignedUpText(lastLogout)}</div>
                                 </td> */}
+
                     <td>
                     <div>{getSignedUpText(createdAt)}</div>
                     <div className="text-sm font-normal text-gray-500 dark:text-gray-400"
