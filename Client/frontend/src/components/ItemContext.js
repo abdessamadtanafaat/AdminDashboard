@@ -18,14 +18,12 @@ const ItemsProvider = ({children})=>{
         setCheckedPredefinedItems([]);
         // Clear checked items
     };
-
     const handleRevokeButtonClick = () => {
         const uncheckedGrantedItems = grantedItems.filter(item => !checkedGrantedItems.includes(item));
         setPredefinedItems([...predefinedItems, ...checkedGrantedItems]);
         setGrantedItems(uncheckedGrantedItems);
         setCheckedGrantedItems([]);
     };
-
     const handleRevokeAllButtonClick = () => {
         setPredefinedItems([...predefinedItems, ...grantedItems]);
         setGrantedItems([]);
@@ -40,7 +38,6 @@ const ItemsProvider = ({children})=>{
             setCheckedPredefinedItems([]);
         }
     };
-
     const handleSelectAllGrantedChanges = (event) => {
         const { checked } = event.target;
         if (checked) {
@@ -55,7 +52,7 @@ const ItemsProvider = ({children})=>{
         value={{
             grantedItems , setGrantedItems , checkedGrantedItems , setCheckedGrantedItems , 
             predefinedItems , setPredefinedItems , checkedPredefinedItems ,setCheckedPredefinedItems ,
-            handleGrantButtonClick , handleRevokeAllButtonClick , handleRevokeButtonClick , handleSelectAllChange , handleSelectAllGrantedChanges
+            handleGrantButtonClick , handleRevokeAllButtonClick , handleRevokeButtonClick , handleSelectAllChange , handleSelectAllGrantedChanges,
 
         }}>
             {children}

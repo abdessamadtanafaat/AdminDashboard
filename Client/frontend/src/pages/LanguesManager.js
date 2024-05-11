@@ -40,7 +40,7 @@ const LanguesManager = () => {
                 </h1>) : (
                         languages.map((language)=>{
                         const {id , name , compagnes } = language
-                        return <Language key={id} name={name} id={id} compagnes={compagnes}/>
+                        return <Language key={id} name={name} id={id} companges={compagnes} />
                         
                         
                     })

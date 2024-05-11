@@ -1,7 +1,7 @@
 import { useItemsContext } from "./ItemContext";
 
 const GrantedRolesList = () => {
-    const { grantedItems, checkedGrantedItems, setCheckedGrantedItems , handleSelectAllGrantedChange} = useItemsContext();
+    const { grantedItems, checkedGrantedItems, setCheckedGrantedItems , handleSelectAllGrantedChanges} = useItemsContext();
 
     const handleCheckboxChange = (event, role) => {
         if (checkedGrantedItems.some((checkedRole) => checkedRole.id === role.id)) {
@@ -18,7 +18,7 @@ const GrantedRolesList = () => {
                     <summary>
                       <label className="inline-flex items-center">
                         <input type="checkbox" className="form-checkbox checkbox checkbox-sm checkbox-secondary h-4 w-4" checked={checkedGrantedItems.length === grantedItems.length}
-                        onChange={handleSelectAllGrantedChange} />
+                        onChange={handleSelectAllGrantedChanges} />
                         <span className="ml-3 text-base font-semibold">Granted Roles</span>
                       </label>
                     </summary>

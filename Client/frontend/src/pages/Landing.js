@@ -54,7 +54,7 @@ const Landing = () => {
           <div className="stat-figure text-secondary">
             <BriefcaseBusiness />
           </div>
-          <div className="stat-title">Busineses</div>
+          <div className="stat-title">Businesses</div>
             <div className="stat-value">{businessNbr}</div>
             <div className="stat-desc">Total</div>
           </div>
@@ -62,7 +62,7 @@ const Landing = () => {
             <div className="stat-figure text-secondary">
               <User />  
           </div>
-        <div className="stat-title">Users</div>
+        <div className="stat-title">Business owners</div>
 <div className="stat-value">{usersNbr}</div>
 <div className="stat-desc">Total</div>
 </div>
@@ -71,9 +71,9 @@ const Landing = () => {
 <div className="stat-figure text-secondary">
 <MessageCircleQuestion />
 </div>
-<div className="stat-title">Compains</div>
+<div className="stat-title">campaigns</div>
 <div className="stat-value">{compainsNbr}</div>
-<div className="stat-desc">↘︎ 90 (14%)</div>
+<div className="stat-desc">Total</div>
 </div>
 <div className="stat">
 <div className="stat-figure text-secondary">
@@ -81,7 +81,7 @@ const Landing = () => {
 </div>
 <div className="stat-title">Customers</div>
 <div className="stat-value">{customersNbr}</div>
-<div className="stat-desc">↘︎ 90 (14%)</div>
+<div className="stat-desc">Total</div>
 </div>
 
       </div>

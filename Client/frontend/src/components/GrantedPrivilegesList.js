@@ -2,9 +2,8 @@ import { useState } from 'react';
 import { useItemsContext } from './ItemContext';
 
 const GrantedPrivilegesList = () => {
-    const { grantedItems, checkedGrantedItems, setCheckedGrantedItems , handleSelectAllGrantedChange } = useItemsContext();
+    const { grantedItems, checkedGrantedItems, setCheckedGrantedItems , handleSelectAllGrantedChanges } = useItemsContext();
 
-    console.log(checkedGrantedItems);
 
     const handleCheckboxChange = (privilege) => {
         if (checkedGrantedItems.some((checkedItem) => checkedItem.id === privilege.id)) {
@@ -26,7 +25,7 @@ const GrantedPrivilegesList = () => {
                                 type="checkbox"
                                 className="form-checkbox checkbox checkbox-sm checkbox-secondary h-4 w-4"
                                 checked={checkedGrantedItems.length === grantedItems.length}
-                                onChange={handleSelectAllGrantedChange}
+                                onChange={handleSelectAllGrantedChanges}
                             />
                             <span className="ml-3 text-base font-semibold"> Granted Privileges</span>
                         </label>

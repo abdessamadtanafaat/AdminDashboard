@@ -18,21 +18,27 @@ const DoughnutChart = ({chart}) => {
   
     const chartOptions = {
       tooltips: {
-        callbacks: {
-            label: function(tooltipItem, data) {
-                var allData = data.datasets[tooltipItem.datasetIndex].data;
-                var tooltipLabel = data.labels[tooltipItem.index];
-                var tooltipData = allData[tooltipItem.index];
-                var total = 0;
-                for (var i in allData) {
-                    total += parseFloat(allData[i]);
-                }
-                var tooltipPercentage = Math.round((tooltipData / total) * 100);
-                return tooltipLabel + ': ' + tooltipData + ' (' + tooltipPercentage + '%)';
-            }
+        enabled: false
+    },
+    plugins: {
+        datalabels: {
+            formatter: (value, categories) => {
+
+                let sum = 0;
+                let dataArr = categories.chart.data.datasets[0].data;
+                dataArr.map(data => {
+                    sum += data;
+                });
+                let percentage = (value*100 / sum).toFixed(2)+"%";
+                return percentage;
+
+
+            },
+            color: '#fff',
         }
     }
-    };
+    }
+
   return (
     <div className="gird place-content-center items bg-base-200 ">
       

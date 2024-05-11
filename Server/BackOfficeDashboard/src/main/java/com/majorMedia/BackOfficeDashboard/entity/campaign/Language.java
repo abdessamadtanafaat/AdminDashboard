@@ -23,9 +23,10 @@ public class Language {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "compagne_language",
-            joinColumns = @JoinColumn(name = "language_id" ,referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "compagne_id",referencedColumnName ="id")
+            joinColumns = @JoinColumn(name = "language_id"),
+            inverseJoinColumns = @JoinColumn(name = "compagne_id")
     )
+
     private Set<Campaign> compagnes;
 
 

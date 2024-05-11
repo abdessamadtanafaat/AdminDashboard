@@ -47,15 +47,14 @@ public class Campaign {
     @OneToMany(mappedBy = "campaign")
     private List<LoyaltyProgramme> loyaltyProgrammes;
 
-
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany
     @JoinTable(
             name = "compagne_language",
-            joinColumns = @JoinColumn(name = "compagne_id" ,  referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "language_id",  referencedColumnName = "id")
+            joinColumns = @JoinColumn(name = "compagne_id"),
+            inverseJoinColumns = @JoinColumn(name = "language_id")
     )
     @JsonIgnore
-    private Set<Language> languages;
+    private List<Language> languages;
 
 
     @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL)
