@@ -8,6 +8,43 @@ const AdminsList = () => {
       return (<div className="font-bold mx-auto  text-4xl text-center text-error">There is no match for the keyword You Typed !!! </div>)
 
     }
+
+    const formatDateDuration = (createdDate) => {
+      const currentDate = new Date();
+      const startDate = new Date(createdDate);
+      const millisecondsPerSecond = 1000;
+      const millisecondsPerMinute = millisecondsPerSecond * 60;
+      const millisecondsPerHour = millisecondsPerMinute * 60;
+      const millisecondsPerDay = millisecondsPerHour * 24;
+      const millisecondsPerWeek = millisecondsPerDay * 7;
+      const millisecondsPerMonth = millisecondsPerDay * 30;
+      const millisecondsPerYear = millisecondsPerDay * 365;
+  
+      const elapsedMilliseconds = currentDate - startDate;
+  
+      if (elapsedMilliseconds < millisecondsPerMinute) {
+          return 'Just now';
+      } else if (elapsedMilliseconds < millisecondsPerHour) {
+          const minutes = Math.floor(elapsedMilliseconds / millisecondsPerMinute);
+          return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+      } else if (elapsedMilliseconds < millisecondsPerDay) {
+          const hours = Math.floor(elapsedMilliseconds / millisecondsPerHour);
+          return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+      } else if (elapsedMilliseconds < millisecondsPerWeek) {
+          const days = Math.floor(elapsedMilliseconds / millisecondsPerDay);
+          return `${days} day${days > 1 ? 's' : ''} ago`;
+      } else if (elapsedMilliseconds < millisecondsPerMonth) {
+          const weeks = Math.floor(elapsedMilliseconds / millisecondsPerWeek);
+          return `${weeks} week${weeks > 1 ? 's' : ''} ago`;
+      } else if (elapsedMilliseconds < millisecondsPerYear) {
+          const months = Math.floor(elapsedMilliseconds / millisecondsPerMonth);
+          return `${months} month${months > 1 ? 's' : ''} ago`;
+      } else {
+          const years = Math.floor(elapsedMilliseconds / millisecondsPerYear);
+          return `${years} year${years > 1 ? 's' : ''} ago`;
+      }
+  };
+
     return (
     <div className="overflow-x-auto">
         <table className="table table-zebra-zebra">
@@ -17,16 +54,20 @@ const AdminsList = () => {
                     
                     <th>        </th>
                     <th className="text-center" >Profile</th>
-                    <th className="text-center" >Full Name</th>   
+                    <th className="text-center" >Full Name</th> 
+                    <th className="text-center" >Last LogIn</th>     
+                    <th className="text-center" >Last Logout </th>     
+                    <th className="text-center" >Joined in</th> 
+    
                     {/* <th className="text-center" >Role</th>    */}
-                    <th className="text-center" >Status</th>   
+                    {/* <th className="text-center" >Status</th>    */}
 
                                      
                 </tr>
             </thead>
             <tbody>
               {admins.map((admin)=>{
-                const {fullname,firstname , lastname ,email ,avatarUrl , username , id, roles,active} = admin;  
+                const {fullname,firstname , lastname ,email ,avatarUrl , username , id, roles,active,lastLogout,lastLogin,joined_in} = admin;  
                 return (
                     <tr key={id}>
                         <th>
@@ -36,11 +77,20 @@ const AdminsList = () => {
                         </th>
                         <td>
                          <div className="flex items-center gap-3">
-                            <div className="avatar">
-                                <div className="mask mask-squircle w-12 h-12">
-                                <img alt="profile image" src={avatarUrl ? `${avatarUrl}`: default_avatar} />
-                                </div>
-                            </div>
+
+                            <div className="avatar relative">
+        <div className="mask mask-squircle w-12 h-12">
+            <img alt="profile image" src={avatarUrl ? `${avatarUrl}` : default_avatar} />
+        </div>
+        {active ? (
+            <div className="absolute -top-0 -right-0 flex items-center justify-center w-2 h-2 rounded-full bg-green-400 text-white">
+            </div>
+        ): (
+            <div className="absolute -top-0 -right-0 flex items-center justify-center w-2 h-2 rounded-full bg-red-500 text-white">
+            </div>
+        )}
+    </div>
+
                         <div>
                     </div>
                      </div>
@@ -53,6 +103,16 @@ const AdminsList = () => {
                       </div>
                       </td>
                       <td>
+                      <div>{formatDateDuration(lastLogin)}</div>
+                      </td>
+                      <td>
+                      <div>{formatDateDuration(lastLogout)}</div>
+                      </td>
+                      <td>
+                      <div>{formatDateDuration(joined_in)}</div>
+                      </td>
+                      
+                      {/* <td>
     <div className="font-bold">
         {active ? (
             <div class="flex items-center">
@@ -64,7 +124,7 @@ const AdminsList = () => {
             </div> 
                )}
     </div>
-</td>
+</td> */}
                       <td>
                       {/* <div className="font-bold">
     {roles.map((role, index) => (

@@ -59,40 +59,30 @@ const BusinessList = () => {
     };
 
     const formatDateDuration = (createdDate) => {
-        const currentDate = new Date();
-        const startDate = new Date(createdDate);
-        const millisecondsPerSecond = 1000;
-        const millisecondsPerMinute = millisecondsPerSecond * 60;
-        const millisecondsPerHour = millisecondsPerMinute * 60;
-        const millisecondsPerDay = millisecondsPerHour * 24;
-        const millisecondsPerWeek = millisecondsPerDay * 7;
-        const millisecondsPerMonth = millisecondsPerDay * 30;
-        const millisecondsPerYear = millisecondsPerDay * 365;
-    
-        const elapsedMilliseconds = currentDate - startDate;
-    
-        if (elapsedMilliseconds < millisecondsPerMinute) {
-            return 'Just now';
-        } else if (elapsedMilliseconds < millisecondsPerHour) {
-            const minutes = Math.floor(elapsedMilliseconds / millisecondsPerMinute);
-            return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
-        } else if (elapsedMilliseconds < millisecondsPerDay) {
-            const hours = Math.floor(elapsedMilliseconds / millisecondsPerHour);
-            return `${hours} hour${hours > 1 ? 's' : ''} ago`;
-        } else if (elapsedMilliseconds < millisecondsPerWeek) {
-            const days = Math.floor(elapsedMilliseconds / millisecondsPerDay);
-            return `${days} day${days > 1 ? 's' : ''} ago`;
-        } else if (elapsedMilliseconds < millisecondsPerMonth) {
-            const weeks = Math.floor(elapsedMilliseconds / millisecondsPerWeek);
-            return `${weeks} week${weeks > 1 ? 's' : ''} ago`;
-        } else if (elapsedMilliseconds < millisecondsPerYear) {
-            const months = Math.floor(elapsedMilliseconds / millisecondsPerMonth);
-            return `${months} month${months > 1 ? 's' : ''} ago`;
-        } else {
-            const years = Math.floor(elapsedMilliseconds / millisecondsPerYear);
-            return `${years} year${years > 1 ? 's' : ''} ago`;
-        }
+        const date = new Date(createdDate);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        return `${month}/${day}/${year}`;
     };
+
+    const formatTime = (createdDate) => {
+        const date = new Date(createdDate);
+    
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+    
+        const amOrPm = hours >= 12 ? 'PM' : 'AM';
+    
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+    
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+    
+        return `${hours}:${minutes}`+` `+`${amOrPm}`;
+    };
+    
+    
     
 
     const handleSelectAll = () => {
@@ -119,7 +109,13 @@ const BusinessList = () => {
     };
 
 
-
+    if (!businesses || businesses.length < 1) {
+        return (
+            <div className="font-bold mx-auto text-4xl text-center text-error">
+                There is no match for the keyword You Typed !!!
+            </div>
+        );
+    }
     return (
         <div className="overflow-x-auto">
             <table className="table table-zebra-zebra">
@@ -174,7 +170,10 @@ const BusinessList = () => {
                             <td>
                                 <div>{business.phone}</div>        
                             </td>
-                            <td>{formatDateDuration(business.createdDate)}</td>
+                            <td>{formatDateDuration(business.createdDate)}
+                            <div className="text-sm font-normal text-gray-500 dark:text-gray-400"
+                                     style={{ fontSize: '0.8em' }}>{formatTime(business.createdDate)}</div>
+                            </td>
                             <td style={{ textAlign: 'center' }}>
                                     <button className='btn btn-success btn-sm'
                                         onClick={() => {

@@ -17,33 +17,44 @@ const CampaignList = () => {
 
 
     useEffect(() => {
-        fetchCampaigns();
-    }, []);
+        setCreatedDateSort({ ascending: initialSortOrder === 'asc' });
 
-    const fetchCampaigns = async () => {
-        try {
-            const response = await customFetch("/tables/campagnes", {
-                params: {
-                    searchKey: params.searchKey,
-                    page: params.page
-                },
-
-                headers: { Authorization: `Bearer ${admin.token}` }
-            });
-            setCampaignsData(response.data);
-            console.log(response.data);
-        } catch (error) {
-            console.error('Error fetching campaigns:', error);
+        const sortOrder = localStorage.getItem('sortOrder');
+        if (sortOrder) {
+            setCreatedDateSort({ ascending: sortOrder === 'asc' });
+        } else {
+            setCreatedDateSort({ ascending: false });
+            localStorage.setItem('sortOrder', 'desc');
         }
-    };
+
+    }, [initialSortOrder]);
+
+ 
+
+    // const fetchCampaigns = async () => {
+    //     try {
+    //         const response = await customFetch("/tables/campagnes", {
+    //             params: {
+    //                 searchKey: params.searchKey,
+    //                 page: params.page
+    //             },
+
+    //             headers: { Authorization: `Bearer ${admin.token}` }
+    //         });
+    //         setCampaignsData(response.data);
+    //         console.log(response.data);
+    //     } catch (error) {
+    //         console.error('Error fetching campaigns:', error);
+    //     }
+    // };
 
     const handleSelectAll = () => {
         setSelectAll(!selectAll); 
-        if (!selectAll) {
-            setSelectedCampaigns(campaignsData.map(campaign => campaign.id));
-        } else {
-            setSelectedCampaigns([]);
-        }
+        // if (!selectAll) {
+        //     setSelectedCampaigns(campaignsData.map(campaign => campaign.id));
+        // } else {
+        //     setSelectedCampaigns([]);
+        // }
     };
 
     const handleLanguageClick = ()=> {
@@ -118,6 +129,25 @@ const CampaignList = () => {
         });
         console.log(response.data);
     };
+
+    
+    const formatDate = (createdDate) => {
+        const date = new Date(createdDate);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        return `${month}/${day}/${year}`;
+    };
+
+
+    if (!campaigns || campaigns.length < 1) {
+        return (
+            <div className="font-bold mx-auto text-4xl text-center text-error">
+                There is no match for the keyword You Typed !!!
+            </div>
+        );
+    }
+
     return (
         <div className="overflow-x-auto">
             <table className="table table-zebra-zebra">
@@ -147,7 +177,7 @@ const CampaignList = () => {
                     </tr>
                 </thead>
                 <tbody>
-                {Array.isArray(campaignsData.data) && campaignsData.data.map((campaign) => (
+                {Array.isArray(campaigns) && campaigns.map((campaign) => (
         <tr key={campaign.id}>
             <th>
                 <label className="flex justify-center gap-2">
@@ -160,9 +190,15 @@ const CampaignList = () => {
                 </label>
             </th>
             <td>{campaign.campaignName}</td>
-            <td>{campaign.business.businessName}</td>
+            <td>{campaign.business.businessName}
+            <div className="text-sm font-normal text-gray-500 dark:text-gray-400"
+                                     style={{ fontSize: '0.8em' }}>{campaign.business.email}</div>
+            </td>
             <td>{campaign.template.templateName}</td>
-            <td>{formatDateDuration(campaign.createdDate)}</td>
+            <td>{formatDateDuration(campaign.createdDate)}
+            <div className="text-sm font-normal text-gray-500 dark:text-gray-400"
+                                     style={{ fontSize: '0.8em' }}>{formatDate(campaign.createdDate)}</div>
+            </td>
             <td style={{ textAlign: 'center' }}>
                                     <button className='btn btn-success btn-sm'
                                         onClick={() => {
