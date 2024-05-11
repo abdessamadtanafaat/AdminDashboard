@@ -1,7 +1,6 @@
 import React, { useState, useEffect,useRef } from "react";
 import { useLoaderData, Link, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
-import { useReactToPrint } from "react-to-print";
 import { useSelector } from 'react-redux';
 import { customFetch } from '../utils';
 import { ArrowUpDown, BriefcaseBusinessIcon,LampWallDown, PencilIcon, SortAscIcon, SortDescIcon, User,File, Download } from "lucide-react";
