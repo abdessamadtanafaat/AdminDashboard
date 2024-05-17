@@ -6,6 +6,7 @@ import { useLoaderData , redirect, useNavigate } from 'react-router-dom'
 import { selectAdmin } from '../features/admin/adminSlice'
 import { useSelector } from 'react-redux'
 import { useItemsContext } from '../components/ItemContext'
+import {MoveRight , MoveLeft} from 'lucide-react'
 export const loader =(store)=>async({params})=>{
 
     const admin = store.getState().adminState.admin;
@@ -77,14 +78,14 @@ const SingleAdmin = () => {
           scrollbar-thumb-base-content
           border-outline border-success overflow-y-auto overflow-x-hidden ${!predefinedItems.length <1 || "grid place-content-center text-center"}`}>{!predefinedItems.length < 1 ? <RolesList /> :<p className="text-success">No Roles Available</p> }</div>
         
-        <div className="flex-col flex justify-evenly place-items-center">
-          <button className="btn btn-secondary text-base-content w-20 px-3 " onClick={handleGrantButtonClick}>Grant
+        <div className="flex-col  flex justify-evenly place-items-center">
+          <button className="btn btn-secondary text-base-content w-full px-3 flex  justify-evenly items-center flex-nowrap" onClick={handleGrantButtonClick}><span className="">Grant</span><MoveRight />
           </button>
-          <button className="btn btn-error text-base-content  w-20" onClick={handleRevokeButtonClick}>Revoke
+          <button className="btn btn-error text-base-content  w-full  px-3 flex  justify-evenly items-center flex-nowrap text-md" onClick={handleRevokeButtonClick}><MoveLeft/><span>Revoke</span> 
           </button>
-          <button className="btn btn-error text-base-content  w-20" onClick={handleRevokeAllButtonClick}>Revoke All
+          <button className="btn btn-error text-base-content  w-full flex  justify-evenly text-xs items-center flex-nowrap" onClick={handleRevokeAllButtonClick}><MoveLeft/><span>Revoke All</span> 
           </button>
-          </div>
+        </div>
             <div className={`min-w-60 h-80 bg-base-200 border-2 rounded-lg border-outline scrollbar-track-base-100
             scrollbar-thin
             scrollbar-thumb-base-content overflow-y-auto overflow-x-hidden border-info ${!grantedItems.length <1 || "grid place-content-center text-center"}`}>{!grantedItems.length < 1 ? <GrantedRolesList /> :<p className="text-info">No Roles Granted </p> }</div>

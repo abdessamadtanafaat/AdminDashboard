@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux"
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import React, { useState } from 'react';
 
+import {logo} from '../assets'
 export const action =(store)=>
     async({request})=>{
 
@@ -53,60 +54,31 @@ const Login = () => {
       toast.error(errorMessage);
     }
   };
-  const [passwordVisible, setPasswordVisible] = useState(false);
-
-  const togglePasswordVisibility = () => {
-      setPasswordVisible(prev => !prev);
-  };
+  
 
   return (
     <section className='h-screen grid place-items-center bg-base-300'>
         <Form method="POST"  onSubmit={handleSubmit(onSubmit)} className='card w-96 p-8 bg-base-100 shadow-lg flex  flex-col gap-y-4'>
-            <img src="http://localhost:3000/static/media/logo.6c624ed64baccff0e3b1.png" alt="Logo"  />
+          <div className="flex flex-col justify-start">
+            <img src={logo} alt="Logo"  />
             <h4 className='text-center text-3xl font-bold'>Login</h4>
+
+          </div>
+            
             <FormInput label="Email" name="email" placeholder="email@email.com" register={register} error={errors.email}/>
-        <div className="flex items-center">
-          <div className="flex-grow relative">
-            <FormInput 
-            type={passwordVisible ? "text" : "password"}
-            label="Password" name="password" placeholder="secret" register={register} error={errors.password}/>
-                </div>
-
-                <div className="relative" style={{ marginTop: '50px' }}>
-
-                    <button
-                      type="button"
-                      className="focus:outline-none -ml-10"
-                      onClick={togglePasswordVisibility}
->
-
-{passwordVisible ? 
-        <>
-            <EyeIcon  />
-        </> 
-        : 
-        <>
-            <EyeOffIcon />
-        </>
-    }
-</button>
-    </div>
-
-</div>               
-
-
-             <p className='text-center font-bold'>
-              Forgot Password ?{' '}
-                <Link
-                 to='/forgotPassword'
-                 className='ml-2 font-semibold  link link-hover link-primary capitalize'
-              >
-                 Reset your Password  
-             </Link>
-            </p>
-            <div className='mt-4'>
-               <SubmitBtn text='Submit' />
-            </div>
+            <FormInput type="password" label="Password" name="password" placeholder="secret" register={register} error={errors.password}/>
+             
+        <p className='text-center font-bold'>
+          Forgot Password ?{' '}
+            <Link
+              to='/forgotPassword'
+              className='ml-2 font-semibold  link link-hover link-primary capitalize'
+            >Reset your Password  
+            </Link>
+        </p>
+        <div className='mt-4'>
+            <SubmitBtn text='Submit' />
+        </div>
 
 
         </Form>

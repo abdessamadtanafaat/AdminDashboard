@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { selectAdmin } from "../features/admin/adminSlice";
 import { useState } from "react";
 import { useItemsContext } from "./ItemContext";
+import {MoveRight , MoveLeft } from 'lucide-react'
 export const loader =(store)=>async({})=>{
     const admin = store.getState().adminState.admin;
     try{
@@ -131,14 +132,14 @@ const CreateRole = () => {
         scrollbar-thumb-base-content
         border-outline border-success overflow-y-auto overflow-x-hidden ${!predefinedItems.length <1 || "grid place-content-center text-center"}`}>{!predefinedItems.length < 1 ? <PrivilegesList /> :<p className="text-success">No Privileges Available</p> }</div>
         
-        <div className="flex-col flex justify-evenly place-items-center">
-          <button className="btn btn-secondary text-base-content w-20 px-3 " onClick={handleGrantButtonClick}>Grant
+        <div className="flex-col  flex justify-evenly place-items-center">
+          <button className="btn btn-secondary text-base-content w-full px-3 flex  justify-evenly items-center flex-nowrap" onClick={handleGrantButtonClick}><span className="">Grant</span><MoveRight />
           </button>
-          <button className="btn btn-error text-base-content  w-20" onClick={handleRevokeButtonClick}>Revoke
+          <button className="btn btn-error text-base-content  w-full  px-3 flex  justify-evenly items-center flex-nowrap text-md" onClick={handleRevokeButtonClick}><MoveLeft/><span>Revoke</span> 
           </button>
-          <button className="btn btn-error text-base-content  w-20" onClick={handleRevokeAllButtonClick}>Revoke All
+          <button className="btn btn-error text-base-content  w-full flex  justify-evenly text-xs items-center flex-nowrap" onClick={handleRevokeAllButtonClick}><MoveLeft/><span>Revoke All</span> 
           </button>
-          </div>
+        </div>
             <div className={` h-80 bg-base-200 border-2 rounded-lg 
             scrollbar-track-base-100
             scrollbar-thin

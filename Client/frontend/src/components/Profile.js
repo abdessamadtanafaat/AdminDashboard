@@ -101,6 +101,8 @@ const Profile = () => {
         headers: { Authorization: `Bearer ${admin.token}`} 
       } )
       
+      setPassword('')
+      setConfirmedPassword('')
       return toast.success(response.data)
 
     }

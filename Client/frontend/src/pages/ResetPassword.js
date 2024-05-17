@@ -66,7 +66,7 @@ const ResetPassword = () => {
     <section className='h-screen grid place-items-center bg-base-300'>
        <Form method="POST"  className='card w-96 p-8 bg-base-100 shadow-lg flex  flex-col gap-y-4'>
         <h4 className='text-center text-2xl font-bold'>Enter a new password</h4>
-        <FormInput type="password" label="New Password" name="password" placeholder="secret" register={register}/>
+            <FormInput type="password" label="New Password" name="password" placeholder="secret" register={register}/>
         <FormInput type="password" label="Confirm New Password" name="confirmed_password" placeholder="secret" register={register}/>
         <div className='mt-4'>
            <SubmitBtn text='Submit' />
