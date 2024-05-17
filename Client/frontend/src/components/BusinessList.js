@@ -6,6 +6,7 @@ import { customFetch } from '../utils';
 import { ArrowUpDown, BriefcaseBusinessIcon,LampWallDown, PencilIcon, SortAscIcon, SortDescIcon, User,File, Download } from "lucide-react";
 import {InfoOwnerBusiness} from ".";
 import jsPDF from 'jspdf';
+import { mkConfig, generateCsv, download } from 'export-to-csv';
 import 'jspdf-autotable';
 
 
@@ -23,6 +24,7 @@ const BusinessList = () => {
     const [infoOwnerDialogOpen, setInfoOwnerDialogOpen] = useState(false);
     const [selectedbusinessId, setSelectedBusinessId] = useState(false);
 
+
     useEffect(() => {
         setCreatedDateSort({ ascending: initialSortOrder === 'asc' });
 
@@ -38,25 +40,17 @@ const BusinessList = () => {
 
      const [isGenerating, setIsGenerating] = useState(false);
      const conponentPDF= useRef();
-    // const generatePDF= useReactToPrint({
-    //     content: ()=>conponentPDF.current,
-    //     documentTitle:"Business data",
-    //     onBeforeGetContent: () => setIsGenerating(true),
-    //     onAfterPrint:()=>{
-    //         setIsGenerating(false);
-    //         //toast.success("Business data saved successfully");
-    //     }
 
-    // });    
-    const handleExportRows = (businesses) => {
+   
+    const handleExportRowsPDF = (businesses) => {
         const doc = new jsPDF();
         
         const tableData = businesses.map((business) => {
-            const { businessName, address, phone, createdDate, type } = business;
-            return [businessName, address, phone, formatDateDuration(createdDate), type.typeName];
+            const {instagramLink,googleLink,facebookLink,coverImageUrl, businessName, email, phone,createdDate,id,address,type } = business;
+            return [businessName, address, email,phone, createdDate, type.typeName,instagramLink,googleLink,facebookLink,coverImageUrl];
         });
     
-        const tableHeaders = ['Business Name', 'Address', 'Phone', 'Created Date', 'Type'];
+        const tableHeaders = ['Business Name', 'Address', 'Email', 'Phone', 'Created Date', 'Type'];
     
         doc.autoTable({
             head: [tableHeaders],
@@ -66,24 +60,92 @@ const BusinessList = () => {
         doc.save('businesses.pdf');
     };
 
-    const handleAllExportRows = (businesses) => {
-        // const doc = new jsPDF();
-        
-        // const tableData = businesses.map((business) => {
-        //     const { businessName, address, phone, createdDate, type } = business;
-        //     return [businessName, address, phone, formatDateDuration(createdDate), type.typeName];
-        // });
-    
-        // const tableHeaders = ['Business Name', 'Address', 'Phone', 'Created Date', 'Type'];
-    
-        // doc.autoTable({
-        //     head: [tableHeaders],
-        //     body: tableData,
-        // });
-    
-        // doc.save('businesses.pdf');
+      const csvConfig = {
+        fieldSeparator: ',',
+        decimalSeparator: '.',
+        columnHeaders: ['ID', 'Business Name', 'Address', 'Email', 'Phone', 'Created Date', 'Type', 'Instagram Link', 'Google Link', 'Facebook Link', 'Cover Image URL'],
+        showColumnHeaders:true,
+        useKeysAsHeaders: true,
+        filename:'List businesses',
+      };
+      
+    const handleExportRowsCSV = (businesses) => {
+
+        if (businesses.length === 0) {
+            toast.error('No data to export');
+            return;
+        }
+        const tableData = businesses.map((business) => {
+            const {instagramLink,googleLink,facebookLink,coverImageUrl, businessName, email, phone,createdDate,id,address,type } = business;
+            const formattedPhone = phone.toString();
+
+            return [id,businessName, address, email,formattedPhone, createdDate, type.typeName,instagramLink,googleLink,facebookLink,coverImageUrl];
+        });
+
+  const csv = generateCsv(csvConfig)([csvConfig.columnHeaders, ...tableData]);
+        download(csvConfig)(csv);
+
     };
     
+    
+    const handleAllExportRowsPDF = async () => {
+        
+        const response = await customFetch("/tables/allPagesBusiness", {
+            headers: { Authorization: `Bearer ${admin.token}` }
+        });
+    
+        console.log(response.data);
+        
+        const businesses = response.data;
+
+        const tableData = businesses.map(business => [
+            business.businessName,
+            business.address,
+            business.email,
+            business.phone,
+            business.createdDate,
+            business.type.typeName
+        ]);
+                const doc = new jsPDF();
+    
+                const tableHeaders = ['Business Name', 'Address', 'Email', 'Phone', 'Created Date', 'Type'];
+    
+                doc.autoTable({
+                    head: [tableHeaders],
+                    body: tableData,
+                });
+            
+                doc.save('List businesses.pdf');
+    };
+    
+    const handleAllExportRowsCSV = async () => {
+
+        const response = await customFetch("/tables/allPagesBusiness", {
+            headers: { Authorization: `Bearer ${admin.token}` }
+        });
+    
+        console.log(response.data);
+        
+        const businesses = response.data;
+
+        const tableData = businesses.map(business => [
+            business.id,
+            business.businessName,
+            business.address,
+            business.email,
+            business.phone,
+            business.createdDate,
+            business.type.typeName,
+            business.instagramLink,
+            business.googleLink,
+            business.facebookLink,
+            business.coverImageUrl
+        ]);
+  const csv = generateCsv(csvConfig)([csvConfig.columnHeaders, ...tableData]);
+        download(csvConfig)(csv);
+
+    }
+
     const toggleCreatedDateSort = async () => {
         setCreatedDateSort(prevSort => { 
             const newSort = { ascending: !prevSort.ascending };
@@ -166,34 +228,42 @@ const BusinessList = () => {
     }
     return (
         <div>
-        <div className="justify-content-md-start" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem'}}>
+        <div className="flex justify-center space-x-12 mb-4">
     <button
          className={`btn btn-success btn-sm ${isGenerating ? 'disabled' : ''}`}
-         onClick={() => handleExportRows(businesses)}
+         onClick={() => handleExportRowsPDF(businesses)}
         style={{ borderRadius: '0.25rem', padding: '0.5rem 1rem', fontSize: '1rem' }}
         disabled={isGenerating}>
         <Download className='w-4 h-4' />
-        {isGenerating ? 'Exporting...' : 'Export Page Rows'}
-    </button>   
-    {/* <button
+        {isGenerating ? 'Exporting...' : 'Export Page PDF'}
+    </button>
+    <button
          className={`btn btn-success btn-sm ${isGenerating ? 'disabled' : ''}`}
-         onClick={() => handleExportRows(businesses)}
+         onClick={() => handleExportRowsCSV(businesses)}
         style={{ borderRadius: '0.25rem', padding: '0.5rem 1rem', fontSize: '1rem' }}
         disabled={isGenerating}>
         <Download className='w-4 h-4' />
-        {isGenerating ? 'Exporting...' : 'Export Page Rows : CSV '}
-    </button>  */}
+        {isGenerating ? 'Exporting...' : 'Export Page CSV'}
+    </button>     
             <button
          className={`btn btn-success btn-sm ${isGenerating ? 'disabled' : ''}`}
-         onClick={() => handleAllExportRows(businesses)}
+         onClick={() => handleAllExportRowsPDF()}
         style={{ borderRadius: '0.25rem', padding: '0.5rem 1rem', fontSize: '1rem' }}
         disabled={isGenerating}>
         <Download className='w-4 h-4' />
-        {isGenerating ? 'Exporting...' : 'Export All Rows'}
+        {isGenerating ? 'Exporting...' : 'Export All PDF'}
+    </button>  
+    <button
+         className={`btn btn-success btn-sm ${isGenerating ? 'disabled' : ''}`}
+         onClick={() => handleAllExportRowsCSV(businesses)}
+        style={{ borderRadius: '0.25rem', padding: '0.5rem 1rem', fontSize: '1rem' }}
+        disabled={isGenerating}>
+        <Download className='w-4 h-4' />
+        {isGenerating ? 'Exporting...' : 'Export All CSV'}
     </button>     
 </div>
 
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto mb-4">
             <div ref={conponentPDF} style={{width:'100%'}}>
             <table className="table table-zebra-zebra">
                 {/* table header */}
@@ -224,7 +294,7 @@ const BusinessList = () => {
                 </thead>
                 <tbody>
                     {businesses.map((business) => {
-                    const { businessName, email, phone, id,address,type } = business;
+                    const {instagramLink,googleLink,facebookLink,coverImageUrl, businessName, email, phone, id,address,type } = business;
                     return (
                         <tr key={business.id}>
                                 <th>
@@ -242,7 +312,7 @@ const BusinessList = () => {
                                      style={{ fontSize: '0.8em' }}>{business.type.typeName}</div>
                             </td>
                             <td>
-                                <div className="font-bold">{business.address}</div>
+                                <div>{business.address}</div>
                             </td>
                             <td>
                                 <div>{business.phone}</div>        

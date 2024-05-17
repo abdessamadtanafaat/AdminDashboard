@@ -45,6 +45,39 @@ const AdminsList = () => {
       }
   };
 
+  const formatDate = (createdDate) => {
+    const date = new Date(createdDate);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; 
+    const day = date.getDate();
+
+    const formattedDate = `${month}/${day}/${year}`;
+    return formattedDate;
+};
+
+const formatTime = (createdDate) => {
+    const date = new Date(createdDate);
+
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+
+    const amOrPm = hours >= 12 ? 'PM' : 'AM';
+
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+
+    return `${hours}:${minutes}`+` `+`${amOrPm}`;
+};
+const formatDuration = (createdDate) => {
+    const date = new Date(createdDate);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    return `${month}/${day}/${year}`;
+};
+
     return (
     <div className="overflow-x-auto">
         <table className="table table-zebra-zebra">
@@ -56,7 +89,6 @@ const AdminsList = () => {
                     <th className="text-center" >Profile</th>
                     <th className="text-center" >Full Name</th> 
                     <th className="text-center" >Last LogIn</th>     
-                    <th className="text-center" >Last Logout </th>     
                     <th className="text-center" >Joined in</th> 
     
                     {/* <th className="text-center" >Role</th>    */}
@@ -104,12 +136,14 @@ const AdminsList = () => {
                       </td>
                       <td>
                       <div>{formatDateDuration(lastLogin)}</div>
+                      <div className="text-sm font-normal text-gray-500 dark:text-gray-400"
+                                     style={{ fontSize: '0.8em' }}>{formatDuration(lastLogin)}</div>
+                                
                       </td>
                       <td>
-                      <div>{formatDateDuration(lastLogout)}</div>
-                      </td>
-                      <td>
-                      <div>{formatDateDuration(joined_in)}</div>
+                      <div>{formatDate(joined_in)}</div>
+                      <div className="text-sm font-normal text-gray-500 dark:text-gray-400"
+                                     style={{ fontSize: '0.8em' }}>{formatTime(lastLogin)}</div>
                       </td>
                       
                       {/* <td>

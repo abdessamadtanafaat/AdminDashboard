@@ -33,7 +33,7 @@ const BusinessOwners = () => {
 
     return (
         <>
-            <div className="flex w-full justify-center mb-3">
+            <div className="flex w-full justify-center mb-8">
                 <SearchFilter/>
             </div>
             <BusinessOwnerList/>

@@ -44,11 +44,11 @@ const Business = () => {
 
     return (
         <>
-            <div className="flex w-full justify-center mb-3">
+            <div className="flex w-full justify-center mb-8">
                 <SearchFilter/>
             </div>
             <BusinessList/>
-            <div className="flex w-full justify-center mb-3">
+            <div className="flex w-full justify-center">
                 <PaginationContainer/>
                 </div>
         </>

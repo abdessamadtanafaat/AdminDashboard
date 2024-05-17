@@ -41,12 +41,11 @@ try {
 const Campaigns = () => {
     return (
         <>
-            <div className="flex w-full justify-center mb-3">
+            <div className="flex w-full justify-center mb-8">
             <SearchFilter/>
 
             </div>
             
-            {/* Render the CampaignList component passing the campaigns data */}
             <CampaignList/>
 
             <div className="flex w-full justify-center mb-3">

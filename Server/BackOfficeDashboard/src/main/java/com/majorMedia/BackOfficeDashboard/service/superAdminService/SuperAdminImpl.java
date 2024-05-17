@@ -3,6 +3,7 @@ package com.majorMedia.BackOfficeDashboard.service.superAdminService;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Privilege;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Role;
+import com.majorMedia.BackOfficeDashboard.entity.campaign.Campaign;
 import com.majorMedia.BackOfficeDashboard.entity.user.User;
 import com.majorMedia.BackOfficeDashboard.exception.AlreadyExistEmailException;
 import com.majorMedia.BackOfficeDashboard.exception.AlreadyExistRoleException;
@@ -312,6 +313,9 @@ public class SuperAdminImpl implements ISuperAdminService {
 
     }
 
+    public List<Admin> getAllPagesAdmins() {
+        return adminRepository.findAll();
+    }
 }
 
 

@@ -242,4 +242,14 @@ public class ITableServiceImpl implements ITableService {
         return null;
     }
 
+    public List<Business> getAllPagesBusiness() {
+        return businessRepository.findAll();
+    }
+    public List<User> getAllPagesUsers() {
+        return userRepository.findAll();
+    }
+    public List<Campaign> getAllPagesCampagnes() {
+        return campagneRepository.findAll();
+    }
+
 }

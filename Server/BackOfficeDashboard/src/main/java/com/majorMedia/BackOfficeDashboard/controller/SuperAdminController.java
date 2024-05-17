@@ -4,6 +4,7 @@ import com.majorMedia.BackOfficeDashboard.aspect.LogActivity;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Privilege;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Role;
+import com.majorMedia.BackOfficeDashboard.entity.campaign.Campaign;
 import com.majorMedia.BackOfficeDashboard.model.requests.*;
 import com.majorMedia.BackOfficeDashboard.model.responses.*;
 import com.majorMedia.BackOfficeDashboard.service.superAdminService.ISuperAdminService;
@@ -158,4 +159,9 @@ public class SuperAdminController {
         return ResponseEntity.status(HttpStatus.OK).body(superAdminService.revokeRoleFromAdmin(adminId,roleId));
     }
 
+    @LogActivity
+    @GetMapping(value = "/allPagesAdmins")
+    public ResponseEntity<List<Admin>> getAllPagesAdmins() {
+        return ResponseEntity.ok(superAdminService.getAllPagesAdmins());
+    }
 }
