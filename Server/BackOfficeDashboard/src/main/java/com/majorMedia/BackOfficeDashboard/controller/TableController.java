@@ -54,6 +54,22 @@ public class TableController {
     }
 
     @LogActivity
+    @GetMapping(value = "/allPagesBusiness")
+    public ResponseEntity<List<Business>> getAllPagesBusiness() {
+        return ResponseEntity.ok(tableService.getAllPagesBusiness());
+    }
+
+    @LogActivity
+    @GetMapping(value = "/allPagesUsers")
+    public ResponseEntity<List<User>> getAllPagesUsers() {
+        return ResponseEntity.ok(tableService.getAllPagesUsers());
+    }
+    @LogActivity
+    @GetMapping(value = "/allPagesCampagnes")
+    public ResponseEntity<List<Campaign>> getAllPagesCampagnes() {
+        return ResponseEntity.ok(tableService.getAllPagesCampagnes());
+    }
+    @LogActivity
     @GetMapping(value = "/campagnes")
     public ResponseEntity<ObjectsList<Campaign>> getAllCampagnes(
             @RequestParam(required = false) String sortOrder,

@@ -31,4 +31,9 @@ public interface ITableService {
     List<User> getUsersByBusinessId(int businessId);
 
     List<Business> getBusinessesByOwnerId(Long ownerId);
+
+    List<Business> getAllPagesBusiness();
+    public List<User> getAllPagesUsers();
+
+    List<Campaign> getAllPagesCampagnes();
 }

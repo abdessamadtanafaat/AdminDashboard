@@ -1,8 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import { useLoaderData, Link, useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import { customFetch } from '../utils';
-import { ArrowUpDown,Languages,User } from "lucide-react";
+import { ArrowUpDown,Languages,Download, Check, ClockIcon, PlayIcon, CheckCheckIcon } from "lucide-react";
+import {InfoOwnerBusiness} from ".";
+import jsPDF from 'jspdf';
+import { mkConfig, generateCsv, download } from 'export-to-csv';
+import 'jspdf-autotable';
+import { toast } from 'react-toastify';
 
 const CampaignList = () => {
     const admin = useSelector(state => state.adminState.admin);
@@ -14,6 +19,10 @@ const CampaignList = () => {
     const history = useNavigate();
     const initialSortOrder = localStorage.getItem('sortOrder') || 'asc';
     const [createdDateSort, setCreatedDateSort] = useState({ ascending: false });
+
+
+    const [isGenerating, setIsGenerating] = useState(false);
+    const conponentPDF= useRef();
 
 
     useEffect(() => {
@@ -50,11 +59,11 @@ const CampaignList = () => {
 
     const handleSelectAll = () => {
         setSelectAll(!selectAll); 
-        // if (!selectAll) {
-        //     setSelectedCampaigns(campaignsData.map(campaign => campaign.id));
-        // } else {
-        //     setSelectedCampaigns([]);
-        // }
+        if (!selectAll) {
+            setSelectedCampaigns(campaigns.map(campaign => campaign.id));
+        } else {
+            setSelectedCampaigns([]);
+        }
     };
 
     const handleLanguageClick = ()=> {
@@ -130,6 +139,127 @@ const CampaignList = () => {
         console.log(response.data);
     };
 
+    const csvConfig = {
+        fieldSeparator: ',',
+        decimalSeparator: '.',
+        columnHeaders: ['ID', 'Campaign Name','Start Date','End Date','Status', 'Business Name', 'Email', 'Phone', 'Address', 'Template Name'],
+        showColumnHeaders: true,
+        useKeysAsHeaders: true,
+        filename: 'List_campaigns.csv',
+    };
+       
+    const handleExportRowsPDF = (campaigns) => {
+        const doc = new jsPDF();
+        
+        console.log(campaigns);
+    
+        const tableData = campaigns.map((campaign) => {
+            const {
+                campaignName,
+                createdDate,
+                endDate,
+                status,
+                business: { businessName },
+                template: { templateName }
+            } = campaign;
+            return [campaignName,createdDate,endDate,status, businessName, templateName];
+        });
+    
+        const tableHeaders = ['Campaign Name','Start Date','End Date','Status', 'Business Name', 'Template Name'];
+    
+        doc.autoTable({
+            head: [tableHeaders],
+            body: tableData,
+        });
+    
+        doc.save('campaignes.pdf');
+    };
+    
+    const handleExportRowsCSV = (campaigns) => {
+        console.log(campaigns);
+        
+        if (campaigns.length === 0) {
+            toast.error('No data to export');
+            return;
+        }
+    
+        const tableData = campaigns.map((campaign) => {
+            const {
+                id,
+                campaignName,
+                createdDate,
+                status,
+                endDate,
+                business: { businessName, email, phone, address },
+                template: { templateName }
+            } = campaign;
+            return [id,campaignName,createdDate,endDate,status, businessName, email, phone, address, templateName];
+        });
+    
+    
+        const csv = generateCsv(csvConfig)([csvConfig.columnHeaders, ...tableData]);
+        download(csvConfig)(csv);
+    };
+    
+    const handleAllExportRowsPDF = async () => {
+        const response = await customFetch("/tables/allPagesCampagnes", {
+            headers: { Authorization: `Bearer ${admin.token}` }
+        });
+    
+        console.log(response.data);
+    
+        const campaigns = response.data;
+    
+        const tableData = campaigns.map(campaign => [
+            campaign.campaignName,
+            formatDate(campaign.createdDate),
+            formatDate(campaign.endDate),
+            campaign.business.businessName,
+            campaign.status,
+            campaign.template.templateName,
+            
+        ]);
+    
+        const doc = new jsPDF();
+    
+        const tableHeaders = ['Campaign Name','Start Date','End Date', 'Business Name','Status', 'Template Name'];
+    
+        doc.autoTable({
+            head: [tableHeaders],
+            body: tableData,
+        });
+    
+        doc.save('List_Campaigns.pdf');
+    };
+    
+    const handleAllExportRowsCSV = async () => {
+
+        const response = await customFetch("/tables/allPagesCampagnes", {
+            headers: { Authorization: `Bearer ${admin.token}` }
+        });
+    
+        console.log(response.data);
+        
+        const campaigns = response.data;
+
+        const tableData = campaigns.map(campaign => [
+
+            campaign.id,
+            campaign.campaignName,
+            campaign.createdDate,
+            campaign.endDate,
+            campaign.status,
+            campaign.business.businessName,
+            campaign.business.email,
+            campaign.business.phone,
+            campaign.business.address,
+            campaign.template.templateName
+
+        ]);
+  const csv = generateCsv(csvConfig)([csvConfig.columnHeaders, ...tableData]);
+        download(csvConfig)(csv);
+
+    }
     
     const formatDate = (createdDate) => {
         const date = new Date(createdDate);
@@ -139,7 +269,36 @@ const CampaignList = () => {
         return `${month}/${day}/${year}`;
     };
 
+    const formatTime = (endDate) => {
+        const date = new Date(endDate);
+    
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+    
+        const amOrPm = hours >= 12 ? 'PM' : 'AM';
+    
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+    
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+    
+        return `${hours}:${minutes}`+` `+`${amOrPm}`;
+    };
 
+    const getStatusIcon = (status) => {
+        switch(status) {
+            case 'Planned':
+                return <ClockIcon className="w-4 h-4 ml-1 text-gray-800 dark:text-black" />;
+            case 'In progress':
+                return <PlayIcon className="w-4 h-4 ml-1 text-gray-800 dark:text-black" />;
+            case 'Completed':
+                return <CheckCheckIcon className="w-4 h-4 ml-1 text-gray-800 dark:text-black" />;
+            default:
+                return null;
+        }
+    }
+
+    
     if (!campaigns || campaigns.length < 1) {
         return (
             <div className="font-bold mx-auto text-4xl text-center text-error">
@@ -149,7 +308,45 @@ const CampaignList = () => {
     }
 
     return (
-        <div className="overflow-x-auto">
+        <div>
+
+<div className="flex justify-center space-x-12 mb-4">
+    <button
+         className={`btn btn-success btn-sm ${isGenerating ? 'disabled' : ''}`}
+         onClick={() => handleExportRowsPDF(campaigns)}
+        style={{ borderRadius: '0.25rem', padding: '0.5rem 1rem', fontSize: '1rem' }}
+        disabled={isGenerating}>
+        <Download className='w-4 h-4' />
+        {isGenerating ? 'Exporting...' : 'Export Page PDF'} 
+    </button>
+    <button
+         className={`btn btn-success btn-sm ${isGenerating ? 'disabled' : ''}`}
+         onClick={() => handleExportRowsCSV(campaigns)}
+        style={{ borderRadius: '0.25rem', padding: '0.5rem 1rem', fontSize: '1rem' }}
+        disabled={isGenerating}>
+        <Download className='w-4 h-4' />
+        {isGenerating ? 'Exporting...' : 'Export Page CSV'}
+    </button>     
+            <button
+         className={`btn btn-success btn-sm ${isGenerating ? 'disabled' : ''}`}
+         onClick={() => handleAllExportRowsPDF()}
+        style={{ borderRadius: '0.25rem', padding: '0.5rem 1rem', fontSize: '1rem' }}
+        disabled={isGenerating}>
+        <Download className='w-4 h-4' />
+        {isGenerating ? 'Exporting...' : 'Export All PDF'}
+    </button>  
+    <button
+         className={`btn btn-success btn-sm ${isGenerating ? 'disabled' : ''}`}
+         onClick={() => handleAllExportRowsCSV(campaigns)}
+        style={{ borderRadius: '0.25rem', padding: '0.5rem 1rem', fontSize: '1rem' }}
+        disabled={isGenerating}>
+        <Download className='w-4 h-4' />
+        {isGenerating ? 'Exporting...' : 'Export All CSV'}
+    </button>     
+</div>
+<div className="overflow-x-auto mb-4">
+<div ref={conponentPDF} style={{width:'100%'}}>
+
             <table className="table table-zebra-zebra">
                 <thead>
                     <tr>
@@ -162,18 +359,26 @@ const CampaignList = () => {
                                 />
                             </label>
                         </th>
-                        <th className="text-center">Campaign Name</th>
+                        <th>Campaign Name</th>
                         <th className="text-center">Business Name</th>
                         <th className="text-center">Template</th>
                         <th style={{ cursor: 'pointer' }} onClick={toggleCreatedDateSort}>
                             <div className="flex items-center">
-                                Created Date
+                                Start Date
                                 <ArrowUpDown className={`w-4 h-4 ml-1 text-gray-800 dark:text-black`} />
 
                             </div>
                         </th>
+                        <th>
+                            <div className="flex items-center">
+                                End Date
+                            </div>
+                        </th>
+                        <th className="text-center">Status</th>
+
+
                         {/* <th className="text-center">Services area</th> */}
-                        <th className="text-center">Langues</th>
+                        {/* <th className="text-center">Langues</th> */}
                     </tr>
                 </thead>
                 <tbody>
@@ -189,26 +394,45 @@ const CampaignList = () => {
                     />
                 </label>
             </th>
-            <td>{campaign.campaignName}</td>
+            <td className="font-bold">{campaign.campaignName}</td>
             <td>{campaign.business.businessName}
             <div className="text-sm font-normal text-gray-500 dark:text-gray-400"
                                      style={{ fontSize: '0.8em' }}>{campaign.business.email}</div>
             </td>
             <td>{campaign.template.templateName}</td>
-            <td>{formatDateDuration(campaign.createdDate)}
+            <td>{formatDate(campaign.createdDate)}
             <div className="text-sm font-normal text-gray-500 dark:text-gray-400"
-                                     style={{ fontSize: '0.8em' }}>{formatDate(campaign.createdDate)}</div>
+                                     style={{ fontSize: '0.8em' }}>{formatDateDuration(campaign.createdDate)}</div>
             </td>
-            <td style={{ textAlign: 'center' }}>
-                                    <button className='btn btn-success btn-sm'
-                                        onClick={() => {
-                                            handleLanguageClick()
-                                                                                }}
-                                    >
-                                    <Languages className='w-4 h-4' />
-                                    {/* <span className="ml-1">Edit Owner</span> */}
-                                    </button>
-                            </td>
+            <td>{formatDate(campaign.endDate)}
+            <div className="text-sm font-normal text-gray-500 dark:text-gray-400"
+                                     style={{ fontSize: '0.8em' }}>{formatTime(campaign.endDate)}</div>
+            </td>
+            {/* <td>
+            {getStatusIcon(campaign.status)} 
+            {campaign.status}
+
+            </td> */}
+
+<td className="flex justify-center items-center w-40">
+    <div>
+      {campaign.status === "In progress" ? (
+        <div className="flex items-center">
+          <div className="h-2.5 w-2.5 rounded-full bg-green-400 mr-2"></div>
+          <span className="text-sm">In progress</span>
+        </div>
+        
+    ) : (
+        <div className="flex items-center">
+          <div className="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div>
+          <span className="text-sm">Completed</span>
+        </div>
+      )}
+    </div>
+  </td>
+
+
+                            
 
             {/* <td>{campaign.template.templateName}</td> */}
 
@@ -221,6 +445,10 @@ const CampaignList = () => {
 
             </table>
         </div>
+        </div>
+        </div>
+
+
     );
 };
 

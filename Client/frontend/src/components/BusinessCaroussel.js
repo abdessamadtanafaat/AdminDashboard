@@ -3,7 +3,10 @@ import { toast } from 'react-toastify';
 import { customFetch } from '../utils';
 import { useSelector } from 'react-redux'; 
 import React, { useState,useEffect,navigate  } from "react";
-
+import cafeImage from '../assets/imagesBusinesses/1.png';
+import patisserieImage from '../assets/imagesBusinesses/2.png';
+import restaurantImage from '../assets/imagesBusinesses/3.png';
+import glacierImage from '../assets/imagesBusinesses/4.png';
 
 function  BusinessCarousel ({ ownerId ,isOpen, onClose }) {
 
@@ -68,15 +71,36 @@ function  BusinessCarousel ({ ownerId ,isOpen, onClose }) {
     }, [ownerId,isOpen, admin.token,onClose]) 
 
 
+    const getImageForType = (typeId) => {
+        switch (typeId) {
+          case 1:
+            return patisserieImage;
+          case 2:
+            return cafeImage;
+          case 3:
+            return restaurantImage;
+          case 4:
+            return glacierImage;
+          default:
+            return null;
+        }
+    }
+
     return (   
         <div className="modal-box flex flex-col items-center justify-center z-10">
             <button className="close-dialog btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={handleClose}>✕</button>
             <div className="carousel w-full">
                 {businesses.map((business, index) => (
+
+                    
                     <div key={index} id={`item${index + 1}`} className={`carousel-item w-full ${index === activeIndex ? 'active' : ''}`}>
                         <div className="flex flex-col items-center"> {/* Added flex and items-center */}
                             <div className="image-container">
-                                <img src={business.coverImageUrl} className="w-full" />
+                            <img
+  src={getImageForType(business.type.id)}
+  className="max-w-xs max-h-xs" // Définissez la largeur et la hauteur maximales souhaitées
+  alt="Business Image"
+/>
                             </div>
 
                             <div className="my-5 mx-auto flex flex-col justify-center gap-3">

@@ -28,7 +28,6 @@ const EditOwnerForm = React.memo(({businessId, onClose }) => {
         newPassword: ''
     });
 
-
     const admin = useSelector(state => state.adminState.admin);
 
     useEffect(() => {

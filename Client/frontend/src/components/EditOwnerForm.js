@@ -67,6 +67,7 @@ const EditOwnerForm = React.memo(({ownerId, onClose }) => {
     
     const handleSubmit = async () => {
         
+        setLoading(true); 
         try {
             const response =  customFetch(`tables/editOwner/${ownerId}?firstName=${firstName}&lastName=${lastName}&email=${email}&password=${newPassword}&username=${username}`, {
                 method: 'PATCH',
@@ -84,7 +85,9 @@ const EditOwnerForm = React.memo(({ownerId, onClose }) => {
             // Handle errors here
             toast.error(error);
             console.error('Error:', error);
-        }
+        } finally {
+            setLoading(false);
+          }
     };
     
     
@@ -108,6 +111,7 @@ const EditOwnerForm = React.memo(({ownerId, onClose }) => {
     const [selectedImage, setSelectedImage] = useState(admin.avatarUrl);
     const [imageFile , setImageFile] = useState(null)
     const [showSubmitButton, setShowSubmitButton] = useState(false);
+    const [loading, setLoading] = useState(false); 
 
     return (
         <div className="modal-box flex flex-col items-center justify-center z-50">
@@ -204,10 +208,16 @@ const EditOwnerForm = React.memo(({ownerId, onClose }) => {
                                                         <label className="label">
                                                         <span className="label-text capitalize font-semibold">Unlock Account</span>
                                                     </label>
-                            <button type="submit" className="capitalize tracking-wide btn btn-accent btn-block h-8 w-24">
-                            <Save className='w-4 h-4' />
-
-                            </button>
+                            <button type="submit"
+                                    className="capitalize tracking-wide btn btn-accent btn-block h-8 w-24"
+                                    disabled={loading}
+                                    >
+        {loading ? (
+          <span className="loading loading-spinner loading-sm"></span>
+        ) : (
+          <Save className='w-4 h-4' />
+        )}
+      </button>
                             <p className="text-xs text-gray-500">Click to unlock the user's account</p>
 
                             </div>

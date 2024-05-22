@@ -27,6 +27,12 @@ public class Campaign {
     @CreatedDate
     private LocalDateTime createdDate;
 
+    @Column(name = "end_date")
+    private LocalDateTime endDate;
+
+    @Column(name = "status")
+    private String status;
+
     @ManyToMany
     @JoinTable(
             name = "campaign_service_area",

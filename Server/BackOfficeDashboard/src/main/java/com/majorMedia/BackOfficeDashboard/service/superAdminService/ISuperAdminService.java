@@ -30,6 +30,8 @@ public interface ISuperAdminService {
         public Admin revokeRoleFromAdmin(Long adminId, Long roleId);
 
         public Role revokePrivilegesFromRole(Long roleId, Collection<Long> privilegeIds);
+
+    List<Admin> getAllPagesAdmins();
 }
 
 

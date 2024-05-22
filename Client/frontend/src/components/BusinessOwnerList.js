@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import { Form, useLoaderData, useNavigate } from "react-router-dom";
 import default_avatar from '../assets/default_avatar.webp';
 import { customFetch } from '../utils';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { BsPencilSquare } from "react-icons/bs";
-import { ArrowUpDown, BriefcaseBusinessIcon, Circle, LampWallDown, Lock, LockOpen, PencilIcon, SortAscIcon, SortDescIcon } from "lucide-react";
+import { ArrowUpDown,Download, BriefcaseBusinessIcon, Circle, LampWallDown, Lock, LockOpen, PencilIcon, SortAscIcon, SortDescIcon } from "lucide-react";
 import {EditOwnerForm} from ".";
 import {BusinessCarousel} from ".";
 import {LockOwnerDialog} from ".";
+import jsPDF from 'jspdf';
+import { mkConfig, generateCsv, download } from 'export-to-csv';
+import 'jspdf-autotable';
 
 
 const BusinessOwnerList = () => {
@@ -92,6 +94,8 @@ const [createdDateSort, setCreatedDateSort] = useState({ ascending: false });
         setSelectedOwnerId(id);
         setDeactivatedState(isDeactivated);
     };
+    const [isGenerating, setIsGenerating] = useState(false);
+    const conponentPDF= useRef();
 
     const getSignedUpText = (createdAt) => {
         const currentDate = new Date();
@@ -160,6 +164,7 @@ const [createdDateSort, setCreatedDateSort] = useState({ ascending: false });
     };
     
     const [isCarouselOpen, setIsCarouselOpen] = useState(false);
+
     const handleCarousel = async (id) => {
         setSelectedOwnerId(id);
         console.log(selectedOwnerId);
@@ -190,7 +195,84 @@ const [createdDateSort, setCreatedDateSort] = useState({ ascending: false });
         return `${hours}:${minutes}`+` `+`${amOrPm}`;
     };
     
+    const handleExportRowsPDF = (businessOwners) => {
+        const doc = new jsPDF();
+        
+        const tableData = businessOwners.map((owner) => {
+            const { firstName, lastName,createdAt, email, avatarUrl, username, id, _deactivated, active,fullName,businesses,lastLogin,lastLogout } = owner;
+            return [firstName, lastName,username, email, createdAt, avatarUrl, , id, _deactivated, active,fullName,businesses,lastLogin,lastLogout];
+        });
+    
+        const tableHeaders = [
+            'First Name',
+            'Last Name',
+            'Username',
+            'Email',
+            'Created At',
+        ];
+            
+        doc.autoTable({
+            head: [tableHeaders],
+            body: tableData,
+        });
+    
+        doc.save('businesses owner.pdf');
+    };
 
+      const csvConfig = {
+        fieldSeparator: ',',
+        decimalSeparator: '.',
+        columnHeaders: [
+            'First Name',
+            'Last Name',
+            'Username',
+            'Email',
+            'Created At',
+            'Last Login',
+            'Last Logout',
+
+            ],
+        showColumnHeaders:true,
+        useKeysAsHeaders: true,
+        filename:'businesses owners',
+      };
+      
+    const handleExportRowsCSV = (businessOwners) => {
+
+        if (businessOwners.length === 0) {
+            toast.error('No data to export');
+            return;
+        }
+        const tableData = businessOwners.map((owner) => {
+            const { firstName, lastName,createdAt, email, username, id, _deactivated, active,businesses,lastLogin,lastLogout } = owner;
+            return [firstName, lastName,username,email,formatDateDuration(createdAt),lastLogin,lastLogout];
+        });
+    
+
+  const csv = generateCsv(csvConfig)([csvConfig.columnHeaders, ...tableData]);
+        download(csvConfig)(csv);
+
+    };
+    
+
+    const handleAllExportRows = (businessOwners) => {
+        // const doc = new jsPDF();
+        
+        // const tableData = businesses.map((business) => {
+        //     const { businessName, address, phone, createdDate, type } = business;
+        //     return [businessName, address, phone, formatDateDuration(createdDate), type.typeName];
+        // });
+    
+        // const tableHeaders = ['Business Name', 'Address', 'Phone', 'Created Date', 'Type'];
+    
+        // doc.autoTable({
+        //     head: [tableHeaders],
+        //     body: tableData,
+        // });
+    
+        // doc.save('businesses.pdf');
+    };
+    
 
     if (!businessOwners || businessOwners.length < 1) {
         return (
@@ -201,6 +283,43 @@ const [createdDateSort, setCreatedDateSort] = useState({ ascending: false });
     }
 
     return (
+
+        <div>
+        <div className="flex justify-center space-x-12 mb-4">
+    <button
+         className={`btn btn-success btn-sm ${isGenerating ? 'disabled' : ''}`}
+         onClick={() => handleExportRowsPDF(businessOwners)}
+        style={{ borderRadius: '0.25rem', padding: '0.5rem 1rem', fontSize: '1rem' }}
+        disabled={isGenerating}>
+        <Download className='w-4 h-4' />
+        {isGenerating ? 'Exporting...' : 'Export Page PDF'}
+    </button>
+    <button
+         className={`btn btn-success btn-sm ${isGenerating ? 'disabled' : ''}`}
+         onClick={() => handleExportRowsCSV(businessOwners)}
+        style={{ borderRadius: '0.25rem', padding: '0.5rem 1rem', fontSize: '1rem' }}
+        disabled={isGenerating}>
+        <Download className='w-4 h-4' />
+        {isGenerating ? 'Exporting...' : 'Export Page CSV'}
+    </button>     
+            <button
+         className={`btn btn-success btn-sm ${isGenerating ? 'disabled' : ''}`}
+         onClick={() => handleAllExportRows(businessOwners)}
+        style={{ borderRadius: '0.25rem', padding: '0.5rem 1rem', fontSize: '1rem' }}
+        disabled={isGenerating}>
+        <Download className='w-4 h-4' />
+        {isGenerating ? 'Exporting...' : 'Export All PDF'}
+    </button>  
+    <button
+         className={`btn btn-success btn-sm ${isGenerating ? 'disabled' : ''}`}
+         onClick={() => handleAllExportRows(businessOwners)}
+        style={{ borderRadius: '0.25rem', padding: '0.5rem 1rem', fontSize: '1rem' }}
+        disabled={isGenerating}>
+        <Download className='w-4 h-4' />
+        {isGenerating ? 'Exporting...' : 'Export All CSV'}
+    </button>     
+</div>
+
         <div className="overflow-x-auto">
             <table className="table table-zebra-zebra">
                 {/* head */}
@@ -304,7 +423,7 @@ const [createdDateSort, setCreatedDateSort] = useState({ ascending: false });
                                 <td>
                                 <div >{getSignedUpText(lastLogin)}
                                 <div className="text-sm font-normal text-gray-500 dark:text-gray-400"
-                                     style={{ fontSize: '0.8em' }}>{formatTime(lastLogin)}</div>
+                                     style={{ fontSize: '0.8em' }}>{formatDateDuration(lastLogin)}</div>
                                 </div>
                                 </td>
                                 {/* <td>
@@ -434,6 +553,8 @@ const [createdDateSort, setCreatedDateSort] = useState({ ascending: false });
             );
 })}
         </div>
+        </div>
+
     );
 
 };
