@@ -36,9 +36,12 @@ const CreateAdmin = () => {
     const {predefinedItems ,setPredefinedItems, setGrantedItems  , grantedItems , handleGrantButtonClick , handleRevokeAllButtonClick , handleRevokeButtonClick} = useItemsContext()
     const {token} = useSelector(selectAdmin)
 
+    const [loading, setLoading] = useState(false); 
+
     const createAdmin =async (event)=>{
       event.preventDefault();
-        
+            setLoading(true); 
+
       try{          
           const response = await customFetch.post("/super-admin/create-admin" , {email : email , firstname : firstname , lastname : lastname , roles : grantedItems} , {
           headers: { Authorization: `Bearer ${token}`} 
@@ -53,6 +56,8 @@ const CreateAdmin = () => {
           const errorMessage =err?.response?.data ||  "Data Validation Failed"
           return toast.error(errorMessage) 
   
+        } finally {
+          setLoading(false);
         }
 
     }
@@ -91,7 +96,7 @@ const CreateAdmin = () => {
       <div className="mx-auto flex justify-center gap-3">
         
         <div onClick={createAdmin} className='mt-4'>
-            <SubmitBtn text="Create"/>
+        <SubmitBtn text={loading ? <span className="loading loading-spinner loading-sm"></span> : "Create"} disabled={loading} />
         </div>
         
       </div>

@@ -64,12 +64,12 @@ const Login = () => {
         <Form method="POST"  onSubmit={handleSubmit(onSubmit)} className='card w-96 p-8 bg-base-100 shadow-lg flex  flex-col gap-y-4'>
             <img src="http://localhost:3000/static/media/logo.6c624ed64baccff0e3b1.png" alt="Logo"  />
             <h4 className='text-center text-3xl font-bold'>Login</h4>
-            <FormInput label="Email" name="email" placeholder="email@email.com" register={register} error={errors.email}/>
+            <FormInput label="Email" name="email" placeholder="email" register={register} error={errors.email}/>
         <div className="flex items-center">
           <div className="flex-grow relative">
             <FormInput 
             type={passwordVisible ? "text" : "password"}
-            label="Password" name="password" placeholder="secret" register={register} error={errors.password}/>
+            label="Password" name="password" placeholder="password" register={register} error={errors.password}/>
                 </div>
 
                 <div className="relative" style={{ marginTop: '50px' }}>

@@ -135,16 +135,30 @@ const formatDuration = (createdDate) => {
                       </div>
                       </td>
                       <td>
-                      <div>{formatDateDuration(lastLogin)}</div>
-                      <div className="text-sm font-normal text-gray-500 dark:text-gray-400"
-                                     style={{ fontSize: '0.8em' }}>{formatDuration(lastLogin)}</div>
-                                
-                      </td>
-                      <td>
-                      <div>{formatDate(joined_in)}</div>
-                      <div className="text-sm font-normal text-gray-500 dark:text-gray-400"
-                                     style={{ fontSize: '0.8em' }}>{formatTime(lastLogin)}</div>
-                      </td>
+  {lastLogin ? (
+    <>
+      <div>{formatDateDuration(lastLogin)}</div>
+      <div className="text-sm font-normal text-gray-500 dark:text-gray-400" style={{ fontSize: '0.8em' }}>
+        {formatDuration(lastLogin)}
+      </div>
+    </>
+  ) : (
+    '--'
+  )}
+</td>
+<td>
+  {joined_in ? (
+    <>
+      <div>{formatDate(joined_in)}</div>
+      <div className="text-sm font-normal text-gray-500 dark:text-gray-400" style={{ fontSize: '0.8em' }}>
+        {formatTime(joined_in)}
+      </div>
+    </>
+  ) : (
+    '--'
+  )}
+</td>
+
                       
                       {/* <td>
     <div className="font-bold">
