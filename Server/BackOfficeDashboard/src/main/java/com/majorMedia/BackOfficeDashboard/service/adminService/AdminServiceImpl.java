@@ -4,6 +4,7 @@ import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
 import com.majorMedia.BackOfficeDashboard.entity.user.User;
 
 import com.majorMedia.BackOfficeDashboard.exception.EntityNotFoundException;
+import com.majorMedia.BackOfficeDashboard.exception.InvalidCurrentPasswordException;
 import com.majorMedia.BackOfficeDashboard.exception.InvalidTokenException;
 import com.majorMedia.BackOfficeDashboard.exception.NotFoundEmailException;
 import com.majorMedia.BackOfficeDashboard.model.requests.ResetPasswordRequest;
@@ -125,9 +126,13 @@ public class AdminServiceImpl implements IAdminService {
 
 
     @Override
-    public String resetPassword(String email, String password) {
+    public String resetPassword(String currentPasssword , String email, String password) {
         Admin admin = adminRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundEmailException(email));
+        // Check if the current password matches
+        if (!passwordEncoder.matches(currentPasssword, admin.getPassword())) {
+            throw new InvalidCurrentPasswordException("Current password is incorrect");
+        }
 
         admin.setPassword(passwordEncoder.encode(password));
 //        admin.setActive(false);

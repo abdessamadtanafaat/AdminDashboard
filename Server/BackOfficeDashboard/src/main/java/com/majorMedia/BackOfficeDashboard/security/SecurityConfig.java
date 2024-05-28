@@ -10,7 +10,6 @@ import com.majorMedia.BackOfficeDashboard.util.ServiceUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -70,18 +69,6 @@ public class SecurityConfig {
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated()
-
-                )
-                .exceptionHandling(err -> err
-                        .accessDeniedHandler(new AccessDeniedHandler() {
-                            @Override
-                            public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-                                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                                response.setContentType("application/json");
-                                response.getWriter().write("{\"message\": \"You do not have permission to access this page.\"}");
-
-                            }
-                        })
                 )
                 .addFilterBefore( new ExceptionHandlerFilter(),AuthenticationFilter.class )
                 .addFilter(authenticationFilter)

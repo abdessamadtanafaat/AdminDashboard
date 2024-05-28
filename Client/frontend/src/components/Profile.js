@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { selectAdmin , updateProfile} from '../features/admin/adminSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import {Form } from 'react-router-dom'
+import {Form, redirect, useNavigate } from 'react-router-dom'
 import {PiPencilSimpleDuotone , PiTrashDuotone} from 'react-icons/pi'
 import avatar_default from '../assets/default_avatar.webp'
 import { FormInput, SubmitBtn } from '../components'
@@ -20,7 +20,8 @@ const Profile = () => {
   const [imageFile , setImageFile] = useState(null)
   const [password ,setPassword]=useState('')
   const[confirmedPassword , setConfirmedPassword]=useState('')
-  
+  const [currentPassword , setCurrentPassword]= useState('')
+  const navigate = useNavigate()
 
  
 
@@ -76,17 +77,25 @@ const Profile = () => {
 
     console.log(document.querySelector('#upload-button').files[0])
   }
-  const isPasswordValid = (password)=>{
-    //5 caracters at least for example
-    //
+  const isPasswordValid = (password) => {
+    
+    if (!password || password.length < 5) {
+        return false;
+    }
 
-    return Boolean(password) //password not empty
-}
+    
+    const twoDigits = /(?=(?:.*\d){2})/; 
+    const twoUppercase = /(?=(?:.*[A-Z]){2})/; // At least 2 uppercase letters
+    const twoLowercase = /(?=(?:.*[a-z]){2})/; // At least 2 lowercase letters
+
+    // Check if password meets all conditions
+    return twoDigits.test(password) && twoUppercase.test(password) && twoLowercase.test(password);
+};
   const changePassword =async(event)=>{
     event.preventDefault();
     if(!isPasswordValid(password)){
       
-      return toast.error("Password cannot be empty") ;
+      toast.error("Password must be at least 5 characters long, and contain at least 2 digits, 2 uppercase letters, and 2 lowercase letters.") ;
 
     }
     if(password!==confirmedPassword){
@@ -95,24 +104,29 @@ const Profile = () => {
     }
     
     try{
-      const body = {password : password , email:admin.email}
-      const response = await customFetch.patch('/admin/reset-password',body , {
-              
+      const body = {currentPassword : currentPassword , password : password , email:admin.email}
+      const response = await customFetch.patch('/admin/reset-password',body , {        
         headers: { Authorization: `Bearer ${admin.token}`} 
       } )
-      
+      setCurrentPassword('')
       setPassword('')
+      
       setConfirmedPassword('')
-      return toast.success(response.data)
+      toast.success(response.data)
+      return navigate("/")
+      
+
 
     }
     catch(err){
       const errorMessage = err?.response?.data || "Failed to change Password"
+      setCurrentPassword('')
       setPassword('')
       setConfirmedPassword('')
       return toast.error(errorMessage)
 
     }
+    
 
   }
 
@@ -153,6 +167,8 @@ const Profile = () => {
       </Form>
       <Form onSubmit={changePassword}  className="bg-base-200 w-full p-8 shadow-lg grid place-items-center gap-5">
         <h4 className='text-center text-2xl font-bold'>Change password</h4>
+        <FormInput type="password" label="Current Password" name="oldPassword" value={currentPassword} placeholder="secret" onChange={(e)=>setCurrentPassword(e.target.value)} />
+
         
         <FormInput type="password" label="Password" name="password" value={password} placeholder="secret" onChange={(e)=>setPassword(e.target.value)} />
         <FormInput type="password" label="Confirmed Password" name="confirmedPassword" value={confirmedPassword} placeholder={"secret"} onChange={(event)=>{setConfirmedPassword(event.target.value)}} />

@@ -30,7 +30,7 @@ public interface IAdminService {
 
     public String changePassword(ResetPasswordRequest resetPasswordRequest);
 
-    public String resetPassword(String email , String password);
+    public String resetPassword(String currentPassword,String email , String password);
 //
 //    public ObjectsList<Business> getAllBusiness(String searchKey, String sortOrder, int page);
 //

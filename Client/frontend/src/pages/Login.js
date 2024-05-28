@@ -3,12 +3,12 @@ import { useForm } from 'react-hook-form';
 import {Form ,redirect , Link,useNavigate} from 'react-router-dom'
 import {customFetch} from '../utils'
 import {toast} from 'react-toastify'
-import {loginAdmin} from '../features/admin/adminSlice'
-import { useDispatch } from "react-redux"
+import {loginAdmin, selectTheme} from '../features/admin/adminSlice'
+import { useDispatch, useSelector } from "react-redux"
 import { EyeIcon, EyeOffIcon } from "lucide-react";
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-import {logo} from '../assets'
+import {logoDark , logoLight} from '../assets'
 export const action =(store)=>
     async({request})=>{
 
@@ -40,6 +40,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
+  const theme = useSelector(selectTheme)
 
   const onSubmit = async (data) => {
     try {
@@ -60,7 +61,7 @@ const Login = () => {
     <section className='h-screen grid place-items-center bg-base-300'>
         <Form method="POST"  onSubmit={handleSubmit(onSubmit)} className='card w-96 p-8 bg-base-100 shadow-lg flex  flex-col gap-y-4'>
           <div className="flex flex-col justify-start">
-            <img src={logo} alt="Logo"  />
+            <img src={theme=="nord" ?logoDark :logoLight} alt="Logo"  />
             <h4 className='text-center text-3xl font-bold'>Login</h4>
 
           </div>

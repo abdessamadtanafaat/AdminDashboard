@@ -64,7 +64,7 @@ public class AdminController {
     @LogActivity
     @PatchMapping("/reset-password")
     public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequest request){
-        return new ResponseEntity<>(adminService.resetPassword(request.getEmail() ,request.getPassword()),HttpStatus.ACCEPTED) ;
+        return new ResponseEntity<>(adminService.resetPassword(request.getCurrentPassword() , request.getEmail() ,request.getPassword()),HttpStatus.ACCEPTED) ;
     }
 
 
