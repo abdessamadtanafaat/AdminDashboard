@@ -8,7 +8,7 @@ import { useGlobalContext } from './context';
 import { useDispatch, useSelector } from "react-redux";
 import {useNavigate ,Link} from 'react-router-dom'
 import {toggleTheme  , logoutAdmin, selectAdmin, selectTheme} from '../features/admin/adminSlice'
-import logo from '../assets/logo.png'
+import {logoDark , logoLight} from '../assets'
 import default_avatar from '../assets/default_avatar.webp'
 import { customFetch } from "../utils";
 import { toast } from "react-toastify";
@@ -45,6 +45,7 @@ const Sidebar = () => {
   const dispatch = useDispatch();
  
   const admin = useSelector(selectAdmin)
+  const theme = useSelector(selectTheme)
   const {firstname , lastname ,email , avatarUrl , token } = admin
 
 
@@ -74,7 +75,7 @@ const Sidebar = () => {
       scrollbar-thumb-base-content  overflow-y-auto flex flex-col bg-base-300   shadow-sm">
         <div className={`fixed border-b  bg-base-300 z-30  top-0 p-4 pb-2 flex  justify-end items-center mb-4`}
         >
-          <img src={logo} className={`h-20
+          <img src={theme =="nord"? logoDark : logoLight} className={`h-20
           overflow-hidden duration-100  ${expanded ? "w-auto" : "w-0"}`} />
           <button
               onClick={() => setExpanded((curr) => !curr)}

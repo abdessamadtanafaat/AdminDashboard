@@ -1,13 +1,16 @@
 import { faces, stars } from '../utils';
-import logo from '../assets/logo.png';
+import {logoLight , logoDark} from '../assets';
+import { selectTheme } from '../features/admin/adminSlice';
+import { useSelector } from 'react-redux';
 
 const TemplatesManager = () => {
+  const theme = useSelector(selectTheme)
   return (
     <div className="grid place-content-center items-center">
       <div className="mx-auto carousel w-5/6 max-w-2xl p-4 flex justify-between gap-10 overflow-hidden">
         <div id="template1" className="shadow-md w-full h-full p-2 rounded-lg flex carousel-item justify-between gap-3 border border-outline border-primary bg-accent bg-opacity-25">
           <div className="grid w-2/6 place-content-center mx-auto items-center">
-            <img src={logo} alt="" />
+            <img src={theme =="nord"?logoDark : logoLight} alt="" />
             <p className='text-align font-semibold italic'>A dynamic and colorful layout showcasing various star images. Perfect for creative projects.</p>
           </div>
           <ul className="w-4/6 h-full p-2 flex justify-between items-center flex-wrap gap-3">
@@ -25,7 +28,7 @@ const TemplatesManager = () => {
         </div>
         <div id="template2" className="shadow-md w-full h-full p-2 rounded-lg flex carousel-item justify-between gap-3 border border-outline border-primary bg-accent bg-opacity-25">
           <div className="grid w-2/6 place-content-center mx-auto items-center">
-            <img src={logo} alt="" />
+            <img src={theme==="nord"?logoDark: logoLight} alt="" />
             <p className='text-align font-semibold italic'>A sleek and minimalistic design focused on displaying various face images. Ideal for professional use.</p>
           </div>
           <ul className="w-4/6 h-full p-2 flex justify-between items-center flex-wrap gap-6">

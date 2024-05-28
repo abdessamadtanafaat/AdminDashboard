@@ -38,6 +38,10 @@ public class SystemExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<String> handleInvalidRoleException(InvalidRoleException e){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
+    @ExceptionHandler({InvalidCurrentPasswordException.class})
+    public ResponseEntity<String> handleInvalidCurrentPasswordException(InvalidCurrentPasswordException e){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
     @ExceptionHandler({AccessDeniedException.class})
     public ResponseEntity<String> handleAccessDeniedException(AccessDeniedException e){
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
