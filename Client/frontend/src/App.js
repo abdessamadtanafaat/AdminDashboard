@@ -13,6 +13,7 @@ import {loader as resetPasswordLoader} from './pages/ResetPassword'
 import {loader as homeLayoutLoader} from './pages/HomeLayout'
 import {loader as adminsLoader} from './components/Admins'
 import {loader as businessOwnerLoader} from './components/BusinessOwners'; 
+import {loader as templateManagerLoader} from './pages/TemplatesManager'; 
 
 import {loader as businessLoader} from './components/Business'; 
 import {loader as campaignLoader} from './components/Campaigns'; 
@@ -24,7 +25,6 @@ import {loader as createRoleLoader} from './components/CreateRole'
 import {loader as serviceAreaManagerLoader} from './pages/ServiceAreaManager'
 import {loader as businessTypeManagerLoader} from './pages/BusinessTypeManager'
 import {loader as languesManagerLoader} from './pages/LanguesManager'
-import {loader as templateManagerLoader} from './pages/TemplatesManager'
 
 
 import {store} from './app/store'
@@ -96,26 +96,36 @@ const routes = createBrowserRouter([
         element:<ItemsProvider>
           <CreateRole/>
         </ItemsProvider>,
-        loader : createRoleLoader(store)
+        loader : createRoleLoader(store),
+        errorElement:<ErrorElement/>
+
       },
       {
         path:"/service-area",
         element:<ServiceAreaManager/>, 
-        loader: serviceAreaManagerLoader(store)
+        loader: serviceAreaManagerLoader(store),
+        errorElement:<ErrorElement/>
+
       }
       ,{
         path :"/business-type",
         element:<BusinessTypeManager/>,
-        loader : businessTypeManagerLoader(store)
+        loader : businessTypeManagerLoader(store),
+        errorElement:<ErrorElement/>
+
       },
       {
         path:"/langues",
         element:<LanguesManager/>,
-        loader:languesManagerLoader(store)
+        loader:languesManagerLoader(store),
+        errorElement:<ErrorElement/>
+
       }
       ,{
         path :"/templates",
         element:<TemplatesManager/>,
+        errorElement:<ErrorElement/>,
+        loader:templateManagerLoader(store),
         
       }
 

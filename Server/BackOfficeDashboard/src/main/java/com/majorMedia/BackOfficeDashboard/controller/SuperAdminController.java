@@ -57,6 +57,7 @@ public class SuperAdminController {
     }
 
     @LogActivity
+    @PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
     @PostMapping("/create-admin")
     public ResponseEntity<Admin> createAdmin(@Valid @RequestBody Admin admin) throws MessagingException, UnsupportedEncodingException {
         Admin createdAdmin = superAdminService.createAdmin(admin);

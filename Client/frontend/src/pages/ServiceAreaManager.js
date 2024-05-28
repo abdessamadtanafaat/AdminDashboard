@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 import { selectAdmin } from "../features/admin/adminSlice";
 import {toast} from 'react-toastify'
 import {useState} from 'react'
+import {redirect } from 'react-router-dom'
+
 export const loader = (store)=>async({})=>{
     const admin = store.getState().adminState.admin ; 
     try{
@@ -18,8 +20,14 @@ export const loader = (store)=>async({})=>{
     }
     catch(err){
         const errorMessage = err?.response?.data ||"Failed to load the Service Categories"
-        toast.error(errorMessage)
-        return {serviceCategories :[]}
+        //toast.error(errorMessage)
+        //return redirect("pages/ErrorElement")
+        //return {serviceCategories :[]}
+        if(errorMessage){
+            const accessDeniedMessage = "Sorry, You don't have permission to access this page.";
+            throw Error(accessDeniedMessage);    
+        }
+
 
     }
 

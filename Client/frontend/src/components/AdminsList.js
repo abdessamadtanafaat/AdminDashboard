@@ -1,7 +1,13 @@
 import { useLoaderData  , Link} from "react-router-dom"
 import default_avatar from '../assets/default_avatar.webp'
 import { UserRoundCog, UserRoundCogIcon } from "lucide-react";
+import { selectAdmin } from "../features/admin/adminSlice";
+import { useInsertionEffect } from "react";
+import { useSelector } from "react-redux";
 const AdminsList = () => {
+
+  const loggedInAdmin = useSelector(selectAdmin);
+
     const {admins , params} = useLoaderData();
      
     if(!admins || admins.length <1){
@@ -78,6 +84,9 @@ const formatDuration = (createdDate) => {
     return `${month}/${day}/${year}`;
 };
 
+const sortedAdmins = admins.sort((a, b) => {
+  return new Date(b.lastLogin) - new Date(a.lastLogin);
+});
     return (
     <div className="overflow-x-auto">
         <table className="table table-zebra-zebra">
@@ -98,7 +107,7 @@ const formatDuration = (createdDate) => {
                 </tr>
             </thead>
             <tbody>
-              {admins.map((admin)=>{
+              {sortedAdmins.map((admin)=>{
                 const {fullname,firstname , lastname ,email ,avatarUrl , username , id, roles,active,lastLogout,lastLogin,joined_in} = admin;  
                 return (
                     <tr key={id}>
@@ -185,10 +194,22 @@ const formatDuration = (createdDate) => {
 
             </td>
                       <th>
-    <button className="btn btn-active btn-sucess && btn-sm" onClick={() => {window.location.href=`/admin/${id}`}}>
-        <UserRoundCogIcon className='w-5 h-5'/>
-        {/* <span >Details</span> */}
-    </button>
+                      {loggedInAdmin.id !== admin.id ? (
+                <button 
+                  className="btn btn-active btn-success btn-sm" 
+                  onClick={() => { window.location.href = `/admin/${admin.id}` }}
+                >
+                  <UserRoundCogIcon className='w-5 h-5' />
+                </button>
+              ) : (
+                <button 
+                  className="btn btn-disabled btn-success btn-sm" 
+                  disabled
+                >
+                  <UserRoundCogIcon className='w-5 h-5' />
+                </button>
+              )}
+
 </th>
 
             </tr>

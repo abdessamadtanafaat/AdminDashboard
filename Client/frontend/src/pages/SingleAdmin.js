@@ -9,7 +9,15 @@ import { useItemsContext } from '../components/ItemContext'
 import {MoveRight , MoveLeft} from 'lucide-react'
 export const loader =(store)=>async({params})=>{
 
+  console.log(params)
+
     const admin = store.getState().adminState.admin;
+    if (admin.id == params.adminId){
+      const errMessage = "Sorry, you cannot modify your own roles"
+
+    console.log("erroooooooooooooor")
+      throw Error(errMessage)
+    }
 
     try{
         const response = await customFetch(`/super-admin/admin-details`,{params : params, 
