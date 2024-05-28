@@ -12,6 +12,7 @@ import com.majorMedia.BackOfficeDashboard.util.ServiceUtils;
 import io.micrometer.common.util.StringUtils;
 import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,6 +31,7 @@ import static com.majorMedia.BackOfficeDashboard.security.SecurityConstants.RESE
 
 @Component
 @AllArgsConstructor
+
 public class CustomAuthenticationManager implements AuthenticationManager, IcustomAuthenticationManager {
 
     private PasswordEncoder passwordEncoder;

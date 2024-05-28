@@ -22,10 +22,12 @@ export const loader =(store)=> async({request})=>{
   catch(err){
     console.log(err)
     const errMessage  = err?.response?.data?.message || err?.response?.data || "Server Failed To load Admin Table"
-    toast.error(errMessage)
+    //toast.error(errMessage)
+    if(errMessage){
+      const accessDeniedMessage = "Sorry, You don't have permission to access this page.";
+      throw Error(accessDeniedMessage);    
+  }
 
-    return redirect("/")
-    
   }
 
 

@@ -16,7 +16,6 @@ export {default as EditOwnerForm} from './EditOwnerForm'
 export {default as LockOwnerDialog} from './LockOwnerDialog'
 export {default as BusinessCarousel} from './BusinessCaroussel'
 export {default as InfoOwnerBusiness} from './InfoOwnerBusiness'
-
 export {default as RolesList} from './RolesList'
 export {default as AdminsList} from './AdminsList'
 export {default as CreateAdmin} from './CreateAdmin'

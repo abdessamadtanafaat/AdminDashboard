@@ -6,6 +6,7 @@ import {Plus} from 'lucide-react'
 import { FormInput ,SubmitBtn , BusinessCategory } from "../components";
 import { useSelector } from "react-redux";
 import { selectAdmin } from "../features/admin/adminSlice";
+import {redirect } from 'react-router-dom'
 export const loader = (store)=>async({})=>{
     const admin = store.getState().adminState.admin ; 
 
@@ -19,8 +20,14 @@ export const loader = (store)=>async({})=>{
     }
     catch(err){
         const errorMessage = err?.response?.data || "Failed To load Bussiness Types"
-        toast.error(errorMessage);
-        return {businessCategories : []}
+        //toast.error(errorMessage);
+        //return redirect("pages/ErrorElement")
+        //return {businessCategories : []}
+        
+        if(errorMessage){
+            const accessDeniedMessage = "Sorry, You don't have permission to access this page.";
+            throw Error(accessDeniedMessage);    
+        }
 
     }
 }

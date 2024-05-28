@@ -7,12 +7,17 @@ import com.majorMedia.BackOfficeDashboard.security.filter.ExceptionHandlerFilter
 import com.majorMedia.BackOfficeDashboard.security.filter.JwtAuthorizationFilter;
 import com.majorMedia.BackOfficeDashboard.security.manager.CustomAuthenticationManager;
 import com.majorMedia.BackOfficeDashboard.util.ServiceUtils;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -21,10 +26,12 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 @Configuration
@@ -63,6 +70,18 @@ public class SecurityConfig {
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated()
+
+                )
+                .exceptionHandling(err -> err
+                        .accessDeniedHandler(new AccessDeniedHandler() {
+                            @Override
+                            public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
+                                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                                response.setContentType("application/json");
+                                response.getWriter().write("{\"message\": \"You do not have permission to access this page.\"}");
+
+                            }
+                        })
                 )
                 .addFilterBefore( new ExceptionHandlerFilter(),AuthenticationFilter.class )
                 .addFilter(authenticationFilter)
