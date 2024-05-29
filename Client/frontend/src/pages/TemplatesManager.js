@@ -3,7 +3,41 @@ import {logoLight , logoDark} from '../assets';
 import { selectTheme } from '../features/admin/adminSlice';
 import { useSelector } from 'react-redux';
 
+
+import { useLoaderData  , redirect} from "react-router-dom";
+import { customFetch } from "../utils";
+import {toast} from 'react-toastify'
+
+export const loader =(store)=> async()=>{
+  const admin = store.getState().adminState.admin ; 
+
+  try{
+    const response= await customFetch("/config/languages",
+    {  headers: {
+      Authorization: `Bearer ${admin.token}`} 
+    }) ;
+    return {
+      languages : response.data
+    }
+
+  }
+  catch(err){
+    console.log(err)
+    const errMessage  = err?.response?.data?.message || err?.response?.data || "Server Failed To load Admin Table"
+
+    //toast.error(errMessage)
+    //return redirect("pages/ErrorElement")
+    if(errMessage){
+      const accessDeniedMessage = "Sorry, You don't have permission to access this page.";
+      throw Error(accessDeniedMessage);    
+  }
+  }
+}
+
 const TemplatesManager = () => {
+
+  const  {languages} =useLoaderData() || {};
+  console.log(languages)
   const theme = useSelector(selectTheme)
   return (
     <div className="grid place-content-center items-center">
@@ -47,10 +81,10 @@ const TemplatesManager = () => {
       </div>
       <div className="mx-auto flex justify-center flex-wrap w-3/4 max-w-2xl py-2 gap-2">
         <a href="#template1" className="btn btn-sm">
-          Template1
+        Émoji étoile
         </a>
         <a href="#template2" className="btn btn-sm">
-          Template2
+        Émoji visage
         </a>
       </div>
     </div>

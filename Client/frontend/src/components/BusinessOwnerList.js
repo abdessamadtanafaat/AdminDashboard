@@ -11,6 +11,7 @@ import {LockOwnerDialog} from ".";
 import jsPDF from 'jspdf';
 import { mkConfig, generateCsv, download } from 'export-to-csv';
 import 'jspdf-autotable';
+import logo from '../assets/logoDark.png';
 
 
 const BusinessOwnerList = () => {
@@ -174,9 +175,9 @@ const [createdDateSort, setCreatedDateSort] = useState({ ascending: false });
     const formatDateDuration = (createdDate) => {
         const date = new Date(createdDate);
         const year = date.getFullYear();
-        const month = date.getMonth() + 1;
+        const month = date.getMonth();
         const day = date.getDate();
-        return `${month}/${day}/${year}`;
+        return `${day}/${month}/${year}`;
     };
 
     const formatTime = (createdDate) => {
@@ -195,12 +196,43 @@ const [createdDateSort, setCreatedDateSort] = useState({ ascending: false });
         return `${hours}:${minutes}`+` `+`${amOrPm}`;
     };
     
+    const addHeaderToPDF = (doc, logo, page, isAllPages = false) => {
+        const imgWidth = 30;
+        const imgHeight = 30; 
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const centerX = (pageWidth - imgWidth) / 2;
+    
+        doc.addImage(logo, 'PNG', centerX, 10, imgWidth, imgHeight);
+    
+        let pageTitle;
+        if (isAllPages) {
+            pageTitle = `Business Owners Report - All Pages`;
+        } else {
+            pageTitle = `Business Owners Report - Page ${page}`;
+        }
+        doc.setFontSize(22);
+        doc.text(pageTitle, pageWidth / 2, 40, { align: 'center' }); 
+    
+        const today = new Date();
+        const dateStr = today.toLocaleDateString(); 
+        doc.setFontSize(12);
+        doc.text(`Date: ${dateStr}`, pageWidth / 2, 50, { align: 'center' });
+    };
+
     const handleExportRowsPDF = (businessOwners) => {
+        const page = params.page || 1;
         const doc = new jsPDF();
         
+        const img = new Image();
+        img.src = logo;
+        img.onload = () => {
+            addHeaderToPDF(doc, img, page);
+
+
         const tableData = businessOwners.map((owner) => {
             const { firstName, lastName,createdAt, email, avatarUrl, username, id, _deactivated, active,fullName,businesses,lastLogin,lastLogout } = owner;
-            return [firstName, lastName,username, email, createdAt, avatarUrl, , id, _deactivated, active,fullName,businesses,lastLogin,lastLogout];
+            const formattedDate = formatDate(createdAt);
+            return [firstName, lastName,username, email, formattedDate, avatarUrl, , id, _deactivated, active,fullName,businesses,lastLogin,lastLogout];
         });
     
         const tableHeaders = [
@@ -214,22 +246,24 @@ const [createdDateSort, setCreatedDateSort] = useState({ ascending: false });
         doc.autoTable({
             head: [tableHeaders],
             body: tableData,
+            startY: 60 
+
         });
     
         doc.save('businesses owner.pdf');
     };
-
+    };
       const csvConfig = {
         fieldSeparator: ',',
         decimalSeparator: '.',
         columnHeaders: [
-            'First Name',
-            'Last Name',
-            'Username',
-            'Email',
-            'Created At',
-            'Last Login',
-            'Last Logout',
+            'First Name  ',
+            'Last Name  ',
+            'Username  ',
+            'Email  ','','',
+            'Created at','',
+            'Last Login  ','',
+            'Last Logout  ',
 
             ],
         showColumnHeaders:true,
@@ -243,36 +277,120 @@ const [createdDateSort, setCreatedDateSort] = useState({ ascending: false });
             toast.error('No data to export');
             return;
         }
+
+        const today = new Date();
+        const formattedToday = `${today.getDate()}-${today.getMonth() + 1}-${today.getFullYear()}`;
+        const title = 'Business Owners List';
+
+        const firstRow = [
+            formattedToday, "", 
+            title, "",
+            ...Array(csvConfig.columnHeaders.length *2 - 4).fill('')
+        ];    
+        const blankRow = Array(csvConfig.columnHeaders.length).fill('');
+        const tableDataWithSpacing = [firstRow,blankRow];
+        
         const tableData = businessOwners.map((owner) => {
             const { firstName, lastName,createdAt, email, username, id, _deactivated, active,businesses,lastLogin,lastLogout } = owner;
-            return [firstName, lastName,username,email,formatDateDuration(createdAt),lastLogin,lastLogout];
+            return [firstName, lastName,username,email,"","",createdAt,"",lastLogin,"",lastLogout];
         });
     
 
-  const csv = generateCsv(csvConfig)([csvConfig.columnHeaders, ...tableData]);
-        download(csvConfig)(csv);
-
-    };
-    
-
-    const handleAllExportRows = (businessOwners) => {
-        // const doc = new jsPDF();
         
-        // const tableData = businesses.map((business) => {
-        //     const { businessName, address, phone, createdDate, type } = business;
-        //     return [businessName, address, phone, formatDateDuration(createdDate), type.typeName];
-        // });
-    
-        // const tableHeaders = ['Business Name', 'Address', 'Phone', 'Created Date', 'Type'];
-    
-        // doc.autoTable({
-        //     head: [tableHeaders],
-        //     body: tableData,
-        // });
-    
-        // doc.save('businesses.pdf');
+        const csv = generateCsv({ ...csvConfig, showColumnHeaders: false })([...tableDataWithSpacing, csvConfig.columnHeaders, ...tableData]); // Include the first row, column headers, and business data
+
+        download({ ...csvConfig, showColumnHeaders: false })(csv);
+
     };
     
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const day = date.getDate();
+        const month = date.getMonth() + 1;
+        const year = date.getFullYear();
+        return `${month}/${day}/${year}`;
+    };
+
+    const handleAllExportRows = async () => {
+        
+        const response = await customFetch("/tables/allPagesUsers", {
+            headers: { Authorization: `Bearer ${admin.token}` }
+        });
+    
+        console.log(response.data);
+
+        const businessOwners = response.data;
+
+        const tableData = businessOwners.map(businessOwner => [
+            businessOwner.firstName,
+            businessOwner.lastName,
+            businessOwner.username,
+            businessOwner.email,
+            formatDate(businessOwner.createdAt),
+        ]);
+                const doc = new jsPDF();
+    
+                const img = new Image();
+                img.src = logo;
+                img.onload = () => {
+                    addHeaderToPDF(doc, img, null, true);
+
+                    
+                    const tableHeaders = [
+                        'First Name',
+                        'Last Name',
+                        'Username',
+                        'Email',
+                        'Created At',
+                    ];    
+                doc.autoTable({
+                    head: [tableHeaders],
+                    body: tableData,
+                    startY: 60 
+                });
+            
+                doc.save('List businesses.pdf');
+    };
+    };
+    const handleExportAllRowsCSV = async () => {
+
+        const response = await customFetch("/tables/allPagesUsers", {
+            headers: { Authorization: `Bearer ${admin.token}` }
+        });
+
+        console.log(response.data);
+
+        const businessOwners = response.data;
+
+        if (businessOwners.length === 0) {
+            toast.error('No data to export');
+            return;
+        }
+
+        const today = new Date();
+        const formattedToday = `${today.getDate()}-${today.getMonth() + 1}-${today.getFullYear()}`;
+        const title = 'Business Owners List';
+
+        const firstRow = [
+            formattedToday, "", 
+            title, "",
+            ...Array(csvConfig.columnHeaders.length *2 - 4).fill('')
+        ];    
+        const blankRow = Array(csvConfig.columnHeaders.length).fill('');
+        const tableDataWithSpacing = [firstRow,blankRow];
+        
+        const tableData = businessOwners.map((owner) => {
+            const { firstName, lastName,createdAt, email, username, id, _deactivated, active,businesses,lastLogin,lastLogout } = owner;
+            return [firstName, lastName,username,email,"","",createdAt,"",lastLogin,"",lastLogout];
+        });
+    
+
+        
+        const csv = generateCsv({ ...csvConfig, showColumnHeaders: false })([...tableDataWithSpacing, csvConfig.columnHeaders, ...tableData]); // Include the first row, column headers, and business data
+
+        download({ ...csvConfig, showColumnHeaders: false })(csv);
+
+    };
 
     if (!businessOwners || businessOwners.length < 1) {
         return (
@@ -312,7 +430,7 @@ const [createdDateSort, setCreatedDateSort] = useState({ ascending: false });
     </button>  
     <button
          className={`btn btn-success btn-sm ${isGenerating ? 'disabled' : ''}`}
-         onClick={() => handleAllExportRows(businessOwners)}
+         onClick={() => handleExportAllRowsCSV(businessOwners)}
         style={{ borderRadius: '0.25rem', padding: '0.5rem 1rem', fontSize: '1rem' }}
         disabled={isGenerating}>
         <Download className='w-4 h-4' />
