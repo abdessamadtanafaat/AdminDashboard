@@ -3,7 +3,7 @@ import { customFetch } from '../utils';
 import { BusinessOwnerList, PaginationContainer, SearchFilter } from ".";
 
 import { useLoaderData, redirect } from 'react-router-dom';
-import { SortAsc, SortDesc } from 'lucide-react';
+
 
 export const loader = (store) => async ({ request }) => {
     const admin = store.getState().adminState.admin;
@@ -16,7 +16,7 @@ export const loader = (store) => async ({ request }) => {
             params,
             headers: { Authorization: `Bearer ${admin.token}` }
         });
-        console.log(response.data);
+        console.log(response.data.meta);
         return { businessOwners: response.data.data, params, meta: response.data.meta };
 
     } catch (err) {
@@ -37,7 +37,7 @@ const BusinessOwners = () => {
                 <SearchFilter/>
             </div>
             <BusinessOwnerList/>
-            <div className="flex w-full justify-center mb-3">
+            <div className="flex w-full justify-center">
                 <PaginationContainer/>
             </div>
         </>

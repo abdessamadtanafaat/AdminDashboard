@@ -3,6 +3,7 @@ import {logoLight , logoDark} from '../assets';
 import { selectTheme } from '../features/admin/adminSlice';
 import { useSelector } from 'react-redux';
 import { customFetch } from '../utils';
+import { useLoaderData } from 'react-router-dom';
 export const loader =(store)=> async()=>{
   const admin = store.getState().adminState.admin ; 
 
@@ -25,42 +26,9 @@ export const loader =(store)=> async()=>{
     if(errMessage){
       const accessDeniedMessage = "Sorry, You don't have permission to access this page.";
       throw Error(accessDeniedMessage);    
-  }
-  }
-}
-
-
-
-import { useLoaderData  , redirect} from "react-router-dom";
-import { customFetch } from "../utils";
-import {toast} from 'react-toastify'
-
-export const loader =(store)=> async()=>{
-  const admin = store.getState().adminState.admin ; 
-
-  try{
-    const response= await customFetch("/config/languages",
-    {  headers: {
-      Authorization: `Bearer ${admin.token}`} 
-    }) ;
-    return {
-      languages : response.data
     }
-
-  }
-  catch(err){
-    console.log(err)
-    const errMessage  = err?.response?.data?.message || err?.response?.data || "Server Failed To load Admin Table"
-
-    //toast.error(errMessage)
-    //return redirect("pages/ErrorElement")
-    if(errMessage){
-      const accessDeniedMessage = "Sorry, You don't have permission to access this page.";
-      throw Error(accessDeniedMessage);    
-  }
   }
 }
-
 const TemplatesManager = () => {
 
   const  {languages} =useLoaderData() || {};

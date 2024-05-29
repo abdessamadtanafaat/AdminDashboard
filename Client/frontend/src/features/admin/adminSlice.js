@@ -25,7 +25,7 @@ const adminSlice = createSlice({
     initialState : defaultState , 
     reducers : {
         loginAdmin: (state , action)=>{
-            console.log("hey there")
+            alert("already Modified")
             const admin = {...action.payload.admin , token:action.payload.jwt};
             state.admin = admin; 
             console.log(admin )
@@ -53,9 +53,14 @@ const adminSlice = createSlice({
             state.admin = updatedAdmin ; 
             localStorage.setItem("admin",JSON.stringify(state.admin))
         }
+        ,changeToken:(state , action)=>{
+            state.admin.token = action.payload.token;
+            localStorage.setItem("admin", JSON.stringify(state.admin));
+            
+        }
     }
 })
 export const selectTheme =(state)=>state.adminState.theme
 export const selectAdmin =(state)=>state.adminState.admin || {}
-export const {loginAdmin , logoutAdmin ,toggleTheme , updateProfile} =adminSlice.actions;
+export const {loginAdmin , logoutAdmin ,toggleTheme , updateProfile , changeToken} =adminSlice.actions;
 export default adminSlice.reducer;

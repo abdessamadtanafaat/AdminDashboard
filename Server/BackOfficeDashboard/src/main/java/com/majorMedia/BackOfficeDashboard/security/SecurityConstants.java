@@ -37,7 +37,8 @@ public class SecurityConstants {
             ,"/configuration/security"
             ,"/avatars/**"
             ,"/avatars/**"
-            ,"/admin/image/**"
+            ,"/admin/image/**",
+            "/admin/verifyToken/**"
             //,"/super-admin/**" // a supprimer apres
             //,"/admin/**" // a supprimer apres
     };

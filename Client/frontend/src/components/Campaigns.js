@@ -25,7 +25,7 @@ try {
         headers: { Authorization: `Bearer ${admin.token}` }
     });
 
-    console.log(response.data);
+    console.log(response.data.meta);
     
     return { campaigns: response.data.data, params, meta: response.data.meta };
 

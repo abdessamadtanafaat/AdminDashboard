@@ -14,7 +14,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT u FROM User u LEFT JOIN FETCH u.businesses")
     Page<User> findAllWithBusinesses(Pageable pageable);
 
+
     Optional<User> findById(Long id);
     @Query("SELECT u FROM User u LEFT JOIN FETCH u.businesses WHERE u.firstName LIKE %:searchKey% OR u.lastName LIKE %:searchKey%")
     Page<User> findAllByFirstNameContainsIgnoreCaseOrLastNameContainsIgnoreCaseWithBusinesses(String searchKey, Pageable pageable);
+    Page<User> findAllByFirstNameContainsIgnoreCaseOrLastNameContainsIgnoreCase(String firstName , String lastName , Pageable paging);
 }

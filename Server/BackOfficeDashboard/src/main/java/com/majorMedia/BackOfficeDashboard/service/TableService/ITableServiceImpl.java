@@ -59,11 +59,13 @@ public class ITableServiceImpl implements ITableService {
             paging = PageRequest.of(page - 1, 5, Sort.by(Sort.Direction.ASC, "createdAt"));
         } else {
             paging = PageRequest.of(page - 1, 5, Sort.by(Sort.Direction.DESC, "createdAt"));
-        }        if(searchKey ==null){
-            Page<User> users = userRepository.findAllWithBusinesses(paging);
+        }
+        if(searchKey ==null){
+            Page<User> users = userRepository.findAll(paging);
             return unwrapOwnerList(users, page);
         }
-        Page<User> users = userRepository.findAllByFirstNameContainsIgnoreCaseOrLastNameContainsIgnoreCaseWithBusinesses(searchKey, paging);
+        Page<User> users = userRepository.findAllByFirstNameContainsIgnoreCaseOrLastNameContainsIgnoreCase(searchKey,searchKey, paging);
+
         return unwrapOwnerList(users, page);
     }
     public ObjectsList<User> unwrapOwnerList(Page<User> users , int page){

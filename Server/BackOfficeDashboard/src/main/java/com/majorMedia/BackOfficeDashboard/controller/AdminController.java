@@ -3,6 +3,7 @@ package com.majorMedia.BackOfficeDashboard.controller;
 import com.majorMedia.BackOfficeDashboard.aspect.LogActivity;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
 import com.majorMedia.BackOfficeDashboard.model.requests.ResetPasswordRequest;
+import com.majorMedia.BackOfficeDashboard.model.requests.VerifyTokenRequest;
 import com.majorMedia.BackOfficeDashboard.model.responses.BusinessResponse;
 import com.majorMedia.BackOfficeDashboard.model.responses.UserResponse;
 import com.majorMedia.BackOfficeDashboard.service.adminService.IAdminService;
@@ -30,6 +31,13 @@ import java.util.List;
 public class AdminController {
 
     private final IAdminService adminService;
+
+    @LogActivity
+    @PostMapping("/verifyToken")
+    public ResponseEntity<String> verifyToken(@RequestBody VerifyTokenRequest tokenRequest){
+        String newToken = adminService.verifyToken(tokenRequest.getToken());
+        return new ResponseEntity<>(newToken , HttpStatus.OK);
+    }
 
     @LogActivity
     @PatchMapping("/{adminId}/avatar")

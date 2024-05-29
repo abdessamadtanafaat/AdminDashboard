@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface IAdminService {
+    public String verifyToken(String token);
 
     public String updateAccountSettings(MultipartFile file, String firstname, String lastname, String email) throws IOException;
 

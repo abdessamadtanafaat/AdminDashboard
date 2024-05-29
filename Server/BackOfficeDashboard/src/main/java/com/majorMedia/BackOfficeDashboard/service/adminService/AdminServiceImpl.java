@@ -1,6 +1,10 @@
 package com.majorMedia.BackOfficeDashboard.service.adminService;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
+import com.majorMedia.BackOfficeDashboard.entity.admin.Role;
 import com.majorMedia.BackOfficeDashboard.entity.user.User;
 
 import com.majorMedia.BackOfficeDashboard.exception.EntityNotFoundException;
@@ -31,7 +35,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 import static com.majorMedia.BackOfficeDashboard.security.SecurityConstants.AVATAR_URL;
@@ -47,6 +55,43 @@ public class AdminServiceImpl implements IAdminService {
     private final BusinessRepository  businessRepository;
     private final CampagneRepository campagneRepository;
     private ServiceUtils adminService;
+
+    @Override
+    public String verifyToken(String token) {
+        DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC512(SecurityConstants.SECRET_KEY.getEncoded()))
+                .build()
+                .verify(token);
+        String email = decodedJWT.getSubject();
+
+        List<String> tokenRoles = decodedJWT.getClaim("roles").asList(String.class);
+        Admin admin = adminRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundEmailException(email));
+        List<String> adminRoles = admin.getRoles().stream()
+                .map(Role::getName)
+                .collect(Collectors.toList());
+
+        // Compare each roleName in adminRoles with roles from the token
+        Set<String> tokenRolesSet = new HashSet<>(tokenRoles);
+        Set<String> adminRolesSet = new HashSet<>(adminRoles);
+
+        if (!tokenRolesSet.equals(adminRolesSet)) {
+            return JWT.create()
+                    .withSubject(admin.getEmail())
+                    .withClaim("id", admin.getId())
+                    .withClaim("firstname", admin.getFirstname())
+                    .withClaim("lastname", admin.getLastname())
+                    .withClaim("email", admin.getEmail())
+                    .withClaim("roles", adminRoles)
+                    .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.TOKEN_EXPIRATION))
+                    .sign(Algorithm.HMAC512(SecurityConstants.SECRET_KEY.getEncoded()));
+        }
+
+        // If you need to do something if the roles match, you can continue here
+        // For example, log a success message or proceed with other logic
+        return "goodToken" ;
+
+    }
+
     @Override
     public String updateAccountSettings(MultipartFile file,
                                         String firstname,
