@@ -481,7 +481,17 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJNQU5BR0UgQlVTSU5FU1MiXSwiZmlyc3RuYW1lIjoiUk9DSERJIiwicm9sZXMiOlsiUk9MRV9TVVBFUl9BRE1JTiIsIlJPTEVfQURNSU4iLCJPV05FUiJdLCJpZCI6MiwiZXhwIjoxNzE3MDgzOTM4LCJlbWFpbCI6ImlsaWFzLnJvdWNoZGkyMUBnbWFpbC5jb20iLCJsYXN0bmFtZSI6IklMSUFTIn0.28_5mPm29ngzYOwNYJKJSglFDuXST6tgjUVkXjlp6d-nQdxsC_m_UXrJyjDFdQ4B48pgvslQdMXVgxX9qzDxYw\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/admin/verifyToken"
 					},
 					"response": []
 				}
