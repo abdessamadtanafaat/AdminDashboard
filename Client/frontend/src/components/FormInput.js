@@ -28,7 +28,7 @@ const FormInput = ({type , label , name , placeholder, value, onChange ,  disabl
             {error && <p className="text-red-500">{label} is required</p>}
       </div>
       {type!=="password" || (
-        <div className="relative my-auto" style={{ marginTop: '50px' }}>
+        <div className="relative  my-auto" style={{ marginTop: '50px' }}>
         <button
           type="button"
           className="focus:outline-none -ml-10"

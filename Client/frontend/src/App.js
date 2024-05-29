@@ -26,7 +26,6 @@ import {loader as serviceAreaManagerLoader} from './pages/ServiceAreaManager'
 import {loader as businessTypeManagerLoader} from './pages/BusinessTypeManager'
 import {loader as languesManagerLoader} from './pages/LanguesManager'
 
-
 import {store} from './app/store'
 import { ItemsProvider } from "./components/ItemContext";
 
