@@ -484,7 +484,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{ \"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6WyJNQU5BR0UgQlVTSU5FU1MiXSwiZmlyc3RuYW1lIjoiUk9DSERJIiwicm9sZXMiOlsiUk9MRV9TVVBFUl9BRE1JTiIsIlJPTEVfQURNSU4iLCJPV05FUiIsIlVTRVIiXSwiaWQiOjIsImV4cCI6MTcxNzA4MzkzOCwiZW1haWwiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwibGFzdG5hbWUiOiJJTElBUyJ9.1zWdzSrNiQbX9_WOIh6txOGhdacrk45im4Ghfa9xCCpV-0Mb-tdNJAG0KXywfkcoTnZT-SPSpRcpeJraSyMfZA\"}",
+							"raw": "{ \"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6W10sImZpcnN0bmFtZSI6IlJPQ0hESSIsInJvbGVzIjpbIlJPTEVfQURNSU4iLCJVU0VSIiwiUk9MRV9TVVBFUl9BRE1JTiJdLCJpZCI6MiwiZXhwIjoxNzE3MDg1OTgyLCJlbWFpbCI6ImlsaWFzLnJvdWNoZGkyMUBnbWFpbC5jb20iLCJsYXN0bmFtZSI6IklMSUFTIn0.5ox4EyyGN0Yl7TOZEMPE962oBfgsuFjhcmFbUDK0brO7NdNo8Vr3OS1hB7JLYpljY4X8bFYSgOQLQEWjRdhrrw\"}",
 							"options": {
 								"raw": {
 									"language": "json"
