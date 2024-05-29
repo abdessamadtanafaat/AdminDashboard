@@ -1,9 +1,8 @@
 -- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: dashboard_db
+-- Host: sql7.freesqldatabase.com    Database: sql7710221
 -- ------------------------------------------------------
 -- Server version	8.0.35
-use sql7710221;
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -18,11 +17,10 @@ use sql7710221;
 
 --
 -- Table structure for table `admin`
-
-
 --
+USE sql7710221;
 
-DROP TABLE IF EXISTS sql7710221.`admin`;
+DROP TABLE IF EXISTS `admin`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `admin` (
@@ -816,3 +814,4 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2024-05-29  2:08:04
+DROP TABLE IF EXISTS `admin`

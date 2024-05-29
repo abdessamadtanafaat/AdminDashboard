@@ -23,13 +23,13 @@ export const loader =(store)=>async({})=>{
   }
   catch(err){
     const errMessage  = err?.response?.data?.message || err?.response?.data || "Server Failed To load Admin Table"
-    
+    //toast.error(errMessage);
     console.log(errMessage);
     //return redirect("/ErrorElement")
-    
-    const accessDeniedMessage = "Sorry, You don't have permission to access this page.";
-    throw Error(accessDeniedMessage);    
-  
+    if(errMessage){
+      const accessDeniedMessage = "Sorry, You don't have permission to access this page.";
+      throw Error(accessDeniedMessage);    
+  }
 
   }
 

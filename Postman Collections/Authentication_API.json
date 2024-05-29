@@ -472,6 +472,28 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "verifyToken",
+					"id": "3aceb026-6ec9-4f44-ab08-0047a0abdba9",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbGlhcy5yb3VjaGRpMjFAZ21haWwuY29tIiwicHJpdmlsZWdlcyI6W10sImZpcnN0bmFtZSI6IlJPQ0hESSIsInJvbGVzIjpbIlJPTEVfQURNSU4iLCJVU0VSIiwiUk9MRV9TVVBFUl9BRE1JTiJdLCJpZCI6MiwiZXhwIjoxNzE3MDg1OTgyLCJlbWFpbCI6ImlsaWFzLnJvdWNoZGkyMUBnbWFpbC5jb20iLCJsYXN0bmFtZSI6IklMSUFTIn0.5ox4EyyGN0Yl7TOZEMPE962oBfgsuFjhcmFbUDK0brO7NdNo8Vr3OS1hB7JLYpljY4X8bFYSgOQLQEWjRdhrrw\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/admin/verifyToken"
+					},
+					"response": []
 				}
 			],
 			"id": "edf2e029-4d0b-4d93-aa9c-a3e81b337e0f"
