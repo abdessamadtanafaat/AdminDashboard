@@ -23,7 +23,7 @@ export const loader =(store)=>async({})=>{
   }
   catch(err){
     const errMessage  = err?.response?.data?.message || err?.response?.data || "Server Failed To load Admin Table"
-    toast.error(errMessage);
+    //toast.error(errMessage);
     console.log(errMessage);
     //return redirect("/ErrorElement")
     if(errMessage){

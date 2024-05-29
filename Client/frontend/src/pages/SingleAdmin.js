@@ -44,6 +44,7 @@ const SingleAdmin = () => {
     const {predefinedItems ,grantedItems ,setPredefinedItems , setGrantedItems ,checkedPredefinedItems  , setCheckedPredefinedItems , checkedGrantedItems , setCheckedGrantedItems , handleGrantButtonClick ,handleRevokeAllButtonClick ,handleRevokeButtonClick }=useItemsContext();
     const {entity} = useLoaderData();
     const {token} = useSelector(selectAdmin)
+    const [loading, setLoading] = useState(false);
     if(!entity ){
         return (<div className="font-bold mx-auto  text-4xl text-center text-error">There is no match for the keyword You Typed !!! </div>)
 
@@ -53,8 +54,10 @@ const SingleAdmin = () => {
 
   const updateAdmin =async (event)=>{
     event.preventDefault();
+    
     entity.roles = grantedItems;
-    try{          
+    setLoading(true);     
+    try{      
         const response = await customFetch.patch("/super-admin/update-admin" , {adminId : entity.id , roles: grantedItems} , {
         headers: { Authorization: `Bearer ${token}`} 
         } )
@@ -67,6 +70,8 @@ const SingleAdmin = () => {
         console.log(err)
           const errorMessage =err?.response?.data ||  "Server Failed To Update Admin"
           return toast.error(errorMessage) 
+      } finally {
+        setLoading(false);
       }
 
   }
@@ -75,6 +80,7 @@ const SingleAdmin = () => {
   return (
     <div className="grid place-content-center  gap-3 ">
       <div className="my-5 mx-auto flex justify-center md:flex-row  gap-3">
+      {loading}
         <FormInput value={email}  label="Email" type="email" name="email" placeholder="Enter Email"/>
         <FormInput value={firstname}  label="First Name" type="text" name="firstname" placeholder="Jhon"/>
         <FormInput value={lastname}  label="Last Name" type="text" name="lastname" placeholder="Smith"/>
@@ -101,7 +107,8 @@ const SingleAdmin = () => {
       <div className="mx-auto flex justify-center gap-3">
         
         <div onClick={updateAdmin}  className='mt-4'>
-            <SubmitBtn text="Save Changes"/>
+            <SubmitBtn text={loading ? <span className="loading loading-spinner loading-sm"></span> : 'Save Changes'} disabled={loading} />
+
         </div>
         
       </div>
