@@ -8,6 +8,8 @@ import jsPDF from 'jspdf';
 import { mkConfig, generateCsv, download } from 'export-to-csv';
 import 'jspdf-autotable';
 import { toast } from 'react-toastify';
+import logo from '../assets/logoDark.png';
+
 
 const CampaignList = () => {
     const admin = useSelector(state => state.adminState.admin);
@@ -57,6 +59,7 @@ const CampaignList = () => {
     //     }
     // };
 
+    
     const handleSelectAll = () => {
         setSelectAll(!selectAll); 
         if (!selectAll) {
@@ -67,8 +70,6 @@ const CampaignList = () => {
     };
 
     const handleLanguageClick = ()=> {
-
-
 
     }
     const handleSelectCampaign = (campaignId) => {
@@ -142,15 +143,46 @@ const CampaignList = () => {
     const csvConfig = {
         fieldSeparator: ',',
         decimalSeparator: '.',
-        columnHeaders: ['ID', 'Campaign Name','Start Date','End Date','Status', 'Business Name', 'Email', 'Phone', 'Address', 'Template Name'],
+        columnHeaders: ['ID', 'Campaign Name','','Start Date    ','','End Date    ','','Status', 'Business Name','', 'Email','','', 'Address','','', 'Template Name',''],
         showColumnHeaders: true,
         useKeysAsHeaders: true,
         filename: 'List_campaigns.csv',
     };
        
-    const handleExportRowsPDF = (campaigns) => {
+    const addHeaderToPDF = (doc, logo, page, isAllPages = false) => {
+        const imgWidth = 30;
+        const imgHeight = 30; 
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const centerX = (pageWidth - imgWidth) / 2;
+    
+        doc.addImage(logo, 'PNG', centerX, 10, imgWidth, imgHeight);
+    
+        let pageTitle;
+        if (isAllPages) {
+            pageTitle = `Campaign Report - All Pages`;
+        } else {
+            pageTitle = `Campaign Report - Page ${page}`;
+        }
+        doc.setFontSize(22);
+        doc.text(pageTitle, pageWidth / 2, 40, { align: 'center' }); 
+    
+        const today = new Date();
+        const dateStr = today.toLocaleDateString(); 
+        doc.setFontSize(12);
+        doc.text(`Date: ${dateStr}`, pageWidth / 2, 50, { align: 'center' });
+    };
+    
+
+    
+    const handleExportRowsPDF = (campaigns) => {        
+        const page = params.page || 1;
         const doc = new jsPDF();
         
+        const img = new Image();
+        img.src = logo;
+        img.onload = () => {
+            addHeaderToPDF(doc, img, page);
+
         console.log(campaigns);
     
         const tableData = campaigns.map((campaign) => {
@@ -162,7 +194,9 @@ const CampaignList = () => {
                 business: { businessName },
                 template: { templateName }
             } = campaign;
-            return [campaignName,createdDate,endDate,status, businessName, templateName];
+            const CreatedFormattedDate = formatDate(createdDate);
+            const EndFormattedDate = formatDate(endDate);
+            return [campaignName,CreatedFormattedDate,EndFormattedDate,status, businessName, templateName];
         });
     
         const tableHeaders = ['Campaign Name','Start Date','End Date','Status', 'Business Name', 'Template Name'];
@@ -170,11 +204,12 @@ const CampaignList = () => {
         doc.autoTable({
             head: [tableHeaders],
             body: tableData,
+            startY: 60 
         });
     
         doc.save('campaignes.pdf');
     };
-    
+};
     const handleExportRowsCSV = (campaigns) => {
         console.log(campaigns);
         
@@ -183,6 +218,18 @@ const CampaignList = () => {
             return;
         }
     
+        const today = new Date();
+        const formattedToday = `${today.getDate()}-${today.getMonth() + 1}-${today.getFullYear()}`;
+        const title = 'Campaign List';
+
+        const firstRow = [
+            formattedToday, "", 
+            title, "",
+            ...Array(csvConfig.columnHeaders.length *2 - 4).fill('')
+        ];    
+        const blankRow = Array(csvConfig.columnHeaders.length).fill('');
+        const tableDataWithSpacing = [firstRow,blankRow];
+
         const tableData = campaigns.map((campaign) => {
             const {
                 id,
@@ -193,12 +240,13 @@ const CampaignList = () => {
                 business: { businessName, email, phone, address },
                 template: { templateName }
             } = campaign;
-            return [id,campaignName,createdDate,endDate,status, businessName, email, phone, address, templateName];
+            return [id,campaignName,"",createdDate,"",endDate,"",status, businessName,"", email,"","", address,"","", templateName,"","",];
         });
     
     
-        const csv = generateCsv(csvConfig)([csvConfig.columnHeaders, ...tableData]);
-        download(csvConfig)(csv);
+        const csv = generateCsv({ ...csvConfig, showColumnHeaders: false })([...tableDataWithSpacing, csvConfig.columnHeaders, ...tableData]); // Include the first row, column headers, and business data
+
+        download({ ...csvConfig, showColumnHeaders: false })(csv);
     };
     
     const handleAllExportRowsPDF = async () => {
@@ -222,14 +270,22 @@ const CampaignList = () => {
     
         const doc = new jsPDF();
     
+        const img = new Image();
+        img.src = logo;
+        img.onload = () => {
+            addHeaderToPDF(doc, img, null, true);
+
+            
         const tableHeaders = ['Campaign Name','Start Date','End Date', 'Business Name','Status', 'Template Name'];
     
         doc.autoTable({
             head: [tableHeaders],
             body: tableData,
+            startY: 60 
         });
     
         doc.save('List_Campaigns.pdf');
+    };
     };
     
     const handleAllExportRowsCSV = async () => {
@@ -242,22 +298,35 @@ const CampaignList = () => {
         
         const campaigns = response.data;
 
-        const tableData = campaigns.map(campaign => [
+        const today = new Date();
+        const formattedToday = `${today.getDate()}-${today.getMonth() + 1}-${today.getFullYear()}`;
+        const title = 'Campaign List';
 
-            campaign.id,
-            campaign.campaignName,
-            campaign.createdDate,
-            campaign.endDate,
-            campaign.status,
-            campaign.business.businessName,
-            campaign.business.email,
-            campaign.business.phone,
-            campaign.business.address,
-            campaign.template.templateName
+        const firstRow = [
+            formattedToday, "", 
+            title, "",
+            ...Array(csvConfig.columnHeaders.length *2 - 4).fill('')
+        ];    
+        const blankRow = Array(csvConfig.columnHeaders.length).fill('');
+        const tableDataWithSpacing = [firstRow,blankRow];
 
-        ]);
-  const csv = generateCsv(csvConfig)([csvConfig.columnHeaders, ...tableData]);
-        download(csvConfig)(csv);
+
+        const tableData = campaigns.map(campaign => {
+
+            const {id,
+            campaignName,
+            createdDate,
+            endDate,
+            status,
+            business,
+            template,
+            } = campaign
+            return [id,campaignName,"",createdDate,"",endDate,"",status, business.businessName,"", business.email,"","", business.address,"","", template.templateName,"","",];
+
+    });
+        const csv = generateCsv({ ...csvConfig, showColumnHeaders: false })([...tableDataWithSpacing, csvConfig.columnHeaders, ...tableData]);
+
+        download({ ...csvConfig, showColumnHeaders: false })(csv);
 
     }
     
@@ -266,7 +335,7 @@ const CampaignList = () => {
         const year = date.getFullYear();
         const month = date.getMonth() + 1;
         const day = date.getDate();
-        return `${month}/${day}/${year}`;
+        return `${day}/${month}/${year}`;
     };
 
     const formatTime = (endDate) => {

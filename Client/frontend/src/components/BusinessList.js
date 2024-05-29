@@ -8,6 +8,7 @@ import {InfoOwnerBusiness} from ".";
 import jsPDF from 'jspdf';
 import { mkConfig, generateCsv, download } from 'export-to-csv';
 import 'jspdf-autotable';
+import logo from '../assets/logoDark.png'; // Import your image
 
 
 const BusinessList = () => {
@@ -38,16 +39,54 @@ const BusinessList = () => {
 
     }, [initialSortOrder]);
 
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const day = date.getDate();
+        const month = date.getMonth() + 1;
+        const year = date.getFullYear();
+        return `${month}/${day}/${year}`;
+    };
+
      const [isGenerating, setIsGenerating] = useState(false);
      const conponentPDF= useRef();
 
+     const addHeaderToPDF = (doc, logo, page, isAllPages = false) => {
+        const imgWidth = 30;
+        const imgHeight = 30; 
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const centerX = (pageWidth - imgWidth) / 2;
+    
+        doc.addImage(logo, 'PNG', centerX, 10, imgWidth, imgHeight);
+    
+        let pageTitle;
+        if (isAllPages) {
+            pageTitle = `Business Report - All Pages`;
+        } else {
+            pageTitle = `Business Report - Page ${page}`;
+        }
+        doc.setFontSize(22);
+        doc.text(pageTitle, pageWidth / 2, 40, { align: 'center' }); 
+    
+        const today = new Date();
+        const dateStr = today.toLocaleDateString(); 
+        doc.setFontSize(12);
+        doc.text(`Date: ${dateStr}`, pageWidth / 2, 50, { align: 'center' });
+    };
    
     const handleExportRowsPDF = (businesses) => {
+        const page = params.page || 1;
         const doc = new jsPDF();
         
+        const img = new Image();
+        img.src = logo;
+        img.onload = () => {
+            addHeaderToPDF(doc, img, page);
+
+
         const tableData = businesses.map((business) => {
             const {instagramLink,googleLink,facebookLink,coverImageUrl, businessName, email, phone,createdDate,id,address,type } = business;
-            return [businessName, address, email,phone, createdDate, type.typeName,instagramLink,googleLink,facebookLink,coverImageUrl];
+            const formattedDate = formatDate(createdDate);
+            return [businessName, address, email,phone, formattedDate, type.typeName,instagramLink,googleLink,facebookLink,coverImageUrl];
         });
     
         const tableHeaders = ['Business Name', 'Address', 'Email', 'Phone', 'Created Date', 'Type'];
@@ -55,19 +94,22 @@ const BusinessList = () => {
         doc.autoTable({
             head: [tableHeaders],
             body: tableData,
+            startY: 60 
         });
     
         doc.save('businesses.pdf');
+    };
     };
 
       const csvConfig = {
         fieldSeparator: ',',
         decimalSeparator: '.',
-        columnHeaders: ['ID', 'Business Name', 'Address', 'Email', 'Phone', 'Created Date', 'Type', 'Instagram Link', 'Google Link', 'Facebook Link', 'Cover Image URL'],
+        columnHeaders: ['ID', 'Business Name','', 'Address         ','','', 'Email          ','','','Created Date','', 'Type'],
         showColumnHeaders:true,
         useKeysAsHeaders: true,
         filename:'List businesses',
       };
+
       
     const handleExportRowsCSV = (businesses) => {
 
@@ -75,15 +117,28 @@ const BusinessList = () => {
             toast.error('No data to export');
             return;
         }
-        const tableData = businesses.map((business) => {
-            const {instagramLink,googleLink,facebookLink,coverImageUrl, businessName, email, phone,createdDate,id,address,type } = business;
-            const formattedPhone = phone.toString();
+        const today = new Date();
+        const formattedToday = `${today.getDate()}-${today.getMonth() + 1}-${today.getFullYear()}`;
+        const title = 'Business List';
 
-            return [id,businessName, address, email,formattedPhone, createdDate, type.typeName,instagramLink,googleLink,facebookLink,coverImageUrl];
+        const firstRow = [
+            formattedToday, "", 
+            title, "",
+            ...Array(csvConfig.columnHeaders.length *2 - 4).fill('')
+        ];    
+        const blankRow = Array(csvConfig.columnHeaders.length).fill('');
+        const tableDataWithSpacing = [firstRow,blankRow];
+
+        const tableData = businesses.map((business) => {
+            const {businessName, email, phone,createdDate,id,address,type } = business;
+
+            return [id, businessName, "", address, "","", email, "","", createdDate, "", type.typeName, ""];
         });
 
-  const csv = generateCsv(csvConfig)([csvConfig.columnHeaders, ...tableData]);
-        download(csvConfig)(csv);
+        
+        const csv = generateCsv({ ...csvConfig, showColumnHeaders: false })([...tableDataWithSpacing, csvConfig.columnHeaders, ...tableData]); // Include the first row, column headers, and business data
+
+        download({ ...csvConfig, showColumnHeaders: false })(csv);
 
     };
     
@@ -103,20 +158,28 @@ const BusinessList = () => {
             business.address,
             business.email,
             business.phone,
-            business.createdDate,
+            formatDate(business.createdDate),
             business.type.typeName
         ]);
                 const doc = new jsPDF();
     
+                const img = new Image();
+                img.src = logo;
+                img.onload = () => {
+                    addHeaderToPDF(doc, img, null, true);
+
+                    
                 const tableHeaders = ['Business Name', 'Address', 'Email', 'Phone', 'Created Date', 'Type'];
     
                 doc.autoTable({
                     head: [tableHeaders],
                     body: tableData,
+                    startY: 60 
                 });
             
                 doc.save('List businesses.pdf');
     };
+};
     
     const handleAllExportRowsCSV = async () => {
 
@@ -128,21 +191,34 @@ const BusinessList = () => {
         
         const businesses = response.data;
 
-        const tableData = businesses.map(business => [
-            business.id,
-            business.businessName,
-            business.address,
-            business.email,
-            business.phone,
-            business.createdDate,
-            business.type.typeName,
-            business.instagramLink,
-            business.googleLink,
-            business.facebookLink,
-            business.coverImageUrl
-        ]);
-  const csv = generateCsv(csvConfig)([csvConfig.columnHeaders, ...tableData]);
-        download(csvConfig)(csv);
+        const today = new Date();
+        const formattedToday = `${today.getDate()}-${today.getMonth() + 1}-${today.getFullYear()}`;
+        const title = 'Business List';
+
+        const firstRow = [
+            formattedToday, "", 
+            title, "",
+            ...Array(csvConfig.columnHeaders.length *2 - 4).fill('')
+        ];    
+        const blankRow = Array(csvConfig.columnHeaders.length).fill('');
+        const tableDataWithSpacing = [firstRow,blankRow];
+
+
+        const tableData = businesses.map(business => {
+            const {id,
+            businessName,
+            address,
+            email,
+            phone,
+            createdDate,
+            type} = business;
+            return [id, businessName, "", address, "","", email, "","",createdDate, "", type.typeName, ""];
+        });
+
+    
+        const csv = generateCsv({ ...csvConfig, showColumnHeaders: false })([...tableDataWithSpacing, csvConfig.columnHeaders, ...tableData]); // Include the first row, column headers, and business data
+
+        download({ ...csvConfig, showColumnHeaders: false })(csv);
 
     }
 

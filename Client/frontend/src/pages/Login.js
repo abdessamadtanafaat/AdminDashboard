@@ -46,7 +46,7 @@ const Login = () => {
     try {
       const response = await customFetch.post('/authenticate', data);
       dispatch(loginAdmin(response.data));
-      toast.success("Welcome !! You access to Dashboard");
+      toast.success("Welcome You access to Dashboard");
       console.log(response.data);
       navigate ("/")
     } catch (err) {
