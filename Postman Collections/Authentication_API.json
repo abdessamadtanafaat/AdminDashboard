@@ -472,6 +472,18 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "verifyToken",
+					"id": "3aceb026-6ec9-4f44-ab08-0047a0abdba9",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
 				}
 			],
 			"id": "edf2e029-4d0b-4d93-aa9c-a3e81b337e0f"
