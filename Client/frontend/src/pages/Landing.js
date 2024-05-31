@@ -23,7 +23,8 @@ export const loader =(store)=>async({})=>{
     console.log(err)
     const errMessage= err?.response?.data || "Failed to load statistics"
     /* throw Error(errMessage) */
-    toast.error(errMessage);
+    /* toast.error(errMessage); */
+    throw Error(errMessage)
     return {businessNbr : 0 , usersNbr  :0 , compainsNbr : 0, customersNbr :0,businessTypes :{} ,businesesCreated : {} , campaignsCreated: {}} ; 
 
   }

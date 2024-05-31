@@ -2,6 +2,7 @@ package com.majorMedia.BackOfficeDashboard.service.adminService;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Role;
@@ -58,9 +59,19 @@ public class AdminServiceImpl implements IAdminService {
 
     @Override
     public String verifyToken(String token) {
-        DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC512(SecurityConstants.SECRET_KEY.getEncoded()))
-                .build()
-                .verify(token);
+        DecodedJWT decodedJWT;
+        try {
+            decodedJWT = JWT.require(Algorithm.HMAC512(SecurityConstants.SECRET_KEY.getEncoded()))
+                    .build()
+                    .verify(token);
+        } catch (TokenExpiredException e) {
+            return "expiredToken";
+        }
+
+        Date expiresAt = decodedJWT.getExpiresAt();
+        if (expiresAt.before(new Date())) {
+            return "expiredToken";
+        }
         String email = decodedJWT.getSubject();
 
         List<String> tokenRoles = decodedJWT.getClaim("roles").asList(String.class);

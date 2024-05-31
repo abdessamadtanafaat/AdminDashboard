@@ -25,7 +25,6 @@ const adminSlice = createSlice({
     initialState : defaultState , 
     reducers : {
         loginAdmin: (state , action)=>{
-            alert("already Modified")
             const admin = {...action.payload.admin , token:action.payload.jwt};
             state.admin = admin; 
             console.log(admin )
@@ -35,8 +34,8 @@ const adminSlice = createSlice({
         logoutAdmin : (state )=>{
             state.admin = null 
             localStorage.removeItem("admin")
-            
-            toast.success('Logged out successfully');
+            /* 
+            toast.success('Logged out successfully'); */
         },
         toggleTheme : (state)=>{
             const { dracula, nord } = themes;

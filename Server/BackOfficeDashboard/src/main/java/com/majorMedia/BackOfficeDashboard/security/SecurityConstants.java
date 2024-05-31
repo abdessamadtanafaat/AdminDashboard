@@ -12,7 +12,8 @@ public class SecurityConstants {
     //public static final Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS512);
     public static final String SECRET_KEY_STRING = "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970";
     public static final byte[] SECRET_KEY_BYTES = SECRET_KEY_STRING.getBytes(StandardCharsets.UTF_8);
-    public static final SecretKey SECRET_KEY = new SecretKeySpec(SECRET_KEY_BYTES, "AES");    public static final int TOKEN_EXPIRATION = 86400000   ; //1 JOUR
+    public static final SecretKey SECRET_KEY = new SecretKeySpec(SECRET_KEY_BYTES, "AES");
+    public static final int TOKEN_EXPIRATION = 86400000   ; //1 JOUR
     public static final int TOKEN_LENGTH = 64;
     public static final int TOKEN_EXPIRATION_EMAIL = 5 ; //Minutes
     public static final String BEARER = "Bearer ";

@@ -39,7 +39,8 @@ const routes = createBrowserRouter([
       {
         index :true ,
         element : <Landing/>,
-        loader: landingLoader(store)
+        loader: landingLoader(store),
+        errorElement:<ErrorElement/>
 
       },
       {

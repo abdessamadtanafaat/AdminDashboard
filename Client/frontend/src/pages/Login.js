@@ -20,8 +20,7 @@ export const action =(store)=>
             const response = await customFetch.post('/authenticate' ,data);
             //store user in localstorage
             store.dispatch(loginAdmin(response.data))
-            toast.success("Welcome !! You access to Dashboard")
-            console.log(response.data)
+              console.log(response.data)
             //return redirect("/")
             navigate("/");
 
@@ -31,8 +30,9 @@ export const action =(store)=>
             console.log(err)
             const errorMessage = err?.response?.data || "Please Double check your credentials"; 
             console.log(err?.response?.data)
+            toast.error(errorMessage); 
             
-            return toast.error(errorMessage); ;
+            return ;
           }
 }
 
@@ -46,8 +46,8 @@ const Login = () => {
     try {
       const response = await customFetch.post('/authenticate', data);
       dispatch(loginAdmin(response.data));
-      toast.success("Welcome You access to Dashboard");
-      console.log(response.data);
+/*       toast.success("Welcome You access to Dashboard");
+ */      console.log(response.data);
       navigate ("/")
     } catch (err) {
       const errorMessage = err?.response?.data || "Please Double check your credentials"; 
