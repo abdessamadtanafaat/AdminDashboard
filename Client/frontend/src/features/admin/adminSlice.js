@@ -25,7 +25,7 @@ const adminSlice = createSlice({
     initialState : defaultState , 
     reducers : {
         loginAdmin: (state , action)=>{
-            alert("already Modified")
+            //alert("already Modified")
             const admin = {...action.payload.admin , token:action.payload.jwt};
             state.admin = admin; 
             console.log(admin )
