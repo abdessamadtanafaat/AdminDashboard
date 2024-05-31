@@ -40,9 +40,11 @@ const Login = () => {
   const dispatch = useDispatch();
   const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const theme = useSelector(selectTheme)
 
   const onSubmit = async (data) => {
+    setLoading(true);     
     try {
       const response = await customFetch.post('/authenticate', data);
       dispatch(loginAdmin(response.data));
@@ -53,12 +55,15 @@ const Login = () => {
       const errorMessage = err?.response?.data || "Please Double check your credentials"; 
       console.log(err?.response?.data);
       toast.error(errorMessage);
+    }finally {
+      setLoading(false);
     }
   };
   
 
   return (
     <section className='h-screen grid place-items-center bg-base-300'>
+            {loading}
         <Form method="POST"  onSubmit={handleSubmit(onSubmit)} className='card w-96 p-8 bg-base-100 shadow-lg flex  flex-col gap-y-4'>
           <div className="flex flex-col justify-start">
             <img src={theme=="nord" ?logoDark :logoLight} alt="Logo"  />
@@ -78,7 +83,7 @@ const Login = () => {
             </Link>
         </p>
         <div className='mt-4'>
-            <SubmitBtn text='Submit' />
+            <SubmitBtn text={loading ? <span className="loading loading-spinner loading-sm"></span> : 'Log in'} disabled={loading} />
         </div>
 
 
