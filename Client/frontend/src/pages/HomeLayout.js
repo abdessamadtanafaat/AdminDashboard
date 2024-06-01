@@ -4,8 +4,6 @@ import { SidebarProvider } from "../components/context"
 import {toast} from 'react-toastify'
 import { customFetch } from "../utils"
 import { changeToken, loginAdmin, logoutAdmin } from "../features/admin/adminSlice"
-import { useEffect } from "react"
-import { useDispatch } from "react-redux"
 
 export const loader = (store) => async() => {
   const admin = store.getState().adminState.admin
@@ -22,22 +20,20 @@ export const loader = (store) => async() => {
         "/admin/verifyToken",body)
       const responseData = response.data
       if(responseData ==='expiredToken'){        
-        
-        toast.warn("Session expired")
-        redirect("/login")
-        return store.dispatch(logoutAdmin())
+        await toast.error("Session expired")
+        store.dispatch(logoutAdmin())
+        return redirect("/login")
       }
       if(responseData!=="goodToken"){
         return store.dispatch(changeToken({ token: response.data }));
       }
     }
     catch(err){
-      throw Error()
-
-    }
+      throw Error(err?.response?.data)}
+    return null  
   
   }
-  return null;
+  
 }
 
 const HomeLayout = () => {

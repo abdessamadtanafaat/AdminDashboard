@@ -22,10 +22,9 @@ export const loader = (store) => async ({ request }) => {
     } catch (err) {
         console.log(err);
         const errMessage = err?.response?.data?.message || err?.response?.data || "Server Failed To load Business Owners Table";
-        toast.error(errMessage);
-
-        return redirect("/");
-
+        throw Error(errMessage)
+        /* toast.error(errMessage);
+        return redirect("/");*/
     }
 }
 

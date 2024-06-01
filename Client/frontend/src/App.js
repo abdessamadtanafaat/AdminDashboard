@@ -45,7 +45,9 @@ const routes = createBrowserRouter([
       },
       {
         path:"/profile",
-        element:<Profile/>
+        element:<Profile/>,
+        errorElement:<ErrorElement/>
+        
       },
       {
         path: "/business-owner",

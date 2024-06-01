@@ -20,14 +20,10 @@ export const loader =(store)=>async()=>{
   }
   catch(err){
     const errorMessage = err?.response?.data || "Server Failed To load The page"
-    //toast.error(errorMessage);
-    //throw Error(errorMessage);    
-    
-    if(errorMessage){
-      const accessDeniedMessage = "Sorry, You don't have permission to access this page.";
-      throw Error(accessDeniedMessage);    
+    const accessDeniedMessage = "Sorry, You don't have permission to access this page.";
+    throw Error(accessDeniedMessage);    
 
-    }
+    
   }
 
 }

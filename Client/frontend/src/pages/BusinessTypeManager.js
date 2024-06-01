@@ -24,10 +24,9 @@ export const loader = (store)=>async({})=>{
         //return redirect("pages/ErrorElement")
         //return {businessCategories : []}
         
-        if(errorMessage){
-            const accessDeniedMessage = "Sorry, You don't have permission to access this page.";
-            throw Error(accessDeniedMessage);    
-        }
+        const accessDeniedMessage = "Sorry, You don't have permission to access this page.";
+        throw Error(accessDeniedMessage);    
+    
 
     }
 }

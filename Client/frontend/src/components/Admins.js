@@ -23,10 +23,9 @@ export const loader =(store)=> async({request})=>{
     console.log(err)
     const errMessage  = err?.response?.data?.message || err?.response?.data || "Server Failed To load Admin Table"
     //toast.error(errMessage)
-    if(errMessage){
-      const accessDeniedMessage = "Sorry, You don't have permission to access this page.";
-      throw Error(accessDeniedMessage);    
-  }
+    const accessDeniedMessage = "Sorry, You don't have permission to access this page.";
+    throw Error(accessDeniedMessage);    
+  
 
   }
 
@@ -47,8 +46,8 @@ const Admins = () => {
         <AdminsList/>
         <div className="flex w-full justify-center mb-3">
                 <PaginationContainer/>
-                </div>
-                    </>
+        </div>
+    </>
   )
 }
 

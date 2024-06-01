@@ -23,10 +23,10 @@ export const loader = (store)=>async({})=>{
         //toast.error(errorMessage)
         //return redirect("pages/ErrorElement")
         //return {serviceCategories :[]}
-        if(errorMessage){
-            const accessDeniedMessage = "Sorry, You don't have permission to access this page.";
-            throw Error(accessDeniedMessage);    
-        }
+        
+        const accessDeniedMessage = "Sorry, You don't have permission to access this page.";
+        throw Error(accessDeniedMessage);    
+        
 
 
     }

@@ -23,10 +23,9 @@ export const loader =(store)=> async()=>{
     
     //toast.error(errMessage)
     //return redirect("pages/ErrorElement")
-    if(errMessage){
-      const accessDeniedMessage = "Sorry, You don't have permission to access this page.";
-      throw Error(accessDeniedMessage);    
-    }
+    const accessDeniedMessage = "Sorry, You don't have permission to access this page.";
+    throw Error(accessDeniedMessage);    
+    
   }
 }
 const TemplatesManager = () => {
