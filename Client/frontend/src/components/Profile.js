@@ -81,52 +81,41 @@ const Profile = () => {
     
     if (!password || password.length < 5) {
         return false;
-    }
-
-    
+    } 
     const twoDigits = /(?=(?:.*\d){2})/; 
     const twoUppercase = /(?=(?:.*[A-Z]){2})/; // At least 2 uppercase letters
     const twoLowercase = /(?=(?:.*[a-z]){2})/; // At least 2 lowercase letters
-
-    // Check if password meets all conditions
     return twoDigits.test(password) && twoUppercase.test(password) && twoLowercase.test(password);
 };
   const changePassword =async(event)=>{
     event.preventDefault();
+    if(password==''  || currentPassword =='' ){
+      return toast.error("Password Cannot be Empty")
+    }
     if(!isPasswordValid(password)){
-      
-      toast.error("Password must be at least 5 characters long, and contain at least 2 digits, 2 uppercase letters, and 2 lowercase letters.") ;
-
+      return toast.error("Password must be at least 5 characters long, and contain at least 2 digits, 2 uppercase letters, and 2 lowercase letters.") 
     }
     if(password!==confirmedPassword){
-      
       return toast.error("The two fields are not matching ") ; 
     }
-    
     try{
       const body = {currentPassword : currentPassword , password : password , email:admin.email}
       const response = await customFetch.patch('/admin/reset-password',body , {        
         headers: { Authorization: `Bearer ${admin.token}`} 
       } )
       setCurrentPassword('')
-      setPassword('')
-      
+      setPassword('') 
       setConfirmedPassword('')
-      toast.success(response.data)
-      return navigate("/")
-      
-
-
-    }
+      return toast.success(response.data)
+/*       return navigate("/")
+ */    }
     catch(err){
       const errorMessage = err?.response?.data || "Failed to change Password"
-      setCurrentPassword('')
+      /* setCurrentPassword('')
       setPassword('')
-      setConfirmedPassword('')
+      setConfirmedPassword('') */
       return toast.error(errorMessage)
-
     }
-    
 
   }
 

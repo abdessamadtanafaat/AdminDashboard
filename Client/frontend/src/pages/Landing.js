@@ -2,7 +2,7 @@ import {BriefcaseBusiness ,User  ,MessageCircleQuestion , UserRoundCheck } from 
 import { BarChart , LineChart , CreationLine, DoughnutChart } from '../components';
 import { customFetch } from '../utils';
 import { useLoaderData } from 'react-router-dom';
-import { toast } from 'react-toastify';
+
 export const loader =(store)=>async({})=>{
   const admin = store.getState().adminState.admin ; 
   try{
@@ -22,7 +22,7 @@ export const loader =(store)=>async({})=>{
   catch(err){
     console.log(err)
     const errMessage= err?.response?.data || "Failed to load statistics"
-    /* throw Error(errMessage) */
+  /* throw Error(errMessage) */
     /* toast.error(errMessage); */
     throw Error(errMessage)
     return {businessNbr : 0 , usersNbr  :0 , compainsNbr : 0, customersNbr :0,businessTypes :{} ,businesesCreated : {} , campaignsCreated: {}} ; 
@@ -32,7 +32,6 @@ export const loader =(store)=>async({})=>{
 }
 
 const Landing = () => {
-  
   const {businessNbr , usersNbr , compainsNbr , customersNbr , businessTypes , businesesCreated , campaignsCreated}= useLoaderData();
   return (
     <div className="flex justify-between items-center w-full gap-20"> 
