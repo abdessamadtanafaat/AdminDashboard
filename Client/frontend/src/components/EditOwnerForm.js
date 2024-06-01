@@ -76,7 +76,7 @@ const EditOwnerForm = React.memo(({ownerId, onClose }) => {
                 },
 
             });
-            toast.success(`Account ${firstName} successfully updated`);
+            toast.success(`The new password has been successfully sent to ${firstName} email address.`);
             console.log(response);
             navigate("/business-owner");
             onClose();
@@ -103,7 +103,7 @@ const EditOwnerForm = React.memo(({ownerId, onClose }) => {
         setNewPassword(newPassword);
         console.log(newPassword)
         setShowSubmitButton(true); 
-        toast.success("Password generated successfully");
+        //toast.success("Password generated successfully");
 
 
     };
