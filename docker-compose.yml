@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./Client/frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+
+  backend:
+    build:
+      context: ./Server/BackOfficeDashboard
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+    depends_on:
+      - mysqldb
+    restart: on-failure
+    environment:
+      DB_HOST: mysqldb
+      DB_PORT: 3306
+      DB_NAME: admindb
+      DB_USER: root
+      DB_PASS: root
+
+  mysqldb:
+    image: mysql:8.0
+    container_name: mysqldb
+    networks:
+      - app-network
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: admindb
+      MYSQL_PASSWORD: root
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql  
+networks:
+  app-network:
+
+volumes:
+  mysql_data:

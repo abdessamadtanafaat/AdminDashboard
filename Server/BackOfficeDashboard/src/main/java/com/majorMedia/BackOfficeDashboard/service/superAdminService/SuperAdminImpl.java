@@ -29,6 +29,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -86,27 +87,11 @@ public class SuperAdminImpl implements ISuperAdminService {
             throw new AlreadyExistEmailException(createAdminRequest.getEmail());
         }
 
-
-
-//        String password;
-//        if (createAdminRequest.getUsername() != null && !createAdminRequest.getUsername().isEmpty()) {
-//            password = createAdminRequest.getUsername();
-//        } else {
-//            password = passwordEncoder.encode(SecurityConstants.DEFAULT_PASSWORD);
-//        }
-//
-//        String username;
-//        if (createAdminRequest.getUsername() != null && !createAdminRequest.getUsername().isEmpty()) {
-//            username = createAdminRequest.getUsername();
-//        } else {
-//             username = "admin" + createAdminRequest.getLastname().substring(0, Math.min(createAdminRequest.getLastname().length(), 5)).replaceAll("\\s+", "");
-//        }
-//
-//        boolean changePasswordFirstLogin = createAdminRequest.isChangePasswordFirstLogin();
           String password =   RandomStringUtils.randomAlphabetic(10);
 
           System.out.println(password);
           createAdminRequest.setPassword(passwordEncoder.encode(password));
+          createAdminRequest.setJoined_in(LocalDateTime.now());
           emailUtils.sendEmailToAdmin(createAdminRequest.getEmail() , password);
           return adminRepository.save(createAdminRequest);
 

@@ -59,8 +59,14 @@
     "@tailwindcss/typography": "^0.5.10",
     "autoprefixer": "^10.4.17",
     "daisyui": "^4.7.2",
+    "jest": "^27.5.1",
+    "jest-sonar-reporter": "^2.0.0",
     "postcss": "^8.4.35",
     "tailwindcss": "^3.4.1",
     "webpack": "^5.90.3"
+  },
+  "jest": {
+  "coverageReporters": ["lcov", "text"]
   }
+
 }
