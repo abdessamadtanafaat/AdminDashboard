@@ -306,7 +306,7 @@ const [createdDateSort, setCreatedDateSort] = useState({ ascending: false });
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         const day = date.getDate();
-        const month = date.getMonth() + 1;
+        const month = date.getMonth();
         const year = date.getFullYear();
         return `${month}/${day}/${year}`;
     };

@@ -1,4 +1,4 @@
-Important : Upload the database from the folder Database to see the table owners and admins(Populated), all the endpoints in postamn
+Design and development of a secure administration module for a customer feedback management application.
 
-git update-index --skip-worktree src/main/resources/application.properties
-
+End-of-year project completed as part of the 4th year of Computer Engineering at the National School of Applied Sciences of Agadir. Development of a secure administration module for a customer feedback management application.
+Academic year 2023/2024.
