@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.38, for Win64 (x86_64)
 --
 -- Host: localhost    Database: admindb
 -- ------------------------------------------------------
--- Server version	8.0.34
+-- Server version	8.0.39
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -78,7 +78,7 @@ CREATE TABLE `admin_role` (
 
 LOCK TABLES `admin_role` WRITE;
 /*!40000 ALTER TABLE `admin_role` DISABLE KEYS */;
-INSERT INTO `admin_role` VALUES (3,2),(4,2),(5,1),(5,2),(2,2),(2,1),(2,24),(2,20),(1,1),(1,20);
+INSERT INTO `admin_role` VALUES (3,2),(4,2),(5,1),(5,2),(2,2),(2,1),(2,24),(2,20),(1,1),(1,20),(1,2);
 /*!40000 ALTER TABLE `admin_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -878,4 +878,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-15 12:32:34
+-- Dump completed on 2024-11-17 21:21:39
