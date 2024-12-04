@@ -1,0 +1,7 @@
+TO RUN THE SONARQUBE INSIDE THE IDE :
+
+
+mvn clean verify sonar:sonar
+
+pour les tests:
+mvn clean test verify

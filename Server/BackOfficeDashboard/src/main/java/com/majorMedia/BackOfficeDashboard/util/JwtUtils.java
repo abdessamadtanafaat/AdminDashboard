@@ -31,7 +31,7 @@ public class JwtUtils {
             // Extract email claim from the token
             return claims.getBody().get("email", String.class);
         } catch (MalformedJwtException | SignatureException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             return null; // Or handle the exception as needed
         }
     }
@@ -59,7 +59,7 @@ public class JwtUtils {
             String rolesJson = decodedJWT.getClaim("roles").asString();
             return objectMapper.readValue(rolesJson, new TypeReference<List<String>>() {});
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             return null;
         }
     }

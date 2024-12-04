@@ -16,7 +16,15 @@
 	<properties>
 		<java.version>17</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+<!--		SONARQUBE-->
+		<sonar.projectKey>dashboard-backend</sonar.projectKey>
+		<sonar.host.url>http://localhost:9000</sonar.host.url>
+		<sonar.login>sqp_754a5f4b1c1fc7f2674407184c8d4720ef76b754</sonar.login>
+<!--	<sonar.login>${env.SONAR_TOKEN}</sonar.login>-->
+
 	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -143,13 +151,12 @@
 		</dependency>
 
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.5</version>
+				<version>0.8.10</version>
 				<executions>
 					<execution>
 						<goals>
@@ -182,12 +189,13 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.22.2</version>
 				<configuration>
-					<skipTests>true</skipTests>
+					<skipTests>false</skipTests>
 				</configuration>
 			</plugin>
 
 
 		</plugins>
 	</build>
+
 
 </project>
