@@ -44,7 +44,6 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         }
         catch(IOException ex){
             throw new RuntimeException();
-
         }
 
     }
@@ -68,7 +67,6 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
     } catch (Exception e) {
-        e.printStackTrace();
         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
     }
 }

@@ -165,15 +165,14 @@ public class ITableServiceImpl implements ITableService {
             try {
                 emailUtils.sendEmailActivation(owner.getEmail(), password);
             } catch (UnsupportedEncodingException | MessagingException e) {
-                e.printStackTrace();
                 throw new EmailServiceException();
             }
 
             return "Account updated successfully for " + owner.getFirstName();
 
         } catch (Exception e) {
-            e.printStackTrace();
-        }return  null;
+            return null;
+        }
     }
 
     @Override

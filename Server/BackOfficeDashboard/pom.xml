@@ -20,8 +20,7 @@
 <!--		SONARQUBE-->
 		<sonar.projectKey>dashboard-backend</sonar.projectKey>
 		<sonar.host.url>http://localhost:9000</sonar.host.url>
-		<sonar.login>sqp_754a5f4b1c1fc7f2674407184c8d4720ef76b754</sonar.login>
-<!--	<sonar.login>${env.SONAR_TOKEN}</sonar.login>-->
+		<sonar.login>${env.SONAR_TOKEN}</sonar.login>
 
 	</properties>
 
@@ -37,7 +36,15 @@
 			<version>4.8.1</version>
 			<scope>test</scope>
 		</dependency>
-		
+
+		<!-- Load environment variables from a .env file -->
+		<dependency>
+			<groupId>io.github.cdimascio</groupId>
+			<artifactId>dotenv-java</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+
+
 		<dependency>
 			<groupId>jakarta.mail</groupId>
 			<artifactId>jakarta.mail-api</artifactId>

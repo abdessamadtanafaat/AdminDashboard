@@ -1,5 +1,6 @@
 package com.majorMedia.BackOfficeDashboard.security;
 
+import com.majorMedia.BackOfficeDashboard.config.EnvironmentUtil;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Privilege;
 import com.majorMedia.BackOfficeDashboard.entity.admin.Role;
@@ -19,19 +20,26 @@ import java.util.*;
 @Component
 public class SetupDataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
-    @Autowired
-    private AdminRepository adminRepository;
+    private final AdminRepository adminRepository;
+
+    private final RoleRepository roleRepository;
+
+    private final PrivilegeRepository privilegeRepository ;
+
+    private final PasswordEncoder passwordEncoder;
+
+    private boolean alreadySetup = false;
 
     @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
-    private PrivilegeRepository privilegeRepository ;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    boolean alreadySetup = false;
+    public SetupDataLoader(AdminRepository adminRepository,
+                           RoleRepository roleRepository,
+                           PrivilegeRepository privilegeRepository,
+                           PasswordEncoder passwordEncoder) {
+        this.adminRepository = adminRepository;
+        this.roleRepository = roleRepository;
+        this.privilegeRepository = privilegeRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     @Transactional
@@ -47,16 +55,23 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     Role superAdminRole = createRoleIfNotFound("ROLE_SUPER_ADMIN","Description SUPER ADMIN ROLE", superAdminPrivilegs);
     Role AdminRole = createRoleIfNotFound("ROLE_ADMIN","Descripton ADMIN ROLE", AdminPrivilegs);
 
-    Optional<Admin> existingsSuperAdmin1 = adminRepository.findByEmail("tanafaat.rca.16@gmail.com");
-    Optional<Admin> existingsSuperAdmin2 = adminRepository.findByEmail("ilias.rouchdi21@gmail.com");
+        // Fetch environment variables
+        String superAdmin1Email = EnvironmentUtil.get("SUPER_ADMIN_1_EMAIL");
+        String superAdmin1Password = EnvironmentUtil.get("SUPER_ADMIN_1_PASSWORD");
+        String superAdmin2Email = EnvironmentUtil.get("SUPER_ADMIN_2_EMAIL");
+        String superAdmin2Password = EnvironmentUtil.get("SUPER_ADMIN_2_PASSWORD");
+
+
+    Optional<Admin> existingsSuperAdmin1 = adminRepository.findByEmail(superAdmin1Email);
+    Optional<Admin> existingsSuperAdmin2 = adminRepository.findByEmail(superAdmin2Email);
 
     if (!existingsSuperAdmin1.isPresent()){
     Role SuperAdminRole = roleRepository.findByName("ROLE_SUPER_ADMIN");
     Admin admin1 = Admin.builder()
-            .email("tanafaat.rca.16@gmail.com")
+            .email(superAdmin1Email)
             .lastname("Abdessamad")
             .firstname("Tanafaat")
-            .password(passwordEncoder.encode("raja2015"))
+            .password(passwordEncoder.encode(superAdmin1Password))
             .roles( new HashSet<>(Arrays.asList(superAdminRole)))
             .build();
             adminRepository.save(admin1);
@@ -65,10 +80,10 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         Role SuperAdminRole = roleRepository.findByName("ROLE_SUPER_ADMIN");
         if(!existingsSuperAdmin2.isPresent()){
         Admin admin2 = Admin.builder()
-                .email("ilias.rouchdi21@gmail.com")
+                .email(superAdmin2Email)
                 .lastname("ilias")
                 .firstname("Rochdi")
-                .password(passwordEncoder.encode("ff"))
+                .password(passwordEncoder.encode(superAdmin2Password))
                 .roles(new HashSet<>(Arrays.asList(superAdminRole)))
                 .build();
         adminRepository.save(admin2);
