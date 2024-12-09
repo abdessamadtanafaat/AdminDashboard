@@ -1,4 +1,4 @@
-package com.majorMedia.BackOfficeDashboard.service;
+package com.majorMedia.BackOfficeDashboard.service.whiteBox;
 
 import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
 import com.majorMedia.BackOfficeDashboard.exception.InvalidTokenException;

@@ -1,8 +1,7 @@
-package com.majorMedia.BackOfficeDashboard.service;
+package com.majorMedia.BackOfficeDashboard.service.whiteBox;
 
 import com.majorMedia.BackOfficeDashboard.entity.admin.Admin;
 import com.majorMedia.BackOfficeDashboard.repository.AdminRepository;
-import com.majorMedia.BackOfficeDashboard.service.superAdminService.ISuperAdminService;
 import com.majorMedia.BackOfficeDashboard.service.superAdminService.SuperAdminImpl;
 import com.majorMedia.BackOfficeDashboard.util.EmailUtils;
 import com.majorMedia.BackOfficeDashboard.exception.AlreadyExistEmailException;
@@ -17,7 +16,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.UnsupportedEncodingException;
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
