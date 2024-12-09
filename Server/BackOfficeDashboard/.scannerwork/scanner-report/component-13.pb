@@ -1,0 +1,1 @@
+ 2javaX hrLsrc/main/java/com/majorMedia/BackOfficeDashboard/entity/admin/Privilege.java

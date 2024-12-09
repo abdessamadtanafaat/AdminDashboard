@@ -1,0 +1,1 @@
+. 2javaXhrasrc/main/java/com/majorMedia/BackOfficeDashboard/exception/SuperAdminRoleAssignmentException.java

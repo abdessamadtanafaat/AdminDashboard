@@ -18,7 +18,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 <!--		SONARQUBE-->
-		<sonar.projectKey>dashboard-backend</sonar.projectKey>
+		<sonar.projectKey>dashboardbackend</sonar.projectKey>
 		<sonar.host.url>http://localhost:9000</sonar.host.url>
 		<sonar.login>${env.SONAR_TOKEN}</sonar.login>
 
