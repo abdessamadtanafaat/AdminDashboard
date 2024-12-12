@@ -1,1 +1,0 @@
-> 2javaXhrSsrc/main/java/com/majorMedia/BackOfficeDashboard/model/responses/ErrorResponse.java

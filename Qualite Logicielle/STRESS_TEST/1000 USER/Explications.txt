@@ -1,0 +1,10 @@
+
+Dans le contexte du Aggregate Graph de JMeter, la colonne Average (moyenne) représente le temps de réponse moyen en millisecondes pour toutes les requêtes envoyées à l'API pendant le test.
+
+Signification de Average = 78.469
+Interprétation : Cela signifie que le temps moyen de réponse de l'API de login est d'environ 78,469 ms (soit 0,078 secondes). C'est un temps de réponse relativement rapide.
+Cela indique que l'API de login a répondu, en moyenne, en moins de 100 ms à chaque requête pendant la durée totale du test.
+
+
+Summary : 
+

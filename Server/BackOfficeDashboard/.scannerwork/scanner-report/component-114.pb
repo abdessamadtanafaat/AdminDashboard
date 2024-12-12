@@ -1,1 +1,0 @@
-r 2javaXThr^src/test/java/com/majorMedia/BackOfficeDashboard/service/IcustomAuthenticationManagerTest.java
