@@ -1,3 +1,5 @@
 /Server/BackOfficeDashboard/src/main/resources/application.properties
 
 .scannerwork
+/Qualite Logicielle/outils/apache-jmeter-5.6.3/
+/Qualite Logicielle/outils/sonar-scanner-6.2.1.4610-windows-x64/

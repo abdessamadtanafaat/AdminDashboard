@@ -1,0 +1,22 @@
+2024-12-10 23:44:14,680 INFO o.a.j.u.JMeterUtils: Setting Locale to en_EN
+2024-12-10 23:44:14,726 INFO o.a.j.JMeter: Loading user properties from: user.properties
+2024-12-10 23:44:14,728 INFO o.a.j.JMeter: Loading system properties from: system.properties
+2024-12-10 23:44:14,743 INFO o.a.j.JMeter: Copyright (c) 1998-2024 The Apache Software Foundation
+2024-12-10 23:44:14,743 INFO o.a.j.JMeter: Version 5.6.3
+2024-12-10 23:44:14,744 INFO o.a.j.JMeter: java.version=21.0.5
+2024-12-10 23:44:14,744 INFO o.a.j.JMeter: java.vm.name=Java HotSpot(TM) 64-Bit Server VM
+2024-12-10 23:44:14,744 INFO o.a.j.JMeter: os.name=Windows 10
+2024-12-10 23:44:14,744 INFO o.a.j.JMeter: os.arch=amd64
+2024-12-10 23:44:14,744 INFO o.a.j.JMeter: os.version=10.0
+2024-12-10 23:44:14,745 INFO o.a.j.JMeter: file.encoding=UTF-8
+2024-12-10 23:44:14,745 INFO o.a.j.JMeter: java.awt.headless=null
+2024-12-10 23:44:14,745 INFO o.a.j.JMeter: Max memory     =1073741824
+2024-12-10 23:44:14,745 INFO o.a.j.JMeter: Available Processors =4
+2024-12-10 23:44:14,765 INFO o.a.j.JMeter: Default Locale=English (EN)
+2024-12-10 23:44:14,766 INFO o.a.j.JMeter: JMeter  Locale=English (EN)
+2024-12-10 23:44:14,766 INFO o.a.j.JMeter: JMeterHome=T:\PFA\AdminDashboard\Qualite Logicielle\outils\apache-jmeter-5.6.3
+2024-12-10 23:44:14,766 INFO o.a.j.JMeter: user.dir  =T:\PFA\AdminDashboard\Qualite Logicielle\outils\apache-jmeter-5.6.3\bin
+2024-12-10 23:44:14,767 INFO o.a.j.JMeter: PWD       =T:\PFA\AdminDashboard\Qualite Logicielle\outils\apache-jmeter-5.6.3\bin
+2024-12-10 23:44:14,771 INFO o.a.j.JMeter: IP: 172.20.0.1 Name: DESKTOP-COAV0EP FullName: DESKTOP-COAV0EP.mshome.net
+2024-12-10 23:44:14,804 INFO o.a.j.JMeter: Loaded icon properties from org/apache/jmeter/images/icon.properties
+2024-12-10 23:44:15,236 INFO o.a.j.JMeterGuiLauncher: Setting LAF to: com.github.weisj.darklaf.DarkLaf:com.github.weisj.darklaf.theme.DarculaTheme
