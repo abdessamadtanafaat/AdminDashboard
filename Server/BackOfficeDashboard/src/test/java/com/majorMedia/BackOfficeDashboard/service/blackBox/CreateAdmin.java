@@ -52,6 +52,7 @@ public class CreateAdmin {
             firstnameFieldCreate.sendKeys("admin");
             lastnameFieldCreate.sendKeys("admin");
             submitButton.click();
+            Thread.sleep(500);
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofMinutes(2));
             WebElement toastMessage = wait.until(
                     ExpectedConditions.presenceOfElementLocated(
@@ -82,6 +83,7 @@ public class CreateAdmin {
             firstnameFieldCreate.sendKeys("admin");
             lastnameFieldCreate.sendKeys("admin");
             submitButton.click();
+            Thread.sleep(500);
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofMinutes(2));
             WebElement toastMessage = wait.until(
                     ExpectedConditions.presenceOfElementLocated(
