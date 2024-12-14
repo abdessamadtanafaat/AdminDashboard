@@ -20,6 +20,7 @@
 <!--		SONARQUBE-->
 		<sonar.projectKey>dashboardbackend</sonar.projectKey>
 		<sonar.host.url>http://localhost:9000</sonar.host.url>
+		<!--suppress UnresolvedMavenProperty -->
 		<sonar.login>${env.SONAR_TOKEN}</sonar.login>
 
 	</properties>

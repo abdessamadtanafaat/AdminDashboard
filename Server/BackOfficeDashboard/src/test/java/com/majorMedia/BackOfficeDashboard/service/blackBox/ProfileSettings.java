@@ -44,25 +44,18 @@ public class ProfileSettings {
     }
     @Test
     public void changePasswordSuccess() {
-        try {
-            Thread.sleep(5000);
+        try {Thread.sleep(5000);
             WebElement oldPasswordField = driver.findElement(By.name("oldPassword"));
             WebElement passwordField = driver.findElement(By.name("password"));
             WebElement confirmedPassword = driver.findElement(By.name("confirmedPassword"));
             WebElement submitButton = driver.findElement(By.xpath("//button[text()='Change Password']"));
-
             oldPasswordField.sendKeys(currentPassword);
             passwordField.sendKeys(newPassword);
             confirmedPassword.sendKeys(newPassword);
-            submitButton.click();
-
-            Thread.sleep(1000);
+            submitButton.click();Thread.sleep(1000);
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofMinutes(2));
             WebElement toastMessage = wait.until(
-                    ExpectedConditions.presenceOfElementLocated(
-                            By.xpath(".//div[text()='Password changed successfully']")
-                    ));
-
+                    ExpectedConditions.presenceOfElementLocated(By.xpath(".//div[text()='Password changed successfully']")));
             assertEquals("Password changed successfully", toastMessage.getText(), "The success message is incorrect.");
         } catch (InterruptedException ex) {
             ex.printStackTrace();
@@ -73,25 +66,19 @@ public class ProfileSettings {
 
     @Test
     public void changePasswordError() {
-        try {
-            Thread.sleep(5000);
+        try {Thread.sleep(5000);
             WebElement oldPasswordField = driver.findElement(By.name("oldPassword"));
             WebElement passwordField = driver.findElement(By.name("password"));
             WebElement confirmedPassword = driver.findElement(By.name("confirmedPassword"));
             WebElement submitButton = driver.findElement(By.xpath("//button[text()='Change Password']"));
-
             oldPasswordField.sendKeys(currentPassword);
             passwordField.sendKeys("NewPass");
             confirmedPassword.sendKeys("NewPass");
             submitButton.click();
-
             Thread.sleep(3000);
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofMinutes(2));
             WebElement toastMessage = wait.until(
-                    ExpectedConditions.presenceOfElementLocated(
-                            By.xpath(".//div[contains(text(),'Password must be')]")
-                    ));
-
+                    ExpectedConditions.presenceOfElementLocated(By.xpath(".//div[contains(text(),'Password must be')]")));
             assertTrue(toastMessage.getText().contains("Password must be"), "The error message is incorrect.");
         } catch (InterruptedException ex) {
             ex.printStackTrace();
