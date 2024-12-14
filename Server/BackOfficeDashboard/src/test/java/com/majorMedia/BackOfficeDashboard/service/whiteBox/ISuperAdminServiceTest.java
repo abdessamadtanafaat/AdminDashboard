@@ -40,6 +40,9 @@ class ISuperAdminServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
+    // Define a constant for the encoded password
+    private static final String ENCODED_PASSWORD = "encodedPassword";
+
     @Test
     void testCreateAdmin_AdminExists() {
         // Prepare test data
@@ -68,7 +71,7 @@ class ISuperAdminServiceTest {
         when(adminRepository.findByEmail(adminRequest.getEmail())).thenReturn(Optional.empty());
 
         // Mock password encoding and email sending
-        when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword"); // Mock encoding
+        when(passwordEncoder.encode(anyString())).thenReturn(ENCODED_PASSWORD); // Mock encoding
         doNothing().when(emailUtils).sendEmailToAdmin(anyString(), anyString()); // Mock sending email
 
         // Call the method
@@ -85,7 +88,7 @@ class ISuperAdminServiceTest {
 
         // Verify that the generated password is captured and matches expectations
         assertNotNull(passwordCaptor.getValue()); // Password should not be null
-        assertNotEquals("encodedPassword", passwordCaptor.getValue()); // Ensure the captured password is the random one generated
+        assertNotEquals(ENCODED_PASSWORD, passwordCaptor.getValue()); // Ensure the captured password is the random one generated
         // Optionally, you can check if the password meets certain criteria (length, alphanumeric, etc.)
     }
 
@@ -99,7 +102,7 @@ class ISuperAdminServiceTest {
         when(adminRepository.findByEmail(adminRequest.getEmail())).thenReturn(Optional.empty());
         // Mock the password encoding and email sending
         String generatedPassword = RandomStringUtils.randomAlphabetic(10);  // Dynamically generated password
-        when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
+        when(passwordEncoder.encode(anyString())).thenReturn(ENCODED_PASSWORD);
         // Mock saving the admin and returning the admin object with a password
         when(adminRepository.save(any(Admin.class))).thenReturn(adminRequest);
 
@@ -111,7 +114,7 @@ class ISuperAdminServiceTest {
 
         // Verify that the password was encoded and set in the createdAdmin object
         assertNotNull(createdAdmin); // Ensure that createdAdmin is not null
-        assertEquals("encodedPassword", createdAdmin.getPassword());
+        assertEquals(ENCODED_PASSWORD, createdAdmin.getPassword());
 
         // Verify that the password was captured correctly
         String capturedPassword = passwordCaptor.getValue();

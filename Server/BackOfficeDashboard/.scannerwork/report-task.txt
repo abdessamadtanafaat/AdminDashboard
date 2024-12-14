@@ -1,6 +1,6 @@
-projectKey=dashboard-backend
+projectKey=dashboardbackend
 serverUrl=http://localhost:9000
 serverVersion=10.7.0.96327
-dashboardUrl=http://localhost:9000/dashboard?id=dashboard-backend
-ceTaskId=02fe68c1-a4d7-456e-b0fd-53cf160c7e50
-ceTaskUrl=http://localhost:9000/api/ce/task?id=02fe68c1-a4d7-456e-b0fd-53cf160c7e50
+dashboardUrl=http://localhost:9000/dashboard?id=dashboardbackend
+ceTaskId=6a16a55b-03f2-4ff2-87e4-dbc1ac07d4d6
+ceTaskUrl=http://localhost:9000/api/ce/task?id=6a16a55b-03f2-4ff2-87e4-dbc1ac07d4d6

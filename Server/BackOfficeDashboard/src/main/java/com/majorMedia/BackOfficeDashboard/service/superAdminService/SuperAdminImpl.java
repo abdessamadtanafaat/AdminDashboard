@@ -29,6 +29,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -44,6 +45,9 @@ public class SuperAdminImpl implements ISuperAdminService {
     private final PrivilegeRepository privilegeRepository;
     private final ServiceUtils adminService;
     private final EmailUtils emailUtils;
+
+    private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    private static final int PASSWORD_LENGTH = 10;
 
     @Override
     public ObjectsList<Admin> getAllAdmins(String searchKey  ,String sortBy ,int page ) {
@@ -87,7 +91,7 @@ public class SuperAdminImpl implements ISuperAdminService {
             throw new AlreadyExistEmailException(createAdminRequest.getEmail());
         }
 
-          String password =   RandomStringUtils.randomAlphabetic(10);
+          String password =   generateSecurePassword();
 
           System.out.println(password);
           createAdminRequest.setPassword(passwordEncoder.encode(password));
@@ -95,6 +99,22 @@ public class SuperAdminImpl implements ISuperAdminService {
           emailUtils.sendEmailToAdmin(createAdminRequest.getEmail() , password);
           return adminRepository.save(createAdminRequest);
 
+    }
+
+    /**
+     * Generates a cryptographically secure random password.
+     *
+     * @return a secure random password
+     */
+    private String generateSecurePassword() {
+        SecureRandom random = new SecureRandom();
+        StringBuilder passwordBuilder = new StringBuilder(PASSWORD_LENGTH);
+
+        for (int i = 0; i < PASSWORD_LENGTH; i++) {
+            int index = random.nextInt(CHARACTERS.length());
+            passwordBuilder.append(CHARACTERS.charAt(index));
+        }
+        return passwordBuilder.toString();
     }
 
     @Override

@@ -87,7 +87,7 @@ public class CustomAuthenticationManager implements AuthenticationManager, Icust
                 return "Logged out successfully";
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            return null;
         }
         return null;
     }

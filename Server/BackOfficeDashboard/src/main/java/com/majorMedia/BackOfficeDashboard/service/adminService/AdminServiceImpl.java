@@ -118,12 +118,7 @@ public class AdminServiceImpl implements IAdminService {
         admin.setFirstname(firstname);
         admin.setLastname(lastname);
 
-//        String encodedImage = request.getEncodedImage();
-//
-//        byte[] imageData = encodedImage.getBytes();
-//        byte[] compressedImageData = ImageUtils.compressImage(imageData);
-//        admin.setImageByte(compressedImageData);
-//        admin.setAvatarUrl(request.getAvatarUrl());
+
         adminRepository.save(uploadAdminAvatar(admin.getId() , file));
 
         return admin.getAvatarUrl();
@@ -142,12 +137,6 @@ public class AdminServiceImpl implements IAdminService {
         else{
             ImageUtils.makeDirectoryIfNotExist(SecurityConstants.AVATAR_DIRECTORY);
 
-//            String fileName = admin.getFirstname() + admin.getLastname() +
-//                    "Avatar." +
-//                    FilenameUtils.getExtension(file.getOriginalFilename());
-//            Path filePath = Paths.get(AVATAR_DIRECTORY, fileName);
-//
-//            Files.write(filePath, file.getBytes());
 
             String avatarUrl = AVATAR_URL + admin.getId();
 
@@ -191,22 +180,10 @@ public class AdminServiceImpl implements IAdminService {
         }
 
         admin.setPassword(passwordEncoder.encode(password));
-//        admin.setActive(false);
         adminRepository.save(admin);
         return "Password changed successfully";
     }
 
-
-//    @Override
-//    public String deactivateAccount(Long ownerId) throws BadRequestException {
-//        return null;
-//    }
-
-
-//    @Override
-//    public String resetPassword(String email, String password) {
-//        return null;
-//    }
 
     @Override
     public byte[] getImageData(Long adminId) {
@@ -214,79 +191,9 @@ public class AdminServiceImpl implements IAdminService {
         Admin admin = adminRepository.findById(adminId)
                 .orElseThrow(() -> new EntityNotFoundException(adminId,Admin.class));
 
-        byte[] imageData = ImageUtils.decompressImage(admin.getImageByte());
-
-        return imageData;
+        return ImageUtils.decompressImage(admin.getImageByte());
     }
-/*    @Override
-    public List<UserResponse> getAllOwners(String sortBy , String searchKey) {
-        List<UserResponse> userResponses = new ArrayList<>();
 
-        List<User> users = adminService.fetchUsers(sortBy);
-
-
-        // Map and combine users and admins
-        List<UserResponse> userResponsesFromUsers = users.stream()
-                .map(user -> adminService.mapToUserResponse(user, "Owner"))
-                .collect(Collectors.toList());
-
-
-        userResponses.addAll(userResponsesFromUsers);
-        userResponses.sort(Comparator.comparing(UserResponse::getLastLogout).reversed());
-
-        if(userResponses.isEmpty()){
-            throw new EntityNotFoundException(User.class);
-        }
-
-        // Apply filtering by profile if requested
-        if (searchKey != null && !searchKey.isEmpty()) {
-            userResponses = userResponses.stream()
-                    .filter(userResponse -> userResponse.getFirstname().contains(searchKey) || userResponse.getLastname().contains(searchKey)|| userResponse.getEmail().contains(searchKey))
-                    .collect(Collectors.toList());
-            if (userResponses.isEmpty()) {
-                throw new EntityNotFoundException(searchKey, User.class);
-            }
-        }
-
-        return userResponses;
-    }*/
-
-
-
-/*
-    @Override
-    public List<BusinessResponse> getAllBusiness(String sortBy, String searchKey) {
-
-        List<BusinessResponse> businessResponses = new ArrayList<>();
-
-        List<Business> businesses = adminService.fetchBusiness(sortBy);
-
-        // Map and combine users and admins
-        List<BusinessResponse> businessResponseFromBusiness = businesses.stream()
-                .map(business -> adminService.mapToBusinessResponse(business))
-                .collect(Collectors.toList());
-
-
-        businessResponses.addAll(businessResponseFromBusiness);
-        businessResponses.sort(Comparator.comparing(BusinessResponse::getCreatedDate).reversed());
-
-        if(businessResponses.isEmpty()){
-            throw new EntityNotFoundException(Business.class);
-        }
-
-        // Apply filtering by profile if requested
-        if (searchKey != null && !searchKey.isEmpty()) {
-            businessResponses = businessResponses.stream()
-                    .filter(businessResponse -> businessResponse.getBusinessName().contains(searchKey) || businessResponse.getUser().getFullName().contains(searchKey)|| businessResponse.getEmail().contains(searchKey))
-                    .collect(Collectors.toList());
-            if (businessResponses.isEmpty()) {
-                throw new EntityNotFoundException(searchKey, Business.class);
-            }
-        }
-
-        return businessResponses;
-    }
-*/
 
 
 }

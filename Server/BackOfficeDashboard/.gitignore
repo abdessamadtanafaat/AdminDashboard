@@ -14,6 +14,7 @@ src/main/resources/application.properties
 .sts4-cache
 ### IntelliJ IDEA ###
 .idea
+.env
 *.iws
 *.iml
 *.ipr
@@ -30,3 +31,5 @@ build/
 
 ### VS Code ###
 .vscode/
+
+.env
